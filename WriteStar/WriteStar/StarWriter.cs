@@ -6,7 +6,7 @@ namespace WriteStar
     {
         public StarWriter()
         {
-            
+            // 빈 생성자
         }
 
         public bool InputType()
@@ -41,7 +41,7 @@ namespace WriteStar
 
         public void PrintStar()
         {
-            switch (type)
+            switch (type) // 타입에 맞는 별 출력
             {
                 case 1:
                     PrintPyramid();
@@ -66,11 +66,14 @@ namespace WriteStar
             {
                 for (int j = 0; j < this.totalLines - i - 1; ++j)
                     Console.Write(" ");
+                // 왼쪽 칸 띄워줌
                 
                 for(int j = 0; j < i * 2 + 1; ++j)
                     Console.Write("*");
+                // 별 찍기
                 
                 Console.WriteLine();
+                // 한 줄 내림
             }
         }
 
@@ -80,11 +83,14 @@ namespace WriteStar
             {
                 for (int j = 0; j < i; ++j)
                     Console.Write(" ");
+                // 왼쪽 칸 띄워줌
                 
                 for(int j = 0; j < (this.totalLines - i) * 2 - 1; ++j)
                     Console.Write("*");
+                // 별 찍기
                 
                 Console.WriteLine();
+                // 한 줄 내림
             }
         }
 
@@ -92,30 +98,39 @@ namespace WriteStar
         {
             PrintRevPyramid();
             PrintPyramid();
+            // 역피라미드-피라미드 순으로 합쳐서 출력
         }
 
         public void PrintDiamond()
         {
+            // 모래시계와 달리, 가운데 있는 줄은 한 번만 등장하기 때문에 직접 출력
+            
             for (int i = 0; i < this.totalLines; ++i)
             {
                 for (int j = 0; j < this.totalLines - i - 1; ++j)
                     Console.Write(" ");
+                // 왼쪽 칸 띄워줌
                 
                 for(int j = 0; j < i * 2 + 1; ++j)
                     Console.Write("*");
+                // 별 찍기
                 
                 Console.WriteLine();
+                // 한 줄 내림
             }
             
             for (int i = 1; i < this.totalLines; ++i)
             {
                 for (int j = 0; j < i; ++j)
                     Console.Write(" ");
+                // 왼쪽 칸 띄워줌
                 
                 for(int j = 0; j < (this.totalLines - i) * 2 - 1; ++j)
                     Console.Write("*");
+                // 별 찍기
                 
                 Console.WriteLine();
+                // 한 줄 내림
             }
         }
 
