@@ -62,7 +62,16 @@ namespace WriteStar
 
         public void PrintPyramid()
         {
-            
+            for (int i = 0; i < this.totalLines; ++i)
+            {
+                for (int j = 0; j < this.totalLines - i - 1; ++j)
+                    Console.Write(" ");
+                
+                for(int j = 0; j < i * 2 + 1; ++j)
+                    Console.Write("*");
+                
+                Console.WriteLine();
+            }
         }
 
         public void PrintRevPyramid()
