@@ -10,7 +10,7 @@ namespace WriteStar
 
         public void StartGame()
         {
-            if (this._starWriter.InputType() == false)
+            if (this._starWriter.InputType() == false) // 입력 값이 0일 경우, 종료
                 return;
 
             if (this._starWriter.InputLines()) // 1 이상을 입력 받았을 때만 출력.
