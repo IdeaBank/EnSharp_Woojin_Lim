@@ -96,7 +96,27 @@ namespace WriteStar
 
         public void PrintDiamond()
         {
+            for (int i = 0; i < this.totalLines; ++i)
+            {
+                for (int j = 0; j < this.totalLines - i - 1; ++j)
+                    Console.Write(" ");
+                
+                for(int j = 0; j < i * 2 + 1; ++j)
+                    Console.Write("*");
+                
+                Console.WriteLine();
+            }
             
+            for (int i = 1; i < this.totalLines; ++i)
+            {
+                for (int j = 0; j < i; ++j)
+                    Console.Write(" ");
+                
+                for(int j = 0; j < (this.totalLines - i) * 2 - 1; ++j)
+                    Console.Write("*");
+                
+                Console.WriteLine();
+            }
         }
 
         private int type; // 출력 형태
