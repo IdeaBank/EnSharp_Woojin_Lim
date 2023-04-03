@@ -90,7 +90,8 @@ namespace WriteStar
 
         public void PrintHourGlass()
         {
-            
+            PrintRevPyramid();
+            PrintPyramid();
         }
 
         public void PrintDiamond()
