@@ -31,12 +31,53 @@ namespace WriteStar
             this.totalLines = Int32.Parse(Console.ReadLine());
             // 출력할 별의 형태를 입력 받음.
 
-            if (this.totalLines == 0)
+            if (this.totalLines < 0)
                 return false;
             // 0 이하일 경우, 비정상적인 입력이므로 false 반환
 
             return true;
             // 1 이상일 경우, 정상 입력으로 판단해 true 반환
+        }
+
+        public void PrintStar()
+        {
+            switch (type)
+            {
+                case 1:
+                    PrintPyramid();
+                    break;
+                case 2:
+                    PrintRevPyramid();
+                    break;
+                case 3:
+                    PrintHourGlass();
+                    break;
+                case 4:
+                    PrintDiamond();
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        public void PrintPyramid()
+        {
+            
+        }
+
+        public void PrintRevPyramid()
+        {
+            
+        }
+
+        public void PrintHourGlass()
+        {
+            
+        }
+
+        public void PrintDiamond()
+        {
+            
         }
 
         private int type; // 출력 형태

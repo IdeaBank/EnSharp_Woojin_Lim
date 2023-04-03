@@ -15,11 +15,11 @@ namespace WriteStar
             if (this.starWriter.InputType() == false)
                 return;
 
-            if (this.starWriter.InputLines() == true)
-            {
-            }
-            
+            if (this.starWriter.InputLines() == true) // 1 이상을 입력 받았을 때만 출력.
+                this.starWriter.PrintStar();
+
             StartGame();
+            // 정상적으로 끝났을 경우에는 다시 시작
         }
 
         private StarWriter starWriter;
