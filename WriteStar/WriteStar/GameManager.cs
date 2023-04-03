@@ -1,5 +1,3 @@
-using System;
-
 namespace WriteStar
 {
     public class GameManager
@@ -15,7 +13,7 @@ namespace WriteStar
             if (this._starWriter.InputType() == false)
                 return;
 
-            if (this._starWriter.InputLines() == true) // 1 이상을 입력 받았을 때만 출력.
+            if (this._starWriter.InputLines()) // 1 이상을 입력 받았을 때만 출력.
                 this._starWriter.PrintStar();
 
             StartGame();

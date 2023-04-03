@@ -9,7 +9,7 @@ namespace WriteStar
             // 빈 생성자
         }
 
-        public bool IsDigitsOnly(string str)
+        private bool IsDigitsOnly(string str)
         {
             if (str.Length == 0)
                 return false;
@@ -41,9 +41,7 @@ namespace WriteStar
 
                 if (IsDigitsOnly(tempInput) == false)
                     continue;
-                // 문자가 있을 경우, 다시 입력 받음
-
-                Console.WriteLine(tempInput);
+                // 문자가 있거나 입력 값이 없을 경우, 다시 입력 받음
 
                 this._type = Int32.Parse(tempInput);
                 // 출력할 별의 형태 저장
@@ -74,10 +72,10 @@ namespace WriteStar
 
                 if (IsDigitsOnly(tempInput) == false)
                     continue;
-                // 문자가 있을 경우, 다시 입력 받음
+                // 문자가 있거나 입력 값이 없을 경우, 다시 입력 받음
 
                 this._totalLines = Int32.Parse(tempInput);
-                // 출력할 별의 줄 수를 입력 받음.
+                // 출력할 별의 줄 수 저장
 
                 if (this._totalLines == 0)
                     return false;
@@ -88,35 +86,7 @@ namespace WriteStar
             }
         }
 
-        public void PrintStar()
-        {
-            Console.Clear();
-            // 별을 출력하기 위해 미리 콘솔창 깔끔하게 정리
-            
-            switch (_type) // 타입에 맞는 별 출력
-            {
-                case 1:
-                    PrintPyramid();
-                    break;
-                case 2:
-                    PrintRevPyramid();
-                    break;
-                case 3:
-                    PrintHourGlass();
-                    break;
-                case 4:
-                    PrintDiamond();
-                    break;
-                default:
-                    return;
-            }
-            
-            Console.WriteLine("계속하려면 아무 키나 누르세요...");
-            Console.ReadKey();
-            Console.Clear();
-        }
-
-        public void PrintPyramid()
+        private void PrintPyramid()
         {
             for (int i = 0; i < this._totalLines; ++i)
             {
@@ -133,7 +103,7 @@ namespace WriteStar
             }
         }
 
-        public void PrintRevPyramid()
+        private void PrintRevPyramid()
         {
             for (int i = 0; i < this._totalLines; ++i)
             {
@@ -150,14 +120,14 @@ namespace WriteStar
             }
         }
 
-        public void PrintHourGlass()
+        private void PrintHourGlass()
         {
             PrintRevPyramid();
             PrintPyramid();
             // 역피라미드-피라미드 순으로 합쳐서 출력
         }
 
-        public void PrintDiamond()
+        private void PrintDiamond()
         {
             // 모래시계와 달리, 가운데 있는 줄은 한 번만 등장하기 때문에 직접 출력
             
@@ -188,6 +158,34 @@ namespace WriteStar
                 Console.WriteLine();
                 // 한 줄 내림
             }
+        }
+        
+        public void PrintStar()
+        {
+            Console.Clear();
+            // 별을 출력하기 위해 미리 콘솔창 깔끔하게 정리
+            
+            switch (_type) // 타입에 맞는 별 출력
+            {
+                case 1:
+                    PrintPyramid();
+                    break;
+                case 2:
+                    PrintRevPyramid();
+                    break;
+                case 3:
+                    PrintHourGlass();
+                    break;
+                case 4:
+                    PrintDiamond();
+                    break;
+                default:
+                    return;
+            }
+            
+            Console.WriteLine("계속하려면 아무 키나 누르세요...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         private int _type; // 출력 형태
