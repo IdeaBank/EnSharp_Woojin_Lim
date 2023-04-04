@@ -2,6 +2,12 @@ using System;
 
 namespace WriteStar
 {
+    static class Constants
+    {
+        public const int MAX_INPUT = 30;
+        public const int MAX_WIDTH = (MAX_INPUT * 2 + 1) + 4;
+        public const int MAX_HEIGHT = MAX_INPUT + 4;
+    }
     public class StarWriter
     {
         public StarWriter()
@@ -22,20 +28,61 @@ namespace WriteStar
             return true;
             // 숫자로 이루어졌을 경우에는 true 반환
         }
+
+        private void PrintContour()
+        {
+            Console.WriteLine(new string('#', Constants.MAX_WIDTH));
+            for (int i = 0; i < Constants.MAX_HEIGHT - 2; ++i)
+            {
+                Console.Write("#");
+                Console.Write(new string(' ', Constants.MAX_WIDTH - 2));
+                Console.Write("#");
+                Console.WriteLine();
+            }
+            Console.WriteLine(new string('#', Constants.MAX_WIDTH));
+        }
         
         public bool InputType()
         {
+            this._totalLines = 3;
+            
             while(true)
             {
                 Console.Clear();
-                Console.WriteLine("*****************************");
-                Console.WriteLine("출력할 별의 형태를 숫자로 입력해주세요.");
-                Console.WriteLine("1. 가운데 정렬 별 찍기");
-                Console.WriteLine("2. 1번의 반대로 찍기");
-                Console.WriteLine("3. 모래시계");
-                Console.WriteLine("4. 다이아");
-                Console.WriteLine("0. 프로그램 종료");
-                Console.WriteLine("*****************************");
+                PrintContour();
+
+                string str;
+                    
+                str = "1. 가운데 정렬 별 찍기";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 - str.Length / 2, Constants.MAX_HEIGHT / 4 + 3);
+                Console.Write(str);
+                PrintPyramid(Constants.MAX_WIDTH / 4, Constants.MAX_HEIGHT / 4);
+
+                str = "2. 1번의 반대로 찍기";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 * 3 - str.Length / 2, Constants.MAX_HEIGHT / 4 + 3);
+                Console.Write(str);
+                PrintRevPyramid(Constants.MAX_WIDTH / 4 * 3, Constants.MAX_HEIGHT / 4);
+                
+                str = "3. 모래시계";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 - str.Length / 2, Constants.MAX_HEIGHT / 4 * 3 + 3);
+                Console.Write(str);
+                PrintHourGlass(Constants.MAX_WIDTH / 4, Constants.MAX_HEIGHT / 4 * 3 - 3);
+                
+                str = "4. 다이아";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 * 3 - str.Length / 2, Constants.MAX_HEIGHT / 4 * 3 + 3);
+                Console.Write(str);
+                PrintDiamond(Constants.MAX_WIDTH / 4 * 3, Constants.MAX_HEIGHT / 4 * 3 - 3);
+
+                str = "메뉴를 입력하세요";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 4);
+                Console.Write(str);
+
+                
+                str = "_________";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 3);
+                Console.Write(str);
+                
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2, Constants.MAX_HEIGHT - 3);
 
                 string tempInput = Console.ReadLine();
 
@@ -59,11 +106,11 @@ namespace WriteStar
             }
         }
 
-        public bool InputLines()
+        public void InputLines()
         {
             while (true)
             {
-                Console.Clear();
+                Console.SetCursorPosition(0, Constants.MAX_HEIGHT);
                 Console.WriteLine("********************");
                 Console.WriteLine("출력할 줄의 수를 입력하세요");
                 Console.WriteLine("********************");
@@ -77,17 +124,18 @@ namespace WriteStar
                 this._totalLines = Int32.Parse(tempInput);
                 // 출력할 별의 줄 수 저장
 
-                if (this._totalLines == 0)
-                    return false;
-                // 0일 경우, 비정상적인 입력이므로 false 반환 (음수일 경우에는 -가 들어가 있으므로 문자로 취급되어, 다시 입력 받음)
-
-                return true;
-                // 1 이상일 경우, 정상 입력으로 판단해 true 반환
+                if (this._totalLines > 0)
+                {
+                    Console.Clear();
+                    return;
+                }
             }
         }
 
-        private void PrintPyramid()
+        private void PrintPyramid(int x, int y)
         {
+            Console.SetCursorPosition(x, y);
+
             for (int i = 0; i < this._totalLines; ++i)
             {
                 for (int j = 0; j < this._totalLines - i - 1; ++j)
@@ -98,13 +146,15 @@ namespace WriteStar
                     Console.Write("*");
                 // 별 찍기
                 
-                Console.WriteLine();
+                Console.SetCursorPosition(x, Console.CursorTop + 1);
                 // 한 줄 내림
             }
         }
 
-        private void PrintRevPyramid()
+        private void PrintRevPyramid(int x, int y)
         {
+            Console.SetCursorPosition(x, y);
+            
             for (int i = 0; i < this._totalLines; ++i)
             {
                 for (int j = 0; j < i; ++j)
@@ -115,21 +165,22 @@ namespace WriteStar
                     Console.Write("*");
                 // 별 찍기
                 
-                Console.WriteLine();
+                Console.SetCursorPosition(x, Console.CursorTop + 1);
                 // 한 줄 내림
             }
         }
 
-        private void PrintHourGlass()
+        private void PrintHourGlass(int x, int y)
         {
-            PrintRevPyramid();
-            PrintPyramid();
+            PrintRevPyramid(x, y);
+            PrintPyramid(x, y + this._totalLines);
             // 역피라미드-피라미드 순으로 합쳐서 출력
         }
 
-        private void PrintDiamond()
+        private void PrintDiamond(int x, int y)
         {
             // 모래시계와 달리, 가운데 있는 줄은 한 번만 등장하기 때문에 직접 출력
+            Console.SetCursorPosition(x, y);
             
             for (int i = 0; i < this._totalLines; ++i)
             {
@@ -141,7 +192,7 @@ namespace WriteStar
                     Console.Write("*");
                 // 별 찍기
                 
-                Console.WriteLine();
+                Console.SetCursorPosition(x, Console.CursorTop + 1);
                 // 한 줄 내림
             }
             
@@ -155,37 +206,62 @@ namespace WriteStar
                     Console.Write("*");
                 // 별 찍기
                 
-                Console.WriteLine();
+                Console.SetCursorPosition(x, Console.CursorTop + 1);
                 // 한 줄 내림
             }
         }
         
-        public void PrintStar()
+        public int PrintStar()
         {
             Console.Clear();
+            PrintContour();
             // 별을 출력하기 위해 미리 콘솔창 깔끔하게 정리
             
             switch (_type) // 타입에 맞는 별 출력
             {
                 case 1:
-                    PrintPyramid();
+                    PrintPyramid(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
                     break;
                 case 2:
-                    PrintRevPyramid();
+                    PrintRevPyramid(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
                     break;
                 case 3:
-                    PrintHourGlass();
+                    PrintHourGlass(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
                     break;
                 case 4:
-                    PrintDiamond();
+                    PrintDiamond(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
                     break;
                 default:
-                    return;
+                    return 1;
             }
             
-            Console.WriteLine("계속하려면 아무 키나 누르세요...");
-            Console.ReadKey();
-            Console.Clear();
+            string str = "1. 다시하기, 2: 메뉴로";
+            Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 4);
+            Console.Write(str);
+
+            string tempInput;
+            int retry;
+
+            while (true)
+            {
+                str = new string('_', 10);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 3);
+                Console.Write(str);
+
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2, Constants.MAX_HEIGHT - 3);
+
+                tempInput = Console.ReadLine();
+
+                if (IsDigitsOnly(tempInput))
+                {
+                    retry = Int32.Parse(tempInput);
+
+                    if(retry == 1 || retry == 2)
+                       return retry;
+                }
+            }
+
+            return 2;
         }
 
         private int _type; // 출력 형태

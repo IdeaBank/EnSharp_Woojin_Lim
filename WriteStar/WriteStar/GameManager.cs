@@ -13,8 +13,13 @@ namespace WriteStar
             if (this._starWriter.InputType() == false) // 입력 값이 0일 경우, 종료
                 return;
 
-            if (this._starWriter.InputLines()) // 1 이상을 입력 받았을 때만 출력.
-                this._starWriter.PrintStar();
+            int retry = 1;
+
+            while (retry == 1)
+            {
+                this._starWriter.InputLines(); // 줄 수를 입력 받음
+                retry = this._starWriter.PrintStar();
+            }
 
             StartGame();
             // 정상적으로 끝났을 경우에는 다시 시작
