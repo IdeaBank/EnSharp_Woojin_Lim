@@ -56,36 +56,36 @@ namespace WriteStar
                 string str;
                     
                 str = "1. 가운데 정렬 별 찍기";
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 - str.Length / 2, Constants.MAX_HEIGHT / 4 + 3);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 - str.Length / 2 - 3, Constants.MAX_HEIGHT / 4 + 3);
                 Console.Write(str);
-                PrintPyramid(Constants.MAX_WIDTH / 4, Constants.MAX_HEIGHT / 4);
+                PrintPyramid(Constants.MAX_WIDTH / 4 - 3, Constants.MAX_HEIGHT / 4);
 
                 str = "2. 1번의 반대로 찍기";
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 * 3 - str.Length / 2, Constants.MAX_HEIGHT / 4 + 3);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 * 3 - str.Length / 2 - 3, Constants.MAX_HEIGHT / 4 + 3);
                 Console.Write(str);
-                PrintRevPyramid(Constants.MAX_WIDTH / 4 * 3, Constants.MAX_HEIGHT / 4);
+                PrintRevPyramid(Constants.MAX_WIDTH / 4 * 3 - 3, Constants.MAX_HEIGHT / 4);
                 
                 str = "3. 모래시계";
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 - str.Length / 2, Constants.MAX_HEIGHT / 4 * 3 + 3);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 - str.Length / 2 - 3, Constants.MAX_HEIGHT / 4 * 3 + 3);
                 Console.Write(str);
-                PrintHourGlass(Constants.MAX_WIDTH / 4, Constants.MAX_HEIGHT / 4 * 3 - 3);
+                PrintHourGlass(Constants.MAX_WIDTH / 4 - 3, Constants.MAX_HEIGHT / 4 * 3 - 3);
                 
                 str = "4. 다이아";
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 * 3 - str.Length / 2, Constants.MAX_HEIGHT / 4 * 3 + 3);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 4 * 3 - str.Length / 2 - 3, Constants.MAX_HEIGHT / 4 * 3 + 3);
                 Console.Write(str);
-                PrintDiamond(Constants.MAX_WIDTH / 4 * 3, Constants.MAX_HEIGHT / 4 * 3 - 3);
+                PrintDiamond(Constants.MAX_WIDTH / 4 * 3 - 3, Constants.MAX_HEIGHT / 4 * 3 - 3);
 
-                str = "메뉴를 입력하세요";
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 4);
+                str = "Enter Menu";
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2 - 3, Constants.MAX_HEIGHT - 4);
                 Console.Write(str);
 
                 
                 // 입력창
                 str = "_________";
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 3);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2 - 3, Constants.MAX_HEIGHT - 3);
                 Console.Write(str);
                 
-                Console.SetCursorPosition(Constants.MAX_WIDTH / 2, Constants.MAX_HEIGHT - 3);
+                Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - 3, Constants.MAX_HEIGHT - 3);
 
                 string tempInput = Console.ReadLine();
 
@@ -223,16 +223,16 @@ namespace WriteStar
             switch (_type) // 타입에 맞는 별 출력
             {
                 case 1:
-                    PrintPyramid(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
+                    PrintPyramid(Constants.MAX_WIDTH / 2 - this._totalLines + 1, 2);
                     break;
                 case 2:
-                    PrintRevPyramid(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
+                    PrintRevPyramid(Constants.MAX_WIDTH / 2 - this._totalLines + 1, 2);
                     break;
                 case 3:
-                    PrintHourGlass(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
+                    PrintHourGlass(Constants.MAX_WIDTH / 2 - this._totalLines + 1, 2);
                     break;
                 case 4:
-                    PrintDiamond(Constants.MAX_WIDTH / 2 - this._totalLines, 2);
+                    PrintDiamond(Constants.MAX_WIDTH / 2 - this._totalLines + 1, 2);
                     break;
                 default:
                     return 1;
