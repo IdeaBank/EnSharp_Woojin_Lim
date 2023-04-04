@@ -6,7 +6,7 @@ namespace WriteStar
     {
         public const int MAX_INPUT = 30;
         public const int MAX_WIDTH = (MAX_INPUT * 2 + 1) + 4;
-        public const int MAX_HEIGHT = MAX_INPUT + 4;
+        public const int MAX_HEIGHT = MAX_INPUT * 2 + 4;
     }
     public class StarWriter
     {
@@ -31,6 +31,7 @@ namespace WriteStar
 
         private void PrintContour()
         {
+            // 외곽선 출력을 위한 함수
             Console.WriteLine(new string('#', Constants.MAX_WIDTH));
             for (int i = 0; i < Constants.MAX_HEIGHT - 2; ++i)
             {
@@ -45,6 +46,7 @@ namespace WriteStar
         public bool InputType()
         {
             this._totalLines = 3;
+            // 3줄씩 출력하기 위해 임시로 설정
             
             while(true)
             {
@@ -78,6 +80,7 @@ namespace WriteStar
                 Console.Write(str);
 
                 
+                // 입력창
                 str = "_________";
                 Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 3);
                 Console.Write(str);
@@ -124,7 +127,7 @@ namespace WriteStar
                 this._totalLines = Int32.Parse(tempInput);
                 // 출력할 별의 줄 수 저장
 
-                if (this._totalLines > 0)
+                if (0 < this._totalLines && this._totalLines < Constants.MAX_INPUT)
                 {
                     Console.Clear();
                     return;
