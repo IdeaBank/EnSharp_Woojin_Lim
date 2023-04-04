@@ -1,0 +1,6 @@
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/DrawStar/bin/Debug/DrawStar.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/DrawStar/bin/Debug/DrawStar.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/DrawStar/obj/Debug/DrawStar.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/DrawStar/obj/Debug/DrawStar.csproj.CoreCompileInputs.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/DrawStar/obj/Debug/DrawStar.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/DrawStar/obj/Debug/DrawStar.pdb

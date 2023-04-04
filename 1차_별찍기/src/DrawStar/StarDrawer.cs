@@ -6,7 +6,7 @@ namespace DrawStar
     {
         public const int MAX_INPUT = 30; // 최대로 입력할 수 있는 줄의 수
         public const int MAX_WIDTH = (MAX_INPUT * 2 + 1) + 4; // 테두리 너비
-        public const int MAX_HEIGHT = MAX_INPUT * 2 + 4; // 테두리 높이
+        public const int MAX_HEIGHT = MAX_INPUT * 2 + 6; // 테두리 높이
     }
     public class StarDrawer
     {
