@@ -10,3 +10,9 @@
 /Users/woojin/Development/EN_SHARP/Woojin_Lim/WriteStar/WriteStar/obj/Debug/WriteStar.csproj.CoreCompileInputs.cache
 /Users/woojin/Development/EN_SHARP/Woojin_Lim/WriteStar/WriteStar/obj/Debug/WriteStar.exe
 /Users/woojin/Development/EN_SHARP/Woojin_Lim/WriteStar/WriteStar/obj/Debug/WriteStar.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/WriteStar/bin/Debug/WriteStar.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/WriteStar/bin/Debug/WriteStar.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/WriteStar/obj/Debug/WriteStar.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/WriteStar/obj/Debug/WriteStar.csproj.CoreCompileInputs.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/WriteStar/obj/Debug/WriteStar.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/1차_별찍기/src/WriteStar/obj/Debug/WriteStar.pdb

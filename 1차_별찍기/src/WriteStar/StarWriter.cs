@@ -238,7 +238,7 @@ namespace WriteStar
                     return 1;
             }
             
-            string str = "1. 다시하기, 2: 메뉴로";
+            string str = "1. 다시하기, 2: 메뉴로, 3. EXIT";
             Console.SetCursorPosition(Constants.MAX_WIDTH / 2 - str.Length / 2, Constants.MAX_HEIGHT - 4);
             Console.Write(str);
 
@@ -259,7 +259,7 @@ namespace WriteStar
                 {
                     retry = Int32.Parse(tempInput);
 
-                    if(retry == 1 || retry == 2)
+                    if(retry == 1 || retry == 2 || retry == 3)
                        return retry;
                 }
             }

@@ -21,6 +21,8 @@ namespace WriteStar
                 retry = this._starWriter.PrintStar();
             }
 
+            if (retry == 3)
+                return;
             StartGame();
             // 정상적으로 끝났을 경우에는 다시 시작
         }
