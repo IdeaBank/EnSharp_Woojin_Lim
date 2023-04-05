@@ -17,7 +17,7 @@ namespace DrawStar
 
         private bool IsDigitsOnly(string str)
         {
-            if (str.Length == 0)
+            if (str.Length == 0 || str.Length > 2)
                 return false;
             // str이 비어 있을 경우, false 반환
             

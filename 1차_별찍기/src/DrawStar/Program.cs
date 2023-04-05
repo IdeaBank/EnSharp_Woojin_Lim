@@ -16,6 +16,8 @@ namespace DrawStar
             // 전체적인 게임을 관리해 줄 게임 매니저
             gameManager.StartGame();
             // 게임 시작
+            
+            Console.TreatControlCAsInput = true;
         }
     }
 }
