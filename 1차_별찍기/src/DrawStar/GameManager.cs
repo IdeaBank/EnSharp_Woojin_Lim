@@ -10,7 +10,7 @@ namespace DrawStar
 
         public void StartGame()
         {
-            if (this._starDrawer.InputMenu() == false) // 입력 값이 0일 경우, 종료
+            if (!this._starDrawer.InputMenu()) // 입력 값이 0일 경우, 종료
                 return;
 
             int retry = 1;
