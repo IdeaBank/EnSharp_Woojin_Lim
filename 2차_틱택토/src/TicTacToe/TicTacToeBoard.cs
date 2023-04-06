@@ -84,7 +84,6 @@ namespace TicTacToe
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 2, "     |     |     ", ALIGN.CENTER);
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 3, "     |     |     ", ALIGN.CENTER);
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 4, "     |     |     ", ALIGN.CENTER);
-            PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 10, "_______", ALIGN.CENTER);
 
             for (int i = 0; i < 9; ++i)
             {
@@ -101,6 +100,43 @@ namespace TicTacToe
                         break;
                 }
             }
+        }
+
+        public void DrawBoardWithInput()
+        {
+            int consoleWidth = Console.WindowWidth;
+            int consoleHeight = Console.WindowHeight;
+            
+            this.DrawBoard();
+            
+            PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 14, "_______", ALIGN.CENTER);
+        }
+
+        public void DrawBlankBoardWithInput()
+        {
+            int consoleWidth = Console.WindowWidth;
+            int consoleHeight = Console.WindowHeight;
+
+            this.board = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            this.DrawBoard();
+            
+            PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 14, "_______", ALIGN.CENTER);
+        }
+        
+        public bool IsCellEmpty(int pos)
+        {
+            return this.board[pos] == 0;
+        }
+        
+        public bool SetBoardWithPosition(int index, int value)
+        {
+            if (IsCellEmpty(index))
+            {
+                this.board[index] = value;
+                return true;
+            }
+
+            return false;
         }
     }
 }

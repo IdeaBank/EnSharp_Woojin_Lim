@@ -6,28 +6,150 @@ namespace TicTacToe
     public class GameManager
     {
         private TicTacToeBoard ticTacToeBoard;
-        private int playOrder;
         private int playMode;
+        private int playOrder;
+        private int[,] gameResult;
 
+        public GameManager()
+        {
+            this.ticTacToeBoard = new TicTacToeBoard();
+            this.gameResult = new int[2, 3] { { 0, 0, 0 }, { 0, 0, 0 } };
+            this.playOrder = 1;
+        }
+        
+        public void Start()
+        {
+            //gameResult = new int[2, 3] { { 0, 0, 0 }, { 0, 0, 0 } };
+            
+            ShowMainMenu();
+            this.playMode = InputOneDigitBetween(1, 3);
+
+            StartGame();
+        }
+        
         public void ShowMainMenu()
         {
-            this.ticTacToeBoard = new TicTacToeBoard(new List<int> { 1, 2, 1, 2, 1, 2, 1, 2, 1 });
-            this.ticTacToeBoard.DrawBoard();
+            this.ticTacToeBoard.DrawBlankBoardWithInput();
+
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 9,
+                "1: Play against computer", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 10,
+                "2: Play against player", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 11,
+                "3: Show scoreboard", ALIGN.CENTER);
+        }
+
+        public void ShowOrderInput()
+        {
+            this.ticTacToeBoard.DrawBlankBoardWithInput();
+
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 11,
+                "1: First, 2: Second", ALIGN.CENTER);
+        }
+
+        public void ShowRetry()
+        {
+            this.ticTacToeBoard.DrawBoardWithInput();
+            
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 11,
+                "1: Retry, 2: Back to menu", ALIGN.CENTER);
+        }
+        
+        public int InputOneDigitBetween(int from, int to)
+        {
+            int a = InputOneDigit(Console.WindowWidth / 2, Console.WindowHeight / 2 + 13);
+
+            while (!(from <= a && a <= to))
+            {
+                a = InputOneDigit(Console.WindowWidth / 2, Console.WindowHeight / 2 + 13);
+            }
+
+            return a;
         }
         
         public void StartGame()
         {
-            // 보드 생성
-            this.ticTacToeBoard = new TicTacToeBoard();
-            
-            this.ticTacToeBoard.DrawBoard();
+            if (this.playMode == 3)
+            {
+                Console.Clear();
+                Console.WriteLine("{0} {1} {2}", this.gameResult[0, 0], this.gameResult[0, 1], this.gameResult[0, 2]);
+                Console.WriteLine("{0} {1} {2}", this.gameResult[1, 0], this.gameResult[1, 1], this.gameResult[1, 2]);
+                Console.ReadLine();
+            }
 
-            // getInputFromUser();
+            else
+            {
+                while (true)
+                {
+                    ShowOrderInput();
+                    this.playOrder = InputOneDigitBetween(1, 2);
+
+                    switch (playMode)
+                    {
+                        case 1:
+
+                            break;
+                        case 2:
+                            PlayAgainstPlayer();
+                            break;
+                    }
+                    ShowRetry();
+
+                    if (InputOneDigitBetween(1, 2) == 2)
+                    {
+                        break;
+                    }
+                }
+            }
+            
+            Start();
         }
 
         public void PlayAgainstPlayer()
         {
+            int i = 0;
             
+            while(true)
+            {
+                this.ticTacToeBoard.DrawBoardWithInput();
+                KeyValuePair<bool, int> result = HasGameEnded(this.ticTacToeBoard.GetBoard());
+
+                if (result.Key)
+                {
+                    Console.WriteLine(result.Value);
+                    Console.ReadLine();
+                    
+                    if (result.Value == 0)
+                    {
+                        this.gameResult[1, 1] += 1;
+                    }
+                    
+                    else if (result.Value == playOrder)
+                    {
+                        this.gameResult[1, 0] += 1;
+                    }
+
+                    else
+                    {
+                        this.gameResult[1, 2] += 1;
+                    }
+                    
+                    break;
+                }
+
+                int positionInput = InputOneDigitBetween(1, 9);
+
+                while (!ticTacToeBoard.IsCellEmpty(positionInput - 1))
+                {
+                    positionInput = InputOneDigitBetween(1, 9);
+                }
+
+                this.ticTacToeBoard.SetBoardWithPosition(positionInput - 1, i % 2 + 1);
+
+                ++i;
+                
+                this.ticTacToeBoard.DrawBoardWithInput();
+            }
         }
 
         public void PlayAgainstComputer()
@@ -35,10 +157,6 @@ namespace TicTacToe
             
         }
 
-        public bool IsCellEmpty(List<int> board, int pos)
-        {
-            return this.ticTacToeBoard.GetBoard()[pos] == 0;
-        }
         
         private int InputOneDigit(int x, int y)
         {
@@ -82,16 +200,17 @@ namespace TicTacToe
                 { 0, 4, 8 },
                 { 2, 4, 6 }
             };
-            
+
             // 1: First player, 2: Second player
             for (int i = 1; i <= 2; ++i)
             {
                 // combination 크기 (8)만큼 반복
-                for (int j = 0; j < combination.Length; ++j)
+                for (int j = 0; j < combination.Length / 3; ++j)
                 {
                     // 누군가가 이겼다면, 해당 사람의 번호 반환 (1 or 2)
                     if (board[combination[j, 0]] == board[combination[j, 1]] &&
-                        board[combination[j, 1]] == board[combination[j, 2]])
+                        board[combination[j, 1]] == board[combination[j, 2]] &&
+                        board[combination[j, 0]] != 0 && board[combination[j, 0]] == i)
                     {
                         return new KeyValuePair<bool, int>(true, i);
                     }
@@ -103,7 +222,7 @@ namespace TicTacToe
 
             for (int i = 0; i < 9; ++i)
             {
-                if (board[i] == 0)
+                if (board[i] != 0)
                 {
                     count += 1;
                 }
@@ -126,7 +245,7 @@ namespace TicTacToe
                 
             for (int i = 0; i < 9; ++i)
             {
-                if (IsCellEmpty(this.ticTacToeBoard.GetBoard(), i))
+                if (this.ticTacToeBoard.IsCellEmpty(i))
                 {
                     int miniMaxResult = MiniMax(ticTacToeBoard.GetBoard(), i, turn);
                     
@@ -166,7 +285,7 @@ namespace TicTacToe
                 int minimaxResult = 0;
                 for (int i = 0; i < 9; ++i)
                 {
-                    if (IsCellEmpty(tempBoard, i))
+                    if (ticTacToeBoard.IsCellEmpty(i))
                     {
                         minimaxResult += MiniMax(tempBoard, i, turn);
                     }

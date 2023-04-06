@@ -13,12 +13,15 @@ namespace TicTacToe
             };
             
             GameManager gameManager = new GameManager();
-            //gameManager.ShowMainMenu();
-            // Console.ReadLine();
+            //gameManager.Start();
+            Console.ReadKey();
+            gameManager.Start();
+            //Console.WriteLine(gameManager.HasGameEnded(new List<int> { 0, 0, 1, 0, 1, 1, 1, 0, 0 }));
+            //Console.ReadLine();
 
-            List<int> asd = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
+            //List<int> asd = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
             
-            Console.WriteLine(gameManager.MiniMax(asd, 5, 2));
+            //Console.WriteLine(gameManager.MiniMax(asd, 5, 1));
         }
     }
 }
