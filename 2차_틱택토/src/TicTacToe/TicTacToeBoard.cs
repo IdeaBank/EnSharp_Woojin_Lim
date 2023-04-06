@@ -93,10 +93,10 @@ namespace TicTacToe
                         PrintOnPosition(position[i, 0], position[i, 1], (i + 1).ToString(), ALIGN.CENTER);
                         break;
                     case 1:
-                        PrintOnPosition(position[i, 0], position[i, 1], "O", ALIGN.CENTER);
+                        PrintOnPosition(position[i, 0], position[i, 1], "X", ALIGN.CENTER);
                         break;
                     case 2:
-                        PrintOnPosition(position[i, 0], position[i, 1], "X", ALIGN.CENTER);
+                        PrintOnPosition(position[i, 0], position[i, 1], "O", ALIGN.CENTER);
                         break;
                 }
             }
@@ -123,14 +123,14 @@ namespace TicTacToe
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 14, "_______", ALIGN.CENTER);
         }
         
-        public bool IsCellEmpty(int pos)
+        public bool IsCellEmpty(List<int> targetBoard, int pos)
         {
-            return this.board[pos] == 0;
+            return targetBoard[pos] == 0;
         }
         
         public bool SetBoardWithPosition(int index, int value)
         {
-            if (IsCellEmpty(index))
+            if (IsCellEmpty(this.board, index))
             {
                 this.board[index] = value;
                 return true;

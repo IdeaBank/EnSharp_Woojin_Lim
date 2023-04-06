@@ -22,15 +22,18 @@ namespace TicTacToe
             //gameResult = new int[2, 3] { { 0, 0, 0 }, { 0, 0, 0 } };
             
             ShowMainMenu();
-            this.playMode = InputOneDigitBetween(1, 3);
+            this.playMode = InputOneDigitBetween(0, 3);
 
-            StartGame();
+            if(this.playMode != 0)
+                StartGame();
         }
         
         public void ShowMainMenu()
         {
             this.ticTacToeBoard.DrawBlankBoardWithInput();
 
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 8,
+                "0: Exit program", ALIGN.CENTER);
             this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 9,
                 "1: Play against computer", ALIGN.CENTER);
             this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 10,
@@ -58,7 +61,6 @@ namespace TicTacToe
         public void ShowScoreboard()
         {
             Console.Clear();
-            
             
             this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 3,
                 "|  W  |  D  |  L  |", ALIGN.CENTER);
@@ -109,6 +111,7 @@ namespace TicTacToe
             if (this.playMode == 3)
             {
                 ShowScoreboard();
+                
                 Console.ReadKey();
             }
 
@@ -173,7 +176,7 @@ namespace TicTacToe
 
                 int positionInput = InputOneDigitBetween(1, 9);
 
-                while (!ticTacToeBoard.IsCellEmpty(positionInput - 1))
+                while (!ticTacToeBoard.IsCellEmpty(this.ticTacToeBoard.GetBoard(), positionInput - 1))
                 {
                     positionInput = InputOneDigitBetween(1, 9);
                 }
@@ -188,7 +191,8 @@ namespace TicTacToe
 
         public void PlayAgainstComputer()
         {
-            
+            this.ticTacToeBoard.SetBoardWithPosition(0, 2);
+            Console.WriteLine(CalculateBestMove(1));
         }
         
         private int InputOneDigit(int x, int y)
@@ -277,21 +281,24 @@ namespace TicTacToe
             return new KeyValuePair<bool, int>(false, 0);
         }
 
-        public int CalculateBestMove(int turn)
+        public int CalculateBestMove(int botOrder)
         {
+            int bestScore = -1000;
             int bestIndex = -1;
-            int bestPercentage = -1;
                 
             for (int i = 0; i < 9; ++i)
             {
-                if (this.ticTacToeBoard.IsCellEmpty(i))
+                if (this.ticTacToeBoard.IsCellEmpty(this.ticTacToeBoard.GetBoard(), i))
                 {
-                    int miniMaxResult = MiniMax(ticTacToeBoard.GetBoard(), i, turn);
+                    List<int> tempBoard = new List<int>(ticTacToeBoard.GetBoard());
+                    tempBoard[i] = botOrder;
                     
-                    if (bestPercentage < miniMaxResult)
+                    int miniMaxResult = MiniMax(tempBoard, false, botOrder);
+                    
+                    if (bestScore < miniMaxResult)
                     {
                         bestIndex = i;
-                        bestPercentage = miniMaxResult;
+                        bestScore = miniMaxResult;
                     }
                 }
             }
@@ -299,41 +306,71 @@ namespace TicTacToe
             return bestIndex;
         }
 
-        public int MiniMax(List<int> board, int index, int turn)
+        public int MiniMax(List<int> board, bool isMaximizing, int botOrder)
         {
-            List<int> tempBoard = new List<int>(board);
-
-            tempBoard[index] = turn;
-
-            KeyValuePair<bool, int> result = HasGameEnded(tempBoard);
+            KeyValuePair<bool, int> result = HasGameEnded(board);
 
             if (result.Key)
             {
                 if (result.Value == 0)
+                {
                     return 0;
-
-                else if (result.Value == turn)
-                    return 1;
+                }
+                
+                else if (result.Value == botOrder)
+                {
+                    return 100;
+                }
 
                 else
-                    return -1;
+                {
+                    return -100;
+                }
+            }
+
+            if (isMaximizing)
+            {
+                int bestScore = -1000;
+                
+                for (int i = 0; i < 9; ++i)
+                {
+                    if (this.ticTacToeBoard.IsCellEmpty(board, i))
+                    {
+                        List<int> tempBoard = new List<int>(board);
+                        tempBoard[i] = botOrder;
+
+                        int minimaxResult = MiniMax(tempBoard, false, botOrder);
+
+                        if (minimaxResult > bestScore)
+                        {
+                            bestScore = minimaxResult;
+                        }
+                    }
+                }
+                return bestScore;
             }
 
             else
             {
-                int minimaxResult = 0;
+                int bestScore =  1000;
+                
                 for (int i = 0; i < 9; ++i)
                 {
-                    if (ticTacToeBoard.IsCellEmpty(i))
+                    if (this.ticTacToeBoard.IsCellEmpty(board, i))
                     {
-                        minimaxResult += MiniMax(tempBoard, i, turn);
+                        List<int> tempBoard = new List<int>(board);
+                        tempBoard[i] = botOrder % 2 + 1;
+
+                        int minimaxResult = MiniMax(tempBoard, true, botOrder);
+
+                        if (minimaxResult < bestScore)
+                        {
+                            bestScore = minimaxResult;
+                        }
                     }
                 }
-
-                return minimaxResult;
+                return bestScore;
             }
-
-            return 0;
         }
     }
 }
