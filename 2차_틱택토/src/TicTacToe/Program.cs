@@ -6,10 +6,14 @@ namespace TicTacToe
     {
         public static void Main(string[] args)
         {
-            TicTacToeBoard test = new TicTacToeBoard();
+            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
+            {
+                e.Cancel = true;
+                Console.WriteLine();
+            };
             
-            test.DrawBoard();
-            Console.ReadKey();
+            GameManager gameManager = new GameManager();
+            gameManager.StartGame();
         }
     }
 }

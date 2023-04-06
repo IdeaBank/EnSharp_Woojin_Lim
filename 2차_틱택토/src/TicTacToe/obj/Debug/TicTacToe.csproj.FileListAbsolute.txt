@@ -4,3 +4,9 @@
 /Users/woojin/Development/EN_SHARP/Woojin_Lim/TicTacToe/TicTacToe/obj/Debug/TicTacToe.csproj.CoreCompileInputs.cache
 /Users/woojin/Development/EN_SHARP/Woojin_Lim/TicTacToe/TicTacToe/obj/Debug/TicTacToe.exe
 /Users/woojin/Development/EN_SHARP/Woojin_Lim/TicTacToe/TicTacToe/obj/Debug/TicTacToe.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/2차_틱택토/src/TicTacToe/bin/Debug/TicTacToe.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/2차_틱택토/src/TicTacToe/bin/Debug/TicTacToe.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/2차_틱택토/src/TicTacToe/obj/Debug/TicTacToe.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/2차_틱택토/src/TicTacToe/obj/Debug/TicTacToe.csproj.CoreCompileInputs.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/2차_틱택토/src/TicTacToe/obj/Debug/TicTacToe.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/2차_틱택토/src/TicTacToe/obj/Debug/TicTacToe.pdb
