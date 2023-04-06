@@ -18,6 +18,11 @@ namespace TicTacToe
             }
         }
 
+        public TicTacToeBoard(List<int> board)
+        {
+            this.board = board;
+        }
+
         public List<int> GetBoard()
         {
             return this.board;
@@ -79,12 +84,21 @@ namespace TicTacToe
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 2, "     |     |     ", ALIGN.CENTER);
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 3, "     |     |     ", ALIGN.CENTER);
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 4, "     |     |     ", ALIGN.CENTER);
+            PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 10, "_______", ALIGN.CENTER);
 
             for (int i = 0; i < 9; ++i)
             {
-                if (this.board[i] == 0)
+                switch (this.board[i])
                 {
-                    PrintOnPosition(position[i, 0], position[i, 1], (i + 1).ToString(), ALIGN.CENTER);
+                    case 0:
+                        PrintOnPosition(position[i, 0], position[i, 1], (i + 1).ToString(), ALIGN.CENTER);
+                        break;
+                    case 1:
+                        PrintOnPosition(position[i, 0], position[i, 1], "O", ALIGN.CENTER);
+                        break;
+                    case 2:
+                        PrintOnPosition(position[i, 0], position[i, 1], "X", ALIGN.CENTER);
+                        break;
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -9,11 +10,15 @@ namespace TicTacToe
             Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
             {
                 e.Cancel = true;
-                Console.WriteLine();
             };
             
             GameManager gameManager = new GameManager();
-            gameManager.StartGame();
+            //gameManager.ShowMainMenu();
+            // Console.ReadLine();
+
+            List<int> asd = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
+            
+            Console.WriteLine(gameManager.MiniMax(asd, 5, 2));
         }
     }
 }

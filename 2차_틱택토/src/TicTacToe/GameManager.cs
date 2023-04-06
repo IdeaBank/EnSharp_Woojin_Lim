@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 
 namespace TicTacToe
 {
@@ -9,6 +8,12 @@ namespace TicTacToe
         private TicTacToeBoard ticTacToeBoard;
         private int playOrder;
         private int playMode;
+
+        public void ShowMainMenu()
+        {
+            this.ticTacToeBoard = new TicTacToeBoard(new List<int> { 1, 2, 1, 2, 1, 2, 1, 2, 1 });
+            this.ticTacToeBoard.DrawBoard();
+        }
         
         public void StartGame()
         {
@@ -17,9 +22,7 @@ namespace TicTacToe
             
             this.ticTacToeBoard.DrawBoard();
 
-            int a = InputOneDigit(1, 1);
-
-            // int a = InputOneDigit();
+            // getInputFromUser();
         }
 
         public void PlayAgainstPlayer()
@@ -31,10 +34,15 @@ namespace TicTacToe
         {
             
         }
+
+        public bool IsCellEmpty(List<int> board, int pos)
+        {
+            return this.ticTacToeBoard.GetBoard()[pos] == 0;
+        }
         
         private int InputOneDigit(int x, int y)
         {
-            char current_input = '\0';
+            char currentInput = '\0';
             
             // return 될 때까지 계속 반복
             while (true)
@@ -46,14 +54,14 @@ namespace TicTacToe
                 
                 if (keyInput.Key != ConsoleKey.Enter)
                 {
-                    current_input = keyInput.KeyChar;
+                    currentInput = keyInput.KeyChar;
                 }
 
                 else
                 {
-                    if ('0' <= current_input && current_input <= '9')
+                    if ('0' <= currentInput && currentInput <= '9')
                     {
-                        return current_input - '0';
+                        return currentInput - '0';
                     }
                 }
             }
@@ -75,13 +83,13 @@ namespace TicTacToe
                 { 2, 4, 6 }
             };
             
-            // 0: First player, 1: Second player
-            for (int i = 0; i < 2; ++i)
+            // 1: First player, 2: Second player
+            for (int i = 1; i <= 2; ++i)
             {
                 // combination 크기 (8)만큼 반복
                 for (int j = 0; j < combination.Length; ++j)
                 {
-                    // 누군가가 이겼다면, 해당 사람의 번호 반환
+                    // 누군가가 이겼다면, 해당 사람의 번호 반환 (1 or 2)
                     if (board[combination[j, 0]] == board[combination[j, 1]] &&
                         board[combination[j, 1]] == board[combination[j, 2]])
                     {
@@ -90,8 +98,84 @@ namespace TicTacToe
                 }
             }
 
-            // 이긴 사람이 없다면, false 반환
+            // 채워진 칸의 개수 구하기
+            int count = 0;
+
+            for (int i = 0; i < 9; ++i)
+            {
+                if (board[i] == 0)
+                {
+                    count += 1;
+                }
+            }
+
+            // 모든 칸이 채워졌을 때 무승부 반환
+            if (count == 9)
+            {
+                return new KeyValuePair<bool, int>(true, 0);
+            }
+
+            // 끝나지 않았다면, false 반환
             return new KeyValuePair<bool, int>(false, 0);
+        }
+
+        public int CalculateBestMove(int turn)
+        {
+            int bestIndex = -1;
+            int bestPercentage = -1;
+                
+            for (int i = 0; i < 9; ++i)
+            {
+                if (IsCellEmpty(this.ticTacToeBoard.GetBoard(), i))
+                {
+                    int miniMaxResult = MiniMax(ticTacToeBoard.GetBoard(), i, turn);
+                    
+                    if (bestPercentage < miniMaxResult)
+                    {
+                        bestIndex = i;
+                        bestPercentage = miniMaxResult;
+                    }
+                }
+            }
+
+            return bestIndex;
+        }
+
+        public int MiniMax(List<int> board, int index, int turn)
+        {
+            List<int> tempBoard = new List<int>(board);
+
+            tempBoard[index] = turn;
+
+            KeyValuePair<bool, int> result = HasGameEnded(tempBoard);
+
+            if (result.Key)
+            {
+                if (result.Value == 0)
+                    return 0;
+
+                else if (result.Value == turn)
+                    return 1;
+
+                else
+                    return -1;
+            }
+
+            else
+            {
+                int minimaxResult = 0;
+                for (int i = 0; i < 9; ++i)
+                {
+                    if (IsCellEmpty(tempBoard, i))
+                    {
+                        minimaxResult += MiniMax(tempBoard, i, turn);
+                    }
+                }
+
+                return minimaxResult;
+            }
+
+            return 0;
         }
     }
 }
