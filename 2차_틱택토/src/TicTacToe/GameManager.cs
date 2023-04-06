@@ -125,7 +125,7 @@ namespace TicTacToe
                     switch (playMode)
                     {
                         case 1:
-
+                            PlayAgainstComputer();
                             break;
                         case 2:
                             PlayAgainstPlayer();
@@ -191,8 +191,58 @@ namespace TicTacToe
 
         public void PlayAgainstComputer()
         {
-            this.ticTacToeBoard.SetBoardWithPosition(0, 2);
-            Console.WriteLine(CalculateBestMove(1));
+            int i = 0;
+            
+            while(true)
+            {
+                this.ticTacToeBoard.DrawBoardWithInput();
+                KeyValuePair<bool, int> result = HasGameEnded(this.ticTacToeBoard.GetBoard());
+
+                if (result.Key)
+                {
+                    Console.WriteLine("TEST");
+                    if (result.Value == 0)
+                    {
+                        this.gameResult[0, 1] += 1;
+                    }
+                    
+                    else if (result.Value == playOrder)
+                    {
+                        this.gameResult[0, 0] += 1;
+                    }
+
+                    else
+                    {
+                        this.gameResult[0, 2] += 1;
+                    }
+                    
+                    this.ticTacToeBoard.DrawBoard();
+                    
+                    break;
+                }
+
+                if (i % 2 + 1 == playOrder)
+                {
+                    int positionInput = InputOneDigitBetween(1, 9);
+
+                    while (!ticTacToeBoard.IsCellEmpty(this.ticTacToeBoard.GetBoard(), positionInput - 1))
+                    {
+                        positionInput = InputOneDigitBetween(1, 9);
+                    }
+                
+                    this.ticTacToeBoard.SetBoardWithPosition(positionInput - 1, i % 2 + 1);
+                }
+
+                else
+                {
+                    int c = CalculateBestMove(playOrder % 2 + 1);
+                    this.ticTacToeBoard.SetBoardWithPosition(c, playOrder % 2 + 1);
+                }
+                
+                ++i;
+                
+                this.ticTacToeBoard.DrawBoardWithInput();
+            }
         }
         
         private int InputOneDigit(int x, int y)

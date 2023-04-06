@@ -16,7 +16,7 @@ namespace TicTacToe
             Console.ReadKey();
             gameManager.Start();
             //gameManager.ShowScoreboard();
-            Console.ReadKey();
+            //Console.ReadKey();
             //gameManager.PlayAgainstComputer();
         }
     }
