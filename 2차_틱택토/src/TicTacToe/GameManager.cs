@@ -54,6 +54,43 @@ namespace TicTacToe
             this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 11,
                 "1: Retry, 2: Back to menu", ALIGN.CENTER);
         }
+
+        public void ShowScoreboard()
+        {
+            Console.Clear();
+            
+            
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 3,
+                "|  W  |  D  |  L  |", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 2,
+                "|-----|-----|-----|", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 1,
+                "|     |     |     |", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2 - 10, Console.WindowHeight / 2 - 1,
+                "VS Computer", ALIGN.RIGHT);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 0,
+                "|-----|-----|-----|", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 1,
+                "|     |     |     |", ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2 - 10, Console.WindowHeight / 2 + 1,
+                "VS Player", ALIGN.RIGHT);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 2,
+                "|-----|-----|-----|", ALIGN.CENTER);
+            
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2 - 6, Console.WindowHeight / 2 - 1,
+                this.gameResult[0, 0].ToString(), ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 1,
+                this.gameResult[0, 1].ToString(), ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2 + 6, Console.WindowHeight / 2 - 1,
+                this.gameResult[0, 2].ToString(), ALIGN.CENTER);
+            
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2 - 6, Console.WindowHeight / 2 + 1,
+                this.gameResult[1, 0].ToString(), ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 1,
+                this.gameResult[1, 1].ToString(), ALIGN.CENTER);
+            this.ticTacToeBoard.PrintOnPosition(Console.WindowWidth / 2 + 6, Console.WindowHeight / 2 + 1,
+                this.gameResult[1, 2].ToString(), ALIGN.CENTER);
+        }
         
         public int InputOneDigitBetween(int from, int to)
         {
@@ -71,10 +108,8 @@ namespace TicTacToe
         {
             if (this.playMode == 3)
             {
-                Console.Clear();
-                Console.WriteLine("{0} {1} {2}", this.gameResult[0, 0], this.gameResult[0, 1], this.gameResult[0, 2]);
-                Console.WriteLine("{0} {1} {2}", this.gameResult[1, 0], this.gameResult[1, 1], this.gameResult[1, 2]);
-                Console.ReadLine();
+                ShowScoreboard();
+                Console.ReadKey();
             }
 
             else
@@ -116,9 +151,6 @@ namespace TicTacToe
 
                 if (result.Key)
                 {
-                    Console.WriteLine(result.Value);
-                    Console.ReadLine();
-                    
                     if (result.Value == 0)
                     {
                         this.gameResult[1, 1] += 1;
@@ -133,6 +165,8 @@ namespace TicTacToe
                     {
                         this.gameResult[1, 2] += 1;
                     }
+                    
+                    this.ticTacToeBoard.DrawBoard();
                     
                     break;
                 }
@@ -156,7 +190,6 @@ namespace TicTacToe
         {
             
         }
-
         
         private int InputOneDigit(int x, int y)
         {
@@ -169,8 +202,14 @@ namespace TicTacToe
                 
                 // 우선 한 줄 입력 받기
                 ConsoleKeyInfo keyInput = Console.ReadKey();
+
+                if (keyInput.Key == ConsoleKey.Backspace)
+                {
+                    currentInput = ' ';
+                    Console.Write("  ");
+                }
                 
-                if (keyInput.Key != ConsoleKey.Enter)
+                else if (keyInput.Key != ConsoleKey.Enter)
                 {
                     currentInput = keyInput.KeyChar;
                 }
