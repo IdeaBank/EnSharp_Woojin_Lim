@@ -18,9 +18,9 @@ namespace TicTacToe
             }
         }
 
-        public TicTacToeBoard(List<int> board)
+        public void ResetBoard()
         {
-            this.board = board;
+            this.board = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         }
 
         public List<int> GetBoard()
@@ -30,9 +30,11 @@ namespace TicTacToe
 
         public void PrintOnPosition(int x, int y, string str, int align)
         {
+            // 마지막 커서의 위치 저장
             int lastCursorX = Console.CursorLeft;
             int lastCursorY = Console.CursorTop;
 
+            // 각 경우의 수에 맞게 정렬
             switch (align)
             {
                 case ALIGN.LEFT:
@@ -104,6 +106,7 @@ namespace TicTacToe
 
         public void DrawBoardWithInput()
         {
+            // 보드판을 그린 내용 아래에 밑줄을 쳐 입력할 수 있는 칸을 제시
             int consoleWidth = Console.WindowWidth;
             int consoleHeight = Console.WindowHeight;
             
@@ -117,7 +120,7 @@ namespace TicTacToe
             int consoleWidth = Console.WindowWidth;
             int consoleHeight = Console.WindowHeight;
 
-            this.board = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            this.board = new List<int> { 1, 2, 1, 2, 1, 2, 1, 2, 1 };
             this.DrawBoard();
             
             PrintOnPosition(consoleWidth / 2, consoleHeight / 2 + 14, "_______", ALIGN.CENTER);
