@@ -17,6 +17,12 @@ namespace TicTacToe
         
         public static void Main(string[] args)
         {
+            if (Console.WindowHeight < 30)
+            {
+                Console.WriteLine("화면을 키워주세요");
+                Console.ReadKey();
+                return;
+            }
             // ctrl+c 막기
             Console.CancelKeyPress += console_CancelKeyPress;
             
