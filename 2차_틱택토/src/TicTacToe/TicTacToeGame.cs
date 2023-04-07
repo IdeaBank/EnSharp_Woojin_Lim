@@ -14,7 +14,6 @@ namespace TicTacToe
             _keepRunning = false;
         }
 
-        
         public static void Main(string[] args)
         {
             if (Console.WindowHeight < 30)
