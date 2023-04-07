@@ -415,7 +415,7 @@ namespace TicTacToe
                     tempBoard[i] = botOrder;
                     
                     // 결과를 계산한 값을 miniMaxResult에 저장
-                    int miniMaxResult = MiniMax(tempBoard, false, botOrder);
+                    int miniMaxResult = MiniMax(tempBoard, false, botOrder, 0);
                     
                     // 가장 높은 점수를 bestScore에 저장하고 그 index값 또한 저장
                     if (bestScore < miniMaxResult)
@@ -430,7 +430,7 @@ namespace TicTacToe
             return bestIndex;
         }
 
-        public int MiniMax(List<int> board, bool isMaximizing, int botOrder)
+        public int MiniMax(List<int> board, bool isMaximizing, int botOrder, int depth)
         {
             // 게임이 끝났는지 판단
             KeyValuePair<bool, int> result = HasGameEnded(board);
@@ -447,13 +447,13 @@ namespace TicTacToe
                 // 이겼을 경우 100 반환
                 else if (result.Value == botOrder)
                 {
-                    return 100;
+                    return 10 - depth;
                 }
 
                 // 졌을 경우 -100 반환
                 else
                 {
-                    return -100;
+                    return depth -10;
                 }
             }
 
@@ -470,7 +470,7 @@ namespace TicTacToe
                         tempBoard[i] = botOrder;
 
                         // 다음 수를 계산
-                        int minimaxResult = MiniMax(tempBoard, false, botOrder);
+                        int minimaxResult = MiniMax(tempBoard, false, botOrder, depth + 1);
 
                         if (minimaxResult > bestScore)
                         {
@@ -494,7 +494,7 @@ namespace TicTacToe
                         tempBoard[i] = botOrder % 2 + 1;
 
                         // 다음 수를 계산
-                        int minimaxResult = MiniMax(tempBoard, true, botOrder);
+                        int minimaxResult = MiniMax(tempBoard, true, botOrder, depth + 1);
 
                         if (minimaxResult < bestScore)
                         {
