@@ -26,16 +26,22 @@ namespace Library
             this.address = address;
         }
 
-        public bool IsAdministrator()
-        {
-            return false;
-        }
-        
         public void ModifyMemberInfo(string id, string name, string address)
         {
-            this.id = id;
-            this.name = name;
-            this.address = address;
+            if (id != "")
+            {
+                this.id = id;
+            }
+
+            if (name != "")
+            {
+                this.name = name;
+            }
+
+            if (address != "")
+            {
+                this.address = address;
+            }
         }
 
         public bool BorrowBook(Data data, int bookId)

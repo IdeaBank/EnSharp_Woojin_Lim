@@ -12,10 +12,5 @@ namespace Library
         {
             
         }
-
-        public bool IsAdministrator()
-        {
-            return true;
-        }
     }
 }

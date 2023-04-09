@@ -6,7 +6,9 @@ namespace Library
     {
         public static void Main(string[] args)
         {
-            User test;
+            
+
+
             /*
             Console.Title = "콘솔 테스트";                          //타이틀변경
 
