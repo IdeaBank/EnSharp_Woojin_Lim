@@ -1,4 +1,4 @@
-namespace Library
+namespace Library.Model
 {
     public class BorrowedBook
     {

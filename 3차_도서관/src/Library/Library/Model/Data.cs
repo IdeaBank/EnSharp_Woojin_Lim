@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Library.Model;
 
-namespace Library
+namespace Library.Model
 {
     public class Data
     {

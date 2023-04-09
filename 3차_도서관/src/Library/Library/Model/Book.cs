@@ -1,18 +1,18 @@
 using System.Diagnostics;
 
-namespace Library
+namespace Library.Model
 {
     public class Book
     {
-        public int bookId { set; get; }
-        public string name { set; get; }
-        public string author { set; get; }
-        public string publisher { set; get; }
+        public int bookId { get; set; }
+        public string name { get; set; }
+        public string author { get; set; }
+        public string publisher { get; set; }
         public int quantity { get; set; }
         public int price { get; set; }
-        public string publishedDate { set; get; }
-        public string isbn { set; get; }
-        public string description { set; get; }
+        public string publishedDate { get; set; }
+        public string isbn { get; set; }
+        public string description { get; set; }
 
         public Book()
         {

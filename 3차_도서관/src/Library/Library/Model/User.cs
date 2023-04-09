@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace Library.Model
 {
     public class User
     {
@@ -19,9 +19,11 @@ namespace Library
             this.borrowedBooks = new List<BorrowedBook>();
         }
 
-        public User(int number, string name, int age, string phoneNumber, string address)
+        public User(int number, string id, string password, string name, int age, string phoneNumber, string address)
         {
             this.number = number;
+            this.id = id;
+            this.password = password;
             this.name = name;
             this.age = age;
             this.phoneNumber = phoneNumber;

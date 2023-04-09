@@ -1,3 +1,5 @@
+using Library.Model;
+
 namespace Library
 {
     public class LibraryManager

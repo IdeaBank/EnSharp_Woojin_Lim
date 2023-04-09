@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Library.Model;
 
 namespace Library
 {
@@ -9,6 +10,7 @@ namespace Library
         {
             Data totalData = new Data();
             BookManagement bookManager = new BookManagement();
+            UserManagement userManager = new UserManagement();
 
             bookManager.AddBook(totalData, new Book(1, "TestBook", "TestAuthor", "TestPublisher",
                 1, 1000, "TestDate", "TestIsbn", "TestDescription"));
@@ -17,6 +19,10 @@ namespace Library
             bookManager.AddBook(totalData, new Book(2, "TestBook3", "TestAuthor", "TestPublisher",
                 1, 1000, "TestDate", "TestIsbn", "TestDescription"));
             bookManager.DeleteBook(totalData, 3);
+            userManager.Register(totalData, new User(1, "woojin", "woojin1234", "Woojin Lim", 10,
+                "010-8302-3090", "경기도 고양시 일산동구 위시티 1로 7 505동 1501호"));
+            userManager.Withdraw(totalData, 1);
+            Console.WriteLine(userManager.LoginAsUser(totalData, "woojin", "woojin1234"));
 
             /*
             Console.Title = "콘솔 테스트";                          //타이틀변경
