@@ -41,7 +41,9 @@
     <ItemGroup>
         <Compile Include="Administrator.cs" />
         <Compile Include="Book.cs" />
+        <Compile Include="BorrowedBook.cs" />
         <Compile Include="Constants\ViewComposition.cs" />
+        <Compile Include="Data.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="User.cs" />
