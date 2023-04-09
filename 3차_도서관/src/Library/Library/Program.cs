@@ -7,9 +7,17 @@ namespace Library
     {
         public static void Main(string[] args)
         {
-            Regex regex = new Regex(@"^[0-9a-zA-Z]{8,20}");
+            Data totalData = new Data();
+            BookManagement bookManager = new BookManagement();
 
-            Console.WriteLine(regex.IsMatch("asdf123123"));
+            bookManager.AddBook(totalData, new Book(1, "TestBook", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            bookManager.AddBook(totalData, new Book(2, "TestBook2", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            bookManager.AddBook(totalData, new Book(2, "TestBook3", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            bookManager.DeleteBook(totalData, 3);
+
             /*
             Console.Title = "콘솔 테스트";                          //타이틀변경
 

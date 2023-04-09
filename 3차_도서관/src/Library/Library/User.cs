@@ -71,5 +71,34 @@ namespace Library
 
             return false;
         }
+
+        public bool ReturnBook(Data data, int bookId)
+        {
+            if (this.borrowedBooks.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (Book book in data.books)
+            {
+                if (book.bookId == bookId)
+                {
+                    book.quantity += 1;
+
+                    foreach (BorrowedBook borrowedBook in borrowedBooks)
+                    {
+                        if (borrowedBook.bookId == bookId)
+                        {
+                            borrowedBooks.Remove(borrowedBook);
+                            break;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
