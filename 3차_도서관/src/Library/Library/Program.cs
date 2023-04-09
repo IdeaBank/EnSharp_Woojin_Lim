@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Library
 {
@@ -6,9 +7,9 @@ namespace Library
     {
         public static void Main(string[] args)
         {
-            
+            Regex regex = new Regex(@"^[0-9a-zA-Z]{8,20}");
 
-
+            Console.WriteLine(regex.IsMatch("asdf123123"));
             /*
             Console.Title = "콘솔 테스트";                          //타이틀변경
 

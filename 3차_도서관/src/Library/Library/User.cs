@@ -5,16 +5,18 @@ namespace Library
 {
     public class User
     {
-        protected int number;
-        protected string id;
-        protected string name;
-        protected int age;
-        protected string phoneNumber;
-        protected string address;
+        public int number { get; set; }
+        public string id  { get; set; }
+        public string password { get; set; }
+        public string name  { get; set; }
+        public int age  { get; set; }
+        public string phoneNumber  { get; set; }
+        public string address { get; set; }
+        public List<BorrowedBook> borrowedBooks  { get; set; }
 
         public User()
         {
-            
+            this.borrowedBooks = new List<BorrowedBook>();
         }
 
         public User(int number, string name, int age, string phoneNumber, string address)
@@ -24,6 +26,7 @@ namespace Library
             this.age = age;
             this.phoneNumber = phoneNumber;
             this.address = address;
+            this.borrowedBooks = new List<BorrowedBook>();
         }
 
         public void ModifyMemberInfo(string id, string name, string address)
@@ -53,7 +56,7 @@ namespace Library
                     if (book.quantity > 0)
                     {
                         book.quantity -= 1;
-                        data.borrowedBooks.Add(new BorrowedBook(this.number, book.bookId, "asdf"));
+                        borrowedBooks.Add(new BorrowedBook(book.bookId, "asdf"));
                         return true;
                     }
 
