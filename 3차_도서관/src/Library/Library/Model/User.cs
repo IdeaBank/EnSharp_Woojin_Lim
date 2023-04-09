@@ -13,6 +13,7 @@ namespace Library.Model
         public string phoneNumber  { get; set; }
         public string address { get; set; }
         public List<BorrowedBook> borrowedBooks  { get; set; }
+        public List<BorrowedBook> returnedBooks { get; set; }
 
         public User()
         {
@@ -91,6 +92,7 @@ namespace Library.Model
                     {
                         if (borrowedBook.bookId == bookId)
                         {
+                            returnedBooks.Add(borrowedBook);
                             borrowedBooks.Remove(borrowedBook);
                             break;
                         }

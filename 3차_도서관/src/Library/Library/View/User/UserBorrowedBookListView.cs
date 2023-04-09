@@ -1,0 +1,23 @@
+using System;
+using Library.Model;
+
+namespace Library.View.User
+{
+    public class UserBorrowedBookListView: ViewFrame
+    {
+        public static void Print(Model.User user)
+        {
+            Console.WriteLine(user.name);
+            
+            foreach (BorrowedBook borrowedBook in user.borrowedBooks)
+            {
+                Console.WriteLine("==============================\n");
+                Console.Write("책 ID: ");
+                Console.WriteLine(borrowedBook.bookId);
+                Console.Write("빌린 날짜: ");
+                Console.WriteLine(borrowedBook.borrowedDate);
+                Console.WriteLine("\n==============================\n");
+            }
+        }
+    }
+}

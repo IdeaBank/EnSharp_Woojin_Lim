@@ -27,9 +27,9 @@ namespace Library
             
             foreach (Book book in data.books)
             {
-                if (book.name.Contains(name) && name.Length != 0 ||
-                    book.author.Contains(author) && author.Length != 0 ||
-                    book.publisher.Contains(publisher) && publisher.Length != 0)
+                if ((book.name.Contains(name) || name.Length != 0) &&
+                    (book.author.Contains(author) || author.Length != 0) &&
+                    (book.publisher.Contains(publisher) || publisher.Length != 0))
                 {
                     result.Add(book);
                 }

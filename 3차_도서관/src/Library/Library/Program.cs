@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Library.Model;
+using Library.View;
+using Library.View.Admin;
 
 namespace Library
 {
@@ -8,6 +10,8 @@ namespace Library
     {
         public static void Main(string[] args)
         {
+            int currentMenuLocation = 1;
+            
             Data totalData = new Data();
             BookManagement bookManager = new BookManagement();
             UserManagement userManager = new UserManagement();
@@ -24,6 +28,33 @@ namespace Library
             userManager.Withdraw(totalData, 1);
             Console.WriteLine(userManager.LoginAsUser(totalData, "woojin", "woojin1234"));
 
+            
+            AdminSearchBookView.Print(totalData);
+            
+            while (currentMenuLocation > 0)
+            {
+                ConsoleKeyInfo keyInput = Console.ReadKey(true);
+
+                switch (keyInput.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        
+                        break;
+                    
+                    case ConsoleKey.DownArrow:
+                        break;
+                    
+                    case ConsoleKey.Enter:
+                        break;
+                    
+                    case ConsoleKey.Escape:
+                        currentMenuLocation /= 10;
+                        break;
+                }
+            }
+            ViewFrame menuView = new ViewFrame();
+            
+            //menuView.SelectLoginType(0);
             /*
             Console.Title = "콘솔 테스트";                          //타이틀변경
 

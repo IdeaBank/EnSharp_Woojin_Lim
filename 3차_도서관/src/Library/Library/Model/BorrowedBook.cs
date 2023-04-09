@@ -4,6 +4,7 @@ namespace Library.Model
     {
         public int bookId { get; set; }
         public string borrowedDate { get; set; }
+        public string returnedDate { get; set; }
 
         public BorrowedBook()
         {
