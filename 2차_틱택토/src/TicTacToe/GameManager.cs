@@ -15,19 +15,27 @@ namespace TicTacToe
             // 변수 초기화
             this.ticTacToeBoard = new TicTacToeBoard();
             this.gameResult = new int[2, 3] { { 0, 0, 0 }, { 0, 0, 0 } };
+            this.playMode = 1;
             this.playOrder = 1;
         }
         
         // 처음 시작
         public void Start()
         {
-            // 메인 메뉴 표시 후 0 ~ 3을 입력 받음
-            ShowMainMenu();
-            this.playMode = InputOneDigitBetween(0, 3);
+            bool playAgain = false;
+            
+            while (this.playMode != 0)
+            {
+                // 메인 메뉴 표시 후 0 ~ 3을 입력 받음
+                ShowMainMenu();
+                this.playMode = InputOneDigitBetween(0, 3);
 
-            // 종료가 아니면, 게임 시작
-            if(this.playMode != 0)
-                StartGame();
+                // 종료가 아니면, 게임 시작
+                if (this.playMode != 0)
+                {
+                    StartGame();
+                }
+            }
         }
         
         public void ShowMainMenu()
@@ -177,9 +185,6 @@ namespace TicTacToe
                     }
                 }
             }
-            
-            // 다시 하지 않을 경우, 처음으로 돌아감
-            Start();
         }
         
         public int PlayAgainstPlayer()

@@ -1,0 +1,6 @@
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/3차_도서관/src/Library/Library/bin/Debug/Library.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/3차_도서관/src/Library/Library/bin/Debug/Library.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/3차_도서관/src/Library/Library/obj/Debug/Library.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/3차_도서관/src/Library/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/3차_도서관/src/Library/Library/obj/Debug/Library.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/3차_도서관/src/Library/Library/obj/Debug/Library.pdb
