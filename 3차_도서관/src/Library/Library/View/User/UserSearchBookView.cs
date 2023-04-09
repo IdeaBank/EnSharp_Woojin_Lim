@@ -8,6 +8,8 @@ namespace Library.View.User
     {
         public static void Print(Data data)
         {
+            Console.Clear();
+
             string[] bookInfoList =
             {
                 "책 아이디".PadRight(19, ' ') + ": ",

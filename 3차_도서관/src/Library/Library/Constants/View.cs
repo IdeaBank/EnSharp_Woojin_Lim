@@ -9,13 +9,17 @@ namespace Library.Constants
         public const int MAIN_MENU_VIEW = 1;
      
         // USER START
-        public const int USER_LOGIN_VIEW = 10;
-        public const int USER_REGISTER_VIEW = 11;
+        public const int USER_START_VIEW = 10;
+        public const int USER_LOGIN_VIEW = 11;
+        public const int USER_REGISTER_VIEW = 12;
+        
+        // ADMIN START
+        public const int ADMIN_LOGIN_VIEW = 13;
         
         // USER / ADMIN VIEW
         public const int USER_MENU_VIEW = 20;
         public const int ADMIN_MENU_VIEW = 21;
-        
+
         // USER MENU LIST
         public const int USER_SEARCH_BOOK_VIEW = 200;
         public const int USER_BORROW_BOOK_VIEW = 201;

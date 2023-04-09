@@ -7,6 +7,8 @@ namespace Library.View.Admin
     {
         public static void Print(Data data, int bookId)
         {
+            Console.Clear();
+
             string[] bookInfoList =
             {
                 "책 제목".PadRight(19, ' ') + ": ",

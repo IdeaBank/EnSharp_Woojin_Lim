@@ -6,7 +6,9 @@ namespace Library.View.Admin
     {
         public static void Print(int index)
         {
-            string[] AdminMenuList =
+            Console.Clear();
+
+            string[] adminMenuList =
             {
                 "도서찾기",
                 "도서추가",
@@ -16,18 +18,18 @@ namespace Library.View.Admin
                 "대여상황"
             };
 
-            for (int i = 0; i < AdminMenuList.Length; ++i)
+            for (int i = 0; i < adminMenuList.Length; ++i)
             {
                 if (i == index)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(AdminMenuList[i]);
+                    Console.WriteLine(adminMenuList[i]);
                     Console.ResetColor();
                 }
 
                 else
                 {
-                    Console.WriteLine(AdminMenuList[i]);
+                    Console.WriteLine(adminMenuList[i]);
                 }
             }
         }

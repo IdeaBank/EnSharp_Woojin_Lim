@@ -5,6 +5,11 @@ namespace Library.View
 {
     public class ViewFrame
     {
+        public ViewFrame()
+        {
+            Console.Clear();
+        }
+        
         public void PrintOnPosition(int x, int y, string str, int align, ConsoleColor color)
         {
             // 마지막 커서의 위치 저장

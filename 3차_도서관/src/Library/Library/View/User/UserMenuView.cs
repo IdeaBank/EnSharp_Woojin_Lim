@@ -6,7 +6,9 @@ namespace Library.View.User
     {
         public static void Print(int index)
         {
-            string[] UserMenuList =
+            Console.Clear();
+
+            string[] userMenuList =
             {
                 "도서찾기",
                 "도서대여",
@@ -16,18 +18,18 @@ namespace Library.View.User
                 "회원탈퇴"
             };
 
-            for (int i = 0; i < UserMenuList.Length; ++i)
+            for (int i = 0; i < userMenuList.Length; ++i)
             {
                 if (i == index)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(UserMenuList[i]);
+                    Console.Write(userMenuList[i]);
                     Console.ResetColor();
                 }
 
                 else
                 {
-                    Console.WriteLine(UserMenuList[i]);
+                    Console.WriteLine(userMenuList[i]);
                 }
             }
         }

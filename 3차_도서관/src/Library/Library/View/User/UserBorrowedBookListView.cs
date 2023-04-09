@@ -7,6 +7,8 @@ namespace Library.View.User
     {
         public static void Print(Model.User user)
         {
+            Console.Clear();
+
             Console.WriteLine(user.name);
             
             foreach (BorrowedBook borrowedBook in user.borrowedBooks)

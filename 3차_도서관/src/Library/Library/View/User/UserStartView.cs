@@ -1,31 +1,31 @@
 using System;
 
-namespace Library.View
+namespace Library.View.User
 {
-    public class MainMenuView: ViewFrame
+    public class UserStartView
     {
         public static void Print(int index)
         {
             Console.Clear();
-            
-            string[] mainMenuList =
+
+            string[] userStartList =
             {
-                "유저",
-                "관리자",
+                "로그인",
+                "회원가입"
             };
 
-            for (int i = 0; i < mainMenuList.Length; ++i)
+            for (int i = 0; i < userStartList.Length; ++i)
             {
                 if (i == index)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(mainMenuList[i]);
+                    Console.WriteLine(userStartList[i]);
                     Console.ResetColor();
                 }
 
                 else
                 {
-                    Console.WriteLine(mainMenuList[i]);
+                    Console.WriteLine(userStartList[i]);
                 }
             }
         }

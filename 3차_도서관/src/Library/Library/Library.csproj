@@ -55,6 +55,7 @@
         <Compile Include="View\Admin\AdminAllBorrowedBookListView.cs" />
         <Compile Include="View\Admin\AdminDeleteBookView.cs" />
         <Compile Include="View\Admin\AdminDeleteMemberView.cs" />
+        <Compile Include="View\Admin\AdminLoginView.cs" />
         <Compile Include="View\Admin\AdminMenuView.cs" />
         <Compile Include="View\Admin\AdminModifyBookView.cs" />
         <Compile Include="View\Admin\AdminSearchBookView.cs" />
@@ -68,6 +69,7 @@
         <Compile Include="View\User\UserReturnBookView.cs" />
         <Compile Include="View\User\UserReturnedBookListView.cs" />
         <Compile Include="View\User\UserSearchBookView.cs" />
+        <Compile Include="View\User\UserStartView.cs" />
         <Compile Include="View\User\UserWithdrawView.cs" />
         <Compile Include="View\ViewFrame.cs" />
     </ItemGroup>

@@ -10,6 +10,10 @@ namespace Library
     {
         public static void Main(string[] args)
         {
+            LibraryManager libraryManager = new LibraryManager();
+            libraryManager.start();
+            
+            /*
             int currentMenuLocation = 1;
             
             Data totalData = new Data();
@@ -55,7 +59,7 @@ namespace Library
             ViewFrame menuView = new ViewFrame();
             
             //menuView.SelectLoginType(0);
-            /*
+            
             Console.Title = "콘솔 테스트";                          //타이틀변경
 
             Console.BackgroundColor = ConsoleColor.Gray; 		//배경색상변경

@@ -1,8 +1,8 @@
 using System;
 
-namespace Library.View.User
+namespace Library.View.Admin
 {
-    public class UserLoginView: ViewFrame
+    public class AdminLoginView
     {
         public static void Print()
         {
