@@ -234,6 +234,45 @@ namespace Library
                         break;
                     
                     case ConsoleKey.Escape:
+                        if (currentViewPosition / 10 == 20)
+                        {
+                            currentIndex = 0;
+                            currentViewPosition = VIEW.USER_MENU_VIEW;
+                            UserMenuView.Print(currentIndex);
+                        }
+                        
+                        else if (currentViewPosition / 10 == 21)
+                        {
+                            currentIndex = 0;
+                            currentViewPosition = VIEW.ADMIN_MENU_VIEW;
+                            AdminMenuView.Print(currentIndex);
+                        }
+
+                        else
+                        {
+                            switch (currentViewPosition)
+                            {
+                                case 1:
+                                    return;
+                                case 10:
+                                    currentIndex = 0;
+                                    currentViewPosition = VIEW.MAIN_MENU_VIEW;
+                                    MainMenuView.Print(currentIndex);
+                                    break;
+                                case 11: case 12: case 20:
+                                    currentIndex = 0;
+                                    currentViewPosition = VIEW.USER_START_VIEW;
+                                    UserStartView.Print(currentIndex);
+                                    break;
+                                case 13: case 21:
+                                    currentIndex = 0;
+                                    currentViewPosition = VIEW.MAIN_MENU_VIEW;
+                                    MainMenuView.Print(currentIndex);
+                                    break;`
+                                default: 
+                                    return;
+                            }
+                        }
                         break;
                 }
             }
