@@ -10,14 +10,14 @@ namespace Library.View.Admin
             
             string[] instructions =
             {
-                "Enter name".PadRight(18, ' ') + ": ",
-                "Enter author".PadRight(18, ' ') + ": ",
-                "Enter publisher".PadRight(18, ' ') + ": ",
-                "Enter quantity".PadRight(18, ' ') + ": ",
-                "Enter price".PadRight(18, ' ') + ": ",
-                "Enter published date".PadRight(18, ' ') + ": ",
-                "Enter ISBN".PadRight(18, ' ') + ": ",
-                "Enter description".PadRight(18, ' ') + ": "
+                "Enter name".PadRight(23, ' ') + ": ",
+                "Enter author".PadRight(23, ' ') + ": ",
+                "Enter publisher".PadRight(23, ' ') + ": ",
+                "Enter quantity".PadRight(23, ' ') + ": ",
+                "Enter price".PadRight(23, ' ') + ": ",
+                "Enter published date".PadRight(23, ' ') + ": ",
+                "Enter ISBN".PadRight(23, ' ') + ": ",
+                "Enter description".PadRight(23, ' ') + ": "
             };
             
             foreach (string instruction in instructions)

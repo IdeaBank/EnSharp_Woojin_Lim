@@ -15,14 +15,14 @@ namespace Library.View.Admin
 
             string[] bookInfoList =
             {
-                "Name".PadRight(19, ' ') + ": ",
-                "Author".PadRight(19, ' ') + ": ",
-                "Publisher".PadRight(19, ' ') + ": ",
-                "Quantity".PadRight(19, ' ') + ": ",
-                "Price".PadRight(19, ' ') + ": ",
-                "Published date".PadRight(19, ' ') + ": ",
-                "ISBN".PadRight(19, ' ') + ": ",
-                "Description".PadRight(19, ' ') + ": "
+                "Name".PadRight(25, ' ') + ": ",
+                "Author".PadRight(25, ' ') + ": ",
+                "Publisher".PadRight(25, ' ') + ": ",
+                "Quantity".PadRight(25, ' ') + ": ",
+                "Price".PadRight(25, ' ') + ": ",
+                "Published date".PadRight(25, ' ') + ": ",
+                "ISBN".PadRight(25, ' ') + ": ",
+                "Description".PadRight(25, ' ') + ": "
             };
 
             foreach (Book book in data.books)

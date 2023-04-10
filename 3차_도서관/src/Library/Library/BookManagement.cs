@@ -52,23 +52,9 @@ namespace Library
             return false;
         }
 
-        public bool EditBook(Data data, string id, string password)
+        public bool EditBook(Data data, string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
         {
-            foreach(Administrator admin in data.admins)
-            {
-                if (admin.id == id)
-                {
-                    if (admin.password == password)
-                    {
-                        return true;
-                    }
-                    
-                    Console.WriteLine("비밀번호가 틀렸습니다.");
-                    return false;
-                }
-            }
             
-            Console.WriteLine("존재하지 않는 아이디입니다.");
             return false;
         }
         

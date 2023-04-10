@@ -211,7 +211,7 @@ namespace Library
                                     string name = Console.ReadLine();
                                     Console.SetCursorPosition(11, 1);
                                     string author = Console.ReadLine();
-                                    Console.SetCursorPosition(11, 2);
+                                    Console.SetCursorPosition(18, 2);
                                     string publisher = Console.ReadLine();
 
                                     List<Book> books = bookManagement.SearchBook(data, name, author, publisher);
@@ -273,7 +273,7 @@ namespace Library
                                     string name = Console.ReadLine();
                                     Console.SetCursorPosition(15, 1);
                                     string author = Console.ReadLine();
-                                    Console.SetCursorPosition(15, 2);
+                                    Console.SetCursorPosition(25, 2);
                                     string publisher = Console.ReadLine();
 
                                     List<Book> books = bookManagement.SearchBook(data, name, author, publisher);
