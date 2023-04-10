@@ -11,6 +11,21 @@ namespace Library
         public static void Main(string[] args)
         {
             LibraryManager libraryManager = new LibraryManager();
+            BookManagement bookManager = new BookManagement();
+            UserManagement userManager = new UserManagement();
+            
+            bookManager.AddBook(libraryManager.data, new Book(1, "TestBook1", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            bookManager.AddBook(libraryManager.data, new Book(2, "TestBook2", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            bookManager.AddBook(libraryManager.data, new Book(3, "TestBook3", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            // bookManager.DeleteBook(libraryManager.data, 3);
+            userManager.Register(libraryManager.data, new User(1, "woojin", "woojin123", "Woojin Lim", 10,
+                "010-8302-3090", "경기도 고양시 일산동구 위시티 1로 7 505동 1501호"));
+            libraryManager.data.admins.Add(new Administrator(1, "admin", "qhdks01!", "Administrator", 23,
+                "010-8302-3090", "경기도 고양시 위시티 1로7 505동 1501호"));
+
             libraryManager.start();
             
             /*

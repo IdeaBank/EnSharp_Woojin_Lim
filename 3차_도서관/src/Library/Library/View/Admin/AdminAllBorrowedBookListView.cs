@@ -11,15 +11,15 @@ namespace Library.View.Admin
             
             string[] bookInfoList =
             {
-                "책 아이디".PadRight(19, ' ') + ": ",
-                "책 제목".PadRight(19, ' ') + ": ",
-                "작가".PadRight(19, ' ') + ": ",
-                "출판사".PadRight(19, ' ') + ": ",
-                "수량".PadRight(19, ' ') + ": ",
-                "가격".PadRight(19, ' ') + ": ",
-                "출판일".PadRight(19, ' ') + ": ",
-                "ISBN".PadRight(19, ' ') + ": ",
-                "책 정보".PadRight(19, ' ') + ": "
+                "ID".PadRight(18, ' ') + ": ",
+                "Name".PadRight(18, ' ') + ": ",
+                "Author".PadRight(18, ' ') + ": ",
+                "Publisher".PadRight(18, ' ') + ": ",
+                "Quantity".PadRight(18, ' ') + ": ",
+                "Price".PadRight(18, ' ') + ": ",
+                "Published date".PadRight(18, ' ') + ": ",
+                "ISBN".PadRight(18, ' ') + ": ",
+                "Description".PadRight(18, ' ') + ": "
             };
             
             foreach (Model.User user in data.users)

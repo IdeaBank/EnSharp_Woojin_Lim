@@ -8,7 +8,7 @@ namespace Library.View.User
         {
             Console.Clear();
 
-            Console.WriteLine("빌릴 책의 이름을 입력하세요: ");
+            Console.WriteLine("Enter book name to borrow: ");
         }
     }
 }

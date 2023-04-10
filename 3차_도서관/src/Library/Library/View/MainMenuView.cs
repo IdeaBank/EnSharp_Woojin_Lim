@@ -10,8 +10,8 @@ namespace Library.View
             
             string[] mainMenuList =
             {
-                "유저",
-                "관리자",
+                "User",
+                "Administrator"
             };
 
             for (int i = 0; i < mainMenuList.Length; ++i)

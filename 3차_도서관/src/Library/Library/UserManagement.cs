@@ -34,7 +34,7 @@ namespace Library
             return false;
         }
 
-        public bool LoginAsUser(Data data, string id, string password)
+        public KeyValuePair<bool, User> LoginAsUser(Data data, string id, string password)
         {
             foreach(User user in data.users)
             {
@@ -42,16 +42,16 @@ namespace Library
                 {
                     if (user.password == password)
                     {
-                        return true;
+                        return new KeyValuePair<bool, User>(true, user);
                     }
                     
                     Console.WriteLine("비밀번호가 틀렸습니다.");
-                    return false;
+                    return new KeyValuePair<bool, User>(false, null);
                 }
             }
             
             Console.WriteLine("존재하지 않는 아이디입니다.");
-            return false;
+            return new KeyValuePair<bool, User>(false, null);
         }
 
         public bool LoginAsAdministrator(Data data, string id, string password)

@@ -23,7 +23,7 @@ namespace Library.View.User
                 if (i == index)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(userMenuList[i]);
+                    Console.WriteLine(userMenuList[i]);
                     Console.ResetColor();
                 }
 

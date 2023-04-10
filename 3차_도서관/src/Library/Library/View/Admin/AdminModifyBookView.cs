@@ -5,27 +5,31 @@ namespace Library.View.Admin
 {
     public class AdminModifyBookView : ViewFrame
     {
+        public static void Print()
+        {
+            Console.WriteLine("없앨 책의 ID를 입력하세요: ");
+        }
         public static void Print(Data data, int bookId)
         {
             Console.Clear();
 
             string[] bookInfoList =
             {
-                "책 제목".PadRight(19, ' ') + ": ",
-                "작가".PadRight(19, ' ') + ": ",
-                "출판사".PadRight(19, ' ') + ": ",
-                "수량".PadRight(19, ' ') + ": ",
-                "가격".PadRight(19, ' ') + ": ",
-                "출판일".PadRight(19, ' ') + ": ",
+                "Name".PadRight(19, ' ') + ": ",
+                "Author".PadRight(19, ' ') + ": ",
+                "Publisher".PadRight(19, ' ') + ": ",
+                "Quantity".PadRight(19, ' ') + ": ",
+                "Price".PadRight(19, ' ') + ": ",
+                "Published date".PadRight(19, ' ') + ": ",
                 "ISBN".PadRight(19, ' ') + ": ",
-                "책 정보".PadRight(19, ' ') + ": "
+                "Description".PadRight(19, ' ') + ": "
             };
 
             foreach (Book book in data.books)
             {
                 if (book.bookId == bookId)
                 {
-                    Console.WriteLine("========원래 정보=======");
+                    Console.WriteLine("========Original information========");
                     
                     Console.Write(bookInfoList[0]);
                     Console.WriteLine(book.name);
@@ -45,7 +49,7 @@ namespace Library.View.Admin
                     Console.WriteLine(book.description);
                     Console.WriteLine();
                     
-                    Console.WriteLine("========수정할 정보========");
+                    Console.WriteLine("========New information========");
 
                     foreach (string info in bookInfoList)
                     {

@@ -18,6 +18,7 @@ namespace Library.Model
         public User()
         {
             this.borrowedBooks = new List<BorrowedBook>();
+            this.returnedBooks = new List<BorrowedBook>();
         }
 
         public User(int number, string id, string password, string name, int age, string phoneNumber, string address)
@@ -30,6 +31,7 @@ namespace Library.Model
             this.phoneNumber = phoneNumber;
             this.address = address;
             this.borrowedBooks = new List<BorrowedBook>();
+            this.returnedBooks = new List<BorrowedBook>();
         }
 
         public void ModifyMemberInfo(string id, string name, string address)

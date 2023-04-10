@@ -8,7 +8,7 @@ namespace Library.View.Admin
         {
             Console.Clear();
 
-            Console.Write("삭제할 유저의 ID를 입력하세요: ");
+            Console.Write("Enter user ID to delete: ");
         }
     }
 }

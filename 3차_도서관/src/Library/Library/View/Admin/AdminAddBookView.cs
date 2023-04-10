@@ -6,16 +6,18 @@ namespace Library.View.Admin
     {
         public static void Print()
         {
+            Console.Clear();
+            
             string[] instructions =
             {
-                "이름을 입력하세요".PadRight(19, ' ') + ": ",
-                "작가를 입력하세요".PadRight(19, ' ') + ": ",
-                "출판사를 입력하세요".PadRight(19, ' ') + ": ",
-                "수량을 입력하세요".PadRight(19, ' ') + ": ",
-                "가격을 입력하세요".PadRight(19, ' ') + ": ",
-                "출판 날짜를 입력하세요".PadRight(19, ' ') + ": ",
-                "ISBN을 입력하세요".PadRight(19, ' ') + ": ",
-                "설명을 입력하세요".PadRight(19, ' ') + ": "
+                "Enter name".PadRight(18, ' ') + ": ",
+                "Enter author".PadRight(18, ' ') + ": ",
+                "Enter publisher".PadRight(18, ' ') + ": ",
+                "Enter quantity".PadRight(18, ' ') + ": ",
+                "Enter price".PadRight(18, ' ') + ": ",
+                "Enter published date".PadRight(18, ' ') + ": ",
+                "Enter ISBN".PadRight(18, ' ') + ": ",
+                "Enter description".PadRight(18, ' ') + ": "
             };
             
             foreach (string instruction in instructions)

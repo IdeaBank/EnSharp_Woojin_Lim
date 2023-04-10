@@ -8,8 +8,8 @@ namespace Library.View.User
         {
             Console.Clear();
 
-            Console.WriteLine("ID:".PadRight(19, ' ') + ": ");
-            Console.WriteLine("Password: ".PadRight(19, ' ') + ": ");
+            Console.WriteLine("ID:".PadRight(18, ' ') + ": ");
+            Console.WriteLine("Password: ".PadRight(18, ' ') + ": ");
         }
     }
 }

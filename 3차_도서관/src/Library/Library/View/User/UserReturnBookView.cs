@@ -6,9 +6,9 @@ namespace Library.View.User
     {
         public static void Print()
         {
-            
             Console.Clear();
-
+            
+            Console.WriteLine("Enter book ID to return");
         }
     }
 }

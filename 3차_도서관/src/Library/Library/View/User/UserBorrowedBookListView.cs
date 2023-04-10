@@ -14,9 +14,9 @@ namespace Library.View.User
             foreach (BorrowedBook borrowedBook in user.borrowedBooks)
             {
                 Console.WriteLine("==============================\n");
-                Console.Write("책 ID: ");
+                Console.Write("ID: ");
                 Console.WriteLine(borrowedBook.bookId);
-                Console.Write("빌린 날짜: ");
+                Console.Write("Borrowed date: ");
                 Console.WriteLine(borrowedBook.borrowedDate);
                 Console.WriteLine("\n==============================\n");
             }

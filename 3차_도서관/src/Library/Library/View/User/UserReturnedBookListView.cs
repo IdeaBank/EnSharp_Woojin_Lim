@@ -6,7 +6,7 @@ namespace Library.View.User
     {
         public static void Print(Model.User user)
         {
-            foreach (BorrowedBook borrowedBook in user.returnedBooks)
+            foreach (BorrowedBook returnedBook in user.returnedBooks)
             {
                 
             }
