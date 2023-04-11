@@ -2,8 +2,8 @@ namespace Library
 {
     public class DataManager
     {
-        private BookManager bookManager;
-        private UserManager userManager;
+        public BookManager bookManager;
+        public UserManager userManager;
         
         public DataManager()
         {

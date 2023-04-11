@@ -5,17 +5,15 @@ using Library.Model;
 
 namespace Library
 {
-    public class AdminLoginViewer
+    public class AdminLoginViewer: Viewer
     {
         private string id;
         private string password;
-        
-        private Data data;
-        private InputFromUser inputFromUser;
 
-        public AdminLoginViewer(Data data, InputFromUser inputFromUser)
+        public AdminLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
         {
             this.data = data;
+            this.dataManager = dataManager;
             this.inputFromUser = inputFromUser;
         }
 
@@ -42,11 +40,10 @@ namespace Library
                     return;
                 }
 
-                UserManager userManager = new UserManager();
-                isLoggedIn = userManager.LoginAsAdministrator(data, inputId.Value, inputPassword.Value);
+                isLoggedIn = dataManager.userManager.LoginAsAdministrator(data, inputId.Value, inputPassword.Value);
             }
 
-            AdminMenuViewer adminMenuViewer = new AdminMenuViewer(data, inputFromUser);
+            AdminMenuViewer adminMenuViewer = new AdminMenuViewer(data, dataManager, inputFromUser);
             adminMenuViewer.ShowAdminMenu();
         }
     }

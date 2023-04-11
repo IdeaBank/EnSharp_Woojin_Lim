@@ -3,33 +3,31 @@ using Library.Constants;
 using Library.Exception;
 using Library.Model;
 using Library.View;
+using Library.View.Admin;
 
 namespace Library
 {
-    public class EntryMenu
+    public class AdminMenuViewer: Viewer
     {
         private int selectionIndex;
-        private const int MAX_INDEX = 1;
-        private Data data;
-        private InputFromUser inputFromUser;
-        private DataManager dataManager;
+        private const int MAX_INDEX = 5;
 
-        public EntryMenu(Data data, InputFromUser inputFromUser, DataManager dataManager)
+        public AdminMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
         {
-            this.selectionIndex = 0;
             this.data = data;
-            this.inputFromUser = inputFromUser;
             this.dataManager = dataManager;
+            this.inputFromUser = inputFromUser;
+            this.selectionIndex = 0;
         }
-        
-        public void ViewEntryMenu()
+
+        public void ShowAdminMenu()
         {
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
-            MainMenuView.PrintMenu(selectionIndex);
+            AdminMenuView.Print(selectionIndex);
 
             while (keyInput.Key != ConsoleKey.Escape)
             {
-                MainMenuView.PrintMenu(selectionIndex);
+                AdminMenuView.Print(selectionIndex);
                 keyInput = Console.ReadKey();
                 
                 switch (keyInput.Key)
@@ -51,12 +49,12 @@ namespace Library
                 }
             }
         }
-
+        
         private void MoveSelection(Direction direction)
         {
             if (direction == Direction.UP)
             {
-                if (this.selectionIndex < MAX_INDEX)
+                if (this.selectionIndex == 0)
                 {
                     return;
                 }
@@ -80,16 +78,33 @@ namespace Library
             switch (selectionIndex)
             {
                 case 0:
-                    Console.WriteLine("USER MENU");
-                    Console.ReadKey();
+                    SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
+                    searchBookViewer.SearchBook();
                     break;
                 
                 case 1:
-                    AdminLoginViewer adminLoginViewer = new AdminLoginViewer(data, inputFromUser);
-                    adminLoginViewer.TryLogin();
-                    
-                    // Console.WriteLine("ADMIN MENU");
-                    // Console.ReadKey();
+                    Console.WriteLine("2");
+                    Console.ReadKey();
+                    break;
+                
+                case 2:
+                    Console.WriteLine("3");
+                    Console.ReadKey();
+                    break;
+                
+                case 3:
+                    Console.WriteLine("4");
+                    Console.ReadKey();
+                    break;
+                
+                case 4:
+                    Console.WriteLine("5");
+                    Console.ReadKey();
+                    break;
+                
+                case 5:
+                    Console.WriteLine("6");
+                    Console.ReadKey();
                     break;
             }
         }

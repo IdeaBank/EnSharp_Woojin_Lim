@@ -19,6 +19,8 @@ namespace Library.View.User
 
         public static void Print(List<Book> books)
         {
+            Console.Clear();
+            
             string[] bookInfoList =
             {
                 "ID".PadRight(18, ' ') + ": ",

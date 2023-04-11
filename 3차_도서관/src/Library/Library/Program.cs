@@ -15,9 +15,16 @@ namespace Library
             Data data = new Data();
             data.admins.Add(new Administrator(1, "admin", "admin123", "woojin", 12, "ASDF", "ASDF"));
             
+            data.books.Add(new Book(1, "TestBook1", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            data.books.Add(new Book(2, "TestBook2", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            data.books.Add(new Book(3, "TestBook3", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            
             InputFromUser inputFromUser = new InputFromUser();
             DataManager dataManager = new DataManager();
-            EntryMenu mv = new EntryMenu(data, inputFromUser, dataManager);
+            EntryMenuViewer mv = new EntryMenuViewer(data, inputFromUser, dataManager);
             mv.ViewEntryMenu();
             
             // InputFromUser ifs = new InputFromUser();
