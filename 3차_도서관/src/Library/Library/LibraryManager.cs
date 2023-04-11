@@ -15,16 +15,16 @@ namespace Library
         private int currentViewPosition;
         private int currentIndex;
         private User currentUser;
-        private UserManagement userManagement;
-        private BookManagement bookManagement;
+        private UserManager userManager;
+        private BookManager bookManager;
 
         public LibraryManager()
         {
             data = new Data();
             currentViewPosition = 1;
             currentIndex = 0;
-            userManagement = new UserManagement();
-            bookManagement = new BookManagement();
+            userManager = new UserManager();
+            bookManager = new BookManager();
         }
 
         public void start()
@@ -142,7 +142,7 @@ namespace Library
                                 Console.SetCursorPosition(20, 1);
                                 string adminPassword = Console.ReadLine();
 
-                                if (userManagement.LoginAsAdministrator(data, adminId, adminPassword))
+                                if (userManager.LoginAsAdministrator(data, adminId, adminPassword))
                                 {
                                     currentIndex = 0;
                                     currentViewPosition = VIEW.ADMIN_MENU_VIEW;
@@ -172,7 +172,7 @@ namespace Library
                                 Console.SetCursorPosition(20, 1);
                                 string userPassword = Console.ReadLine();
                                 KeyValuePair<bool, User> loginResult =
-                                    userManagement.LoginAsUser(data, userId, userPassword);
+                                    userManager.LoginAsUser(data, userId, userPassword);
 
                                 if (loginResult.Key)
                                 {
@@ -214,7 +214,7 @@ namespace Library
                                     Console.SetCursorPosition(18, 2);
                                     string publisher = Console.ReadLine();
 
-                                    List<Book> books = bookManagement.SearchBook(data, name, author, publisher);
+                                    List<Book> books = bookManager.SearchBook(data, name, author, publisher);
                                     UserSearchBookView.Print(books);
 
                                     currentViewPosition = VIEW.USER_MENU_VIEW;
@@ -276,7 +276,7 @@ namespace Library
                                     Console.SetCursorPosition(25, 2);
                                     string publisher = Console.ReadLine();
 
-                                    List<Book> books = bookManagement.SearchBook(data, name, author, publisher);
+                                    List<Book> books = bookManager.SearchBook(data, name, author, publisher);
                                     AdminSearchBookView.Print(books);
                                     break;
 

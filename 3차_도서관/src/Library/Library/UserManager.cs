@@ -4,7 +4,7 @@ using Library.Model;
 
 namespace Library
 {
-    public class UserManagement
+    public class UserManager
     {
         public bool Register(Data data, User user)
         {

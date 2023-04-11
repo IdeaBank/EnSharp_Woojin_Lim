@@ -39,9 +39,10 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="BookManagement.cs" />
+        <Compile Include="BookManager.cs" />
         <Compile Include="Constants\Align.cs" />
         <Compile Include="Constants\View.cs" />
+        <Compile Include="Exception\InputFromUser.cs" />
         <Compile Include="LibraryManager.cs" />
         <Compile Include="Model\Administrator.cs" />
         <Compile Include="Model\Book.cs" />
@@ -50,7 +51,7 @@
         <Compile Include="Model\User.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="UserManagement.cs" />
+        <Compile Include="UserManager.cs" />
         <Compile Include="View\Admin\AdminAddBookView.cs" />
         <Compile Include="View\Admin\AdminAllBorrowedBookListView.cs" />
         <Compile Include="View\Admin\AdminDeleteBookView.cs" />
@@ -59,6 +60,7 @@
         <Compile Include="View\Admin\AdminMenuView.cs" />
         <Compile Include="View\Admin\AdminModifyBookView.cs" />
         <Compile Include="View\Admin\AdminSearchBookView.cs" />
+        <Compile Include="View\GeneralOutputWriter.cs" />
         <Compile Include="View\MainMenuView.cs" />
         <Compile Include="View\User\UserBorrowBookView.cs" />
         <Compile Include="View\User\UserBorrowedBookListView.cs" />

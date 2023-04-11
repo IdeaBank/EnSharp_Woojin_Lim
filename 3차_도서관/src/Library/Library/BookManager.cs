@@ -4,7 +4,7 @@ using Library.Model;
 
 namespace Library
 {
-    public class BookManagement
+    public class BookManager
     {
         public bool AddBook(Data data, Book book)
         {

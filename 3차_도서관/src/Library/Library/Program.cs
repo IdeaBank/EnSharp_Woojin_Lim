@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Library.Exception;
 using Library.Model;
 using Library.View;
 using Library.View.Admin;
@@ -10,9 +12,15 @@ namespace Library
     {
         public static void Main(string[] args)
         {
+            InputFromUser ifs = new InputFromUser();
+
+            KeyValuePair<bool, string> test = ifs.ReadInputFromUser(1, 1, 10, true);
+            
+            Console.Write(test.Value);
+            /*
             LibraryManager libraryManager = new LibraryManager();
-            BookManagement bookManager = new BookManagement();
-            UserManagement userManager = new UserManagement();
+            BookManager bookManager = new BookManager();
+            UserManager userManager = new UserManager();
             
             bookManager.AddBook(libraryManager.data, new Book(1, "TestBook1", "TestAuthor", "TestPublisher",
                 1, 1000, "TestDate", "TestIsbn", "TestDescription"));
@@ -25,9 +33,11 @@ namespace Library
                 "010-8302-3090", "경기도 고양시 일산동구 위시티 1로 7 505동 1501호"));
             libraryManager.data.admins.Add(new Administrator(1, "admin", "qhdks01!", "Administrator", 23,
                 "010-8302-3090", "경기도 고양시 위시티 1로7 505동 1501호"));
-
-            libraryManager.start();
+            libraryManager.data.users[0].BorrowBook(libraryManager.data, 1);
             
+            
+            libraryManager.start();
+            */
             /*
             int currentMenuLocation = 1;
             

@@ -7,7 +7,6 @@ namespace Library.View
     {
         public ViewFrame()
         {
-            Console.Clear();
         }
         
         public void PrintOnPosition(int x, int y, string str, int align, ConsoleColor color)

@@ -7,6 +7,7 @@ namespace Library.View.Admin
     {
         public static void Print(Data data)
         {
+            
             Console.Clear();
             
             string[] bookInfoList =
