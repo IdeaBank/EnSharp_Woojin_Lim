@@ -15,7 +15,7 @@ namespace Library
                     return false;
                 }
             }
-            
+                
             data.books.Add(book);
             return true;
         }
@@ -94,16 +94,24 @@ namespace Library
             return false;
         }
         
-        public bool ModifyInformation(Data data)
+        public bool ModifyInformation(Data data, Book book)
         {
+            
             return false;
         }
 
-        public List<User> SearchMember(Data data)
+        public bool RemoveBook(Data data, int bookID)
         {
-            List<User> searchResult = new List<User>();
+            foreach (Book book in data.books)
+            {
+                if (book.bookId == bookID)
+                {
+                    data.books.Remove(book);
+                    return true;
+                }
+            }
 
-            return searchResult;
+            return false;
         }
 
         public bool DeleteMember(Data data, int userNumber)

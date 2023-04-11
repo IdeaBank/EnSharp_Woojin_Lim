@@ -30,7 +30,7 @@ namespace Library
                     return;
                 }
 
-                KeyValuePair<bool, string> bookAuthor = inputFromUser.ReadInputFromUser(0, 0, 10, false);
+                KeyValuePair<bool, string> bookAuthor = inputFromUser.ReadInputFromUser(0, 1, 10, false);
 
                 if (!bookAuthor.Key)
                 {
@@ -38,7 +38,7 @@ namespace Library
                     return;
                 }
 
-                KeyValuePair<bool, string> bookPublisher = inputFromUser.ReadInputFromUser(0, 0, 10, false);
+                KeyValuePair<bool, string> bookPublisher = inputFromUser.ReadInputFromUser(0, 2, 10, false);
 
                 if (!bookPublisher.Key)
                 {

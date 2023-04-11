@@ -88,8 +88,11 @@ namespace Library
                     break;
                 
                 case 2:
-                    Console.WriteLine("3");
-                    Console.ReadKey();
+                    AdminRemoveBookViewer adminRemoveBookViewer =
+                        new AdminRemoveBookViewer(data, dataManager, inputFromUser);
+                    adminRemoveBookViewer.RemoveBookWithInput();
+                    //Console.WriteLine("3");
+                    //Console.ReadKey();
                     break;
                 
                 case 3:
