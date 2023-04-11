@@ -52,6 +52,42 @@ namespace Library
             return false;
         }
 
+        public KeyValuePair<bool, bool> BorrowBook(Data data, int bookID)
+        {
+            // Boo with bookID exists / Have enough book to lend
+            bool bookExists = false;
+            bool isBookAvailable = false;
+            
+            foreach (Book book in data.books)
+            {
+                if (book.bookId == bookID)
+                {
+                    bookExists = true;
+                    if (book.quantity > 0)
+                    {
+                        book.quantity = book.quantity - 1;
+                        isBookAvailable = true;
+                    }
+                    break;
+                }
+            }
+
+            return new KeyValuePair<bool, bool>(bookExists, isBookAvailable);
+        }
+
+        public bool ReturnBook(Data data, int bookID)
+        {
+            foreach (Book book in data.books)
+            {
+                if (book.bookId == bookID)
+                {
+                    book.quantity = book.quantity + 1;
+                    return true;
+                }
+            }
+
+            return false;
+        }
         public bool EditBook(Data data, string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
         {
             
@@ -74,7 +110,7 @@ namespace Library
         {
             foreach(User user in data.users)
             {
-                if (user.number == userNumber)
+                if (user.userNumber == userNumber)
                 {
                     data.users.Remove(user);
                     return true;

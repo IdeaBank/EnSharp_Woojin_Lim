@@ -42,8 +42,10 @@
         <Compile Include="BookManager.cs" />
         <Compile Include="Constants\Align.cs" />
         <Compile Include="Constants\View.cs" />
+        <Compile Include="DataManager.cs" />
         <Compile Include="Exception\InputFromUser.cs" />
         <Compile Include="LibraryManager.cs" />
+        <Compile Include="MainMenuViewer.cs" />
         <Compile Include="Model\Administrator.cs" />
         <Compile Include="Model\Book.cs" />
         <Compile Include="Model\BorrowedBook.cs" />

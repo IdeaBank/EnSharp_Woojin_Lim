@@ -1,6 +1,6 @@
 namespace Library.Constants
 {
-    public class VIEW
+    public class View
     {
         // ESC ON MAIN_MENU_VIEW
         public const int EXIT_VIEW = 0;

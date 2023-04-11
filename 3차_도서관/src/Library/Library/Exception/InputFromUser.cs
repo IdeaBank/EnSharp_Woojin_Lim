@@ -7,11 +7,11 @@ namespace Library.Exception
 {
     public class InputFromUser
     {
-        private bool IsCharacter(char ch)
+        private bool IsNumberOrCharacter(char ch)
         {
             return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
         }
-        
+
         public KeyValuePair<bool, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, bool isPassword)
         {
             bool isValidInput = true;
@@ -49,7 +49,7 @@ namespace Library.Exception
 
                 else
                 {
-                    if (currentInput.Length < maxInputLength && IsCharacter(keyInput.KeyChar))
+                    if (currentInput.Length < maxInputLength && IsNumberOrCharacter(keyInput.KeyChar))
                     {
                         currentInput += keyInput.KeyChar;
                     }

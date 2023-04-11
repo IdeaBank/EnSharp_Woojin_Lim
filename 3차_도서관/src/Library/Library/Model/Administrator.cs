@@ -7,7 +7,7 @@ namespace Library.Model
             
         }
 
-        public Administrator(int number, string id, string password, string name, int age, string phoneNumber, string address) : base(number, id, password, name,
+        public Administrator(int userNumber, string id, string password, string name, int age, string phoneNumber, string address) : base(userNumber, id, password, name,
             age, phoneNumber, address)
         {
             

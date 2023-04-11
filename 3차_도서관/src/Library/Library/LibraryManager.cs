@@ -27,11 +27,11 @@ namespace Library
             bookManager = new BookManager();
         }
 
-        public void start()
+        public void Start()
         {
             MainMenuView.Print(currentIndex);
 
-            while (currentViewPosition != VIEW.EXIT_VIEW)
+            while (currentViewPosition != Constants.View.EXIT_VIEW)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
 
@@ -40,7 +40,7 @@ namespace Library
                     case ConsoleKey.DownArrow:
                         switch (currentViewPosition)
                         {
-                            case VIEW.MAIN_MENU_VIEW:
+                            case Constants.View.MAIN_MENU_VIEW:
                                 if (currentIndex < 1)
                                 {
                                     currentIndex += 1;
@@ -49,7 +49,7 @@ namespace Library
 
                                 break;
 
-                            case VIEW.USER_START_VIEW:
+                            case Constants.View.USER_START_VIEW:
                                 if (currentIndex < 1)
                                 {
                                     currentIndex += 1;
@@ -58,7 +58,7 @@ namespace Library
 
                                 break;
 
-                            case VIEW.USER_MENU_VIEW:
+                            case Constants.View.USER_MENU_VIEW:
                                 if (currentIndex < 5)
                                 {
                                     currentIndex += 1;
@@ -67,7 +67,7 @@ namespace Library
 
                                 break;
 
-                            case VIEW.ADMIN_MENU_VIEW:
+                            case Constants.View.ADMIN_MENU_VIEW:
                                 if (currentIndex < 5)
                                 {
                                     currentIndex += 1;
@@ -82,7 +82,7 @@ namespace Library
                     case ConsoleKey.UpArrow:
                         switch (currentViewPosition)
                         {
-                            case VIEW.MAIN_MENU_VIEW:
+                            case Constants.View.MAIN_MENU_VIEW:
                                 if (currentIndex > 0)
                                 {
                                     currentIndex -= 1;
@@ -91,7 +91,7 @@ namespace Library
 
                                 break;
 
-                            case VIEW.USER_START_VIEW:
+                            case Constants.View.USER_START_VIEW:
                                 if (currentIndex > 0)
                                 {
                                     currentIndex -= 1;
@@ -100,7 +100,7 @@ namespace Library
 
                                 break;
 
-                            case VIEW.USER_MENU_VIEW:
+                            case Constants.View.USER_MENU_VIEW:
                                 if (currentIndex > 0)
                                 {
                                     currentIndex -= 1;
@@ -109,7 +109,7 @@ namespace Library
 
                                 break;
 
-                            case VIEW.ADMIN_MENU_VIEW:
+                            case Constants.View.ADMIN_MENU_VIEW:
                                 if (currentIndex > 0)
                                 {
                                     currentIndex -= 1;
@@ -122,19 +122,19 @@ namespace Library
                         break;
 
                     case ConsoleKey.Enter:
-                        if (currentViewPosition == VIEW.MAIN_MENU_VIEW)
+                        if (currentViewPosition == Constants.View.MAIN_MENU_VIEW)
                         {
                             if (currentIndex == 0)
                             {
                                 currentIndex = 0;
-                                currentViewPosition = VIEW.USER_START_VIEW;
+                                currentViewPosition = Constants.View.USER_START_VIEW;
                                 UserStartView.Print(currentIndex);
                             }
 
                             else
                             {
                                 currentIndex = 0;
-                                currentViewPosition = VIEW.ADMIN_LOGIN_VIEW;
+                                currentViewPosition = Constants.View.ADMIN_LOGIN_VIEW;
                                 AdminLoginView.Print();
 
                                 Console.SetCursorPosition(20, 0);
@@ -145,7 +145,7 @@ namespace Library
                                 if (userManager.LoginAsAdministrator(data, adminId, adminPassword))
                                 {
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_MENU_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_MENU_VIEW;
                                     AdminMenuView.Print(currentIndex);
                                 }
 
@@ -153,18 +153,18 @@ namespace Library
                                 {
                                     currentIndex = 0;
                                     Console.ReadKey();
-                                    currentViewPosition = VIEW.MAIN_MENU_VIEW;
+                                    currentViewPosition = Constants.View.MAIN_MENU_VIEW;
                                     MainMenuView.Print(currentIndex);
                                 }
                             }
                         }
 
-                        else if (currentViewPosition == VIEW.USER_START_VIEW)
+                        else if (currentViewPosition == Constants.View.USER_START_VIEW)
                         {
                             if (currentIndex == 0)
                             {
                                 currentIndex = 0;
-                                currentViewPosition = VIEW.USER_LOGIN_VIEW;
+                                currentViewPosition = Constants.View.USER_LOGIN_VIEW;
                                 UserLoginView.Print();
 
                                 Console.SetCursorPosition(20, 0);
@@ -177,7 +177,7 @@ namespace Library
                                 if (loginResult.Key)
                                 {
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_MENU_VIEW;
+                                    currentViewPosition = Constants.View.USER_MENU_VIEW;
                                     UserMenuView.Print(currentIndex);
                                     currentUser = loginResult.Value;
                                 }
@@ -186,7 +186,7 @@ namespace Library
                                 {
                                     currentIndex = 0;
                                     Console.ReadKey();
-                                    currentViewPosition = VIEW.USER_START_VIEW;
+                                    currentViewPosition = Constants.View.USER_START_VIEW;
                                     UserStartView.Print(currentIndex);
                                 }
                             }
@@ -194,18 +194,18 @@ namespace Library
                             else
                             {
                                 currentIndex = 0;
-                                currentViewPosition = VIEW.USER_REGISTER_VIEW;
+                                currentViewPosition = Constants.View.USER_REGISTER_VIEW;
                                 UserRegisterView.Print();
                             }
                         }
 
-                        else if (currentViewPosition == VIEW.USER_MENU_VIEW)
+                        else if (currentViewPosition == Constants.View.USER_MENU_VIEW)
                         {
                             switch (currentIndex)
                             {
                                 case 0:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_SEARCH_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.USER_SEARCH_BOOK_VIEW;
                                     UserSearchBookView.Print();
                                     Console.SetCursorPosition(11, 0);
                                     string name = Console.ReadLine();
@@ -217,56 +217,56 @@ namespace Library
                                     List<Book> books = bookManager.SearchBook(data, name, author, publisher);
                                     UserSearchBookView.Print(books);
 
-                                    currentViewPosition = VIEW.USER_MENU_VIEW;
+                                    currentViewPosition = Constants.View.USER_MENU_VIEW;
                                     UserMenuView.Print(currentIndex);
                                     break;
 
 
                                 case 1:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_BORROW_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.USER_BORROW_BOOK_VIEW;
                                     UserBorrowBookView.Print();
                                     break;
 
                                 case 2:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_BORROWED_BOOK_LIST_VIEW;
+                                    currentViewPosition = Constants.View.USER_BORROWED_BOOK_LIST_VIEW;
                                     UserBorrowedBookListView.Print(currentUser);
                                     break;
 
                                 case 3:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_RETURN_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.USER_RETURN_BOOK_VIEW;
                                     UserReturnBookView.Print();
                                     break;
 
                                 case 4:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_RETURNED_BOOK_LIST_VIEW;
+                                    currentViewPosition = Constants.View.USER_RETURNED_BOOK_LIST_VIEW;
                                     UserReturnedBookListView.Print(currentUser);
                                     break;
 
                                 case 5:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_MODIFY_MEMBER_VIEW;
+                                    currentViewPosition = Constants.View.USER_MODIFY_MEMBER_VIEW;
                                     UserModifyMemberView.Print(currentUser);
                                     break;
 
                                 case 6:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_WITHDRAW_VIEW;
+                                    currentViewPosition = Constants.View.USER_WITHDRAW_VIEW;
                                     UserWithdrawView.Print();
                                     break;
                             }
                         }
 
-                        else if (currentViewPosition == VIEW.ADMIN_MENU_VIEW)
+                        else if (currentViewPosition == Constants.View.ADMIN_MENU_VIEW)
                         {
                             switch (currentIndex)
                             {
                                 case 0:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_SEARCH_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_SEARCH_BOOK_VIEW;
                                     AdminSearchBookView.Print();
 
                                     Console.SetCursorPosition(15, 0);
@@ -282,19 +282,19 @@ namespace Library
 
                                 case 1:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_ADD_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_ADD_BOOK_VIEW;
                                     AdminAddBookView.Print();
                                     break;
 
                                 case 2:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_DELETE_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_DELETE_BOOK_VIEW;
                                     AdminDeleteBookView.Print();
                                     break;
 
                                 case 3:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_MODIFY_BOOK_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_MODIFY_BOOK_VIEW;
                                     AdminModifyBookView.Print();
 
                                     int targetBookId = 1;
@@ -304,13 +304,13 @@ namespace Library
 
                                 case 4:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_DELETE_MEMBER_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_DELETE_MEMBER_VIEW;
                                     AdminDeleteMemberView.Print();
                                     break;
 
                                 case 5:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.ADMIN_ALL_BORROWED_BOOK_LIST_VIEW;
+                                    currentViewPosition = Constants.View.ADMIN_ALL_BORROWED_BOOK_LIST_VIEW;
                                     AdminAllBorrowedBookListView.Print(data);
                                     break;
                             }
@@ -322,14 +322,14 @@ namespace Library
                         if (currentViewPosition / 10 == 20)
                         {
                             currentIndex = 0;
-                            currentViewPosition = VIEW.USER_MENU_VIEW;
+                            currentViewPosition = Constants.View.USER_MENU_VIEW;
                             UserMenuView.Print(currentIndex);
                         }
 
                         else if (currentViewPosition / 10 == 21)
                         {
                             currentIndex = 0;
-                            currentViewPosition = VIEW.ADMIN_MENU_VIEW;
+                            currentViewPosition = Constants.View.ADMIN_MENU_VIEW;
                             AdminMenuView.Print(currentIndex);
                         }
 
@@ -341,20 +341,20 @@ namespace Library
                                     return;
                                 case 10:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.MAIN_MENU_VIEW;
+                                    currentViewPosition = Constants.View.MAIN_MENU_VIEW;
                                     MainMenuView.Print(currentIndex);
                                     break;
                                 case 11:
                                 case 12:
                                 case 20:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.USER_START_VIEW;
+                                    currentViewPosition = Constants.View.USER_START_VIEW;
                                     UserStartView.Print(currentIndex);
                                     break;
                                 case 13:
                                 case 21:
                                     currentIndex = 0;
-                                    currentViewPosition = VIEW.MAIN_MENU_VIEW;
+                                    currentViewPosition = Constants.View.MAIN_MENU_VIEW;
                                     MainMenuView.Print(currentIndex);
                                     break;
                                 default:

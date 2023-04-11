@@ -1,9 +1,9 @@
 namespace Library.Constants
 {
-    public class ALIGN
+    public enum AlignType
     {
-        public const int LEFT = 0;
-        public const int CENTER = 1;
-        public const int RIGHT = 2;
+        LEFT, 
+        CENTER,
+        RIGHT 
     }
 }
