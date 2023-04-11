@@ -29,7 +29,7 @@ namespace Library
 
         public void Start()
         {
-            MainMenuView.Print(currentIndex);
+            MainMenuView.PrintMenu(currentIndex);
 
             while (currentViewPosition != Constants.View.EXIT_VIEW)
             {
@@ -44,7 +44,7 @@ namespace Library
                                 if (currentIndex < 1)
                                 {
                                     currentIndex += 1;
-                                    MainMenuView.Print(currentIndex);
+                                    MainMenuView.PrintMenu(currentIndex);
                                 }
 
                                 break;
@@ -86,7 +86,7 @@ namespace Library
                                 if (currentIndex > 0)
                                 {
                                     currentIndex -= 1;
-                                    MainMenuView.Print(currentIndex);
+                                    MainMenuView.PrintMenu(currentIndex);
                                 }
 
                                 break;
@@ -154,7 +154,7 @@ namespace Library
                                     currentIndex = 0;
                                     Console.ReadKey();
                                     currentViewPosition = Constants.View.MAIN_MENU_VIEW;
-                                    MainMenuView.Print(currentIndex);
+                                    MainMenuView.PrintMenu(currentIndex);
                                 }
                             }
                         }
@@ -342,7 +342,7 @@ namespace Library
                                 case 10:
                                     currentIndex = 0;
                                     currentViewPosition = Constants.View.MAIN_MENU_VIEW;
-                                    MainMenuView.Print(currentIndex);
+                                    MainMenuView.PrintMenu(currentIndex);
                                     break;
                                 case 11:
                                 case 12:
@@ -355,7 +355,7 @@ namespace Library
                                 case 21:
                                     currentIndex = 0;
                                     currentViewPosition = Constants.View.MAIN_MENU_VIEW;
-                                    MainMenuView.Print(currentIndex);
+                                    MainMenuView.PrintMenu(currentIndex);
                                     break;
                                 default:
                                     return;

@@ -46,7 +46,7 @@ namespace Library.Exception
                     // 입력 칸 비워주기
                     GeneralOutputWriter.WriteOnPosition(cursorX, cursorY, new string(' ', maxInputLength));
                 }
-
+                
                 else
                 {
                     if (currentInput.Length < maxInputLength && IsNumberOrCharacter(keyInput.KeyChar))

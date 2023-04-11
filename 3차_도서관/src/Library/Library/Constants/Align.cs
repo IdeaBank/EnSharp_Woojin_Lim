@@ -6,4 +6,10 @@ namespace Library.Constants
         CENTER,
         RIGHT 
     }
+
+    public enum Direction
+    {
+        UP,
+        DOWN
+    }
 }

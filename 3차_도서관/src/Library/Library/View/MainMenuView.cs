@@ -4,7 +4,7 @@ namespace Library.View
 {
     public class MainMenuView: ViewFrame
     {
-        public static void Print(int index)
+        public static void PrintMenu(int index)
         {
             Console.Clear();
             

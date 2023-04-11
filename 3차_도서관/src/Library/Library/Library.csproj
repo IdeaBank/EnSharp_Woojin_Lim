@@ -39,10 +39,13 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="AdminLoginViewer.cs" />
+        <Compile Include="AdminMenuViewer.cs" />
         <Compile Include="BookManager.cs" />
         <Compile Include="Constants\Align.cs" />
         <Compile Include="Constants\View.cs" />
         <Compile Include="DataManager.cs" />
+        <Compile Include="EntryMenu.cs" />
         <Compile Include="Exception\InputFromUser.cs" />
         <Compile Include="LibraryManager.cs" />
         <Compile Include="MainMenuViewer.cs" />

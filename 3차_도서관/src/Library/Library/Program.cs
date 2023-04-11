@@ -12,11 +12,19 @@ namespace Library
     {
         public static void Main(string[] args)
         {
-            InputFromUser ifs = new InputFromUser();
-
-            KeyValuePair<bool, string> test = ifs.ReadInputFromUser(1, 1, 10, true);
+            Data data = new Data();
+            data.admins.Add(new Administrator(1, "admin", "admin123", "woojin", 12, "ASDF", "ASDF"));
             
-            Console.Write(test.Value);
+            InputFromUser inputFromUser = new InputFromUser();
+            DataManager dataManager = new DataManager();
+            EntryMenu mv = new EntryMenu(data, inputFromUser, dataManager);
+            mv.ViewEntryMenu();
+            
+            // InputFromUser ifs = new InputFromUser();
+
+            // KeyValuePair<bool, string> test = ifs.ReadInputFromUser(1, 1, 10, true);
+
+            // Console.Write(test.Value);
             /*
             LibraryManager libraryManager = new LibraryManager();
             BookManager bookManager = new BookManager();
