@@ -7,7 +7,7 @@ using Library.View.Admin;
 
 namespace Library
 {
-    public class AdminAllMenuViewer: Viewer
+    public class AdminAllMenuViewer: Viewer.Viewer
     {
         private int selectionIndex;
         private const int MAX_INDEX = 5;
@@ -20,12 +20,12 @@ namespace Library
         public void ShowAdminMenu()
         {
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
-            AdminMenuView.Print(selectionIndex);
+            AdminMenuView.PrintMenu(selectionIndex);
 
             while (keyInput.Key != ConsoleKey.Escape)
             {
-                AdminMenuView.Print(selectionIndex);
-                keyInput = Console.ReadKey();
+                AdminMenuView.PrintMenu(selectionIndex);
+                keyInput = Console.ReadKey(true);
                 
                 switch (keyInput.Key)
                 {
@@ -94,9 +94,9 @@ namespace Library
                     break;
                 
                 case 3:
-                    AdminMenuViewer adminMenuViewer = 
-                        new AdminMenuViewer(data, dataManager, inputFromUser);
-                    adminMenuViewer.InputBookInfo();
+                    AdminEditBookViewer adminEditBookViewer = 
+                        new AdminEditBookViewer(data, dataManager, inputFromUser);
+                    adminEditBookViewer.ShowEditBookView();
                     break;
                 
                 case 4:
