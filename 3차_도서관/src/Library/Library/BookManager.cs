@@ -119,11 +119,11 @@ namespace Library
             return null;
         }
         
-        public bool EditBook(Data data, Book book)
+        public bool EditBook(Data data, Book book, int bookId)
         {
             foreach (Book bookInData in data.books)
             {
-                if (bookInData.bookId == book.bookId)
+                if (bookInData.bookId == bookId)
                 {
                     bookInData.name = book.name;
                     bookInData.author = book.author;

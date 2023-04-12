@@ -38,9 +38,9 @@ namespace Library.Exception
         private bool IsNumberOrCharacter(char ch, bool canEnterKorean)
         {
             if (canEnterKorean)
-                return char.IsLetterOrDigit(ch) || IsKoreanCharacter(ch) || IsSpecialCharacter(ch);
+                return ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ('0' <= ch && ch <= '9') || IsKoreanCharacter(ch) || IsSpecialCharacter(ch);
 
-            return char.IsLetterOrDigit(ch) || IsSpecialCharacter(ch);
+            return ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ('0' <= ch && ch <= '9') || IsSpecialCharacter(ch);
         }
 
         public KeyValuePair<bool, int> ReadIntegerFromUser(int cursorX, int cursorY, int maxInputLength,

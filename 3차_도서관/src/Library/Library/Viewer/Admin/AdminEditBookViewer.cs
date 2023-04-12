@@ -85,7 +85,7 @@ namespace Library
 
                     while (true)
                     {
-                        bookName = inputFromUser.ReadInputFromUser(11, 26, 20, false, false);
+                        bookName = inputFromUser.ReadInputFromUser(26, 5, 20, false, false);
 
                         if (!bookName.Key)
                         {
@@ -98,15 +98,15 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(11, 26, "영어, 한글, 숫자, ?!+= 1개 이상", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 5, "영어, 한글, 숫자, ?!+= 1개 이상", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(11, 26);
+                        Console.SetCursorPosition(26, 5);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookAuthor = inputFromUser.ReadInputFromUser(12, 26, 20, false, true);
+                        bookAuthor = inputFromUser.ReadInputFromUser(26, 6, 20, false, true);
 
                         if (!bookAuthor.Key)
                         {
@@ -119,15 +119,15 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(12, 26, "영어, 한글 1개 이상", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 6, "영어, 한글 1개 이상", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(12, 26);
+                        Console.SetCursorPosition(26, 6);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookPublisher = inputFromUser.ReadInputFromUser(13, 26, 20, false, true);
+                        bookPublisher = inputFromUser.ReadInputFromUser(26, 7, 20, false, true);
 
                         if (!bookPublisher.Key)
                         {
@@ -140,15 +140,15 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(13, 26, "영어, 한글 1개 이상", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 7, "영어, 한글 1개 이상", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(13, 26);
+                        Console.SetCursorPosition(26, 7);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookQuantity = inputFromUser.ReadInputFromUser(14, 26, 3, false, false);
+                        bookQuantity = inputFromUser.ReadInputFromUser(26, 8, 3, false, false);
 
                         if (!bookQuantity.Key)
                         {
@@ -161,15 +161,15 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(14, 26, "1-999사이의 자연수", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 8, "1-999사이의 자연수", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(14, 26);
+                        Console.SetCursorPosition(26, 8);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookPrice = inputFromUser.ReadInputFromUser(15, 26, 7, false, false);
+                        bookPrice = inputFromUser.ReadInputFromUser(26, 9, 7, false, false);
 
                         if (!bookPrice.Key)
                         {
@@ -182,15 +182,15 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(15, 26, "1-9999999사이의 자연수", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 9, "1-9999999사이의 자연수", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(15, 26);
+                        Console.SetCursorPosition(26, 9);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookPublishedDate = inputFromUser.ReadInputFromUser(16, 26, 10, false, false);
+                        bookPublishedDate = inputFromUser.ReadInputFromUser(26, 10, 10, false, false);
 
                         if (!bookPublishedDate.Key)
                         {
@@ -204,15 +204,15 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(16, 26, "19xx or 20xx-xx-xx", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 10, "19xx or 20xx-xx-xx", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(16, 26);
+                        Console.SetCursorPosition(26, 10);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookIsbn = inputFromUser.ReadInputFromUser(17, 26, 24, false, false);
+                        bookIsbn = inputFromUser.ReadInputFromUser(26, 11, 24, false, false);
 
                         if (!bookIsbn.Key)
                         {
@@ -225,16 +225,16 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(17, 26, "정수9개 + 영어1개 + 공백 + 정수13개", AlignType.LEFT,
+                        FramePrinter.PrintOnPosition(26, 11, "정수9개 + 영어1개 + 공백 + 정수13개", AlignType.LEFT,
                             ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(17, 26);
+                        Console.SetCursorPosition(26, 11);
                         Console.Write(new string(' ', 50));
                     }
 
                     while (true)
                     {
-                        bookDescription = inputFromUser.ReadInputFromUser(18, 26, 30, false, true);
+                        bookDescription = inputFromUser.ReadInputFromUser(26, 12, 30, false, true);
 
                         if (!bookDescription.Key)
                         {
@@ -247,11 +247,16 @@ namespace Library
                             break;
                         }
 
-                        FramePrinter.PrintOnPosition(18, 26, "최소1개의 문자(공백포함)", AlignType.LEFT, ConsoleColor.Red);
+                        FramePrinter.PrintOnPosition(26, 12, "최소1개의 문자(공백포함)", AlignType.LEFT, ConsoleColor.Red);
                         Console.ReadKey(true);
-                        Console.SetCursorPosition(18, 26);
+                        Console.SetCursorPosition(26, 12);
                         Console.Write(new string(' ', 50));
                     }
+
+                    dataManager.bookManager.EditBook(data,
+                        new Book(bookName.Value, bookAuthor.Value, bookPublisher.Value, Int32.Parse(bookQuantity.Value),
+                            Int32.Parse(bookPrice.Value), bookPublisher.Value, bookIsbn.Value, bookDescription.Value), Int32.Parse(bookID.Value));
+                    Console.Clear();
                 }
             }
         }

@@ -15,7 +15,10 @@ namespace Library
             Data data = new Data();
             data.admins.Add(new Administrator(1, "admin", "admin123", "woojin", 12, "ASDF", "ASDF"));
             DataManager dataManager = new DataManager();
-                
+            
+            data.users.Add(new User(1, "asdf", "asdf", "asdf", 12, "asdf", "asdf"));
+            data.users.Add(new User(2, "asdf", "asdf", "asdf", 12, "asdf", "asdf"));
+            data.users.Add(new User(3, "asdf", "asdf", "asdf", 12, "asdf", "asdf"));
             // dataManager.bookManager.AddBook(data, new Book("TestBook1", "TestAuthor", "TestPublisher",
             //    1, 1000, "TestDate", "TestIsbn", "TestDescription"));
             // dataManager.bookManager.AddBook(data, new Book("TestBook2", "TestAuthor", "TestPublisher",
