@@ -9,11 +9,8 @@ namespace Library
 {
     public class SearchBookViewer: Viewer
     {
-        public SearchBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
+        public SearchBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
-            this.data = data;
-            this.dataManager = dataManager;
-            this.inputFromUser = inputFromUser;
         }
 
         public void SearchBook()

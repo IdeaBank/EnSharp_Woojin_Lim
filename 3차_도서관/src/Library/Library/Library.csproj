@@ -54,6 +54,7 @@
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="UserManager.cs" />
+        <Compile Include="Viewer\Admin\AdminAddBookViewer.cs" />
         <Compile Include="Viewer\Admin\AdminRemoveBookViewer.cs" />
         <Compile Include="Viewer\Admin\AdminLoginViewer.cs" />
         <Compile Include="Viewer\Admin\AdminMenuViewer.cs" />

@@ -12,11 +12,8 @@ namespace Library
         private int selectionIndex;
         private const int MAX_INDEX = 5;
 
-        public AdminMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
+        public AdminMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
-            this.data = data;
-            this.dataManager = dataManager;
-            this.inputFromUser = inputFromUser;
             this.selectionIndex = 0;
         }
 
@@ -83,8 +80,8 @@ namespace Library
                     break;
                 
                 case 1:
-                    Console.WriteLine("2");
-                    Console.ReadKey();
+                    AdminAddBookViewer adminAddBookViewer = new AdminAddBookViewer(data, dataManager, inputFromUser);
+                    adminAddBookViewer.AddBook();
                     break;
                 
                 case 2:

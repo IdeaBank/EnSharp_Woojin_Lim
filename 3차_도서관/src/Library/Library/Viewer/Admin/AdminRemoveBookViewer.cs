@@ -7,11 +7,8 @@ namespace Library
 {
     public class AdminRemoveBookViewer: Viewer
     {
-        public AdminRemoveBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
+        public AdminRemoveBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
-            this.data = data;
-            this.dataManager = dataManager;
-            this.inputFromUser = inputFromUser;
         }
 
         public void RemoveBookWithInput()

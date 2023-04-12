@@ -10,28 +10,25 @@ namespace Library
         private string id;
         private string password;
 
-        public AdminLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
+        public AdminLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
-            this.data = data;
-            this.dataManager = dataManager;
-            this.inputFromUser = inputFromUser;
         }
 
         public void TryLogin()
         {
-            bool isInputValid = true;
             bool isLoggedIn = false;
-            
+
             while (!isLoggedIn)
             {
                 KeyValuePair<bool, string> inputId = inputFromUser.ReadInputFromUser(0, 0, 10, false);
+                bool isInputValid = true;
                 isInputValid = inputId.Key;
 
                 if (!isInputValid)
                 {
                     return;
                 }
-
+                
                 KeyValuePair<bool, string> inputPassword = inputFromUser.ReadInputFromUser(0,1, 10, true);
                 isInputValid = inputPassword.Key;
 

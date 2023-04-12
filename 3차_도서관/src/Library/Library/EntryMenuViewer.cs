@@ -10,14 +10,10 @@ namespace Library
     {
         private int selectionIndex;
         private const int MAX_INDEX = 1;
-        private Data data;
 
-        public EntryMenuViewer(Data data, InputFromUser inputFromUser, DataManager dataManager)
+        public EntryMenuViewer(Data data, InputFromUser inputFromUser, DataManager dataManager): base(data, dataManager, inputFromUser)
         {
             this.selectionIndex = 0;
-            this.data = data;
-            this.inputFromUser = inputFromUser;
-            this.dataManager = dataManager;
         }
         
         public void ViewEntryMenu()

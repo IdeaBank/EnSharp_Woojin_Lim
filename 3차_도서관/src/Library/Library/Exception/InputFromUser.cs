@@ -7,9 +7,19 @@ namespace Library.Exception
 {
     public class InputFromUser
     {
+        public bool IsKoreanCharacter(char source)
+        {
+            if((source >= 0xac00 && source <= 0xd7a3) || (source >= 0x3131 && source <= 0x318e))
+            {
+                return true;
+            }
+            
+            return false;
+        }
+        
         private bool IsNumberOrCharacter(char ch)
         {
-            return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
+            return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || IsKoreanCharacter(ch);
         }
 
         public KeyValuePair<bool, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, bool isPassword)

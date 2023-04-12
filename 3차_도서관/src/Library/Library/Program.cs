@@ -22,8 +22,8 @@ namespace Library
             data.books.Add(new Book(3, "TestBook3", "TestAuthor", "TestPublisher",
                 1, 1000, "TestDate", "TestIsbn", "TestDescription"));
             
-            InputFromUser inputFromUser = new InputFromUser();
             DataManager dataManager = new DataManager();
+            InputFromUser inputFromUser = new InputFromUser();
             EntryMenuViewer mv = new EntryMenuViewer(data, inputFromUser, dataManager);
             mv.ViewEntryMenu();
             

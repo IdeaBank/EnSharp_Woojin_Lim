@@ -88,14 +88,25 @@ namespace Library
 
             return false;
         }
-        public bool EditBook(Data data, string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
-        {
-            
-            return false;
-        }
         
-        public bool ModifyInformation(Data data, Book book)
+        public bool EditBook(Data data, Book book)
         {
+            foreach (Book bookInData in data.books)
+            {
+                if (bookInData.bookId == book.bookId)
+                {
+                    bookInData.name = book.name;
+                    bookInData.author = book.author;
+                    bookInData.publisher = book.publisher;
+                    bookInData.quantity = book.quantity;
+                    bookInData.price = book.price;
+                    bookInData.publishedDate = book.publishedDate;
+                    bookInData.isbn = book.isbn;
+                    bookInData.description = book.description;
+                    
+                    return true;
+                }
+            }
             
             return false;
         }
