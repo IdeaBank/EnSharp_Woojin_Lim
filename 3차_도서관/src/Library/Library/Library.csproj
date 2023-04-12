@@ -40,7 +40,8 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="BookManager.cs" />
-        <Compile Include="Constants\Align.cs" />
+        <Compile Include="Constants\AlignType.cs" />
+        <Compile Include="Constants\Direction.cs" />
         <Compile Include="Constants\InputMax.cs" />
         <Compile Include="Constants\ViewMaxIndex.cs" />
         <Compile Include="DataManager.cs" />

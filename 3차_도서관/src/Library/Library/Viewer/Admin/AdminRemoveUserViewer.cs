@@ -32,6 +32,7 @@ namespace Library
 
                 if (!userID.Key)
                 {
+                    Console.Clear();
                     return;
                 }
 
