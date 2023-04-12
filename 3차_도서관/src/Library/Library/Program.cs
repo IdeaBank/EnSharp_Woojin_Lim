@@ -14,15 +14,33 @@ namespace Library
         {
             Data data = new Data();
             data.admins.Add(new Administrator(1, "admin", "admin123", "woojin", 12, "ASDF", "ASDF"));
-            
-            data.books.Add(new Book(1, "TestBook1", "TestAuthor", "TestPublisher",
-                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
-            data.books.Add(new Book(2, "TestBook2", "TestAuthor", "TestPublisher",
-                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
-            data.books.Add(new Book(3, "TestBook3", "TestAuthor", "TestPublisher",
-                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
-            
             DataManager dataManager = new DataManager();
+                
+            // dataManager.bookManager.AddBook(data, new Book("TestBook1", "TestAuthor", "TestPublisher",
+            //    1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            // dataManager.bookManager.AddBook(data, new Book("TestBook2", "TestAuthor", "TestPublisher",
+            //    1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            // dataManager.bookManager.AddBook(data, new Book("TestBook3", "TestAuthor", "TestPublisher",
+            //    1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            // dataManager.bookManager.AddBook(data, new Book("TestBook4", "TestAuthor", "TestPublisher",
+            //    1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook5", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook6", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook7", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook8", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook9", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook10", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook11", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            dataManager.bookManager.AddBook(data, new Book("TestBook12", "TestAuthor", "TestPublisher",
+                1, 1000, "TestDate", "TestIsbn", "TestDescription"));
+            
             InputFromUser inputFromUser = new InputFromUser();
             
             EntryMenuViewer mv = new EntryMenuViewer(data, inputFromUser, dataManager);

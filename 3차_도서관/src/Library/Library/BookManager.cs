@@ -8,6 +8,8 @@ namespace Library
     {
         public bool AddBook(Data data, Book book)
         {
+            book.bookId = data.bookIdCount;
+            
             foreach (Book tempBook in data.books)
             {
                 if (tempBook.bookId == book.bookId)
@@ -15,8 +17,10 @@ namespace Library
                     return false;
                 }
             }
-                
+
             data.books.Add(book);
+            data.bookIdCount = data.bookIdCount + 1;
+            
             return true;
         }
 
@@ -87,6 +91,32 @@ namespace Library
             }
 
             return false;
+        }
+
+        public bool BookExists(Data data, int bookID)
+        {
+            foreach (Book book in data.books)
+            {
+                if (book.bookId == bookID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public Book GetBook(Data data, int bookID)
+        {
+            foreach (Book book in data.books)
+            {
+                if (book.bookId == bookID)
+                {
+                    return book;
+                }
+            }
+
+            return null;
         }
         
         public bool EditBook(Data data, Book book)

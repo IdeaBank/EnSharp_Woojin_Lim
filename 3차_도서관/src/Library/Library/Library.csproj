@@ -60,19 +60,19 @@
         <Compile Include="Viewer\Admin\AdminEditBookViewer.cs" />
         <Compile Include="Viewer\Admin\AdminMenuViewer.cs" />
         <Compile Include="Viewer\Admin\AdminRemoveBookViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminLoginViewer.cs" />
         <Compile Include="Viewer\Admin\AdminAllMenuViewer.cs" />
         <Compile Include="Viewer\Admin\AdminRemoveUserViewer.cs" />
+        <Compile Include="Viewer\LoginViewer.cs" />
         <Compile Include="Viewer\MainMenuView.cs" />
         <Compile Include="Viewer\SearchBookViewer.cs" />
+        <Compile Include="Viewer\User\UserLoginOrRegisterViewer.cs" />
         <Compile Include="Viewer\Viewer.cs" />
         <Compile Include="View\Admin\AdminAddBookView.cs" />
-        <Compile Include="View\Admin\AdminLoginView.cs" />
         <Compile Include="View\Admin\AdminMenuView.cs" />
+        <Compile Include="View\BookListView.cs" />
         <Compile Include="View\GeneralOutputWriter.cs" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Viewer\User\" />
       <Folder Include="View\User\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

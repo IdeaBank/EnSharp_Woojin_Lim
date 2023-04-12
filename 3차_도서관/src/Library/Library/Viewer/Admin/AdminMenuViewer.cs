@@ -6,7 +6,7 @@ using Library.View;
 
 namespace Library
 {
-    public class AdminMenuViewer: Viewer
+    public class AdminMenuViewer: Viewer.Viewer
     {
         public AdminMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {

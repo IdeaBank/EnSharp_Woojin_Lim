@@ -123,33 +123,30 @@ namespace Library
                         return new KeyValuePair<bool, User>(true, user);
                     }
                     
-                    Console.WriteLine("비밀번호가 틀렸습니다.");
                     return new KeyValuePair<bool, User>(false, null);
                 }
             }
             
-            Console.WriteLine("존재하지 않는 아이디입니다.");
             return new KeyValuePair<bool, User>(false, null);
         }
 
-        public bool LoginAsAdministrator(Data data, string id, string password)
+        public bool[] LoginAsAdministrator(Data data, string id, string password)
         {
+            bool[] result = new bool[2] { true, true };
             foreach(Administrator admin in data.admins)
             {
                 if (admin.id == id)
                 {
                     if (admin.password == password)
                     {
-                        return true;
+                        return new bool[2] { true, true };
                     }
                     
-                    Console.WriteLine("비밀번호가 틀렸습니다.");
-                    return false;
+                    return new bool[2] { true, false };
                 }
             }
             
-            Console.WriteLine("존재하지 않는 아이디입니다.");
-            return false;
+            return new bool[2] { false, true };
         }
 
         public List<User> SearchMember(Data data)

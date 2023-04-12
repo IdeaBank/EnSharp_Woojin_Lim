@@ -31,14 +31,25 @@ namespace Library.View
             }
         }
         
-        public static void PrintLogin()
+        public static void PrintLogin(string idHint, string passwordHint)
         {
             Console.Clear();
 
             FramePrinter.PrintFrame(ViewMaxIndex.ENTRY_MENU_MAX_INDEX);
             FramePrinter.PrintLibrary(ViewMaxIndex.ENTRY_MENU_MAX_INDEX);
             FramePrinter.PrintOnPosition(Console.WindowWidth / 2 , Console.WindowHeight / 2 + 1, "ID: ".PadLeft(10, ' '), AlignType.RIGHT, ConsoleColor.White);
+
+            if (idHint != "")
+            {
+                FramePrinter.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 1, idHint, AlignType.LEFT, ConsoleColor.Red);
+            }
+            
             FramePrinter.PrintOnPosition(Console.WindowWidth / 2 , Console.WindowHeight / 2 + 2, "PASSWORD: ".PadLeft(10, ' '), AlignType.RIGHT, ConsoleColor.White);
+            
+            if (passwordHint != "")
+            {
+                FramePrinter.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 2, passwordHint, AlignType.LEFT, ConsoleColor.Red);
+            }
         }
     }
 }

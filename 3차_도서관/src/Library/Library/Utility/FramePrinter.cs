@@ -39,11 +39,11 @@ namespace Library.Utility
         }
         public static void PrintLibrary(int location)
         {
-            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 2 - location, "╦  ╦╔╗ ╦═╗╔═╗╦═╗╦ ╦",
+            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 3 - location / 2, "╦  ╦╔╗ ╦═╗╔═╗╦═╗╦ ╦",
                 AlignType.CENTER, ConsoleColor.White);
-            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 1 - location, "║  ║╠╩╗╠╦╝╠═╣╠╦╝╚╦╝", 
+            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 2 - location / 2, "║  ║╠╩╗╠╦╝╠═╣╠╦╝╚╦╝", 
                 AlignType.CENTER, ConsoleColor.White);
-            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 0 - location, "╩═╝╩╚═╝╩╚═╩ ╩╩╚═ ╩ ",
+            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 1 - location / 2, "╩═╝╩╚═╝╩╚═╩ ╩╩╚═ ╩ ",
                 AlignType.CENTER, ConsoleColor.White);
         }
         

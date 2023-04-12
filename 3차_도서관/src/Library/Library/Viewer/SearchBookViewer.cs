@@ -1,51 +1,56 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
+using System.Text.RegularExpressions;
+using Library.Constants;
 using Library.Exception;
 using Library.Model;
+using Library.Utility;
+using Library.View;
 
 namespace Library
 {
-    public class SearchBookViewer: Viewer
+    public class SearchBookViewer : Viewer.Viewer
     {
-        public SearchBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public SearchBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
+            dataManager, inputFromUser)
         {
         }
 
         public void SearchBook()
         {
-            bool isEscPressed = false;
+            Console.Clear();
+            // BookListView.PrintBookList(data.books);
+            BookListView.PrintBookSearch();
+            KeyValuePair<bool, string> bookName, bookAuthor, bookPublisher;
 
-            while (!isEscPressed)
+            bookName = inputFromUser.ReadInputFromUser(15, 0, 10, false, true);
+
+            if (!bookName.Key)
             {
-                KeyValuePair<bool, string> bookName = inputFromUser.ReadInputFromUser(0, 0, 10, false, true);
-
-                if (!bookName.Key)
-                {
-                    isEscPressed = true;
-                    return;
-                }
-
-                KeyValuePair<bool, string> bookAuthor = inputFromUser.ReadInputFromUser(0, 1, 10, false, true);
-
-                if (!bookAuthor.Key)
-                {
-                    isEscPressed = true;
-                    return;
-                }
-
-                KeyValuePair<bool, string> bookPublisher = inputFromUser.ReadInputFromUser(0, 2, 10, false, true);
-
-                if (!bookPublisher.Key)
-                {
-                    isEscPressed = true;
-                    return;
-                }
-
-                List<Book> books = dataManager.bookManager.SearchBook(this.data, bookName.Value, bookAuthor.Value,
-                    bookPublisher.Value);
-                //UserSearchBookView.Print(books);
+                Console.Clear();
+                return;
             }
+
+            bookAuthor = inputFromUser.ReadInputFromUser(15, 1, 10, false, true);
+
+            if (!bookAuthor.Key)
+            {
+                Console.Clear();
+                return;
+            }
+
+            bookPublisher = inputFromUser.ReadInputFromUser(15, 2, 10, false, true);
+
+            if (!bookPublisher.Key)
+            {
+                Console.Clear();
+                return;
+            }
+
+            BookListView.PrintBookList(dataManager.bookManager.SearchBook(data, bookName.Value, bookAuthor.Value,
+                bookPublisher.Value));
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

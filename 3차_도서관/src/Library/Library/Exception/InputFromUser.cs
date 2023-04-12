@@ -7,11 +7,11 @@ namespace Library.Exception
 {
     public class InputFromUser
     {
-        public bool isComposedOfDigits(string str)
+        public bool IsNumber(string str)
         {
             foreach (char ch in str)
             {
-                if (!('0' <= ch && ch <= '9'))
+                if(!char.IsDigit(ch))
                 {
                     return false;
                 }
@@ -19,10 +19,15 @@ namespace Library.Exception
 
             return true;
         }
-        
-        public bool IsKoreanCharacter(char source)
+
+        public bool IsSpecialCharacter(char ch)
         {
-            if((source >= 0xac00 && source <= 0xd7a3) || (source >= 0x3131 && source <= 0x318e))
+            return (ch == '?' || ch == '!' || ch == '+' || ch == '=' || ch == '-' || ch == ' ');
+        }
+        
+        public bool IsKoreanCharacter(char ch)
+        {
+            if((ch >= 0xac00 && ch <= 0xd7a3) || (ch >= 0x3131 && ch <= 0x318e))
             {
                 return true;
             }
@@ -32,10 +37,10 @@ namespace Library.Exception
         
         private bool IsNumberOrCharacter(char ch, bool canEnterKorean)
         {
-            if(canEnterKorean)
-                return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || IsKoreanCharacter(ch);
+            if (canEnterKorean)
+                return char.IsLetterOrDigit(ch) || IsKoreanCharacter(ch) || IsSpecialCharacter(ch);
 
-            return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
+            return char.IsLetterOrDigit(ch) || IsSpecialCharacter(ch);
         }
 
         public KeyValuePair<bool, int> ReadIntegerFromUser(int cursorX, int cursorY, int maxInputLength,
@@ -50,7 +55,7 @@ namespace Library.Exception
                     return new KeyValuePair<bool, int>(input.Key, 0);
                 }
 
-                if (isComposedOfDigits(input.Value))
+                if (IsNumber(input.Value))
                 {
                     return new KeyValuePair<bool, int>(input.Key, Int32.Parse(input.Value));
                 }

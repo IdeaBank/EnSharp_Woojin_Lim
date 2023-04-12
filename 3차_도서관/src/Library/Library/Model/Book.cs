@@ -19,10 +19,9 @@ namespace Library.Model
             
         }
 
-        public Book(int bookId, string name, string author, string publisher, int quantity, int price,
+        public Book(string name, string author, string publisher, int quantity, int price,
             string publishedDate, string isbn, string description)
         {
-            this.bookId = bookId;
             this.name = name;
             this.author = author;
             this.publisher = publisher;

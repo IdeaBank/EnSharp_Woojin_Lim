@@ -8,7 +8,7 @@ using Library.Constants;
 
 namespace Library
 {
-    public class EntryMenuViewer: Viewer
+    public class EntryMenuViewer: Viewer.Viewer
     {
         private int selectionIndex;
 
@@ -26,7 +26,7 @@ namespace Library
                 Console.Clear();
                 MainMenuView.PrintMenu(selectionIndex);
                 
-                keyInput = Console.ReadKey();
+                keyInput = Console.ReadKey(true);
                 
                 switch (keyInput.Key)
                 {
@@ -81,8 +81,8 @@ namespace Library
                     break;
                 
                 case 1:
-                    AdminLoginViewer adminLoginViewer = new AdminLoginViewer(data, dataManager, inputFromUser);
-                    adminLoginViewer.TryLogin();
+                    LoginViewer loginViewer = new LoginViewer(data, dataManager, inputFromUser);
+                    loginViewer.TryAdminLogin();
                     break;
             }
         }

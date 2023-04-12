@@ -1,12 +1,15 @@
 using System;
+using Library.Constants;
+using Library.Utility;
 
 namespace Library.View.Admin
 {
     public class AdminMenuView 
     {
-        public static void Print(int index)
+        public static void PrintMenu(int index)
         {
-            Console.Clear();
+            FramePrinter.PrintFrame(ViewMaxIndex.ADMIN_MENU_MAX_INDEX);
+            FramePrinter.PrintLibrary(ViewMaxIndex.ADMIN_MENU_MAX_INDEX);
 
             string[] adminMenuList =
             {
@@ -22,14 +25,12 @@ namespace Library.View.Admin
             {
                 if (i == index)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(adminMenuList[i]);
-                    Console.ResetColor();
+                    FramePrinter.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + i - 1, adminMenuList[i], AlignType.CENTER, ConsoleColor.Green);
                 }
 
                 else
                 {
-                    Console.WriteLine(adminMenuList[i]);
+                    FramePrinter.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + i - 1, adminMenuList[i], AlignType.CENTER, ConsoleColor.White);
                 }
             }
         }

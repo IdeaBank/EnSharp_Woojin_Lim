@@ -1,7 +1,7 @@
 using Library.Exception;
 using Library.Model;
 
-namespace Library
+namespace Library.Viewer
 {
     public class Viewer
     {

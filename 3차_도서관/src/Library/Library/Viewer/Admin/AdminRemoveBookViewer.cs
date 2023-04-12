@@ -5,7 +5,7 @@ using Library.Model;
 
 namespace Library
 {
-    public class AdminRemoveBookViewer: Viewer
+    public class AdminRemoveBookViewer: Viewer.Viewer
     {
         public AdminRemoveBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
