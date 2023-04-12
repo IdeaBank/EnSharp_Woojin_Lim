@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using Library.Exception;
 using Library.Model;
-using Library.View.User;
 
 namespace Library
 {
@@ -19,7 +18,7 @@ namespace Library
 
             while (!isEscPressed)
             {
-                KeyValuePair<bool, string> bookName = inputFromUser.ReadInputFromUser(0, 0, 10, false);
+                KeyValuePair<bool, string> bookName = inputFromUser.ReadInputFromUser(0, 0, 10, false, true);
 
                 if (!bookName.Key)
                 {
@@ -27,7 +26,7 @@ namespace Library
                     return;
                 }
 
-                KeyValuePair<bool, string> bookAuthor = inputFromUser.ReadInputFromUser(0, 1, 10, false);
+                KeyValuePair<bool, string> bookAuthor = inputFromUser.ReadInputFromUser(0, 1, 10, false, true);
 
                 if (!bookAuthor.Key)
                 {
@@ -35,7 +34,7 @@ namespace Library
                     return;
                 }
 
-                KeyValuePair<bool, string> bookPublisher = inputFromUser.ReadInputFromUser(0, 2, 10, false);
+                KeyValuePair<bool, string> bookPublisher = inputFromUser.ReadInputFromUser(0, 2, 10, false, true);
 
                 if (!bookPublisher.Key)
                 {
@@ -45,7 +44,7 @@ namespace Library
 
                 List<Book> books = dataManager.bookManager.SearchBook(this.data, bookName.Value, bookAuthor.Value,
                     bookPublisher.Value);
-                UserSearchBookView.Print(books);
+                //UserSearchBookView.Print(books);
             }
         }
     }

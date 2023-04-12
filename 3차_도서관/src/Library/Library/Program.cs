@@ -24,6 +24,7 @@ namespace Library
             
             DataManager dataManager = new DataManager();
             InputFromUser inputFromUser = new InputFromUser();
+            
             EntryMenuViewer mv = new EntryMenuViewer(data, inputFromUser, dataManager);
             mv.ViewEntryMenu();
             

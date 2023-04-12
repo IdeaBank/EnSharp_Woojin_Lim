@@ -41,11 +41,12 @@
     <ItemGroup>
         <Compile Include="BookManager.cs" />
         <Compile Include="Constants\Align.cs" />
-        <Compile Include="Constants\View.cs" />
+        <Compile Include="Constants\InputMax.cs" />
+        <Compile Include="Constants\ViewMaxIndex.cs" />
         <Compile Include="DataManager.cs" />
         <Compile Include="EntryMenuViewer.cs" />
         <Compile Include="Exception\InputFromUser.cs" />
-        <Compile Include="LibraryManager.cs" />
+        <Compile Include="Exception\VerifyInformation.cs" />
         <Compile Include="Model\Administrator.cs" />
         <Compile Include="Model\Book.cs" />
         <Compile Include="Model\BorrowedBook.cs" />
@@ -54,37 +55,25 @@
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="UserManager.cs" />
+        <Compile Include="Utility\FramePrinter.cs" />
         <Compile Include="Viewer\Admin\AdminAddBookViewer.cs" />
+        <Compile Include="Viewer\Admin\AdminEditBookViewer.cs" />
+        <Compile Include="Viewer\Admin\AdminMenuViewer.cs" />
         <Compile Include="Viewer\Admin\AdminRemoveBookViewer.cs" />
         <Compile Include="Viewer\Admin\AdminLoginViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminMenuViewer.cs" />
+        <Compile Include="Viewer\Admin\AdminAllMenuViewer.cs" />
+        <Compile Include="Viewer\Admin\AdminRemoveUserViewer.cs" />
+        <Compile Include="Viewer\MainMenuView.cs" />
         <Compile Include="Viewer\SearchBookViewer.cs" />
         <Compile Include="Viewer\Viewer.cs" />
         <Compile Include="View\Admin\AdminAddBookView.cs" />
-        <Compile Include="View\Admin\AdminAllBorrowedBookListView.cs" />
-        <Compile Include="View\Admin\AdminDeleteBookView.cs" />
-        <Compile Include="View\Admin\AdminDeleteMemberView.cs" />
         <Compile Include="View\Admin\AdminLoginView.cs" />
         <Compile Include="View\Admin\AdminMenuView.cs" />
-        <Compile Include="View\Admin\AdminModifyBookView.cs" />
-        <Compile Include="View\Admin\AdminSearchBookView.cs" />
         <Compile Include="View\GeneralOutputWriter.cs" />
-        <Compile Include="View\MainMenuView.cs" />
-        <Compile Include="View\User\UserBorrowBookView.cs" />
-        <Compile Include="View\User\UserBorrowedBookListView.cs" />
-        <Compile Include="View\User\UserLoginView.cs" />
-        <Compile Include="View\User\UserMenuView.cs" />
-        <Compile Include="View\User\UserModifyMemberView.cs" />
-        <Compile Include="View\User\UserRegisterView.cs" />
-        <Compile Include="View\User\UserReturnBookView.cs" />
-        <Compile Include="View\User\UserReturnedBookListView.cs" />
-        <Compile Include="View\User\UserSearchBookView.cs" />
-        <Compile Include="View\User\UserStartView.cs" />
-        <Compile Include="View\User\UserWithdrawView.cs" />
-        <Compile Include="View\ViewFrame.cs" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Viewer\User\" />
+      <Folder Include="View\User\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

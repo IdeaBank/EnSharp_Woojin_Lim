@@ -2,14 +2,15 @@ using System;
 using Library.Constants;
 using Library.Exception;
 using Library.Model;
+using Library.Utility;
 using Library.View;
+using Library.Constants;
 
 namespace Library
 {
     public class EntryMenuViewer: Viewer
     {
         private int selectionIndex;
-        private const int MAX_INDEX = 1;
 
         public EntryMenuViewer(Data data, InputFromUser inputFromUser, DataManager dataManager): base(data, dataManager, inputFromUser)
         {
@@ -19,11 +20,12 @@ namespace Library
         public void ViewEntryMenu()
         {
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
-            MainMenuView.PrintMenu(selectionIndex);
 
             while (keyInput.Key != ConsoleKey.Escape)
             {
+                Console.Clear();
                 MainMenuView.PrintMenu(selectionIndex);
+                
                 keyInput = Console.ReadKey();
                 
                 switch (keyInput.Key)
@@ -60,7 +62,7 @@ namespace Library
             
             else if (direction == Direction.DOWN)
             {
-                if (this.selectionIndex == MAX_INDEX)
+                if (this.selectionIndex == ViewMaxIndex.ENTRY_MENU_MAX_INDEX)
                 {
                     return;
                 }
@@ -81,9 +83,6 @@ namespace Library
                 case 1:
                     AdminLoginViewer adminLoginViewer = new AdminLoginViewer(data, dataManager, inputFromUser);
                     adminLoginViewer.TryLogin();
-                    
-                    // Console.WriteLine("ADMIN MENU");
-                    // Console.ReadKey();
                     break;
             }
         }

@@ -5,27 +5,27 @@ using Library.Model;
 
 namespace Library
 {
-    public class AdminRemoveBookViewer: Viewer
+    public class AdminRemoveUserViewer: Viewer
     {
-        public AdminRemoveBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public AdminRemoveUserViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
         }
 
-        public void RemoveBookWithInput()
+        public void RemoveUser()
         {
             bool isEscPressed = false;
 
             while (!isEscPressed)
             {
-                KeyValuePair<bool, string> bookID = inputFromUser.ReadInputFromUser(0, 0, 10, false, true);
+                KeyValuePair<bool, string> userID = inputFromUser.ReadInputFromUser(0, 0, 10, false, true);
 
-                if (!bookID.Key)
+                if (!userID.Key)
                 {
                     isEscPressed = true;
                     return;
                 }
 
-                bool success = dataManager.bookManager.RemoveBook(data, Int32.Parse(bookID.Value));
+                bool success = dataManager.userManager.DeleteMember(data, Int32.Parse(userID.Value));
 
                 if (success)
                 {

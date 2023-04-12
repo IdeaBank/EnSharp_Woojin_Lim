@@ -2,7 +2,7 @@ using System;
 
 namespace Library.View.Admin
 {
-    public class AdminMenuView: ViewFrame
+    public class AdminMenuView 
     {
         public static void Print(int index)
         {

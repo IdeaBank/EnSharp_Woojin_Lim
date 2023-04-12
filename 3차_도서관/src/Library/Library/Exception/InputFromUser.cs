@@ -7,6 +7,19 @@ namespace Library.Exception
 {
     public class InputFromUser
     {
+        public bool isComposedOfDigits(string str)
+        {
+            foreach (char ch in str)
+            {
+                if (!('0' <= ch && ch <= '9'))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        
         public bool IsKoreanCharacter(char source)
         {
             if((source >= 0xac00 && source <= 0xd7a3) || (source >= 0x3131 && source <= 0x318e))
@@ -17,12 +30,34 @@ namespace Library.Exception
             return false;
         }
         
-        private bool IsNumberOrCharacter(char ch)
+        private bool IsNumberOrCharacter(char ch, bool canEnterKorean)
         {
-            return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || IsKoreanCharacter(ch);
+            if(canEnterKorean)
+                return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || IsKoreanCharacter(ch);
+
+            return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
         }
 
-        public KeyValuePair<bool, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, bool isPassword)
+        public KeyValuePair<bool, int> ReadIntegerFromUser(int cursorX, int cursorY, int maxInputLength,
+            bool isPassword, bool canEnterKorean)
+        {
+            while (true)
+            {
+                KeyValuePair<bool, string> input = ReadInputFromUser(cursorX, cursorY, maxInputLength, isPassword, canEnterKorean);
+
+                if (!input.Key)
+                {
+                    return new KeyValuePair<bool, int>(input.Key, 0);
+                }
+
+                if (isComposedOfDigits(input.Value))
+                {
+                    return new KeyValuePair<bool, int>(input.Key, Int32.Parse(input.Value));
+                }
+            }
+        }
+
+        public KeyValuePair<bool, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, bool isPassword, bool canEnterKorean)
         {
             bool isValidInput = true;
             string currentInput = "";
@@ -59,7 +94,7 @@ namespace Library.Exception
                 
                 else
                 {
-                    if (currentInput.Length < maxInputLength && IsNumberOrCharacter(keyInput.KeyChar))
+                    if (currentInput.Length < maxInputLength && IsNumberOrCharacter(keyInput.KeyChar, canEnterKorean))
                     {
                         currentInput += keyInput.KeyChar;
                     }

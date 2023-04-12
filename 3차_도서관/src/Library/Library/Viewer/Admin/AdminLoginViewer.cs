@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
+using Library.Constants;
 using Library.Exception;
 using Library.Model;
+using Library.Utility;
+using Library.View;
 
 namespace Library
 {
     public class AdminLoginViewer: Viewer
     {
-        private string id;
-        private string password;
-
         public AdminLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
         }
@@ -20,7 +20,9 @@ namespace Library
 
             while (!isLoggedIn)
             {
-                KeyValuePair<bool, string> inputId = inputFromUser.ReadInputFromUser(0, 0, 10, false);
+                MainMenuView.PrintLogin();
+                KeyValuePair<bool, string> inputId = inputFromUser.ReadInputFromUser(Console.WindowWidth / 2, Console.WindowHeight / 2 + 1, InputMax.MAX_ID_PASSWORD_LENGTH, false, false);
+                
                 bool isInputValid = true;
                 isInputValid = inputId.Key;
 
@@ -29,7 +31,7 @@ namespace Library
                     return;
                 }
                 
-                KeyValuePair<bool, string> inputPassword = inputFromUser.ReadInputFromUser(0,1, 10, true);
+                KeyValuePair<bool, string> inputPassword = inputFromUser.ReadInputFromUser(Console.WindowWidth / 2,Console.WindowHeight / 2 + 2, InputMax.MAX_ID_PASSWORD_LENGTH, true, false);
                 isInputValid = inputPassword.Key;
 
                 if (!isInputValid)
@@ -40,8 +42,8 @@ namespace Library
                 isLoggedIn = dataManager.userManager.LoginAsAdministrator(data, inputId.Value, inputPassword.Value);
             }
 
-            AdminMenuViewer adminMenuViewer = new AdminMenuViewer(data, dataManager, inputFromUser);
-            adminMenuViewer.ShowAdminMenu();
+            AdminAllMenuViewer adminAllMenuViewer = new AdminAllMenuViewer(data, dataManager, inputFromUser);
+            adminAllMenuViewer.ShowAdminMenu();
         }
     }
 }

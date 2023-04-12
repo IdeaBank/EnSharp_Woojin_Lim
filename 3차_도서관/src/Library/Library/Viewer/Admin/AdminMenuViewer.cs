@@ -1,111 +1,44 @@
 using System;
-using Library.Constants;
+using System.Collections.Generic;
 using Library.Exception;
 using Library.Model;
 using Library.View;
-using Library.View.Admin;
 
 namespace Library
 {
     public class AdminMenuViewer: Viewer
     {
-        private int selectionIndex;
-        private const int MAX_INDEX = 5;
-
         public AdminMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
-            this.selectionIndex = 0;
         }
 
-        public void ShowAdminMenu()
+        public void AddBook()
         {
-            ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
-            AdminMenuView.Print(selectionIndex);
-
-            while (keyInput.Key != ConsoleKey.Escape)
-            {
-                AdminMenuView.Print(selectionIndex);
-                keyInput = Console.ReadKey();
-                
-                switch (keyInput.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        MoveSelection(Direction.UP);
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        MoveSelection(Direction.DOWN);
-                        break;
-
-                    case ConsoleKey.Escape:
-                        return;
-
-                    case ConsoleKey.Enter:
-                        EnterNextMenu();
-                        break;
-                }
-            }
+            InputBookInfo();
         }
         
-        private void MoveSelection(Direction direction)
+        public void InputBookInfo()
         {
-            if (direction == Direction.UP)
+            while (true)
             {
-                if (this.selectionIndex == 0)
+                KeyValuePair<bool, string> inputResult = inputFromUser.ReadInputFromUser(0, 0, 10, false, true);
+
+                if (!inputResult.Key)
+                {
+                    return;
+                }
+                
+                inputResult = inputFromUser.ReadInputFromUser(1, 0, 10, false, true);
+
+                if (!inputResult.Key)
                 {
                     return;
                 }
 
-                this.selectionIndex -= 1;
-            }
-            
-            else if (direction == Direction.DOWN)
-            {
-                if (this.selectionIndex == MAX_INDEX)
+                if (VerifyInformation.IsValidBookInformation())
                 {
-                    return;
+                    
                 }
-
-                this.selectionIndex += 1;
-            }
-        }
-
-        private void EnterNextMenu()
-        {
-            switch (selectionIndex)
-            {
-                case 0:
-                    SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
-                    searchBookViewer.SearchBook();
-                    break;
-                
-                case 1:
-                    AdminAddBookViewer adminAddBookViewer = new AdminAddBookViewer(data, dataManager, inputFromUser);
-                    adminAddBookViewer.AddBook();
-                    break;
-                
-                case 2:
-                    AdminRemoveBookViewer adminRemoveBookViewer =
-                        new AdminRemoveBookViewer(data, dataManager, inputFromUser);
-                    adminRemoveBookViewer.RemoveBookWithInput();
-                    //Console.WriteLine("3");
-                    //Console.ReadKey();
-                    break;
-                
-                case 3:
-                    Console.WriteLine("4");
-                    Console.ReadKey();
-                    break;
-                
-                case 4:
-                    Console.WriteLine("5");
-                    Console.ReadKey();
-                    break;
-                
-                case 5:
-                    Console.WriteLine("6");
-                    Console.ReadKey();
-                    break;
             }
         }
     }

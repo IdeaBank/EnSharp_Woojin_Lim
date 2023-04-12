@@ -19,6 +19,8 @@ namespace Library.Model
 
             userIdCount = 0;
             bookIdCount = 0;
+            
+            
         }
     }
 }

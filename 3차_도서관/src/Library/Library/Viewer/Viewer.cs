@@ -9,13 +9,6 @@ namespace Library
         protected DataManager dataManager;
         protected InputFromUser inputFromUser;
 
-        public Viewer()
-        {
-            this.data = new Data();
-            this.dataManager = new DataManager();
-            this.inputFromUser = new InputFromUser();
-        }
-        
         public Viewer(Data data, DataManager dataManager, InputFromUser inputFromUser)
         {
             this.data = data;
