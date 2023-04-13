@@ -11,6 +11,8 @@ namespace Library.Viewer.User
 {
     public class UserLoginViewer : ViewerClass
     {
+        public int currentUserNumber;
+        
         public UserLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
             dataManager, inputFromUser)
         {
@@ -45,8 +47,9 @@ namespace Library.Viewer.User
                     return;
                 }
 
-                isLoggedIn = dataManager.userManager.LoginAsUser(data, inputId.Value, inputPassword.Value);
-
+                KeyValuePair<bool[], int> loginResult = dataManager.userManager.LoginAsUser(data, inputId.Value, inputPassword.Value);
+                isLoggedIn = loginResult.Key;
+                
                 if (!isLoggedIn[0])
                 {
                     loginHint[0] = "Wrong ID";
@@ -64,10 +67,11 @@ namespace Library.Viewer.User
                     Console.ReadKey(true);
                     Console.CursorVisible = true;
                     loginHint[0] = loginHint[1] = "";
+                    this.currentUserNumber = loginResult.Value;
                 }
             }
 
-            UserAllMenuViewer userMenuView = new UserAllMenuViewer(data, dataManager, inputFromUser);
+            UserAllMenuViewer userMenuView = new UserAllMenuViewer(data, dataManager, inputFromUser, currentUserNumber);
             userMenuView.ShowUserMenu();
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Library.Model;
+using Library.View;
 
 namespace Library
 {
@@ -78,9 +79,8 @@ namespace Library
                         {
                             if (user.userNumber == userNumber)
                             {
-                                BorrowedBook tempBook = book as BorrowedBook;
-                                tempBook.borrowedDate = DateTime.Now.ToShortDateString();
-                                user.borrowedBooks.Add(tempBook);
+                                BorrowedBook tempBook = new BorrowedBook(bookId, DateTime.Now.ToString());
+                                user.borrowedBooks.Add(tempBook); 
                                 
                                 break;
                             }

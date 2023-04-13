@@ -65,6 +65,8 @@
         <Compile Include="Viewer\Admin\AdminRemoveUserViewerClass.cs" />
         <Compile Include="Viewer\Admin\AdminAllBorrowedBooksViewer.cs" />
         <Compile Include="Viewer\SearchBookViewerClass.cs" />
+        <Compile Include="Viewer\User\UserBorrowBookViewer.cs" />
+        <Compile Include="Viewer\User\UserBorrowedBookPrinter.cs" />
         <Compile Include="Viewer\User\UserLoginOrRegisterViewerClass.cs" />
         <Compile Include="Viewer\User\UserLoginViewer.cs" />
         <Compile Include="Viewer\User\UserAllMenuViewer.cs" />

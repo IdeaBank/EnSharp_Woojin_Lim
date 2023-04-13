@@ -39,6 +39,7 @@ namespace Library
                         break;
 
                     case ConsoleKey.Escape:
+                        Console.Clear();
                         return;
 
                     case ConsoleKey.Enter:
@@ -73,9 +74,6 @@ namespace Library
 
         private void EnterNextMenu()
         {
-            AdminAllMenuViewerClass adminAllMenuViewerClass = 
-                new AdminAllMenuViewerClass(this.data, this.dataManager, this.inputFromUser);
-            
             switch (selectionIndex)
             {
                 case 0:

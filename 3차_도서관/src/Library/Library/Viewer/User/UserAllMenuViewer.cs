@@ -9,11 +9,13 @@ namespace Library.Viewer.User
 {
     public class UserAllMenuViewer: ViewerClass
     {
-        private int selectionIndex; 
+        private int selectionIndex;
+        private int currentUserNumber;
         
-        public UserAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public UserAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser, int currentUserNumber): base(data, dataManager, inputFromUser)
         {
             this.selectionIndex = 0;
+            this.currentUserNumber = currentUserNumber;
         }
 
         public void ShowUserMenu()
@@ -37,6 +39,7 @@ namespace Library.Viewer.User
                         break;
 
                     case ConsoleKey.Escape:
+                        Console.Clear();
                         return;
 
                     case ConsoleKey.Enter:
@@ -71,9 +74,6 @@ namespace Library.Viewer.User
 
         private void EnterNextMenu()
         {
-            UserAllMenuViewer adminAllMenuViewerClass = 
-                new UserAllMenuViewer(this.data, this.dataManager, this.inputFromUser);
-            
             switch (selectionIndex)
             {
                 case 0:
@@ -82,14 +82,15 @@ namespace Library.Viewer.User
                     break;
                 
                 case 1:
-                    AdminAddBookViewerClass adminAddBookViewerClass = new AdminAddBookViewerClass(data, dataManager, inputFromUser);
-                    adminAddBookViewerClass.AddBook();
+                    UserBorrowBookViewer userBorrowBookViewer =
+                        new UserBorrowBookViewer(data, dataManager, inputFromUser, currentUserNumber);
+                    userBorrowBookViewer.ShowBorrowBookView();
                     break;
                 
                 case 2:
-                    AdminRemoveBookViewerClass adminRemoveBookViewerClass =
-                        new AdminRemoveBookViewerClass(data, dataManager, inputFromUser);
-                    adminRemoveBookViewerClass.RemoveBookWithInput();
+                    UserBorrowedBookPrinter adminRemoveBookViewerClass =
+                        new UserBorrowedBookPrinter(data, dataManager, inputFromUser, currentUserNumber);
+                    adminRemoveBookViewerClass.PrintUserBorrowedList();
                     break;
                 
                 case 3:

@@ -98,7 +98,7 @@ namespace Library
             return false;
         }
 
-        public bool[] LoginAsUser(Data data, string id, string password)
+        public KeyValuePair<bool[], int> LoginAsUser(Data data, string id, string password)
         {
             foreach (User user in data.users)
             {
@@ -106,15 +106,15 @@ namespace Library
                 {
                     if (user.password == password)
                     {
-                        return new bool[] { true, true };
+                        return new KeyValuePair<bool[], int>( new bool[]{true, true}, user.userNumber);
                     }
 
-                    return new bool[] { true, false };
+                    return new KeyValuePair<bool[], int>(new bool[] { true, false }, user.userNumber);
                 }
             }
 
-            return new bool[] { false, true };
-    }
+            return new KeyValuePair<bool[], int>(new bool[] { false, true }, 0);
+        }
 
         public bool[] LoginAsAdministrator(Data data, string id, string password)
         {
