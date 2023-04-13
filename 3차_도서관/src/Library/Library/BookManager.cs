@@ -94,14 +94,19 @@ namespace Library
             return new KeyValuePair<bool, bool>(bookExists, isBookAvailable);
         }
 
-        public bool ReturnBook(Data data, int bookID)
+        public bool ReturnBook(Data data, int currentUserNumber, int bookID)
         {
-            foreach (Book book in data.books)
+            foreach (User user in data.users)
             {
-                if (book.bookId == bookID)
+                foreach(BorrowedBook borrowedBook in user.borrowedBooks)
                 {
-                    book.quantity = book.quantity + 1;
-                    return true;
+                    if (borrowedBook.bookId == bookID)
+                    {
+                        user.borrowedBooks.Remove(borrowedBook);
+                        borrowedBook.returnedDate = DateTime.Now.ToString();
+                        user.returnedBooks.Add(borrowedBook);
+                        return true;
+                    }
                 }
             }
 

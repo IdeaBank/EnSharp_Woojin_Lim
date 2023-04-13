@@ -7,15 +7,14 @@ using Library.View.User;
 
 namespace Library.Viewer.User
 {
-    public class UserAllMenuViewer: ViewerClass
+    public class UserAllMenuViewer: UserViewer
     {
         private int selectionIndex;
         private int currentUserNumber;
         
-        public UserAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser, int currentUserNumber): base(data, dataManager, inputFromUser)
+        public UserAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser, int currentUserNumber): base(data, dataManager, inputFromUser, currentUserNumber)
         {
             this.selectionIndex = 0;
-            this.currentUserNumber = currentUserNumber;
         }
 
         public void ShowUserMenu()
@@ -88,15 +87,15 @@ namespace Library.Viewer.User
                     break;
                 
                 case 2:
-                    UserBorrowedBookPrinter adminRemoveBookViewerClass =
+                    UserBorrowedBookPrinter userBorrowedBookPrinter =
                         new UserBorrowedBookPrinter(data, dataManager, inputFromUser, currentUserNumber);
-                    adminRemoveBookViewerClass.PrintUserBorrowedList();
+                    userBorrowedBookPrinter.PrintUserBorrowedList();
                     break;
                 
                 case 3:
-                    AdminEditBookViewerClass adminEditBookViewerClass = 
-                        new AdminEditBookViewerClass(data, dataManager, inputFromUser);
-                    adminEditBookViewerClass.ShowEditBookView();
+                    UserReturnBookViewer userReturnBookViewer = 
+                        new UserReturnBookViewer(data, dataManager, inputFromUser, currentUserNumber);
+                    userReturnBookViewer.PrintUserReturnBook();
                     break;
                 
                 case 4:

@@ -42,31 +42,6 @@ namespace Library
             }
         }
 
-        public bool ReturnBook(Data data, BookManager bookManager, int bookId, int userNumber)
-        {
-            int userIndex = GetUserIndex(data, userNumber);
-
-            if (data.users[userIndex].borrowedBooks.Count == 0)
-            {
-                return false;
-            }
-
-            foreach (BorrowedBook book in data.users[userIndex].borrowedBooks)
-            {
-                if (book.bookId == bookId)
-                {
-                    bool isReturnSuccess = bookManager.ReturnBook(data, bookId);
-
-                    if (isReturnSuccess)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-        
         public bool Register(Data data, User user)
         {
             foreach (User tempUser in data.users)

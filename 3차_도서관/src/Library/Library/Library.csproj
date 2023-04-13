@@ -71,6 +71,9 @@
         <Compile Include="Viewer\User\UserLoginViewer.cs" />
         <Compile Include="Viewer\User\UserAllMenuViewer.cs" />
         <Compile Include="Viewer\User\UserRegisterViewer.cs" />
+        <Compile Include="Viewer\User\UserReturnBookViewer.cs" />
+        <Compile Include="Viewer\User\UserReturnedBookPrinter.cs" />
+        <Compile Include="Viewer\User\UserViewer.cs" />
         <Compile Include="Viewer\ViewerClass.cs" />
         <Compile Include="View\Admin\AdminAddBookView.cs" />
         <Compile Include="View\Admin\AdminMenuView.cs" />

@@ -7,14 +7,13 @@ using Library.Utility;
 
 namespace Library.Viewer.User
 {
-    public class UserBorrowBookViewer : ViewerClass
+    public class UserBorrowBookViewer : UserViewer
     {
         private int currentUserNumber;
 
         public UserBorrowBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser,
-            int currentUserNumber) : base(data, dataManager, inputFromUser)
+            int currentUserNumber) : base(data, dataManager, inputFromUser, currentUserNumber)
         {
-            this.currentUserNumber = currentUserNumber;
         }
         
         public bool IsInputValid(string str, string regularExpression)

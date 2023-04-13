@@ -4,9 +4,9 @@ using Library.Utility;
 
 namespace Library.Viewer.User
 {
-    public class UserBorrowedBookPrinter: UserViewer
+    public class UserReturnedBookPrinter: UserViewer
     {
-        public UserBorrowedBookPrinter(Data data, DataManager dataManager, InputFromUser inputFromUser, int currentUserNumber): base(data, dataManager, inputFromUser, currentUserNumber)
+        public UserReturnedBookPrinter(Data data, DataManager dataManager, InputFromUser inputFromUser, int currentUserNumber): base(data, dataManager, inputFromUser, currentUserNumber)
         {
         }
 
@@ -20,11 +20,11 @@ namespace Library.Viewer.User
             {
                 if (user.userNumber == currentUserNumber)
                 {
-                    foreach (BorrowedBook borrowedBook in user.borrowedBooks)
+                    foreach (BorrowedBook returnedBook in user.returnedBooks)
                     {
                         foreach (Book book in data.books)
                         {
-                            if (book.bookId == borrowedBook.bookId)
+                            if (book.bookId == returnedBook.bookId)
                             {
                                 Console.WriteLine("ID: ".PadLeft(20, ' ') + book.bookId);
                                 Console.WriteLine("Name: ".PadLeft(20, ' ') + book.name);
@@ -35,7 +35,8 @@ namespace Library.Viewer.User
                                 Console.WriteLine("Published Date: ".PadLeft(20, ' ') + book.publishedDate);
                                 Console.WriteLine("ISBN: ".PadLeft(20, ' ') + book.isbn);
                                 Console.WriteLine("Description: ".PadLeft(20, ' ') + book.description);
-                                Console.WriteLine("Borrowed Date: ".PadLeft(20, ' ') + borrowedBook.borrowedDate);
+                                Console.WriteLine("Borrowed Date: ".PadLeft(20, ' ') + returnedBook.borrowedDate);
+                                Console.WriteLine("Returned Date: ".PadLeft(20, ' ') + returnedBook.returnedDate);
                                 Console.WriteLine("\n\n");
                             }
                         }
