@@ -23,19 +23,6 @@ namespace Library
             return regex.IsMatch(str);
         }
         
-        public bool IsAllInputValid(bool [] isValidList)
-        {
-            foreach (bool isValid in isValidList)
-            {
-                if (!isValid)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public void AddBook()
         {
             AdminAddBookView.Print();

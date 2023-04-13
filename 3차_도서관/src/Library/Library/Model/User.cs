@@ -21,9 +21,8 @@ namespace Library.Model
             this.returnedBooks = new List<BorrowedBook>();
         }
 
-        public User(int userNumber, string id, string password, string name, int age, string phoneNumber, string address)
+        public User(string id, string password, string name, int age, string phoneNumber, string address)
         {
-            this.userNumber = userNumber;
             this.id = id;
             this.password = password;
             this.name = name;

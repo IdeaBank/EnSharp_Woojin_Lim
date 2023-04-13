@@ -4,6 +4,7 @@ using Library.Exception;
 using Library.Model;
 using Library.Utility;
 using Library.View.Admin;
+using Library.View.User;
 
 namespace Library.Viewer.User
 {
@@ -19,11 +20,11 @@ namespace Library.Viewer.User
         public void LoginOrRegister()
         {
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
-            AdminMenuView.PrintMenu(selectionIndex);
+            UserLoginOrRegisterView.PrintMenu(selectionIndex);
 
             while (keyInput.Key != ConsoleKey.Escape)
             {
-                AdminMenuView.PrintMenu(selectionIndex);
+                UserLoginOrRegisterView.PrintMenu(selectionIndex);
                 keyInput = Console.ReadKey(true);
                 
                 switch (keyInput.Key)
@@ -71,19 +72,16 @@ namespace Library.Viewer.User
         
         private void EnterNextMenu()
         {
-            AdminAllMenuViewerClass adminAllMenuViewerClass = 
-                new AdminAllMenuViewerClass(this.data, this.dataManager, this.inputFromUser);
-            
             switch (selectionIndex)
             {
                 case 0:
-                    SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
-                    searchBookViewerClass.SearchBook();
+                    UserLoginViewer userLoginViewer = new UserLoginViewer(data, dataManager, inputFromUser);
+                    userLoginViewer.TryUserLogin();
                     break;
                 
                 case 1:
-                    AdminAddBookViewerClass adminAddBookViewerClass = new AdminAddBookViewerClass(data, dataManager, inputFromUser);
-                    adminAddBookViewerClass.AddBook();
+                    UserRegisterViewer userRegisterViewer = new UserRegisterViewer(data, dataManager, inputFromUser);
+                    userRegisterViewer.TryRegister();
                     break;
             }
         }

@@ -5,6 +5,7 @@ using Library.Exception;
 using Library.Model;
 using Library.Utility;
 using Library.View;
+using Library.View.User;
 
 namespace Library.Viewer.User
 {
@@ -22,7 +23,7 @@ namespace Library.Viewer.User
 
             while (!isLoggedIn[0] || !isLoggedIn[1])
             {
-                MainMenuView.PrintLogin(loginHint[0], loginHint[1]);
+                UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
 
                 KeyValuePair<bool, string> inputId = inputFromUser.ReadInputFromUser(Console.WindowWidth / 2,
                     Console.WindowHeight / 2 + 1, InputMax.MAX_ID_PASSWORD_LENGTH, false, false);
@@ -58,7 +59,7 @@ namespace Library.Viewer.User
 
                 if (!isLoggedIn[0] || !isLoggedIn[1])
                 {
-                    MainMenuView.PrintLogin(loginHint[0], loginHint[1]);
+                    UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
                     Console.CursorVisible = false;
                     Console.ReadKey(true);
                     Console.CursorVisible = true;
@@ -66,9 +67,8 @@ namespace Library.Viewer.User
                 }
             }
 
-            AdminAllMenuViewerClass adminAllMenuViewerClass =
-                new AdminAllMenuViewerClass(data, dataManager, inputFromUser);
-            adminAllMenuViewerClass.ShowAdminMenu();
+            UserAllMenuViewer userMenuView = new UserAllMenuViewer(data, dataManager, inputFromUser);
+            userMenuView.ShowUserMenu();
         }
     }
 }
