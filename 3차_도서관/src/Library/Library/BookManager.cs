@@ -41,7 +41,7 @@ namespace Library
 
             return result;
         }
-
+        
         public bool DeleteBook(Data data, int bookId)
         {
             foreach(Book book in data.books)
@@ -56,15 +56,14 @@ namespace Library
             return false;
         }
 
-        public KeyValuePair<bool, bool> BorrowBook(Data data, int bookID)
+        public KeyValuePair<bool, bool> BorrowBook(Data data, int userNumber, int bookId)
         {
-            // Boo with bookID exists / Have enough book to lend
             bool bookExists = false;
             bool isBookAvailable = false;
             
             foreach (Book book in data.books)
             {
-                if (book.bookId == bookID)
+                if (book.bookId == bookId)
                 {
                     bookExists = true;
                     if (book.quantity > 0)
@@ -72,6 +71,22 @@ namespace Library
                         book.quantity = book.quantity - 1;
                         isBookAvailable = true;
                     }
+
+                    if (isBookAvailable)
+                    {
+                        foreach (User user in data.users)
+                        {
+                            if (user.userNumber == userNumber)
+                            {
+                                BorrowedBook tempBook = book as BorrowedBook;
+                                tempBook.borrowedDate = DateTime.Now.ToShortDateString();
+                                user.borrowedBooks.Add(tempBook);
+                                
+                                break;
+                            }
+                        }
+                    }
+                    
                     break;
                 }
             }

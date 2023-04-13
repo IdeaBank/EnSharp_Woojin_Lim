@@ -6,18 +6,16 @@ using Library.Model;
 using Library.Utility;
 using Library.View;
 
-namespace Library
+namespace Library.Viewer.User
 {
-    public class LoginViewer: Viewer.Viewer
+    public class UserLoginViewer : ViewerClass
     {
-        private int inputIndex;
-        
-        public LoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public UserLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
+            dataManager, inputFromUser)
         {
-            this.inputIndex = 0;
         }
-
-        public void TryAdminLogin()
+        
+        public void TryUserLogin()
         {
             bool[] isLoggedIn = new bool[2] { false, false };
             string[] loginHint = new string[2] { "", "" };
@@ -46,7 +44,7 @@ namespace Library
                     return;
                 }
 
-                isLoggedIn = dataManager.userManager.LoginAsAdministrator(data, inputId.Value, inputPassword.Value);
+                isLoggedIn = dataManager.userManager.LoginAsUser(data, inputId.Value, inputPassword.Value);
 
                 if (!isLoggedIn[0])
                 {
@@ -68,8 +66,9 @@ namespace Library
                 }
             }
 
-            AdminAllMenuViewer adminAllMenuViewer = new AdminAllMenuViewer(data, dataManager, inputFromUser);
-            adminAllMenuViewer.ShowAdminMenu();
+            AdminAllMenuViewerClass adminAllMenuViewerClass =
+                new AdminAllMenuViewerClass(data, dataManager, inputFromUser);
+            adminAllMenuViewerClass.ShowAdminMenu();
         }
     }
 }

@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Library.View;
 
-namespace Library.Exception
+namespace Library.Utility
 {
     public class InputFromUser
     {
+        public InputFromUser()
+        {
+            
+        }
         public bool IsNumber(string str)
         {
             foreach (char ch in str)

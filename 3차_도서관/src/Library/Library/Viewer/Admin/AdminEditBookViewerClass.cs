@@ -8,9 +8,9 @@ using Library.Utility;
 
 namespace Library
 {
-    public class AdminEditBookViewer : Viewer.Viewer
+    public class AdminEditBookViewerClass : Viewer.ViewerClass
     {
-        public AdminEditBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
+        public AdminEditBookViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
             dataManager, inputFromUser)
         {
         }
@@ -24,8 +24,8 @@ namespace Library
 
         public void ShowEditBookView()
         {
-            SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
-            searchBookViewer.SearchBook();
+            SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
+            searchBookViewerClass.SearchBook();
 
             KeyValuePair<bool, string> bookID;
 

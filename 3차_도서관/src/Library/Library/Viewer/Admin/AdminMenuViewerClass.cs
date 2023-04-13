@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using Library.Exception;
 using Library.Model;
+using Library.Utility;
 using Library.View;
 
 namespace Library
 {
-    public class AdminMenuViewer: Viewer.Viewer
+    public class AdminMenuViewerClass: Viewer.ViewerClass
     {
-        public AdminMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public AdminMenuViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
         }
 

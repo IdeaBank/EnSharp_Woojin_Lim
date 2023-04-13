@@ -4,7 +4,7 @@ using Library.Utility;
 
 namespace Library.View.Admin
 {
-    public class AdminMenuView 
+    public class AdminMenuView
     {
         public static void PrintMenu(int index)
         {

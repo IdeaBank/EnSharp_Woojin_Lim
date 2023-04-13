@@ -45,8 +45,7 @@
         <Compile Include="Constants\InputMax.cs" />
         <Compile Include="Constants\ViewMaxIndex.cs" />
         <Compile Include="DataManager.cs" />
-        <Compile Include="EntryMenuViewer.cs" />
-        <Compile Include="Exception\InputFromUser.cs" />
+        <Compile Include="EntryMenuViewerClass.cs" />
         <Compile Include="Exception\VerifyInformation.cs" />
         <Compile Include="Model\Administrator.cs" />
         <Compile Include="Model\Book.cs" />
@@ -57,24 +56,25 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="UserManager.cs" />
         <Compile Include="Utility\FramePrinter.cs" />
-        <Compile Include="Viewer\Admin\AdminAddBookViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminEditBookViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminMenuViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminRemoveBookViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminAllMenuViewer.cs" />
-        <Compile Include="Viewer\Admin\AdminRemoveUserViewer.cs" />
-        <Compile Include="Viewer\LoginViewer.cs" />
-        <Compile Include="Viewer\MainMenuView.cs" />
-        <Compile Include="Viewer\SearchBookViewer.cs" />
-        <Compile Include="Viewer\User\UserLoginOrRegisterViewer.cs" />
-        <Compile Include="Viewer\Viewer.cs" />
+        <Compile Include="Utility\InputFromUser.cs" />
+        <Compile Include="Viewer\Admin\AdminAddBookViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminEditBookViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminLoginViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminMenuViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminRemoveBookViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminAllMenuViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminRemoveUserViewerClass.cs" />
+        <Compile Include="Viewer\Admin\AdminAllBorrowedBooksViewer.cs" />
+        <Compile Include="Viewer\SearchBookViewerClass.cs" />
+        <Compile Include="Viewer\User\UserLoginOrRegisterViewerClass.cs" />
+        <Compile Include="Viewer\User\UserLoginViewer.cs" />
+        <Compile Include="Viewer\ViewerClass.cs" />
         <Compile Include="View\Admin\AdminAddBookView.cs" />
         <Compile Include="View\Admin\AdminMenuView.cs" />
         <Compile Include="View\BookListView.cs" />
         <Compile Include="View\GeneralOutputWriter.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="View\User\" />
+        <Compile Include="View\MainMenuView.cs" />
+        <Compile Include="View\User\UserLoginOrRegisterView.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

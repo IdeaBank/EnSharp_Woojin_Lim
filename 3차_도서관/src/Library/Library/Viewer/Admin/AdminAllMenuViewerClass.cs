@@ -1,18 +1,19 @@
 using System;
+using System.Collections.Generic;
 using Library.Constants;
 using Library.Exception;
 using Library.Model;
+using Library.Utility;
 using Library.View;
 using Library.View.Admin;
 
 namespace Library
 {
-    public class AdminAllMenuViewer: Viewer.Viewer
+    public class AdminAllMenuViewerClass: Viewer.ViewerClass
     {
         private int selectionIndex;
-        private const int MAX_INDEX = 5;
         
-        public AdminAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public AdminAllMenuViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
             this.selectionIndex = 0;
         }
@@ -61,7 +62,7 @@ namespace Library
             
             else if (direction == Direction.DOWN)
             {
-                if (this.selectionIndex == MAX_INDEX)
+                if (this.selectionIndex == ViewMaxIndex.ADMIN_MENU_MAX_INDEX)
                 {
                     return;
                 }
@@ -72,42 +73,42 @@ namespace Library
 
         private void EnterNextMenu()
         {
-            AdminAllMenuViewer adminAllMenuViewer = 
-                new AdminAllMenuViewer(this.data, this.dataManager, this.inputFromUser);
+            AdminAllMenuViewerClass adminAllMenuViewerClass = 
+                new AdminAllMenuViewerClass(this.data, this.dataManager, this.inputFromUser);
             
             switch (selectionIndex)
             {
                 case 0:
-                    SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
-                    searchBookViewer.SearchBook();
+                    SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
+                    searchBookViewerClass.SearchBook();
                     break;
                 
                 case 1:
-                    AdminAddBookViewer adminAddBookViewer = new AdminAddBookViewer(data, dataManager, inputFromUser);
-                    adminAddBookViewer.AddBook();
+                    AdminAddBookViewerClass adminAddBookViewerClass = new AdminAddBookViewerClass(data, dataManager, inputFromUser);
+                    adminAddBookViewerClass.AddBook();
                     break;
                 
                 case 2:
-                    AdminRemoveBookViewer adminRemoveBookViewer =
-                        new AdminRemoveBookViewer(data, dataManager, inputFromUser);
-                    adminRemoveBookViewer.RemoveBookWithInput();
+                    AdminRemoveBookViewerClass adminRemoveBookViewerClass =
+                        new AdminRemoveBookViewerClass(data, dataManager, inputFromUser);
+                    adminRemoveBookViewerClass.RemoveBookWithInput();
                     break;
                 
                 case 3:
-                    AdminEditBookViewer adminEditBookViewer = 
-                        new AdminEditBookViewer(data, dataManager, inputFromUser);
-                    adminEditBookViewer.ShowEditBookView();
+                    AdminEditBookViewerClass adminEditBookViewerClass = 
+                        new AdminEditBookViewerClass(data, dataManager, inputFromUser);
+                    adminEditBookViewerClass.ShowEditBookView();
                     break;
                 
                 case 4:
-                    AdminRemoveUserViewer adminRemoveUserViewer =
-                        new AdminRemoveUserViewer(data, dataManager, inputFromUser);
-                    adminRemoveUserViewer.RemoveUser();
+                    AdminRemoveUserViewerClass adminRemoveUserViewerClass =
+                        new AdminRemoveUserViewerClass(data, dataManager, inputFromUser);
+                    adminRemoveUserViewerClass.RemoveUser();
                     break;
                 
                 case 5:
-                    Console.WriteLine("6");
-                    Console.ReadKey();
+                    AdminAllBorrowedBooksViewer.ShowAllBorrowedBooks(data, dataManager);
+                    Console.Clear();
                     break;
             }
         }

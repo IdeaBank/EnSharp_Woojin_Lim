@@ -3,29 +3,27 @@ using Library.Constants;
 using Library.Exception;
 using Library.Model;
 using Library.Utility;
-using Library.View;
-using Library.Constants;
+using Library.View.Admin;
 
-namespace Library
+namespace Library.Viewer.User
 {
-    public class EntryMenuViewer: Viewer.Viewer
+    public class UserLoginOrRegisterViewerClass: ViewerClass
     {
         private int selectionIndex;
 
-        public EntryMenuViewer(Data data, InputFromUser inputFromUser, DataManager dataManager): base(data, dataManager, inputFromUser)
+        public UserLoginOrRegisterViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
             this.selectionIndex = 0;
         }
         
-        public void ViewEntryMenu()
+        public void LoginOrRegister()
         {
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
+            AdminMenuView.PrintMenu(selectionIndex);
 
             while (keyInput.Key != ConsoleKey.Escape)
             {
-                Console.Clear();
-                MainMenuView.PrintMenu(selectionIndex);
-                
+                AdminMenuView.PrintMenu(selectionIndex);
                 keyInput = Console.ReadKey(true);
                 
                 switch (keyInput.Key)
@@ -47,7 +45,7 @@ namespace Library
                 }
             }
         }
-
+        
         private void MoveSelection(Direction direction)
         {
             if (direction == Direction.UP)
@@ -62,7 +60,7 @@ namespace Library
             
             else if (direction == Direction.DOWN)
             {
-                if (this.selectionIndex == ViewMaxIndex.ENTRY_MENU_MAX_INDEX)
+                if (this.selectionIndex == ViewMaxIndex.USER_LOGIN_MENU_MAX_INDEX)
                 {
                     return;
                 }
@@ -70,19 +68,22 @@ namespace Library
                 this.selectionIndex += 1;
             }
         }
-
+        
         private void EnterNextMenu()
         {
+            AdminAllMenuViewerClass adminAllMenuViewerClass = 
+                new AdminAllMenuViewerClass(this.data, this.dataManager, this.inputFromUser);
+            
             switch (selectionIndex)
             {
                 case 0:
-                    Console.WriteLine("USER MENU");
-                    Console.ReadKey();
+                    SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
+                    searchBookViewerClass.SearchBook();
                     break;
                 
                 case 1:
-                    LoginViewer loginViewer = new LoginViewer(data, dataManager, inputFromUser);
-                    loginViewer.TryAdminLogin();
+                    AdminAddBookViewerClass adminAddBookViewerClass = new AdminAddBookViewerClass(data, dataManager, inputFromUser);
+                    adminAddBookViewerClass.AddBook();
                     break;
             }
         }

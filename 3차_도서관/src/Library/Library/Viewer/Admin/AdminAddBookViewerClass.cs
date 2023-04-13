@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using Library.Constants;
-using Library.Exception;
+using Library.Utility;
 using Library.Model;
 using Library.Utility;
 using Library.View.Admin;
 
 namespace Library
 {
-    public class AdminAddBookViewer: Viewer.Viewer
+    public class AdminAddBookViewerClass: Viewer.ViewerClass
     {
-        public AdminAddBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data, dataManager, inputFromUser)
+        public AdminAddBookViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data, dataManager, inputFromUser)
         {
         }
 

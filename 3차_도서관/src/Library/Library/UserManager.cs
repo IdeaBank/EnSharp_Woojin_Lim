@@ -41,20 +41,6 @@ namespace Library
                 }
             }
         }
-        
-        public bool BorrowBookWithUserID(Data data, BookManager bookManager, int bookId, int userNumber)
-        {
-            KeyValuePair<bool, bool> borrowResult = bookManager.BorrowBook(data, bookId);
-
-            if (borrowResult.Value)
-            {
-                int userIndex = GetUserIndex(data, userNumber);
-                data.users[userIndex].borrowedBooks.Add(new BorrowedBook(bookId, "ASDF"));
-                return true;
-            }
-
-            return false;
-        }
 
         public bool ReturnBook(Data data, BookManager bookManager, int bookId, int userNumber)
         {
@@ -112,23 +98,23 @@ namespace Library
             return false;
         }
 
-        public KeyValuePair<bool, User> LoginAsUser(Data data, string id, string password)
+        public bool[] LoginAsUser(Data data, string id, string password)
         {
-            foreach(User user in data.users)
+            foreach (User user in data.users)
             {
                 if (user.id == id)
                 {
                     if (user.password == password)
                     {
-                        return new KeyValuePair<bool, User>(true, user);
+                        return new bool[] { true, true };
                     }
-                    
-                    return new KeyValuePair<bool, User>(false, null);
+
+                    return new bool[] { true, false };
                 }
             }
-            
-            return new KeyValuePair<bool, User>(false, null);
-        }
+
+            return new bool[] { false, true };
+    }
 
         public bool[] LoginAsAdministrator(Data data, string id, string password)
         {

@@ -8,12 +8,12 @@ using Library.Utility;
 
 namespace Library
 {
-    public class AdminRemoveUserViewer: Viewer.Viewer
+    public class AdminRemoveBookViewerClass: Viewer.ViewerClass
     {
-        public AdminRemoveUserViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public AdminRemoveBookViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
         }
-
+        
         public bool IsInputValid(string str, string regularExpression)
         {
             Regex regex = new Regex(regularExpression);
@@ -21,24 +21,24 @@ namespace Library
             return regex.IsMatch(str);
         }
         
-        public void RemoveUser()
+        public void RemoveBookWithInput()
         {
             while (true)
             {
                 Console.Clear();
-                Console.Write("Enter User ID to remove:".PadLeft(30, ' '));
+                Console.Write("Enter Book ID to remove:".PadLeft(30, ' '));
                 Console.Write(new string(' ', 50));
-                KeyValuePair<bool, string> userID = inputFromUser.ReadInputFromUser(31, 0, 10, false, true);
+                KeyValuePair<bool, string> bookID = inputFromUser.ReadInputFromUser(31, 0, 10, false, true);
 
-                if (!userID.Key)
+                if (!bookID.Key)
                 {
                     Console.Clear();
                     return;
                 }
 
-                if (IsInputValid(userID.Value, @"[0-9]+"))
+                if (IsInputValid(bookID.Value, @"[0-9]+"))
                 {
-                    bool success = dataManager.userManager.DeleteMember(data, Int32.Parse(userID.Value));
+                    bool success = dataManager.bookManager.DeleteBook(data, Int32.Parse(bookID.Value));
 
                     if (success)
                     {
@@ -46,7 +46,7 @@ namespace Library
                         return;
                     }
                     
-                    FramePrinter.PrintOnPosition(31, 0, "유저 ID 혹은 해당 유저가 빌린 책이 있는지를 확인해주세요", AlignType.LEFT, ConsoleColor.Red);
+                    FramePrinter.PrintOnPosition(31, 0, "해당 번호의 책이 있는지 다시 한 번 확인해주세요", AlignType.LEFT, ConsoleColor.Red);
                     Console.ReadKey(true);
                     Console.SetCursorPosition(31, 0);
                 }

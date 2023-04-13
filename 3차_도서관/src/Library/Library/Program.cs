@@ -5,6 +5,7 @@ using Library.Exception;
 using Library.Model;
 using Library.View;
 using Library.View.Admin;
+using Library.Utility;
 
 namespace Library
 {
@@ -46,7 +47,7 @@ namespace Library
             
             InputFromUser inputFromUser = new InputFromUser();
             
-            EntryMenuViewer mv = new EntryMenuViewer(data, inputFromUser, dataManager);
+            EntryMenuViewerClass mv = new EntryMenuViewerClass(data, inputFromUser, dataManager);
             mv.ViewEntryMenu();
             
             // InputFromUser ifs = new InputFromUser();
