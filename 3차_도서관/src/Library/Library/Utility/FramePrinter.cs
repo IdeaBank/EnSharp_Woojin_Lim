@@ -28,6 +28,7 @@ namespace Library.Utility
         {
             height = height + 9;
             
+            PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - height / 2 - 1, "BACK: ESC       ENTER: ENTER", AlignType.CENTER, ConsoleColor.White);
             PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - height / 2, new string('#', 40), AlignType.CENTER, ConsoleColor.White);
             
             for (int i = 0; i < height - 2; ++i)
