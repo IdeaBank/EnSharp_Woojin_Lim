@@ -8,11 +8,11 @@ using Library.View;
 
 namespace Library
 {
-    public class AdminLoginViewerClass: Viewer.ViewerClass
+    public class AdminLoginViewer: Viewer.ViewerClass
     {
         private int inputIndex;
         
-        public AdminLoginViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public AdminLoginViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
             this.inputIndex = 0;
         }
@@ -69,8 +69,8 @@ namespace Library
             }
 
             
-            AdminAllMenuViewerClass adminAllMenuViewerClass = new AdminAllMenuViewerClass(data, dataManager, inputFromUser);
-            adminAllMenuViewerClass.ShowAdminMenu();
+            AdminAllMenuViewer adminAllMenuViewer = new AdminAllMenuViewer(data, dataManager, inputFromUser);
+            adminAllMenuViewer.ShowAdminMenu();
         }
     }
 }

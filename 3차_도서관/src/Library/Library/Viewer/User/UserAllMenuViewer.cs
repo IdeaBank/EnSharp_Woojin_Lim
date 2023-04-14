@@ -81,8 +81,8 @@ namespace Library.Viewer.User
             switch (selectionIndex)
             {
                 case 0:
-                    SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
-                    searchBookViewerClass.SearchBook();
+                    SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
+                    searchBookViewer.SearchBook();
                     break;
                 
                 case 1:
@@ -104,9 +104,9 @@ namespace Library.Viewer.User
                     break;
                 
                 case 4:
-                    UserReturnedBookPrinter adminRemoveUserViewerClass =
+                    UserReturnedBookPrinter userReturnedBookPrinter =
                         new UserReturnedBookPrinter(data, dataManager, inputFromUser, currentUserNumber);
-                    adminRemoveUserViewerClass.PrintUserReturnedList();
+                    userReturnedBookPrinter.PrintUserReturnedList();
                     break;
                 
                 case 5:

@@ -10,9 +10,9 @@ using Library.View.Admin;
 
 namespace Library
 {
-    public class AdminAddBookViewerClass: Viewer.ViewerClass
+    public class AdminAddBookViewer: Viewer.ViewerClass
     {
-        public AdminAddBookViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data, dataManager, inputFromUser)
+        public AdminAddBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data, dataManager, inputFromUser)
         {
         }
 

@@ -9,9 +9,9 @@ using Library.View;
 
 namespace Library
 {
-    public class SearchBookViewerClass : Viewer.ViewerClass
+    public class SearchBookViewer : Viewer.ViewerClass
     {
-        public SearchBookViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
+        public SearchBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
             dataManager, inputFromUser)
         {
         }

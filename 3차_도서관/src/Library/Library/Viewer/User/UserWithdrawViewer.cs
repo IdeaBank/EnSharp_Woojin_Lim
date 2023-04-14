@@ -31,6 +31,8 @@ namespace Library.Viewer.User
                 {
                     if (dataManager.userManager.Withdraw(data, currentUserNumber))
                     {
+                        FramePrinter.PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 2, "Withdraw success", AlignType.CENTER, ConsoleColor.White);
+                        Console.ReadKey(true);
                         return true;
                     }
 

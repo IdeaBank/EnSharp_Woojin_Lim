@@ -9,11 +9,11 @@ using Library.View.Admin;
 
 namespace Library
 {
-    public class AdminAllMenuViewerClass: Viewer.ViewerClass
+    public class AdminAllMenuViewer: Viewer.ViewerClass
     {
         private int selectionIndex;
         
-        public AdminAllMenuViewerClass(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
+        public AdminAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser): base(data, dataManager, inputFromUser)
         {
             this.selectionIndex = 0;
         }
@@ -77,31 +77,31 @@ namespace Library
             switch (selectionIndex)
             {
                 case 0:
-                    SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
-                    searchBookViewerClass.SearchBook();
+                    SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
+                    searchBookViewer.SearchBook();
                     break;
                 
                 case 1:
-                    AdminAddBookViewerClass adminAddBookViewerClass = new AdminAddBookViewerClass(data, dataManager, inputFromUser);
-                    adminAddBookViewerClass.AddBook();
+                    AdminAddBookViewer adminAddBookViewer = new AdminAddBookViewer(data, dataManager, inputFromUser);
+                    adminAddBookViewer.AddBook();
                     break;
                 
                 case 2:
-                    AdminRemoveBookViewerClass adminRemoveBookViewerClass =
-                        new AdminRemoveBookViewerClass(data, dataManager, inputFromUser);
-                    adminRemoveBookViewerClass.RemoveBookWithInput();
+                    AdminRemoveBookViewer adminRemoveBookViewer =
+                        new AdminRemoveBookViewer(data, dataManager, inputFromUser);
+                    adminRemoveBookViewer.RemoveBookWithInput();
                     break;
                 
                 case 3:
-                    AdminEditBookViewerClass adminEditBookViewerClass = 
-                        new AdminEditBookViewerClass(data, dataManager, inputFromUser);
-                    adminEditBookViewerClass.ShowEditBookView();
+                    AdminEditBookViewer adminEditBookViewer = 
+                        new AdminEditBookViewer(data, dataManager, inputFromUser);
+                    adminEditBookViewer.ShowEditBookView();
                     break;
                 
                 case 4:
-                    AdminRemoveUserViewerClass adminRemoveUserViewerClass =
-                        new AdminRemoveUserViewerClass(data, dataManager, inputFromUser);
-                    adminRemoveUserViewerClass.RemoveUser();
+                    AdminRemoveUserViewer adminRemoveUserViewer =
+                        new AdminRemoveUserViewer(data, dataManager, inputFromUser);
+                    adminRemoveUserViewer.RemoveUser();
                     break;
                 
                 case 5:

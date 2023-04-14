@@ -23,8 +23,8 @@ namespace Library.Viewer.User
         
         public void ShowBorrowBookView()
         {
-            SearchBookViewerClass searchBookViewerClass = new SearchBookViewerClass(data, dataManager, inputFromUser);
-            searchBookViewerClass.SearchBook();
+            SearchBookViewer searchBookViewer = new SearchBookViewer(data, dataManager, inputFromUser);
+            searchBookViewer.SearchBook();
 
             KeyValuePair<bool, string> bookID;
 

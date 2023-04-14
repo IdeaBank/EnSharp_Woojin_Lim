@@ -83,8 +83,8 @@ namespace Library
                     break;
                 
                 case 1:
-                    AdminLoginViewerClass adminLoginViewerClass = new AdminLoginViewerClass(data, dataManager, inputFromUser);
-                    adminLoginViewerClass.TryAdminLogin();
+                    AdminLoginViewer adminLoginViewer = new AdminLoginViewer(data, dataManager, inputFromUser);
+                    adminLoginViewer.TryAdminLogin();
                     break;
             }
         }
