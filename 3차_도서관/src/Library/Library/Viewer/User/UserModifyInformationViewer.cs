@@ -8,21 +8,22 @@ using Library.View.User;
 
 namespace Library.Viewer.User
 {
-    public class UserRegisterViewer : ViewerClass
+    public class UserModifyInformationViewer: UserViewer
     {
+        public UserModifyInformationViewer(Data data, DataManager dataManager, InputFromUser inputFromUser,
+            int currentUserNumber) : base(data, dataManager, inputFromUser, currentUserNumber)
+        {
+             
+        }
+        
         public bool IsInputValid(string str, string regularExpression)
         {
             Regex regex = new Regex(regularExpression);
 
             return regex.IsMatch(str);
         }
-        
-        public UserRegisterViewer(Data data, DataManager dataManager, InputFromUser inputFromUser) : base(data,
-            dataManager, inputFromUser)
-        {
-        }
 
-        public void TryRegister()
+        public void PrintModifyUserInformation()
         {
             UserRegisterView.Print();
             KeyValuePair<bool, string> userId,
@@ -144,13 +145,10 @@ namespace Library.Viewer.User
                 Console.Clear();
                 return;
             }
-            
-            dataManager.userManager.Register(data,
-                new Model.User(userId.Value, userPassword.Value, userName.Value,
-                    Int32.Parse(userAge.Value), userPhoneNumber.Value,
-                    userAddress.Value));
+
+            dataManager.userManager.ModifyMemberInfo(data, currentUserNumber, userId.Value, userPassword.Value, userName.Value, Int32.Parse(userAge.Value), userPhoneNumber.Value, userAddress.Value);
 
             Console.Clear();
         }
-    } 
+    }
 }

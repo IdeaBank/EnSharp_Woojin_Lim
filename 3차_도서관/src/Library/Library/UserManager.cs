@@ -19,26 +19,18 @@ namespace Library
             return -1;
         }
         
-        public void ModifyMemberInfo(Data data, int userNumber, string id, string name, string address)
+        public void ModifyMemberInfo(Data data, int userNumber, string userId, string userPassword, string userName, int userAge, string userPhoneNumber, string userAddress)
         {
             int userIndex = GetUserIndex(data, userNumber);
 
             if (userIndex != -1)
             {
-                if (id != "")
-                {
-                    data.users[userIndex].id = id;
-                }
-
-                if (name != "")
-                {
-                    data.users[userIndex].name = name;
-                }
-
-                if (address != "")
-                {
-                    data.users[userIndex].address = address;
-                }
+                data.users[userIndex].id = userId;
+                data.users[userIndex].password = userPassword;
+                data.users[userIndex].name = userName;
+                data.users[userIndex].age = userAge;
+                data.users[userIndex].phoneNumber = userPhoneNumber;
+                data.users[userIndex].address = userAddress;
             }
         }
 

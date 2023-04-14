@@ -41,7 +41,13 @@ namespace Library.Viewer.User
                         return;
 
                     case ConsoleKey.Enter:
-                        EnterNextMenu();
+                        bool withdraw = EnterNextMenu();
+
+                        if (withdraw)
+                        {
+                            return;
+                        }
+
                         break;
                 }
             }
@@ -70,7 +76,7 @@ namespace Library.Viewer.User
             }
         }
 
-        private void EnterNextMenu()
+        private bool EnterNextMenu()
         {
             switch (selectionIndex)
             {
@@ -104,8 +110,24 @@ namespace Library.Viewer.User
                     break;
                 
                 case 5:
-                    return;
+                    UserModifyInformationViewer userModifyInformationViewer =
+                        new UserModifyInformationViewer(data, dataManager, inputFromUser, currentUserNumber);
+                    userModifyInformationViewer.PrintModifyUserInformation();
+                    break;
+                
+                case 6:
+                    UserWithdrawViewer userWithdrawViewer =
+                        new UserWithdrawViewer(data, dataManager, inputFromUser, currentUserNumber);
+                    
+                    if (userWithdrawViewer.PrintWithdraw())
+                    {
+                        return true;
+                    }
+                    
+                    break;
             }
+
+            return false;
         }
     }
 }
