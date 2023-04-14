@@ -30,6 +30,7 @@ namespace Library.Viewer.User
             KeyValuePair<bool, string> returnBookId;
             while (true)
             {
+                Console.SetCursorPosition(0, 0);
                 Console.WriteLine("Book ID to return:".PadLeft(25, ' '));
                 returnBookId = inputFromUser.ReadInputFromUser(26, 1, 3, false, false);
 
@@ -41,7 +42,16 @@ namespace Library.Viewer.User
 
                 if (IsInputValid(returnBookId.Value, @"^[0-9]+"))
                 {
-                    dataManager.bookManager.ReturnBook(data, currentUserNumber, Int32.Parse(returnBookId.Value));
+                    if (dataManager.bookManager.ReturnBook(data, currentUserNumber, Int32.Parse(returnBookId.Value)))
+                    {
+                        Console.WriteLine("Return success!");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Return Failed!");
+                    }
+                    
                     Console.ReadKey(true);
                     break;
                 }

@@ -51,20 +51,6 @@ namespace Library
             return true;
         }
 
-        public bool Withdraw(Data data, int userNumber)
-        {
-            foreach (User user in data.users)
-            {
-                if (user.userNumber == userNumber)
-                {
-                    data.users.Remove(user);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public KeyValuePair<bool[], int> LoginAsUser(Data data, string id, string password)
         {
             foreach (User user in data.users)
