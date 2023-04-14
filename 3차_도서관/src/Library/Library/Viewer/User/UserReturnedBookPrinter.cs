@@ -10,7 +10,7 @@ namespace Library.Viewer.User
         {
         }
 
-        public void PrintUserBorrowedList()
+        public void PrintUserReturnedList()
         {
             Console.Clear();
             

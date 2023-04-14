@@ -10,7 +10,6 @@ namespace Library.Viewer.User
     public class UserAllMenuViewer: UserViewer
     {
         private int selectionIndex;
-        private int currentUserNumber;
         
         public UserAllMenuViewer(Data data, DataManager dataManager, InputFromUser inputFromUser, int currentUserNumber): base(data, dataManager, inputFromUser, currentUserNumber)
         {
@@ -99,15 +98,13 @@ namespace Library.Viewer.User
                     break;
                 
                 case 4:
-                    AdminRemoveUserViewerClass adminRemoveUserViewerClass =
-                        new AdminRemoveUserViewerClass(data, dataManager, inputFromUser);
-                    adminRemoveUserViewerClass.RemoveUser();
+                    UserReturnedBookPrinter adminRemoveUserViewerClass =
+                        new UserReturnedBookPrinter(data, dataManager, inputFromUser, currentUserNumber);
+                    adminRemoveUserViewerClass.PrintUserReturnedList();
                     break;
                 
                 case 5:
-                    AdminAllBorrowedBooksViewer.ShowAllBorrowedBooks(data, dataManager);
-                    Console.Clear();
-                    break;
+                    return;
             }
         }
     }

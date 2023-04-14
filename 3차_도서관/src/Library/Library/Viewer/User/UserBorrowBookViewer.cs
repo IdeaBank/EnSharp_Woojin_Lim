@@ -9,8 +9,6 @@ namespace Library.Viewer.User
 {
     public class UserBorrowBookViewer : UserViewer
     {
-        private int currentUserNumber;
-
         public UserBorrowBookViewer(Data data, DataManager dataManager, InputFromUser inputFromUser,
             int currentUserNumber) : base(data, dataManager, inputFromUser, currentUserNumber)
         {
@@ -30,7 +28,7 @@ namespace Library.Viewer.User
 
             KeyValuePair<bool, string> bookID;
 
-            Console.WriteLine("ID:".PadLeft(15, ' '));
+            Console.WriteLine("Book ID to borrow:".PadLeft(15, ' '));
             bookID = inputFromUser.ReadInputFromUser(16, 0, 3, false, false);
 
             if (!bookID.Key)
@@ -41,10 +39,7 @@ namespace Library.Viewer.User
 
             if (IsInputValid(bookID.Value, @"^[0-9]+"))
             {
-                if (dataManager.bookManager.BookExists(data, Int32.Parse(bookID.Value)))
-                {
-                    dataManager.bookManager.BorrowBook(data, currentUserNumber, Int32.Parse(bookID.Value));
-                }
+                dataManager.bookManager.BorrowBook(data, currentUserNumber, Int32.Parse(bookID.Value));
             }
             
             Console.Clear();

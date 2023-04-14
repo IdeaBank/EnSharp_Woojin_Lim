@@ -69,7 +69,6 @@ namespace Library
                     bookExists = true;
                     if (book.quantity > 0)
                     {
-                        book.quantity = book.quantity - 1;
                         isBookAvailable = true;
                     }
 
@@ -82,6 +81,7 @@ namespace Library
                                 BorrowedBook tempBook = new BorrowedBook(bookId, DateTime.Now.ToString());
                                 user.borrowedBooks.Add(tempBook); 
                                 
+                                book.quantity = book.quantity - 1;
                                 break;
                             }
                         }

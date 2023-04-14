@@ -67,8 +67,9 @@ namespace Library.Viewer.User
                     Console.ReadKey(true);
                     Console.CursorVisible = true;
                     loginHint[0] = loginHint[1] = "";
-                    this.currentUserNumber = loginResult.Value;
                 }
+                
+                this.currentUserNumber = loginResult.Value;
             }
 
             UserAllMenuViewer userMenuView = new UserAllMenuViewer(data, dataManager, inputFromUser, currentUserNumber);

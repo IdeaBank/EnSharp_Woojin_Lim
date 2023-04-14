@@ -30,6 +30,7 @@ namespace Library.Viewer.User
             KeyValuePair<bool, string> returnBookId;
             while (true)
             {
+                Console.WriteLine("Book ID to return:".PadLeft(25, ' '));
                 returnBookId = inputFromUser.ReadInputFromUser(26, 1, 3, false, false);
 
                 if (!returnBookId.Key)
@@ -38,14 +39,14 @@ namespace Library.Viewer.User
                     return;
                 }
 
-                if (IsInputValid(returnBookId.Value, @"^[0-9]{3}"))
+                if (IsInputValid(returnBookId.Value, @"^[0-9]+"))
                 {
+                    dataManager.bookManager.ReturnBook(data, currentUserNumber, Int32.Parse(returnBookId.Value));
+                    Console.ReadKey(true);
                     break;
                 }
-
-                dataManager.bookManager.ReturnBook(data, currentUserNumber, Int32.Parse(returnBookId.Value));
-                Console.ReadKey(true);
             }
+            
         }
     }
 }

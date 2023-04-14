@@ -11,7 +11,7 @@ namespace Library
             
             foreach (User user in data.users)
             {
-                Console.WriteLine(new string('=', 30));
+                Console.WriteLine(new string('=', 25) + user.name +new string('=', 25));
                 foreach (BorrowedBook book in user.borrowedBooks)
                 {
                     Book bookData = dataManager.bookManager.GetBook(data, book.bookId);
