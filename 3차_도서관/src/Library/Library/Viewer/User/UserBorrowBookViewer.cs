@@ -28,8 +28,8 @@ namespace Library.Viewer.User
 
             KeyValuePair<bool, string> bookID;
 
-            Console.WriteLine("Book ID to borrow:".PadLeft(15, ' '));
-            bookID = inputFromUser.ReadInputFromUser(16, 0, 3, false, false);
+            Console.WriteLine("Book ID to borrow:".PadLeft(30, ' '));
+            bookID = inputFromUser.ReadInputFromUser(31, 0, 3, false, false);
 
             if (!bookID.Key)
             {
