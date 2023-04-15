@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Library.Constants;
 using Library.View;
+using Library.View.UserView;
 
 namespace Library.Utility
 {
@@ -52,7 +53,7 @@ namespace Library.Utility
                     UserOrAdminView.PrintUserOrAdmin(currentSelectionIndex);
                     break;
                 case MenuType.USER_LOGIN_OR_REGISTER:
-                    
+                    UserLoginOrRegisterView.PrintLoginOrRegister(currentSelectionIndex);
                     break;
                 case MenuType.USER:
                     

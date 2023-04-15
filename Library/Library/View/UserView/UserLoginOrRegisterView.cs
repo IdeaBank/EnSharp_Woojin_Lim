@@ -2,49 +2,49 @@ using System;
 using Library.Constants;
 using Library.Utility;
 
-namespace Library.View
+namespace Library.View.UserView
 {
-    public class UserOrAdminView
+    public class UserLoginOrRegisterView
     {
-        private UserOrAdminView _instance;
+        private UserLoginOrRegisterView _instance;
 
-        private UserOrAdminView()
+        private UserLoginOrRegisterView()
         {
             
         }
 
-        public UserOrAdminView getInstance
+        public UserLoginOrRegisterView getInstance
         {
             get
             {
                 if (this._instance == null)
                 {
-                    _instance = new UserOrAdminView();
+                    _instance = new UserLoginOrRegisterView();
                 }
 
                 return _instance;
             }
         }
 
-        public static void PrintUserOrAdminContour()
+        public static void PrintLoginOrRegisterContour()
         {
             ConsoleWriter.DrawContour(30, 8);
         }
         
-        public static void PrintUserOrAdmin(int currentSelectionIndex)
+        public static void PrintLoginOrRegister(int currentSelectionIndex)
         {
-            string[] userOrAdminInstruction = new[] { "User", "Administrator" };
+            string[] loginOrRegister = new[] { "Login", "Register" };
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;
             
-            for (int i = 0; i < MenuCount.MAIN; ++i)
+            for (int i = 0; i < MenuCount.USER_LOGIN_OR_REGISTER; ++i)
             {
                 if (i == currentSelectionIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        userOrAdminInstruction[i], AlignType.CENTER);
+                        loginOrRegister[i], AlignType.CENTER);
                     
                     Console.ResetColor();
                 }
@@ -52,7 +52,7 @@ namespace Library.View
                 else
                 {
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        userOrAdminInstruction[i], AlignType.CENTER);
+                        loginOrRegister[i], AlignType.CENTER);
                 }
             }
         }

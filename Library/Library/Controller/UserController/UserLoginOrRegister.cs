@@ -4,6 +4,7 @@ using Library.Constants;
 using Library.Model;
 using Library.Utility;
 using Library.View;
+using Library.View.UserView;
 
 namespace Library.Controller.UserController
 {
@@ -18,6 +19,8 @@ namespace Library.Controller.UserController
 
         public void SelectLoginOrRegister()
         {
+            UserLoginOrRegisterView.PrintLoginOrRegisterContour();
+            
             KeyValuePair<FailCode, int> result = MenuSelector.ChooseMenu(0, MenuCount.USER_LOGIN_OR_REGISTER, MenuType.USER_LOGIN_OR_REGISTER);
 
             if (result.Key == FailCode.ESC_PRESSED)
