@@ -38,6 +38,7 @@ namespace Library.Utility
             
             PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + height / 2 - 1, new string('#', 40), AlignType.CENTER, ConsoleColor.White);
         }
+        
         public static void PrintLibrary(int location)
         {
             PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 - 3 - location / 2, "╦  ╦╔╗ ╦═╗╔═╗╦═╗╦ ╦",

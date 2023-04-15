@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace Library.Model
 {
     public class Book

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Library.Model;
-using Library.View;
 
 namespace Library
 {
@@ -27,7 +27,6 @@ namespace Library
 
         public List<Book> SearchBook(Data data, string name, string author, string publisher)
         {
-            bool matchesName, matchesAuthor, matchesPublisher;
             List<Book> result = new List<Book>();
             
             foreach (Book book in data.books)
@@ -94,16 +93,16 @@ namespace Library
             return new KeyValuePair<bool, bool>(bookExists, isBookAvailable);
         }
 
-        public bool ReturnBook(Data data, int currentUserNumber, int bookID)
+        public bool ReturnBook(Data data, int currentUserNumber, int bookId)
         {
             foreach (User user in data.users)
             {
                 foreach(BorrowedBook borrowedBook in user.borrowedBooks)
                 {
-                    if (borrowedBook.bookId == bookID)
+                    if (borrowedBook.bookId == bookId)
                     {
                         user.borrowedBooks.Remove(borrowedBook);
-                        borrowedBook.returnedDate = DateTime.Now.ToString();
+                        borrowedBook.returnedDate = DateTime.Now.ToString(CultureInfo.CurrentCulture);
                         user.returnedBooks.Add(borrowedBook);
                         return true;
                     }
@@ -113,11 +112,11 @@ namespace Library
             return false;
         }
 
-        public bool BookExists(Data data, int bookID)
+        public bool BookExists(Data data, int bookId)
         {
             foreach (Book book in data.books)
             {
-                if (book.bookId == bookID)
+                if (book.bookId == bookId)
                 {
                     return true;
                 }
@@ -126,11 +125,11 @@ namespace Library
             return false;
         }
 
-        public Book GetBook(Data data, int bookID)
+        public Book GetBook(Data data, int bookId)
         {
             foreach (Book book in data.books)
             {
-                if (book.bookId == bookID)
+                if (book.bookId == bookId)
                 {
                     return book;
                 }
@@ -161,32 +160,17 @@ namespace Library
             return false;
         }
 
-        public bool RemoveBook(Data data, int bookID)
+        public bool RemoveBook(Data data, int bookId)
         {
             foreach (Book book in data.books)
             {
-                if (book.bookId == bookID)
+                if (book.bookId == bookId)
                 {
                     data.books.Remove(book);
                     return true;
                 }
             }
 
-            return false;
-        }
-
-        public bool DeleteMember(Data data, int userNumber)
-        {
-            foreach(User user in data.users)
-            {
-                if (user.userNumber == userNumber)
-                {
-                    data.users.Remove(user);
-                    return true;
-                }
-            }
-
-            Console.WriteLine("해당 번호의 유저가 존재하지 않습니다!");
             return false;
         }
     }
