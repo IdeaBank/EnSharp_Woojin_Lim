@@ -4,6 +4,7 @@ using Library.Constants;
 using Library.Controller.UserController;
 using Library.Model;
 using Library.Utility;
+using Library.View;
 
 namespace Library.Controller
 {
@@ -56,7 +57,9 @@ namespace Library.Controller
         public void StartLibrary()
         {
             AddSampleData();
-
+            
+            UserOrAdminView.PrintUserOrAdminContour();
+            
             KeyValuePair<FailCode, int> result = MenuSelector.ChooseMenu(0, MenuCount.MAIN, MenuType.USER_OR_ADMIN);
 
             if (result.Key == FailCode.ESC_PRESSED)

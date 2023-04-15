@@ -4,3 +4,9 @@
 /Users/woojin/Desktop/REFACTOR_LIBRARY/Library/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache
 /Users/woojin/Desktop/REFACTOR_LIBRARY/Library/Library/obj/Debug/Library.exe
 /Users/woojin/Desktop/REFACTOR_LIBRARY/Library/Library/obj/Debug/Library.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/Library/Library/bin/Debug/Library.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/Library/Library/bin/Debug/Library.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/Library/Library/obj/Debug/Library.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/Library/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/Library/Library/obj/Debug/Library.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/Library/Library/obj/Debug/Library.pdb

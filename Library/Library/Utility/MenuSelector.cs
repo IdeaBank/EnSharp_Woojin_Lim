@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Library.Constants;
+using Library.View;
 
 namespace Library.Utility
 {
@@ -48,7 +49,7 @@ namespace Library.Utility
             switch (currentMenu)
             {
                 case MenuType.USER_OR_ADMIN:
-                    
+                    UserOrAdminView.PrintUserOrAdmin(currentSelectionIndex);
                     break;
                 case MenuType.USER_LOGIN_OR_REGISTER:
                     
@@ -66,7 +67,7 @@ namespace Library.Utility
         {
             ShowView(currentMenu, currentSelectionIndex);
             
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             switch (keyInfo.Key)
             {

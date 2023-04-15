@@ -60,7 +60,9 @@
         <Compile Include="Utility\MenuSelector.cs" />
         <Compile Include="Utility\UserInputManager.cs" />
         <Compile Include="Utility\UserManager.cs" />
+        <Compile Include="View\AdminView\AdminMenu.cs" />
         <Compile Include="View\UserOrAdminView.cs" />
+        <Compile Include="View\UserView\UserMenu.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
