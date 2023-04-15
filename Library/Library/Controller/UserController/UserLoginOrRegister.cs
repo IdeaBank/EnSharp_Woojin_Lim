@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
 using Library.Utility;
 
 namespace Library.Controller.UserController
 {
-    class UserLoginOrRegister: ControllerInterface
+    public class UserLoginOrRegister: ControllerInterface
     {
         private int currentSelectionIndex;
         
@@ -13,60 +14,31 @@ namespace Library.Controller.UserController
         {
             this.currentSelectionIndex = 0;
         }
-        
-        private void MoveCursorInMenu(MoveDirection direction)
+
+        public void SelectLoginOrRegister()
         {
-            switch (direction)
+            KeyValuePair<FailCode, int> result = MenuSelector.ChooseMenu(0, MenuCount.USER_LOGIN_OR_REGISTER, MenuType.USER_LOGIN_OR_REGISTER);
+
+            if (result.Key == FailCode.ESC_PRESSED)
             {
-                case MoveDirection.UP:
-                    this.currentSelectionIndex =
-                        (this.currentSelectionIndex + MenuCount.USER_LOGIN_REGISTER_MENU - 1) % MenuCount.USER_LOGIN_REGISTER_MENU;
-                    break;
-                case MoveDirection.DOWN:
-                    this.currentSelectionIndex =
-                        (this.currentSelectionIndex + 1) % MenuCount.USER_LOGIN_REGISTER_MENU;
-                    break;
+                return;
             }
+
+            this.currentSelectionIndex = result.Value;
+            
+            EnterNextMenu();
         }
-        
+
         private void EnterNextMenu()
         {
-            switch (currentSelectionIndex)
+            switch (this.currentSelectionIndex)
             {
                 case 0:
-                    
+                    Console.WriteLine("1");
                     break;
                 case 1:
-                    
+                    Console.WriteLine("2");
                     break;
-            }
-        }
-        
-        private void ChooseMenu()
-        {
-            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
-
-            while (keyInfo.Key != ConsoleKey.Escape && keyInfo.Key != ConsoleKey.Enter)
-            {
-                keyInfo = Console.ReadKey(true);
-                
-                switch (keyInfo.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        MoveCursorInMenu(MoveDirection.UP);
-                        break;
-                    
-                    case ConsoleKey.DownArrow:
-                        MoveCursorInMenu(MoveDirection.DOWN);
-                        break;
-                    
-                    case ConsoleKey.Enter:
-                        EnterNextMenu();
-                        break;
-                    
-                    case ConsoleKey.Escape:
-                        return;
-                }
             }
         }
     }

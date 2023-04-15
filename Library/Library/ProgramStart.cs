@@ -10,10 +10,8 @@ namespace Library
     {
         public static void Main(string[] args)
         {
-            // LibraryStart libraryStart = new LibraryStart();
-            // libraryStart.StartLibrary();
-
-            Console.WriteLine(MenuSelector.SelectMenu(3).Value);
+            LibraryStart libraryStart = new LibraryStart();
+            libraryStart.StartLibrary();
         }
     }
 }

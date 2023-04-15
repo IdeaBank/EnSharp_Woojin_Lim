@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Library.Constants;
+using Library.Controller.UserController;
 using Library.Model;
 using Library.Utility;
 
@@ -54,62 +56,30 @@ namespace Library.Controller
         public void StartLibrary()
         {
             AddSampleData();
-            ChooseMenu();
-        }
 
-        private void MoveCursorInMenu(MoveDirection direction)
-        {
-            switch (direction)
+            KeyValuePair<FailCode, int> result = MenuSelector.ChooseMenu(0, MenuCount.MAIN, MenuType.USER_OR_ADMIN);
+
+            if (result.Key == FailCode.ESC_PRESSED)
             {
-                case MoveDirection.UP:
-                    this.currentSelectionIndex =
-                        (this.currentSelectionIndex + MenuCount.MAIN_MENU - 1) % MenuCount.MAIN_MENU;
-                    break;
-                case MoveDirection.DOWN:
-                    this.currentSelectionIndex =
-                        (this.currentSelectionIndex + 1) % MenuCount.MAIN_MENU;
-                    break;
+                return;
             }
+
+            this.currentSelectionIndex = result.Value;
+            
+            EnterNextMenu();
         }
 
         private void EnterNextMenu()
         {
-            switch (currentSelectionIndex)
+            switch (this.currentSelectionIndex)
             {
                 case 0:
-                    
+                    UserLoginOrRegister userLoginOrRegister = new UserLoginOrRegister(totalData, combinedManager);
+                    userLoginOrRegister.SelectLoginOrRegister();
                     break;
                 case 1:
-                    
+                    Console.WriteLine("2");
                     break;
-            }
-        }
-        
-        private void ChooseMenu()
-        {
-            ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
-
-            while (keyInfo.Key != ConsoleKey.Escape && keyInfo.Key != ConsoleKey.Enter)
-            {
-                keyInfo = Console.ReadKey(true);
-                
-                switch (keyInfo.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        MoveCursorInMenu(MoveDirection.UP);
-                        break;
-                    
-                    case ConsoleKey.DownArrow:
-                        MoveCursorInMenu(MoveDirection.DOWN);
-                        break;
-                    
-                    case ConsoleKey.Enter:
-                        EnterNextMenu();
-                        break;
-                    
-                    case ConsoleKey.Escape:
-                        return;
-                }
             }
         }
     }

@@ -43,6 +43,7 @@ namespace Library.Model
         public TotalData()
         {
             addedBookCount = 0;
+            addedUserCount = 0;
             users = new List<User>();
             administrators = new List<User>();
             books = new List<Book>();

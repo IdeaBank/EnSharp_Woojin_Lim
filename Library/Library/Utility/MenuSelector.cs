@@ -42,12 +42,31 @@ namespace Library.Utility
 
             return currentSelectionIndex;
         }
-        
-        public static KeyValuePair<FailCode, int> SelectMenu(int MAX_SELECTION)
-        {
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
-            int currentSelectionIndex = 0;
 
+        private static void ShowView(MenuType currentMenu, int currentSelectionIndex)
+        {
+            switch (currentMenu)
+            {
+                case MenuType.USER_OR_ADMIN:
+                    
+                    break;
+                case MenuType.USER_LOGIN_OR_REGISTER:
+                    
+                    break;
+                case MenuType.USER:
+                    
+                    break;
+                case MenuType.ADMIN:
+                    
+                    break;
+            }
+        }
+        
+        private static KeyValuePair<FailCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
+        {
+            ShowView(currentMenu, currentSelectionIndex);
+            
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
 
             switch (keyInfo.Key)
             {
@@ -60,13 +79,32 @@ namespace Library.Utility
                     break;
 
                 case ConsoleKey.Enter:
-                    return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, currentSelectionIndex);
+                    return new KeyValuePair<FailCode, int>(FailCode.ENTER_PRESSED, currentSelectionIndex);
 
                 case ConsoleKey.Escape:
                     return new KeyValuePair<FailCode, int>(FailCode.ESC_PRESSED, -1);
             }
 
-            return new KeyValuePair<FailCode, int>(FailCode.FATAL_ERROR, -1);
+            return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, currentSelectionIndex);
+        }
+
+        public static KeyValuePair<FailCode, int> ChooseMenu(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
+        {
+            KeyValuePair<FailCode, int> result = new KeyValuePair<FailCode, int>(FailCode.SUCCESS, -1);
+            
+            while (result.Key != FailCode.ESC_PRESSED && result.Key != FailCode.ENTER_PRESSED)
+            {
+                result = MenuSelector.ChangeSelection(currentSelectionIndex, MAX_SELECTION, currentMenu);
+
+                currentSelectionIndex = result.Value;
+                
+                if (result.Key == FailCode.ENTER_PRESSED)
+                {
+                    return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, currentSelectionIndex);
+                }
+            }
+
+            return new KeyValuePair<FailCode, int>(FailCode.ESC_PRESSED, -1);
         }
     }
 }

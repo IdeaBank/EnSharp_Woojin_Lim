@@ -3,7 +3,7 @@ using Library.Utility;
 
 namespace Library.Controller
 {
-    class ControllerInterface
+    public class ControllerInterface
     {
         protected TotalData data;
         protected CombinedManager combinedManager;

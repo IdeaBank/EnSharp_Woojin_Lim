@@ -10,6 +10,7 @@ namespace Library.Constants
         NO_ID,
         WRONG_PASSWORD,
         ESC_PRESSED,
+        ENTER_PRESSED,
         FATAL_ERROR
     }
 }

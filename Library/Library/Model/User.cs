@@ -17,9 +17,9 @@ namespace Library.Model
 
         public int Number
         {
-            get => this.Number;
+            get => this.number;
 
-            set => this.Number = value;
+            set => this.number = value;
         }
 
         public string Id
