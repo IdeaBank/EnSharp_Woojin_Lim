@@ -26,7 +26,7 @@ namespace Library.Controller.UserController
                 UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
 
                 KeyValuePair<FailCode, string> inputId = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                    windowHeightHalf, InputMax.MAX_ID_PASSWORD_LENGTH, false, "");
+                    windowHeightHalf, InputMax.MAX_ID_PASSWORD_LENGTH, false, false, "");
 
                 if (inputId.Key == FailCode.ESC_PRESSED)
                 {
@@ -34,7 +34,7 @@ namespace Library.Controller.UserController
                 }
 
                 KeyValuePair<FailCode, string> inputPassword = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                    windowHeightHalf + 1, InputMax.MAX_ID_PASSWORD_LENGTH, false, "");
+                    windowHeightHalf + 1, InputMax.MAX_ID_PASSWORD_LENGTH, true, false, "");
                 
                 if (inputPassword.Key == FailCode.ESC_PRESSED)
                 {

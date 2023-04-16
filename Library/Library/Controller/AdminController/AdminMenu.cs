@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Library.Constants;
-using Library.Controller.UserController;
 using Library.Model;
 using Library.Utility;
 using Library.View.AdminView;
-using Library.View.UserView;
 
 namespace Library.Controller.AdminController
 {

@@ -79,7 +79,7 @@ namespace Library.Utility
         // Get input from user and return its result.
         // Return FailCode.ESC_PRESSED if esc is pressed during input.
         public static KeyValuePair<FailCode, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, 
-            bool canEnterKorean, string defaultInput = "")
+            bool isPassword, bool canEnterKorean, string defaultInput = "")
         {
             // Set cursor visible
             Console.CursorVisible = true;
@@ -93,8 +93,17 @@ namespace Library.Utility
             // While Enter key is not pressed
             while (keyInput.Key != ConsoleKey.Enter)
             {
+                // Write down stars if input mode is password
+                if (isPassword)
+                {
+                    ConsoleWriter.WriteOnPosition(cursorX, cursorY, new string('*', currentInput.Length));
+                }
+
                 // Write down current input
-                ConsoleWriter.WriteOnPosition(cursorX, cursorY, currentInput);
+                else
+                {
+                    ConsoleWriter.WriteOnPosition(cursorX, cursorY, currentInput);
+                }
 
                 // Get key input
                 keyInput = Console.ReadKey(true);

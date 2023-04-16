@@ -52,6 +52,7 @@
         <Compile Include="Controller\UserController\UserLogin.cs" />
         <Compile Include="Controller\UserController\UserLoginOrRegister.cs" />
         <Compile Include="Controller\UserController\UserMenu.cs" />
+        <Compile Include="Controller\UserController\UserRegister.cs" />
         <Compile Include="Model\Book.cs" />
         <Compile Include="Model\BorrowedBook.cs" />
         <Compile Include="Model\TotalData.cs" />
