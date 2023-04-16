@@ -2,53 +2,54 @@ using System;
 using Library.Constants;
 using Library.Utility;
 
-namespace Library.View
+namespace Library.View.AdminView
 {
-    public class UserOrAdminView
+    public class AdminMenuView
     {
-        private UserOrAdminView _instance;
+        private AdminMenuView _instance;
 
-        private UserOrAdminView()
+        private AdminMenuView()
         {
             
         }
 
-        public UserOrAdminView getInstance
+        public AdminMenuView getInstance
         {
             get
             {
                 if (this._instance == null)
                 {
-                    _instance = new UserOrAdminView();
+                    _instance = new AdminMenuView();
                 }
 
                 return _instance;
             }
         }
 
-        public static void PrintUserOrAdminContour()
+        public static void PrintAdminMenuContour()
         {
-            ConsoleWriter.DrawContour(30, 8);
+            ConsoleWriter.DrawContour(40, 13);
         }
+
         
-        public static void PrintUserOrAdmin(int currentSelectionIndex)
+        public static void PrintAdminMenu(int currentSelectionIndex)
         {
-            string[] userOrAdminInstruction = new[] { "User", "Administrator" };
+            string[] loginOrRegister = new[] { "도서 찾기", "도서 추가", "도서 삭제", "도서 수정", "회원 관리", "대여 상황" };
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;
             
-            for (int i = 0; i < MenuCount.MAIN; ++i)
+            for (int i = 0; i < MenuCount.ADMIN; ++i)
             {
                 if (i == currentSelectionIndex)
                 {
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        userOrAdminInstruction[i], AlignType.CENTER, ConsoleColor.Green);
+                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.Green);
                 }
 
                 else
                 {
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        userOrAdminInstruction[i], AlignType.CENTER, ConsoleColor.White);
+                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.White);
                 }
             }
         }

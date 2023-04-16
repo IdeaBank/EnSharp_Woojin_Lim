@@ -28,7 +28,7 @@ namespace Library.View.UserView
 
         public static void PrintLoginOrRegisterContour()
         {
-            ConsoleWriter.DrawContour(30, 8);
+            ConsoleWriter.DrawContour(50, 8);
         }
         
         public static void PrintLoginOrRegister(int currentSelectionIndex)
@@ -41,19 +41,38 @@ namespace Library.View.UserView
             {
                 if (i == currentSelectionIndex)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        loginOrRegister[i], AlignType.CENTER);
-                    
-                    Console.ResetColor();
+                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.Green);
                 }
 
                 else
                 {
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        loginOrRegister[i], AlignType.CENTER);
+                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.White);
                 }
+            }
+        }
+
+        public static void PrintLogin(string idHint, string passwordHint)
+        {
+            Console.Clear();
+            PrintLoginOrRegisterContour();
+
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf - 10, windowHeightHalf, "ID: ".PadLeft(10, ' '), AlignType.RIGHT);
+
+            if (idHint != "")
+            {
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, idHint, AlignType.RIGHT, ConsoleColor.Red);
+            }
+            
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf - 10, windowHeightHalf + 1, "PASSWORD: ".PadLeft(10, ' '), AlignType.RIGHT);
+            
+            if (passwordHint != "")
+            {
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 1, passwordHint, AlignType.RIGHT, ConsoleColor.Red);
             }
         }
     }

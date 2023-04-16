@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Library.Constants;
 using Library.View;
+using Library.View.AdminView;
 using Library.View.UserView;
 
 namespace Library.Utility
@@ -59,7 +60,7 @@ namespace Library.Utility
                     
                     break;
                 case MenuType.ADMIN:
-                    
+                    AdminMenuView.PrintAdminMenu(currentSelectionIndex);
                     break;
             }
         }

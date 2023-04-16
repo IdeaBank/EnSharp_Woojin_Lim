@@ -31,7 +31,7 @@ namespace Library.Utility
             Console.Write(str);
         }
 
-        public static void WriteOnPositionWithAlign(int cursorX, int cursorY, string str, AlignType alignType)
+        public static void WriteOnPositionWithAlign(int cursorX, int cursorY, string str, AlignType alignType, ConsoleColor color=ConsoleColor.White)
         {
             int currentX = Console.CursorLeft;
             int currentY = Console.CursorTop;
@@ -48,8 +48,11 @@ namespace Library.Utility
                     Console.SetCursorPosition(cursorX - str.Length / 2, cursorY);
                     break;
             }
-            
+
+            Console.ForegroundColor = color;
             Console.Write(str);
+            Console.ResetColor();
+            
             Console.SetCursorPosition(currentX, currentY);
         }
 

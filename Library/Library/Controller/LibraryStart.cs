@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Library.Constants;
+using Library.Controller.AdminController;
 using Library.Controller.UserController;
 using Library.Model;
 using Library.Utility;
@@ -57,19 +58,25 @@ namespace Library.Controller
         public void StartLibrary()
         {
             AddSampleData();
+            Console.Clear();
             
-            UserOrAdminView.PrintUserOrAdminContour();
-            
-            KeyValuePair<FailCode, int> result = MenuSelector.ChooseMenu(0, MenuCount.MAIN, MenuType.USER_OR_ADMIN);
+            KeyValuePair<FailCode, int> result = new KeyValuePair<FailCode, int>(FailCode.SUCCESS, -1);
 
-            if (result.Key == FailCode.ESC_PRESSED)
+            while (result.Key != FailCode.ESC_PRESSED)
             {
-                return;
-            }
+                UserOrAdminView.PrintUserOrAdminContour();
+                result = MenuSelector.ChooseMenu(0, MenuCount.MAIN, MenuType.USER_OR_ADMIN);
 
-            this.currentSelectionIndex = result.Value;
-            
-            EnterNextMenu();
+                if (result.Key == FailCode.ESC_PRESSED)
+                {
+                    return;
+                }
+
+                this.currentSelectionIndex = result.Value;
+
+                EnterNextMenu();
+                Console.Clear();
+            }
         }
 
         private void EnterNextMenu()
@@ -80,8 +87,10 @@ namespace Library.Controller
                     UserLoginOrRegister userLoginOrRegister = new UserLoginOrRegister(totalData, combinedManager);
                     userLoginOrRegister.SelectLoginOrRegister();
                     break;
+                
                 case 1:
-                    Console.WriteLine("2");
+                    AdminLogin adminLogin = new AdminLogin(totalData, combinedManager);
+                    adminLogin.TryLogin();
                     break;
             }
         }

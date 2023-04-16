@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
 using Library.Utility;
-using Library.View.AdminView;
 using Library.View.UserView;
 
-namespace Library.Controller.AdminController
+namespace Library.Controller.UserController
 {
-    public class AdminLogin: ControllerInterface
+    public class UserLogin: ControllerInterface
     {
-        public AdminLogin(TotalData totalData, CombinedManager combinedManager) : base(totalData, combinedManager)
-        {
-        }
+        private int currentUserIndex;
         
+        public UserLogin(TotalData totalData, CombinedManager combinedManager): base(totalData, combinedManager)
+        {
+            this.currentUserIndex = -1;
+        }
+
         public void TryLogin()
         {
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -42,7 +44,7 @@ namespace Library.Controller.AdminController
                     return;
                 }
 
-                KeyValuePair<FailCode, int> loginResult = combinedManager.UserManager.LoginAsAdministrator(inputId.Value, inputPassword.Value);
+                KeyValuePair<FailCode, int> loginResult = combinedManager.UserManager.LoginAsUser(inputId.Value, inputPassword.Value);
 
                 if (loginResult.Key == FailCode.SUCCESS)
                 {
@@ -67,10 +69,9 @@ namespace Library.Controller.AdminController
                     Console.CursorVisible = true;
                     loginHint[0] = loginHint[1] = "";
                 }
+                
+                this.currentUserIndex = loginResult.Value;
             }
-
-            AdminMenu adminLogin = new AdminMenu(data, combinedManager);
-            adminLogin.SelectAdminMenu();
         }
     }
 }

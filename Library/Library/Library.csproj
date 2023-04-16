@@ -41,12 +41,15 @@
     <ItemGroup>
         <Compile Include="Constants\AlignType.cs" />
         <Compile Include="Constants\FailCode.cs" />
+        <Compile Include="Constants\InputMax.cs" />
         <Compile Include="Constants\MenuCount.cs" />
         <Compile Include="Constants\MenuType.cs" />
         <Compile Include="Constants\MoveDirection.cs" />
         <Compile Include="Controller\AdminController\AdminLogin.cs" />
+        <Compile Include="Controller\AdminController\AdminMenu.cs" />
         <Compile Include="Controller\ControllerInterface.cs" />
         <Compile Include="Controller\LibraryStart.cs" />
+        <Compile Include="Controller\UserController\UserLogin.cs" />
         <Compile Include="Controller\UserController\UserLoginOrRegister.cs" />
         <Compile Include="Model\Book.cs" />
         <Compile Include="Model\BorrowedBook.cs" />
@@ -60,7 +63,7 @@
         <Compile Include="Utility\MenuSelector.cs" />
         <Compile Include="Utility\UserInputManager.cs" />
         <Compile Include="Utility\UserManager.cs" />
-        <Compile Include="View\AdminView\AdminMenu.cs" />
+        <Compile Include="View\AdminView\AdminMenuView.cs" />
         <Compile Include="View\UserOrAdminView.cs" />
         <Compile Include="View\UserView\UserLoginOrRegisterView.cs" />
         <Compile Include="View\UserView\UserMenu.cs" />
