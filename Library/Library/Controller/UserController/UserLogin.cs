@@ -9,11 +9,8 @@ namespace Library.Controller.UserController
 {
     public class UserLogin: ControllerInterface
     {
-        private int currentUserIndex;
-        
         public UserLogin(TotalData totalData, CombinedManager combinedManager): base(totalData, combinedManager)
         {
-            this.currentUserIndex = -1;
         }
 
         public void TryLogin()
@@ -69,8 +66,9 @@ namespace Library.Controller.UserController
                     Console.CursorVisible = true;
                     loginHint[0] = loginHint[1] = "";
                 }
-                
-                this.currentUserIndex = loginResult.Value;
+
+                UserMenu adminLogin = new UserMenu(data, combinedManager, loginResult.Value);
+                adminLogin.SelectUserMenu();
             }
         }
     }

@@ -57,7 +57,7 @@ namespace Library.Utility
                     UserLoginOrRegisterView.PrintLoginOrRegister(currentSelectionIndex);
                     break;
                 case MenuType.USER:
-                    
+                    UserMenuView.PrintUserMenu(currentSelectionIndex);
                     break;
                 case MenuType.ADMIN:
                     AdminMenuView.PrintAdminMenu(currentSelectionIndex);

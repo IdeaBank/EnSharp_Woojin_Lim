@@ -51,6 +51,7 @@
         <Compile Include="Controller\LibraryStart.cs" />
         <Compile Include="Controller\UserController\UserLogin.cs" />
         <Compile Include="Controller\UserController\UserLoginOrRegister.cs" />
+        <Compile Include="Controller\UserController\UserMenu.cs" />
         <Compile Include="Model\Book.cs" />
         <Compile Include="Model\BorrowedBook.cs" />
         <Compile Include="Model\TotalData.cs" />
@@ -66,7 +67,7 @@
         <Compile Include="View\AdminView\AdminMenuView.cs" />
         <Compile Include="View\UserOrAdminView.cs" />
         <Compile Include="View\UserView\UserLoginOrRegisterView.cs" />
-        <Compile Include="View\UserView\UserMenu.cs" />
+        <Compile Include="View\UserView\UserMenuView.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
