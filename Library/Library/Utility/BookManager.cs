@@ -56,20 +56,6 @@ namespace Library.Utility
             return searchResult;
         }
         
-        public FailCode DeleteBook(int bookkId)
-        {
-            foreach(Book book in totalData.Books)
-            {
-                if (book.Id == bookkId)
-                {
-                    totalData.Books.Remove(book);
-                    return FailCode.SUCCESS;
-                }
-            }
-
-            return FailCode.NO_BOOK;
-        }
-
         public FailCode BorrowBook(int userIndex, int bookId)
         {
             KeyValuePair<FailCode, int> findResult = GetBookIndex(bookId);

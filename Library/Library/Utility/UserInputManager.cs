@@ -81,39 +81,60 @@ namespace Library.Utility
         public static KeyValuePair<FailCode, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, 
             bool canEnterKorean, string defaultInput = "")
         {
+            // Set cursor visible
+            Console.CursorVisible = true;
+            
+            // Set current input into default input
             string currentInput = defaultInput;
             FailCode inputResult = FailCode.SUCCESS;
             
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
 
+            // While Enter key is not pressed
             while (keyInput.Key != ConsoleKey.Enter)
             {
+                // Write down current input
                 ConsoleWriter.WriteOnPosition(cursorX, cursorY, currentInput);
 
+                // Get key input
                 keyInput = Console.ReadKey(true);
 
+                // If Escape key is pressed
                 if (keyInput.Key == ConsoleKey.Escape)
                 {
+                    // Set cursor invisible
+                    Console.CursorVisible = false;
+                    
+                    // set input result to esc_pressed and break while loop
                     inputResult = FailCode.ESC_PRESSED;
                     break;
                 }
 
+                // If backspace is pressed and length of current input is over 0
                 if (keyInput.Key == ConsoleKey.Backspace && currentInput.Length > 0)
                 {
+                    // Delete last character in current input
                     currentInput = currentInput.Substring(0, currentInput.Length - 1);
 
+                    // Remove printed input
                     ConsoleWriter.WriteOnPosition(cursorX, cursorY, new string(' ', maxInputLength));
                 }
 
                 else
                 {
+                    // If length of current input is under max input length and pressed key is number or character
                     if (currentInput.Length < maxInputLength && IsNumberOrCharacter(keyInput.KeyChar, canEnterKorean))
                     {
+                        // Add pressed key character into current input
                         currentInput += keyInput.KeyChar;
                     }
                 }
             }
 
+            // Set cursor invisible
+            Console.CursorVisible = false;
+            
+            // Return input result
             return new KeyValuePair<FailCode, string>(inputResult, currentInput);
         }
     }

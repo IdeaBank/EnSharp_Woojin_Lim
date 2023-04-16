@@ -48,7 +48,7 @@ namespace Library.View
                 else
                 {
                     ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        userOrAdminInstruction[i], AlignType.CENTER, ConsoleColor.White);
+                        userOrAdminInstruction[i], AlignType.CENTER);
                 }
             }
         }

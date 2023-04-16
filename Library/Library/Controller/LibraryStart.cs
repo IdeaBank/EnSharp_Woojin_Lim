@@ -60,6 +60,9 @@ namespace Library.Controller
             AddSampleData();
             Console.Clear();
             
+            // Set cursor invisible
+            Console.CursorVisible = false;
+            
             KeyValuePair<FailCode, int> result = new KeyValuePair<FailCode, int>(FailCode.SUCCESS, -1);
 
             while (result.Key != FailCode.ESC_PRESSED)

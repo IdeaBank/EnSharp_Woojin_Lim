@@ -8,7 +8,7 @@ namespace Library.Controller
         protected TotalData data;
         protected CombinedManager combinedManager;
 
-        public ControllerInterface(TotalData data, CombinedManager combinedManager)
+        protected ControllerInterface(TotalData data, CombinedManager combinedManager)
         {
             this.data = data;
             this.combinedManager = combinedManager;

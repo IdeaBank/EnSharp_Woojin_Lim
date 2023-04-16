@@ -13,7 +13,8 @@ namespace Library.Model
         
         public string BorrowedDate
         {
-            get => this.BorrowedDate;
+            get => this.borrowedDate;
+            set => this.borrowedDate = value;
         }
 
         public string ReturnedDate
