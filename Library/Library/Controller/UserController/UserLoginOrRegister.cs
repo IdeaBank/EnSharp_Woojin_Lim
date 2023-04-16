@@ -46,7 +46,8 @@ namespace Library.Controller.UserController
                     userLogin.TryLogin();
                     break;
                 case 1:
-                    Console.WriteLine("2");
+                    UserRegister userRegister = new UserRegister(data, combinedManager);
+                    userRegister.Register();
                     break;
             }
         }

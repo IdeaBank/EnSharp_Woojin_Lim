@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Library.Constants;
 
 namespace Library.Utility
@@ -27,6 +28,12 @@ namespace Library.Utility
             }
         }
 
+        public static bool MatchesRegex(string expression, string str)
+        {
+            Regex regex = new Regex(expression);
+            return regex.IsMatch(str);
+        }
+        
         // Return true if character is between 0 and 9
         private static bool IsDigit(char ch)
         {
