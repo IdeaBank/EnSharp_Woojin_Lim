@@ -42,9 +42,11 @@
         <Compile Include="Constants\AlignType.cs" />
         <Compile Include="Constants\FailCode.cs" />
         <Compile Include="Constants\InputMax.cs" />
+        <Compile Include="Constants\InputParameter.cs" />
         <Compile Include="Constants\MenuCount.cs" />
         <Compile Include="Constants\MenuType.cs" />
         <Compile Include="Constants\MoveDirection.cs" />
+        <Compile Include="Constants\RegularExpression.cs" />
         <Compile Include="Controller\AdminController\AdminLogin.cs" />
         <Compile Include="Controller\AdminController\AdminMenu.cs" />
         <Compile Include="Controller\ControllerInterface.cs" />

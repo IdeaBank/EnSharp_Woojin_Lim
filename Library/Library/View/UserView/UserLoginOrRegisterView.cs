@@ -33,7 +33,7 @@ namespace Library.View.UserView
 
         public static void PrintRegisterContour()
         {
-            ConsoleWriter.DrawContour(45, 15);
+            ConsoleWriter.DrawContour(50, 18);
         }
 
         public static void PrintLoginOrRegister(int currentSelectionIndex)
@@ -97,8 +97,9 @@ namespace Library.View.UserView
             {
                 "Enter ID: ", 
                 "Enter Password: ", 
+                "Confirm Password: ", 
                 "Enter Name: ",
-                "Enter Age: ",
+                "Enter Birthdate: ",
                 "Enter Phone Number: ",
                 "Enter User Address: "
             };

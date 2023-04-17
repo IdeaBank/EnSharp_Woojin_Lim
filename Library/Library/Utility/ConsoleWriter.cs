@@ -78,21 +78,5 @@ namespace Library.Utility
             
             Console.SetCursorPosition(currentX, currentY);
         }
-        
-        public static void DrawLogo(int height)
-        {
-            int windowWidthHalf = Console.WindowWidth / 2;
-            int windowHeightHalf = Console.WindowHeight / 2;
-            
-            int currentX = Console.CursorLeft;
-            int currentY = Console.CursorTop;
-            
-            WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - height / 2 + 1,
-                "╦  ╦╔╗ ╦═╗╔═╗╦═╗╦ ╦", AlignType.CENTER);
-            WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - height / 2 + 2,
-                "║  ║╠╩╗╠╦╝╠═╣╠╦╝╚╦╝", AlignType.CENTER);
-            WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - height / 2 + 3,
-                "╩═╝╩╚═╝╩╚═╩ ╩╩╚═ ╩ ", AlignType.CENTER);
-        }
     }
 }
