@@ -14,20 +14,20 @@ namespace Library.Utility
             this.totalData = totalData;
         }
 
-        private KeyValuePair<FailCode, int> GetBookIndex(int bookId)
+        private KeyValuePair<ResultCode, int> GetBookIndex(int bookId)
         {
             for (int i = 0; i < totalData.Books.Count; ++i)
             {
                 if (totalData.Books[i].Id == bookId)
                 {
-                    return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, i);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                 }
             }
             
-            return new KeyValuePair<FailCode, int>(FailCode.NO_BOOK, -1);
+            return new KeyValuePair<ResultCode, int>(ResultCode.NO_BOOK, -1);
         }
         
-        public FailCode AddBook(string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
+        public ResultCode AddBook(string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
         {
             Book book = new Book(name, author, publisher, quantity, price, publishedDate, isbn, description);
 
@@ -36,7 +36,7 @@ namespace Library.Utility
             
             totalData.Books.Add(book);
             
-            return FailCode.SUCCESS;
+            return ResultCode.SUCCESS;
         }
 
         public List<Book> SearchBook(string name, string author, string publisher)
@@ -56,12 +56,12 @@ namespace Library.Utility
             return searchResult;
         }
         
-        public FailCode BorrowBook(int userIndex, int bookId)
+        public ResultCode BorrowBook(int userIndex, int bookId)
         {
-            KeyValuePair<FailCode, int> findResult = GetBookIndex(bookId);
+            KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
             int bookIndex = findResult.Value;
 
-            if (findResult.Key == FailCode.SUCCESS)
+            if (findResult.Key == ResultCode.SUCCESS)
             {
                 if (totalData.Books[bookIndex].Quantity > 0)
                 {
@@ -70,16 +70,16 @@ namespace Library.Utility
                     totalData.Books[bookIndex].Quantity -= 1;
                     totalData.Users[userIndex].BorrowedBooks.Add(borrowedBook);
 
-                    return FailCode.SUCCESS;
+                    return ResultCode.SUCCESS;
                 }
 
-                return FailCode.BOOK_NOT_ENOUGH;
+                return ResultCode.BOOK_NOT_ENOUGH;
             }
 
-            return FailCode.NO_BOOK;
+            return ResultCode.NO_BOOK;
         }
 
-        public FailCode ReturnBook(int userIndex, int bookId)
+        public ResultCode ReturnBook(int userIndex, int bookId)
         {
             foreach (BorrowedBook borrowedBook in totalData.Users[userIndex].BorrowedBooks)
             {
@@ -89,19 +89,19 @@ namespace Library.Utility
                     borrowedBook.ReturnedDate = DateTime.Now.ToString();
                     totalData.Users[userIndex].ReturnedBooks.Add(borrowedBook);
 
-                    return FailCode.SUCCESS;
+                    return ResultCode.SUCCESS;
                 }
             }
             
-            return FailCode.NO_BOOK;
+            return ResultCode.NO_BOOK;
         }
 
-        public FailCode EditBook(int bookId, Book book)
+        public ResultCode EditBook(int bookId, Book book)
         {
-            KeyValuePair<FailCode, int> findResult = GetBookIndex(bookId);
+            KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
             int bookIndex = findResult.Value;
             
-            if (findResult.Key == FailCode.SUCCESS)
+            if (findResult.Key == ResultCode.SUCCESS)
             {
                 totalData.Books[bookIndex].Name = book.Name;
                 totalData.Books[bookIndex].Author = book.Author;
@@ -112,25 +112,25 @@ namespace Library.Utility
                 totalData.Books[bookIndex].Isbn = book.Isbn;
                 totalData.Books[bookIndex].Description = book.Description;
 
-                return FailCode.SUCCESS;
+                return ResultCode.SUCCESS;
             }
 
-            return FailCode.NO_BOOK;
+            return ResultCode.NO_BOOK;
         }
 
-        public FailCode RemoveBook(int bookId)
+        public ResultCode RemoveBook(int bookId)
         {
-            KeyValuePair<FailCode, int> findResult = GetBookIndex(bookId);
+            KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
             int bookIndex = findResult.Value;
 
-            if (findResult.Key == FailCode.SUCCESS)
+            if (findResult.Key == ResultCode.SUCCESS)
             {
                 totalData.Books.RemoveAt(bookIndex);
 
-                return FailCode.SUCCESS;
+                return ResultCode.SUCCESS;
             }
 
-            return FailCode.NO_BOOK;
+            return ResultCode.NO_BOOK;
         }
     }
 }

@@ -85,7 +85,7 @@ namespace Library.Utility
         
         // Get input from user and return its result.
         // Return FailCode.ESC_PRESSED if esc is pressed during input.
-        public static KeyValuePair<FailCode, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, 
+        public static KeyValuePair<ResultCode, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, 
             bool isPassword, bool canEnterKorean, string defaultInput = "")
         {
             // Set cursor visible
@@ -93,7 +93,7 @@ namespace Library.Utility
             
             // Set current input into default input
             string currentInput = defaultInput;
-            FailCode inputResult = FailCode.SUCCESS;
+            ResultCode inputResult = ResultCode.SUCCESS;
             
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
 
@@ -122,7 +122,7 @@ namespace Library.Utility
                     Console.CursorVisible = false;
                     
                     // set input result to esc_pressed and break while loop
-                    inputResult = FailCode.ESC_PRESSED;
+                    inputResult = ResultCode.ESC_PRESSED;
                     break;
                 }
 
@@ -151,7 +151,31 @@ namespace Library.Utility
             Console.CursorVisible = false;
             
             // Return input result
-            return new KeyValuePair<FailCode, string>(inputResult, currentInput);
+            return new KeyValuePair<ResultCode, string>(inputResult, currentInput);
+        }
+
+        public static ResultCode InputYesOrNo()
+        {
+            ConsoleKeyInfo consoleKeyInfo = new ConsoleKeyInfo();
+
+            while (consoleKeyInfo.Key != ConsoleKey.Y &&
+                   consoleKeyInfo.Key != ConsoleKey.N &&
+                   consoleKeyInfo.Key != ConsoleKey.Escape)
+            {
+                consoleKeyInfo = Console.ReadKey(true);
+
+                if (consoleKeyInfo.Key == ConsoleKey.Y)
+                {
+                    return ResultCode.YES;
+                }
+                
+                else if (consoleKeyInfo.Key == ConsoleKey.N || consoleKeyInfo.Key == ConsoleKey.Escape)
+                {
+                    return ResultCode.NO;
+                }
+            }
+
+            return ResultCode.NO;
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace Library.Constants
 {
-    public enum FailCode
+    public enum ResultCode
     {
         SUCCESS,
         NO_BOOK,
@@ -11,6 +11,8 @@ namespace Library.Constants
         WRONG_PASSWORD,
         ESC_PRESSED,
         ENTER_PRESSED,
-        FATAL_ERROR
+        FATAL_ERROR,
+        YES,
+        NO
     }
 }

@@ -40,7 +40,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Constants\AlignType.cs" />
-        <Compile Include="Constants\FailCode.cs" />
+        <Compile Include="Constants\ResultCode.cs" />
         <Compile Include="Constants\InputMax.cs" />
         <Compile Include="Constants\InputParameter.cs" />
         <Compile Include="Constants\MenuCount.cs" />
@@ -69,6 +69,7 @@
         <Compile Include="Utility\UserManager.cs" />
         <Compile Include="View\AdminView\AdminMenuView.cs" />
         <Compile Include="View\UserOrAdminView.cs" />
+        <Compile Include="View\UserSelectionView.cs" />
         <Compile Include="View\UserView\UserLoginOrRegisterView.cs" />
         <Compile Include="View\UserView\UserMenuView.cs" />
     </ItemGroup>

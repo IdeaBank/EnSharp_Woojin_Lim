@@ -18,14 +18,14 @@ namespace Library.Controller.UserController
 
         public void SelectLoginOrRegister()
         {
-            KeyValuePair<FailCode, int> result = new KeyValuePair<FailCode, int>(FailCode.SUCCESS, -1);
+            KeyValuePair<ResultCode, int> result = new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, -1);
 
-            while (result.Key != FailCode.ESC_PRESSED)
+            while (result.Key != ResultCode.ESC_PRESSED)
             {
                 UserLoginOrRegisterView.PrintLoginOrRegisterContour();
                 result = MenuSelector.ChooseMenu(0, MenuCount.USER_LOGIN_OR_REGISTER, MenuType.USER_LOGIN_OR_REGISTER);
 
-                if (result.Key == FailCode.ESC_PRESSED)
+                if (result.Key == ResultCode.ESC_PRESSED)
                 {
                     return;
                 }

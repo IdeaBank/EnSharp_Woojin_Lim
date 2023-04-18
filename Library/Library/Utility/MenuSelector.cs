@@ -65,7 +65,7 @@ namespace Library.Utility
             }
         }
         
-        private static KeyValuePair<FailCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
+        private static KeyValuePair<ResultCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
         {
             ShowView(currentMenu, currentSelectionIndex);
             
@@ -82,32 +82,33 @@ namespace Library.Utility
                     break;
 
                 case ConsoleKey.Enter:
-                    return new KeyValuePair<FailCode, int>(FailCode.ENTER_PRESSED, currentSelectionIndex);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.ENTER_PRESSED, currentSelectionIndex);
 
                 case ConsoleKey.Escape:
-                    return new KeyValuePair<FailCode, int>(FailCode.ESC_PRESSED, -1);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.ESC_PRESSED, -1);
             }
 
-            return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, currentSelectionIndex);
+            return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, currentSelectionIndex);
         }
 
-        public static KeyValuePair<FailCode, int> ChooseMenu(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
+        public static KeyValuePair<ResultCode, int> ChooseMenu(int currentSelectionIndex, int MAX_SELECTION,
+            MenuType currentMenu)
         {
-            KeyValuePair<FailCode, int> result = new KeyValuePair<FailCode, int>(FailCode.SUCCESS, -1);
-            
-            while (result.Key != FailCode.ESC_PRESSED && result.Key != FailCode.ENTER_PRESSED)
+            KeyValuePair<ResultCode, int> result = new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, -1);
+
+            while (result.Key != ResultCode.ESC_PRESSED && result.Key != ResultCode.ENTER_PRESSED)
             {
                 result = MenuSelector.ChangeSelection(currentSelectionIndex, MAX_SELECTION, currentMenu);
 
                 currentSelectionIndex = result.Value;
-                
-                if (result.Key == FailCode.ENTER_PRESSED)
+
+                if (result.Key == ResultCode.ENTER_PRESSED)
                 {
-                    return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, currentSelectionIndex);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, currentSelectionIndex);
                 }
             }
 
-            return new KeyValuePair<FailCode, int>(FailCode.ESC_PRESSED, -1);
+            return new KeyValuePair<ResultCode, int>(ResultCode.ESC_PRESSED, -1);
         }
     }
 }

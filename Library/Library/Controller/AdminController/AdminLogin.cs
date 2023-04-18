@@ -25,35 +25,35 @@ namespace Library.Controller.AdminController
             {
                 UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
 
-                KeyValuePair<FailCode, string> inputId = UserInputManager.ReadInputFromUser(windowWidthHalf, 
+                KeyValuePair<ResultCode, string> inputId = UserInputManager.ReadInputFromUser(windowWidthHalf, 
                     windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN, "");
 
-                if (inputId.Key == FailCode.ESC_PRESSED)
+                if (inputId.Key == ResultCode.ESC_PRESSED)
                 {
                     return;
                 }
 
-                KeyValuePair<FailCode, string> inputPassword = UserInputManager.ReadInputFromUser(windowWidthHalf, 
+                KeyValuePair<ResultCode, string> inputPassword = UserInputManager.ReadInputFromUser(windowWidthHalf, 
                     windowHeightHalf + 1, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DONT_ENTER_KOREAN, "");
                 
-                if (inputPassword.Key == FailCode.ESC_PRESSED)
+                if (inputPassword.Key == ResultCode.ESC_PRESSED)
                 {
                     return;
                 }
 
-                KeyValuePair<FailCode, int> loginResult = combinedManager.UserManager.LoginAsAdministrator(inputId.Value, inputPassword.Value);
+                KeyValuePair<ResultCode, int> loginResult = combinedManager.UserManager.LoginAsAdministrator(inputId.Value, inputPassword.Value);
 
-                if (loginResult.Key == FailCode.SUCCESS)
+                if (loginResult.Key == ResultCode.SUCCESS)
                 {
                     isLoggedIn[0] = isLoggedIn[1] = true;
                 }
                 
-                if (loginResult.Key == FailCode.NO_ID)
+                if (loginResult.Key == ResultCode.NO_ID)
                 {
                     loginHint[0] = "No ID";
                 }
 
-                if (loginResult.Key == FailCode.WRONG_PASSWORD)
+                if (loginResult.Key == ResultCode.WRONG_PASSWORD)
                 {
                     loginHint[1] = "Wrong Password";
                 }

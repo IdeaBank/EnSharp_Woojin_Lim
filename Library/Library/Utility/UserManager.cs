@@ -13,26 +13,26 @@ namespace Library.Utility
             this.totalData = totalData;
         }
 
-        private KeyValuePair<FailCode, int> GetUserIndex(int userNumber)
+        private KeyValuePair<ResultCode, int> GetUserIndex(int userNumber)
         {
             for(int i = 0; i < totalData.Users.Count; ++i)
             {
                 if (totalData.Users[i].Number == userNumber)
                 {
-                    return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, i);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                 }
             }
 
-            return new KeyValuePair<FailCode, int>(FailCode.NO_USER, -1);
+            return new KeyValuePair<ResultCode, int>(ResultCode.NO_USER, -1);
         }
         
-        public FailCode AddUser(string id, string password, string name, int birthYear, string phoneNumber, string address)
+        public ResultCode AddUser(string id, string password, string name, int birthYear, string phoneNumber, string address)
         {
             foreach (User tempUser in totalData.Users)
             {
                 if (tempUser.Id == id)
                 {
-                    return FailCode.USER_ID_EXISTS;
+                    return ResultCode.USER_ID_EXISTS;
                 }
             }
             
@@ -50,10 +50,10 @@ namespace Library.Utility
 
             totalData.Users.Add(user);
             
-            return FailCode.SUCCESS;
+            return ResultCode.SUCCESS;
         }
 
-        public KeyValuePair<FailCode, int> LoginAsUser(string id, string password)
+        public KeyValuePair<ResultCode, int> LoginAsUser(string id, string password)
         {
             for (int i = 0; i < totalData.Users.Count; ++i)
             {
@@ -61,17 +61,17 @@ namespace Library.Utility
                 {
                     if (totalData.Users[i].Password == password)
                     {
-                        return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, i);
+                        return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                     }
 
-                    return new KeyValuePair<FailCode, int>(FailCode.WRONG_PASSWORD, -1);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.WRONG_PASSWORD, -1);
                 }
             }
 
-            return new KeyValuePair<FailCode, int>(FailCode.NO_ID, -1);
+            return new KeyValuePair<ResultCode, int>(ResultCode.NO_ID, -1);
         }
 
-        public KeyValuePair<FailCode, int> LoginAsAdministrator(string id, string password)
+        public KeyValuePair<ResultCode, int> LoginAsAdministrator(string id, string password)
         {
             for (int i = 0; i < totalData.Administrators.Count; ++i)
             {
@@ -79,30 +79,30 @@ namespace Library.Utility
                 {
                     if (totalData.Administrators[i].Password == password)
                     {
-                        return new KeyValuePair<FailCode, int>(FailCode.SUCCESS, i);
+                        return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                     }
 
-                    return new KeyValuePair<FailCode, int>(FailCode.WRONG_PASSWORD, -1);
+                    return new KeyValuePair<ResultCode, int>(ResultCode.WRONG_PASSWORD, -1);
                 }
             }
             
-            return new KeyValuePair<FailCode, int>(FailCode.NO_ID, -1);
+            return new KeyValuePair<ResultCode, int>(ResultCode.NO_ID, -1);
         }
 
-        public FailCode DeleteUser(int userNumber)
+        public ResultCode DeleteUser(int userNumber)
         {
-            KeyValuePair<FailCode, int> findResult = GetUserIndex(userNumber);
+            KeyValuePair<ResultCode, int> findResult = GetUserIndex(userNumber);
             
             int userIndex = findResult.Value;
 
-            if (findResult.Key == FailCode.SUCCESS)
+            if (findResult.Key == ResultCode.SUCCESS)
             {
                 totalData.Users.RemoveAt(findResult.Value);
                 
-                return FailCode.SUCCESS;
+                return ResultCode.SUCCESS;
             }
 
-            return FailCode.NO_USER;
+            return ResultCode.NO_USER;
         }
     }
 }
