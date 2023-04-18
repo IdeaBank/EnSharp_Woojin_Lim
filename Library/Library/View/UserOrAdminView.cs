@@ -33,6 +33,9 @@ namespace Library.View
         
         public static void PrintUserOrAdmin(int currentSelectionIndex)
         {
+            Console.Clear();
+            PrintUserOrAdminContour();
+            
             string[] userOrAdminInstruction = new[] { "User", "Administrator" };
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;

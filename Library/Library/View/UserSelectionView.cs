@@ -28,16 +28,16 @@ namespace Library.View
 
         public static void PrintYesOrNO(string instruction)
         {
-            int currentWindowWidthHalf = Console.WindowWidth / 2;
-            int currentWindowHeightHalf = Console.WindowHeight / 2;
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
 
             Console.Clear();
             ConsoleWriter.DrawContour(30, 6);
 
-            ConsoleWriter.WriteOnPositionWithAlign(currentWindowWidthHalf, currentWindowHeightHalf - 1, 
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 1, 
                 instruction, AlignType.CENTER);
             
-            ConsoleWriter.WriteOnPositionWithAlign(currentWindowWidthHalf, currentWindowHeightHalf + 1,
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 1,
                 "Y: yes, N: no", AlignType.CENTER);
         }
     }

@@ -26,7 +26,7 @@ namespace Library.Controller.UserController
                 UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
                 
                 KeyValuePair<ResultCode, string> inputId = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN, "");
+                windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN, "");
 
                 if (inputId.Key == ResultCode.ESC_PRESSED)
                 {
@@ -34,7 +34,7 @@ namespace Library.Controller.UserController
                 }
 
                 KeyValuePair<ResultCode, string> inputPassword = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                    windowHeightHalf + 1, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DONT_ENTER_KOREAN, "");
+                    windowHeightHalf + 1, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN, "");
                 
                 if (inputPassword.Key == ResultCode.ESC_PRESSED)
                 {
@@ -68,8 +68,8 @@ namespace Library.Controller.UserController
                     continue;
                 }
 
-                UserMenu adminLogin = new UserMenu(data, combinedManager, loginResult.Value);
-                adminLogin.SelectUserMenu();
+                UserMenu userMenu = new UserMenu(data, combinedManager, loginResult.Value, loginResult.Value);
+                userMenu.SelectUserMenu();
             }
         }
     }

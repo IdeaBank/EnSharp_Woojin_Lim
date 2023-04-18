@@ -31,6 +31,10 @@ namespace Library.View.UserView
             ConsoleWriter.DrawContour(40, 15);
         }
 
+        private static void PrintChooseBookContour()
+        {
+            ConsoleWriter.DrawContour(40, 4);
+        }
         
         public static void PrintUserMenu(int currentSelectionIndex)
         {
@@ -52,6 +56,29 @@ namespace Library.View.UserView
                         loginOrRegister[i], AlignType.CENTER, ConsoleColor.White);
                 }
             }
+        }
+        
+        public static void PrintBorrowOrReturnBook()
+        {
+            Console.Clear();
+            PrintChooseBookContour();
+            
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book: ", AlignType.LEFT);
+        }
+
+        public static void PrintBorrowOrReturnBookResult(string str)
+        {
+            Console.Clear();
+            PrintChooseBookContour();
+            
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, str, AlignType.LEFT);
+
         }
     }
 }

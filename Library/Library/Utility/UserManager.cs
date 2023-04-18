@@ -97,7 +97,12 @@ namespace Library.Utility
 
             if (findResult.Key == ResultCode.SUCCESS)
             {
-                totalData.Users.RemoveAt(findResult.Value);
+                if (totalData.Users[userIndex].BorrowedBooks.Count > 0)
+                {
+                    return ResultCode.MUST_RETURN_BOOK;
+                }
+                
+                totalData.Users.RemoveAt(userIndex);
                 
                 return ResultCode.SUCCESS;
             }

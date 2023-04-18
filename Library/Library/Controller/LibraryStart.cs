@@ -60,8 +60,8 @@ namespace Library.Controller
 
         public void StartLibrary()
         {
-            AddSampleData();
             Console.Clear();
+            AddSampleData();
             
             // Set cursor invisible
             Console.CursorVisible = false;

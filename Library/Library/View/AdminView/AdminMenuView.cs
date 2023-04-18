@@ -31,6 +31,15 @@ namespace Library.View.AdminView
             ConsoleWriter.DrawContour(40, 13);
         }
 
+        private static void PrintAddBookContour()
+        {
+            ConsoleWriter.DrawContour(55, 20);
+        }
+
+        private static void PrintChooseBookContour()
+        {
+            ConsoleWriter.DrawContour(60, 4);
+        }
         
         public static void PrintAdminMenu(int currentSelectionIndex)
         {
@@ -52,6 +61,59 @@ namespace Library.View.AdminView
                         loginOrRegister[i], AlignType.CENTER, ConsoleColor.White);
                 }
             }
+        }
+        
+        public static void PrintAddBook(string []warnings, string []previousInput)
+        {
+            Console.Clear();
+            PrintAddBookContour();
+
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            string[] instructions = new string[]
+            {
+                "Enter name: ", 
+                "Enter author: ", 
+                "Enter publisher: ", 
+                "Enter quantity: ",
+                "Enter price: ",
+                "Enter published date: ",
+                "Enter isbn: ",
+                "Enter desription: "
+            };
+
+            for (int i = 0; i < instructions.Length; ++i)
+            {
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
+                    AlignType.LEFT);
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
+                    AlignType.RIGHT, ConsoleColor.Red);
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, previousInput[i],
+                    AlignType.RIGHT);
+            }
+        }
+
+        public static void PrintDeleteBook()
+        {
+            Console.Clear();
+            PrintChooseBookContour();
+            
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book to remove: ", AlignType.LEFT);
+        }
+
+        public static void PrintDeleteBookResult(string str)
+        {
+            Console.Clear();
+            PrintChooseBookContour();
+            
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, str, AlignType.CENTER);
         }
     }
 }

@@ -22,7 +22,8 @@ namespace Library.Controller.UserController
             bool[] inputValid = { false, false, false, false, false, false, false };
             string[] previousInput = new string[7];
             bool allRegexPassed = false;
-            KeyValuePair<ResultCode, string> idInputResult = new KeyValuePair<ResultCode, string>(),
+            KeyValuePair<ResultCode, string> 
+                idInputResult = new KeyValuePair<ResultCode, string>(),
                 passwordInputResult = new KeyValuePair<ResultCode, string>(),
                 passwordConfirmResult = new KeyValuePair<ResultCode, string>(),
                 nameInputResult = new KeyValuePair<ResultCode, string>(),
@@ -42,7 +43,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[0])
                 {
                     idInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN);
+                        windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     if (idInputResult.Key == ResultCode.ESC_PRESSED)
                     {
@@ -62,7 +63,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[1])
                 {
                     passwordInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 1, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DONT_ENTER_KOREAN);
+                        windowHeightHalf + 1, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     if (passwordInputResult.Key == ResultCode.ESC_PRESSED)
                     {
@@ -83,7 +84,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[2])
                 {
                     passwordConfirmResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 2, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DONT_ENTER_KOREAN);
+                        windowHeightHalf + 2, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     if (passwordConfirmResult.Key == ResultCode.ESC_PRESSED)
                     {
@@ -126,7 +127,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[4])
                 {
                     userAgeInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 4, InputMax.USER_AGE_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN);
+                        windowHeightHalf + 4, InputMax.USER_AGE_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     if (userAgeInputResult.Key == ResultCode.ESC_PRESSED)
                     {
@@ -146,7 +147,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[5])
                 {
                     phoneNumberInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 5, InputMax.USER_PHONE_NUMBER_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN);
+                        windowHeightHalf + 5, InputMax.USER_PHONE_NUMBER_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     if (phoneNumberInputResult.Key == ResultCode.ESC_PRESSED)
                     {
@@ -166,7 +167,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[6])
                 {
                     addressInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 6, InputMax.USER_ADDRESS_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN);
+                        windowHeightHalf + 6, InputMax.USER_ADDRESS_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
                     
                     if (addressInputResult.Key == ResultCode.ESC_PRESSED)
                     {
@@ -186,7 +187,22 @@ namespace Library.Controller.UserController
                 allRegexPassed = true;
             }
 
-            combinedManager.UserManager.AddUser(idInputResult.Value, passwordInputResult.Value, nameInputResult.Value, DateTime.Now.Year - Int32.Parse(userAgeInputResult.Value) + 1, phoneNumberInputResult.Value, addressInputResult.Value);
+            ResultCode registerResult = 
+                combinedManager.UserManager.AddUser(idInputResult.Value, passwordInputResult.Value, nameInputResult.Value, 
+                    DateTime.Now.Year - Int32.Parse(userAgeInputResult.Value) + 1, phoneNumberInputResult.Value,
+                    addressInputResult.Value);
+
+            if (registerResult == ResultCode.USER_ID_EXISTS)
+            {
+                UserLoginOrRegisterView.PrintRegisterResult("SAME ID EXISTS!");
+                Console.ReadKey(true);
+            }
+            
+            else
+            {
+                UserLoginOrRegisterView.PrintRegisterResult("REGISTER SUCCESS!");
+                Console.ReadKey(true);
+            }
         }
     }
 }

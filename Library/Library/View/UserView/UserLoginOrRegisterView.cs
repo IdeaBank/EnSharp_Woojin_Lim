@@ -114,5 +114,18 @@ namespace Library.View.UserView
                     AlignType.RIGHT);
             }
         }
+
+        public static void PrintRegisterResult(string resultString)
+        {
+            Console.Clear();
+            
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+            
+            ConsoleWriter.DrawContour(30, 5);
+            
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, resultString,
+                AlignType.CENTER);
+        }
     }
 }

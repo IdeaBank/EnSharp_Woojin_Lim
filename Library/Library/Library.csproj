@@ -51,6 +51,7 @@
         <Compile Include="Controller\AdminController\AdminMenu.cs" />
         <Compile Include="Controller\ControllerInterface.cs" />
         <Compile Include="Controller\LibraryStart.cs" />
+        <Compile Include="Controller\BookSearcher.cs" />
         <Compile Include="Controller\UserController\UserLogin.cs" />
         <Compile Include="Controller\UserController\UserLoginOrRegister.cs" />
         <Compile Include="Controller\UserController\UserMenu.cs" />
@@ -68,6 +69,7 @@
         <Compile Include="Utility\UserInputManager.cs" />
         <Compile Include="Utility\UserManager.cs" />
         <Compile Include="View\AdminView\AdminMenuView.cs" />
+        <Compile Include="View\SearchBookOrUserView.cs" />
         <Compile Include="View\UserOrAdminView.cs" />
         <Compile Include="View\UserSelectionView.cs" />
         <Compile Include="View\UserView\UserLoginOrRegisterView.cs" />
