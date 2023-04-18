@@ -40,6 +40,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Constants\AlignType.cs" />
+        <Compile Include="Constants\MenuSelection.cs" />
         <Compile Include="Constants\ResultCode.cs" />
         <Compile Include="Constants\InputMax.cs" />
         <Compile Include="Constants\InputParameter.cs" />

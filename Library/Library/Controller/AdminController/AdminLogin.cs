@@ -13,7 +13,6 @@ namespace Library.Controller.AdminController
         {
         }
         
-        // 로그인 시도
         public void TryLogin()
         {
             // 현재 윈도우 창의 너비/높이의 반절을 변수에 저장함

@@ -22,20 +22,26 @@ namespace Library.Controller.UserController
         public void SelectUserMenu()
         {
             Console.Clear();
+            // 메뉴 선택 결과를 저장하기 위한 변수 선언
             KeyValuePair<ResultCode, int> result = new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, -1);
 
+            // ESC키가 눌릴 때까지 반복
             while (result.Key != ResultCode.ESC_PRESSED)
             {
+                // UI를 출력하고 메뉴를 선택함
                 UserMenuView.PrintUserMenuContour();
                 result = MenuSelector.ChooseMenu(0, MenuCount.USER, MenuType.USER);
 
+                // ESC키가 눌리면 반환
                 if (result.Key == ResultCode.ESC_PRESSED)
                 {
                     return;
                 }
 
+                // 현재 인덱스 값을 currentSelectionIndex에 저장
                 this.currentSelectionIndex = result.Value;
 
+                // 해당 인덱스의 메뉴로 이동
                 if (EnterNextMenu())
                 {
                     return;
@@ -47,30 +53,35 @@ namespace Library.Controller.UserController
 
         private bool EnterNextMenu()
         {
+            // 책을 검색하기 위한 클래스의 인스턴스 생성
             BookSearcher bookSearcher = new BookSearcher(this.data, this.combinedManager);
+            
+            // 인덱스에 따라 다음 메뉴로 이동
             switch (this.currentSelectionIndex)
             {
-                case 0:
+                case MenuSelection.SEARCH_BOOK:
                     bookSearcher.SearchBook();
                     break;
-                case 1:
+                case MenuSelection.BORROW_BOOK:
+                    // 책을 빌리기 전 검색창 출력
                     bookSearcher.SearchBook();
                     BorrowBook();
                     break;
-                case 2:
+                case MenuSelection.CHECK_BORROWED_BOOK:
                     CheckBorrowedBook();
                     break;
-                case 3:
+                case MenuSelection.RETURN_BOOK:
+                    // 책을 반납하기 전 빌린 책 리스트 표시
                     CheckBorrowedBook();
                     ReturnBook();
                     break;
-                case 4:
+                case MenuSelection.CHECK_RETURNED_BOOK:
                     CheckReturnedBook();
                     break;
-                case 5:
+                case MenuSelection.EDIT_USER_INFORMATION:
                     EditUserInformation();
                     break;
-                case 6:
+                case MenuSelection.WITHDRAW:
                     if (Withdraw() == ResultCode.SUCCESS)
                         return true;
                     break;
@@ -86,20 +97,25 @@ namespace Library.Controller.UserController
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
+            // 책 아이디를 입력하기 위한 변수 선언
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, InputMax.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
+            // ESC키가 눌렸으면 반환
             if (bookIdInputResult.Key == ResultCode.ESC_PRESSED)
             {
                 return;
             }
 
+            // 아이디가 입력되었고 숫자면
             if (bookIdInputResult.Value.Length > 0 && ('0' <= bookIdInputResult.Value[0] && bookIdInputResult.Value[0] <= '9'))
             {
+                // 책을 빌리는 것을 시도하고 결과값 저장
                 ResultCode borrowBookResult =
                     combinedManager.BookManager.BorrowBook(currentUserIndex, bookIdInputResult.Value[0] - '0');
                 
+                // 성공 여부에 따라 결과 출력
                 if (borrowBookResult == ResultCode.SUCCESS)
                 {
                     UserMenuView.PrintBorrowOrReturnBookResult("책을 성공적으로 빌렸습니다.");
@@ -115,12 +131,14 @@ namespace Library.Controller.UserController
                     UserMenuView.PrintBorrowOrReturnBookResult("책이 존재하지 않습니다.");
                 }
                 
+                // 일시 정지
                 Console.ReadKey(true);
             }
         }
 
         private void CheckBorrowedBook()
         {
+            // 현재 유저가 빌린 책 리스트를 출력
             SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[currentUserIndex].Name, data.Users[currentUserIndex].BorrowedBooks);
             Console.ReadKey(true);
         }
@@ -132,20 +150,25 @@ namespace Library.Controller.UserController
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
+            // 책 아이디를 저장하기 위한 변수 선언
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, InputMax.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
+            // ESC키를 입력 받았으면 반환
             if (bookIdInputResult.Key == ResultCode.ESC_PRESSED || bookIdInputResult.Value.Length == 0)
             {
                 return;
             }
 
-            if ('0' <= bookIdInputResult.Value[0] && bookIdInputResult.Value[0] <= '9')
+            // 아이디가 입력되었고 숫자면
+            if (bookIdInputResult.Value.Length > 0 && '0' <= bookIdInputResult.Value[0] && bookIdInputResult.Value[0] <= '9')
             {
+                // 책 반납을 시도하고 결과값 저장
                 ResultCode returnBookResult =
                     combinedManager.BookManager.ReturnBook(currentUserIndex, bookIdInputResult.Value[0] - '0');
                 
+                // 책 반납 결과에 따라 값 출력
                 if (returnBookResult == ResultCode.SUCCESS)
                 {
                     UserMenuView.PrintBorrowOrReturnBookResult("책을 성공적으로 반납했습니다.");
@@ -156,12 +179,14 @@ namespace Library.Controller.UserController
                     UserMenuView.PrintBorrowOrReturnBookResult("책이 존재하지 않습니다.");
                 }
                 
+                // 일시 정지
                 Console.ReadKey(true);
             }
         }
 
         private void CheckReturnedBook()
         {
+            // 반납한 책 리스트 출력
             SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[this.currentUserIndex].Name, 
                 data.Users[this.currentUserIndex].ReturnedBooks);
             Console.ReadKey(true);
@@ -176,19 +201,23 @@ namespace Library.Controller.UserController
         {
             UserSelectionView.PrintYesOrNO("Are you sure to exit?");
             
+            // 회원탈퇴 여부를 물어보고 Y키가 입력되었으면
             if (UserInputManager.InputYesOrNo() == ResultCode.YES)
             {
+                // 탈퇴를 시도함. 그 결과가 성공이면
                 if (combinedManager.UserManager.DeleteUser(data.Users[this.currentUserIndex].Number) == ResultCode.SUCCESS)
                 {
+                    // 결과 출력 후 결과 반환
                     UserSelectionView.PrintYesOrNO("Withdraw success!");
                     return ResultCode.SUCCESS;
                 }
 
-                
+                // 탈퇴하지 못했다면 책을 반납하라고 출력 후 결과 반환
                 UserSelectionView.PrintYesOrNO("You must return all books!");
                 return ResultCode.MUST_RETURN_BOOK;
             }
 
+            // 탈퇴하지 못했다면 결과 반환
             return ResultCode.NO;
         }
     }
