@@ -24,7 +24,7 @@ namespace Library.Controller.UserController
             while (!isLoggedIn[0] || !isLoggedIn[1])
             {
                 UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
-
+                
                 KeyValuePair<FailCode, string> inputId = UserInputManager.ReadInputFromUser(windowWidthHalf, 
                 windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DONT_ENTER_KOREAN, "");
 
@@ -65,6 +65,7 @@ namespace Library.Controller.UserController
                     Console.ReadKey(true);
                     Console.CursorVisible = true;
                     loginHint[0] = loginHint[1] = "";
+                    continue;
                 }
 
                 UserMenu adminLogin = new UserMenu(data, combinedManager, loginResult.Value);

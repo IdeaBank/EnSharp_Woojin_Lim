@@ -85,7 +85,7 @@ namespace Library.View.UserView
             }
         }
 
-        public static void PrintRegister(string []warnings)
+        public static void PrintRegister(string []warnings, string []previousInput)
         {
             Console.Clear();
             PrintRegisterContour();
@@ -110,6 +110,8 @@ namespace Library.View.UserView
                     AlignType.LEFT);
                 ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
                     AlignType.RIGHT, ConsoleColor.Red);
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, previousInput[i],
+                    AlignType.RIGHT);
             }
         }
     }

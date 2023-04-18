@@ -20,6 +20,7 @@ namespace Library.Controller.UserController
             
             string[] warning = { "", "", "", "", "", "", "" };
             bool[] inputValid = { false, false, false, false, false, false, false };
+            string[] previousInput = new string[7];
             bool allRegexPassed = false;
             KeyValuePair<FailCode, string> idInputResult = new KeyValuePair<FailCode, string>(),
                 passwordInputResult = new KeyValuePair<FailCode, string>(),
@@ -33,8 +34,12 @@ namespace Library.Controller.UserController
             while (!allRegexPassed)
             {
                 Console.Clear();
-                UserLoginOrRegisterView.PrintRegister(warning);
-
+                UserLoginOrRegisterView.PrintRegister(warning, previousInput);
+                Console.ReadKey();
+                Console.Clear();
+                warning = new string[7];
+                UserLoginOrRegisterView.PrintRegister(warning, previousInput);
+                
                 if (!inputValid[0])
                 {
                     idInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
@@ -51,6 +56,7 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    previousInput[0] = idInputResult.Value;
                     inputValid[0] = true;
                 }
 
@@ -70,7 +76,9 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    previousInput[1] = new string('*', passwordInputResult.Value.Length);
                     inputValid[1] = true;
+                    
                 }
                 
                 if (!inputValid[2])
@@ -86,9 +94,12 @@ namespace Library.Controller.UserController
                     if (passwordInputResult.Value != passwordConfirmResult.Value)
                     {
                         warning[1] = warning[2] = "비밀번호는 서로 같아야 합니다!";
+                        previousInput[1] = previousInput[2] = "";
                         inputValid[1] = inputValid[2] = false;
+                        continue;
                     }
                     
+                    previousInput[2] = new string('*', passwordConfirmResult.Value.Length);
                     inputValid[2] = true;
                 }
                 
@@ -108,6 +119,7 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    previousInput[3] = nameInputResult.Value;
                     inputValid[3] = true;
                 }
                 
@@ -128,6 +140,7 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    previousInput[4] = userAgeInputResult.Value;
                     inputValid[4] = true;
                 }
                 
@@ -147,6 +160,7 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    previousInput[5] = phoneNumberInputResult.Value;
                     inputValid[5] = true;
                 }
                 
@@ -166,6 +180,7 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    previousInput[6] = addressInputResult.Value;
                     inputValid[6] = true;
                 }
 
