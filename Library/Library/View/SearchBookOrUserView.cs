@@ -28,6 +28,11 @@ namespace Library.View
             }
         }
 
+        private static void PrintChooseUserContour()
+        {
+            ConsoleWriter.DrawContour(60, 4);
+        }
+
         public static void SearchBook()
         {
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -60,7 +65,7 @@ namespace Library.View
             
         }
 
-        public static void SearchUser()
+        public static void PrintSearchUser()
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -117,6 +122,34 @@ namespace Library.View
             
             Console.WriteLine(new string('=', 36));
         }
+        
+        public static void ViewSearchUserResult(List<User> users)
+        {
+            Console.Clear();
+            Console.WriteLine(new string('=', 15) + "RESULT" + new string('=', 15));
+            
+            foreach (User user in users)
+            {
+                Console.Write("Number: ".PadLeft(15, ' '));
+                Console.WriteLine(user.Number);
+                
+                Console.Write("Name: ".PadLeft(15, ' '));
+                Console.WriteLine(user.Name);
+                
+                Console.Write("ID: ".PadLeft(15, ' '));
+                Console.WriteLine(user.Id);
+                
+                Console.Write("Age: ".PadLeft(15, ' '));
+                Console.WriteLine(DateTime.Now.Year - user.BirthYear + 1);
+                
+                
+                Console.Write("Address: ".PadLeft(15, ' '));
+                Console.WriteLine(user.Address);
+                Console.WriteLine();
+            }
+            
+            Console.WriteLine(new string('=', 36));
+        }
 
         public static void PrintBorrowedOrReturnedBooks(string userName, List<BorrowedBook> books)
         {
@@ -137,7 +170,18 @@ namespace Library.View
             }
             
             Console.WriteLine(new string('=', 36));
+            Console.WriteLine();
+        }
+        
+        public static void PrintDeleteUser()
+        {
+            Console.Clear();
+            PrintChooseUserContour();
+            
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "Number of user to remove: ", AlignType.LEFT);
         }
     }
-    
 }

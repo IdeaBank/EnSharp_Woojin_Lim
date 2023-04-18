@@ -49,7 +49,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[0])
                 {
                     idInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                        windowHeightHalf, InputMax.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
                     if (idInputResult.Key == ResultCode.ESC_PRESSED)
@@ -73,7 +73,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[1])
                 {
                     passwordInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 1, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                        windowHeightHalf + 1, InputMax.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
                     if (passwordInputResult.Key == ResultCode.ESC_PRESSED)
@@ -98,7 +98,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[2])
                 {
                     passwordConfirmResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 2, InputMax.USER_ID_PASSWORD_LENGTH, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                        windowHeightHalf + 2, InputMax.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
                     if (passwordConfirmResult.Key == ResultCode.ESC_PRESSED)
@@ -124,7 +124,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[3])
                 {
                     nameInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 3, InputMax.USER_NAME_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+                        windowHeightHalf + 3, InputMax.USER_NAME, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
                     if (nameInputResult.Key == ResultCode.ESC_PRESSED)
@@ -149,7 +149,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[4])
                 {
                     userAgeInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 4, InputMax.USER_AGE_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                        windowHeightHalf + 4, InputMax.USER_AGE, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
                     if (userAgeInputResult.Key == ResultCode.ESC_PRESSED)
@@ -173,7 +173,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[5])
                 {
                     phoneNumberInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 5, InputMax.USER_PHONE_NUMBER_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                        windowHeightHalf + 5, InputMax.USER_PHONE_NUMBER, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
                     if (phoneNumberInputResult.Key == ResultCode.ESC_PRESSED)
@@ -197,7 +197,7 @@ namespace Library.Controller.UserController
                 if (!inputValid[6])
                 {
                     addressInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                        windowHeightHalf + 6, InputMax.USER_ADDRESS_LENGTH, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                        windowHeightHalf + 6, InputMax.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
                     
                     // ESC키를 입력 받을 시 반환
                     if (addressInputResult.Key == ResultCode.ESC_PRESSED)

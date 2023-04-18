@@ -51,7 +51,7 @@ namespace Library.Controller
             this.combinedManager.UserManager.AddUser("userid12", "userpw12", "User 1",
                 2001, "010-1234-1234", "서울특별시 종로구 청와대로 1");
             this.combinedManager.UserManager.AddUser("userid09", "userpw11", "User 2",
-                2001, "010-9876-5432", "");
+                2001, "010-9876-5432", "경기도 고양시 일산동구");
 
             // 책 예시 추가
             this.combinedManager.BookManager.AddBook("세이노의 가르침", "세이노", "데이윈", 10, 7200, "2023-03-02",

@@ -109,5 +109,26 @@ namespace Library.Utility
 
             return ResultCode.NO_USER;
         }
+
+        public List<User> SearchUser(string name, string id, string address)
+        {
+            // 유저 검색 결과를 저장하기 위한 리스트 선언
+            List<User> searchResult = new List<User>();
+            
+            // 유저를 순회하며
+            foreach (User user in totalData.Users)
+            {
+                // 이름, 아이디에 해당하는 유저를 리스트에 넣음
+                if ((user.Name.Contains(name) || name.Length == 0) &&
+                    (user.Id == id || id.Length == 0) &&
+                    (user.Address.Contains(address) || address.Length == 0))
+                {
+                    searchResult.Add(user);
+                }
+            }
+
+            // 유저 검색 결과 반환
+            return searchResult;
+        }
     }
 }
