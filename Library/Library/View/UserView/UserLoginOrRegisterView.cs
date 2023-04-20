@@ -99,7 +99,7 @@ namespace Library.View.UserView
                 "Enter Password: ", 
                 "Confirm Password: ", 
                 "Enter Name: ",
-                "Enter Birthdate: ",
+                "Enter Age: ",
                 "Enter Phone Number: ",
                 "Enter User Address: "
             };

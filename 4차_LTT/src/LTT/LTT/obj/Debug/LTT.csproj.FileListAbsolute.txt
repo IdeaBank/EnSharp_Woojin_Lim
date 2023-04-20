@@ -1,0 +1,8 @@
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/bin/Debug/LTT.exe.config
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/bin/Debug/LTT.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/bin/Debug/LTT.pdb
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/obj/Debug/LTT.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/obj/Debug/LTT.exe.config
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/obj/Debug/LTT.csproj.CoreCompileInputs.cache
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/obj/Debug/LTT.exe
+/Users/woojin/Development/EN_SHARP/Woojin_Lim/4차_LTT/src/LTT/LTT/obj/Debug/LTT.pdb
