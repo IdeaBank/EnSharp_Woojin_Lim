@@ -1,12 +1,14 @@
+using System;
+
 namespace LTT.Model
 {
     public class LectureTime
     {
-        private int day;
+        private DayOfWeek day;
         private int startTime;
         private int endTime;
 
-        public int Day
+        public DayOfWeek Day
         {
             get => this.day;
             set => this.day = value;

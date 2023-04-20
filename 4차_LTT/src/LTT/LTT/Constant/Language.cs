@@ -2,7 +2,8 @@ namespace LTT.Constant
 {
     public enum Language
     {
+        ENGLISH,
         KOREAN,
-        ENGLISH
+        ENGLISH_AND_KOREAN
     }
 }

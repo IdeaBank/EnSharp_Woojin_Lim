@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using LTT.Constant;
 using LTT.Model;
 
@@ -6,7 +8,7 @@ namespace LTT.Utility
 {
     public class DataManipulator
     {
-        public bool CheckTimeOverlap(List<Course> previousCourses, Course newCourse)
+        private bool CheckTimeOverlap(List<Course> previousCourses, Course newCourse)
         {
             foreach (Course previousCourse in previousCourses)
             {
@@ -27,7 +29,7 @@ namespace LTT.Utility
             return false;
         }
 
-        public bool CheckCurriculumNumberDuplicate(List<Course> previousCourses, Course newCourse)
+        private bool CheckCurriculumNumberDuplicate(List<Course> previousCourses, Course newCourse)
         {
             foreach (Course previousCourse in previousCourses)
             {
@@ -40,7 +42,7 @@ namespace LTT.Utility
             return false;
         }
 
-        public bool IsClassCompatible(List<Course> previousCourses, Course newCourse)
+        private bool IsClassCompatible(List<Course> previousCourses, Course newCourse)
         {
             return !CheckTimeOverlap(previousCourses, newCourse) &&
                    !CheckCurriculumNumberDuplicate(previousCourses, newCourse);
@@ -54,7 +56,7 @@ namespace LTT.Utility
                 {
                     if (student.Password == password)
                     {
-                        return ResultCode.LOGIN_SUCCESS;
+                        return ResultCode.SUCCESS;
                     }
 
                     return ResultCode.PASSWORD_DO_NOT_MATCH;
@@ -62,6 +64,292 @@ namespace LTT.Utility
             }
 
             return ResultCode.ID_DO_NO_EXIST;
+        }
+
+        public int GetStudentIndexByNumber(List<Student> students, string studentNumber)
+        {
+            for (int i = 0; i < students.Count; ++i)
+            {
+                if (students[i].StudentNumber == studentNumber)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+        
+        private int GetCourseIndexByNumber(List<Course> courses, int courseNumber)
+        {
+            for (int i = 0; i < courses.Count; ++i)
+            {
+                if (courses[i].Number == courseNumber)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public Course MakeCourse(int number, string department, string curriculumNumber, 
+            string classNumber, string curriculumName, string curriculumType, 
+            int studentAcademicYear, int credit, string lectureTimes, 
+            string classroom, string professor, string language)
+        {
+            Course newCourse = new Course(number, curriculumNumber, classNumber, curriculumName, studentAcademicYear, credit, classroom, professor);
+            
+            switch (department)
+            {
+                case "컴퓨터공학과":
+                    newCourse.Department = Department.COMPUTER_SCIENCE;
+                    break;
+                
+                case "소프트웨어학과":
+                    newCourse.Department = Department.SOFTWARE;
+                    break;
+                
+                case "지능기전공학부":
+                    newCourse.Department = Department.INTELLIGENT_MECHATRONICS_ENGINEERING;
+                    break;
+                
+                case "기계항공우주공학부":
+                    newCourse.Department = Department.MACHINE_AEROSPACE_ENGINEERING;
+                    break;
+            }
+
+            switch (curriculumType)
+            {
+                case "공통교양필수":
+                    newCourse.CurriculumType = CurriculumType.COMMON_GENERAL_ELECTIVE_ESSENTIAL;
+                    break;
+                
+                case "전공필수":
+                    newCourse.CurriculumType = CurriculumType.MAJOR_ESSENTIAL;
+                    break;
+                
+                case "전공선택":
+                    newCourse.CurriculumType = CurriculumType.MAJOR_SELECTIVE;
+                    break;
+            }
+
+            newCourse.LectureTimes = GetLectureTime(lectureTimes);
+
+            switch (language)
+            {
+                case "한국어":
+                    newCourse.Language = Language.KOREAN;
+                    break;
+                
+                case "영어":
+                    newCourse.Language = Language.ENGLISH;
+                    break;
+                
+                case "영어/한국어":
+                    newCourse.Language = Language.ENGLISH_AND_KOREAN;
+                    break;
+            }
+
+            return newCourse;
+        }
+
+        private List<LectureTime> GetLectureTime(string lectureTimes)
+        {
+            List<LectureTime> result = new List<LectureTime>();
+            
+            if (lectureTimes.Length == 0)
+            {
+                return result;
+            }
+
+            string[] splitResult = lectureTimes.Split(',');
+
+            DayOfWeek firstDay = DayOfWeek.Monday;
+            DayOfWeek secondDay = DayOfWeek.Monday;
+
+            foreach (string tempString in splitResult)
+            {
+                string splitString = tempString.Trim();
+                
+                switch (splitString[0])
+                {
+                    case '일':
+                        firstDay = DayOfWeek.Sunday;
+                        break;
+
+                    case '월':
+                        firstDay = DayOfWeek.Monday;
+                        break;
+
+                    case '화':
+                        firstDay = DayOfWeek.Tuesday;
+                        break;
+
+                    case '수':
+                        firstDay = DayOfWeek.Wednesday;
+                        break;
+
+                    case '목':
+                        firstDay = DayOfWeek.Thursday;
+                        break;
+
+                    case '금':
+                        firstDay = DayOfWeek.Friday;
+                        break;
+
+                    case '토':
+                        firstDay = DayOfWeek.Saturday;
+                        break;
+                }
+                
+                if (splitString.Length == 13)
+                {
+                    LectureTime lectureTime = new LectureTime();
+                    lectureTime.Day = firstDay;
+                    lectureTime.StartTime = Int32.Parse(splitString[2].ToString() + splitString[3]) * 60 +
+                                            Int32.Parse(splitString[5].ToString() + splitString[6]);
+                    
+                    lectureTime.EndTime = Int32.Parse(splitString[8].ToString() + splitString[9]) * 60 +
+                                          Int32.Parse(splitString[11].ToString() + splitString[12]);
+
+                    result.Add(lectureTime);
+                }
+
+                else
+                {
+                    switch (splitString[2])
+                    {
+                        case '일':
+                            secondDay = DayOfWeek.Sunday;
+                            break;
+
+                        case '월':
+                            secondDay = DayOfWeek.Monday;
+                            break;
+
+                        case '화':
+                            secondDay = DayOfWeek.Tuesday;
+                            break;
+
+                        case '수':
+                            secondDay = DayOfWeek.Wednesday;
+                            break;
+
+                        case '목':
+                            secondDay = DayOfWeek.Thursday;
+                            break;
+
+                        case '금':
+                            secondDay = DayOfWeek.Friday;
+                            break;
+
+                        case '토':
+                            secondDay = DayOfWeek.Saturday;
+                            break;
+                    }
+                    
+                    LectureTime firstLectureTime = new LectureTime();
+                    firstLectureTime.Day = firstDay;
+                    firstLectureTime.StartTime = Int32.Parse(splitString[4].ToString() + splitString[5]) * 60 +
+                                                 Int32.Parse(splitString[7].ToString() + splitString[8]);
+                    
+                    firstLectureTime.EndTime = Int32.Parse(splitString[10].ToString() + splitString[11]) * 60 +
+                                               Int32.Parse(splitString[13].ToString() + splitString[14]);
+
+                    LectureTime secondLectureTime = new LectureTime();
+                    secondLectureTime.Day = secondDay;
+                    secondLectureTime.StartTime = firstLectureTime.StartTime;
+                    secondLectureTime.EndTime = firstLectureTime.EndTime;
+                    
+                    result.Add(firstLectureTime);
+                    result.Add(secondLectureTime);
+                }
+            }
+
+            return result;
+        }
+        
+        private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex)
+        {
+            if (IsClassCompatible(courseList, newCourse))
+            {
+                courseList.Add(newCourse);
+                return ResultCode.SUCCESS;
+            }
+
+            return ResultCode.FAIL;
+        }
+        
+        public ResultCode AddReservedCourse(TotalData totalData, int courseNumber, int studentIndex)
+        {
+            int courseIndex = GetCourseIndexByNumber(totalData.Courses, courseNumber);
+
+            // 강의가 없으면 NO_COURSE 반환
+            if (courseIndex == -1)
+            {
+                return ResultCode.NO_COURSE;
+            }
+            
+            return AddCourse(totalData.Students[studentIndex].ReservedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
+        }
+
+        public ResultCode AddEnlistedCourse(TotalData totalData, int courseNumber, int studentIndex)
+        {
+            int courseIndex = GetCourseIndexByNumber(totalData.Courses, courseNumber);
+
+            // 강의가 없으면 NO_COURSE 반환
+            if (courseIndex == -1)
+            {
+                return ResultCode.NO_COURSE;
+            }
+            
+            return AddCourse(totalData.Students[studentIndex].EnListedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
+        }
+
+        private ResultCode RemoveCourse(List<Course> courseList, int courseNumber)
+        {
+            int courseIndex = GetCourseIndexByNumber(courseList, courseNumber);
+
+            if (courseIndex == -1)
+            {
+                return ResultCode.NO_COURSE;
+            }
+            
+            courseList.RemoveAt(courseIndex);
+            
+            return ResultCode.SUCCESS;
+        }
+        
+        public ResultCode RemoveReservedCourse(TotalData totalData, int courseNumber, int userIndex)
+        {
+            return RemoveCourse(totalData.Students[userIndex].ReservedCourses, courseNumber);
+        }
+
+        public ResultCode RemoveEnlistedCourse(TotalData totalData, int courseNumber, int userIndex)
+        {
+            return RemoveCourse(totalData.Students[userIndex].EnListedCourses, courseNumber);
+        }
+        
+        public List<Course> GetCourseListExcept(TotalData totalData, List<Course> coursesToIgnore)
+        {
+            // 리스트 복사
+            List<Course> totalCourse = totalData.Courses.ToList();
+
+            // 총 리스트에서 필요 없는 것들 제외시키기
+            foreach (Course courseToIgnore in coursesToIgnore)
+            {
+                foreach (Course course in totalCourse)
+                {
+                    if (course.Number == courseToIgnore.Number)
+                    {
+                        totalCourse.Remove(course);
+                        break;
+                    }
+                }
+            }
+
+            // 결과 반환
+            return totalCourse;
         }
     }
 }

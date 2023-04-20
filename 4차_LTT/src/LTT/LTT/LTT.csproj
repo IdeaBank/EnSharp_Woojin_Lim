@@ -53,7 +53,9 @@
         <Compile Include="Model\TotalData.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Utility\ConsoleWriter.cs" />
         <Compile Include="Utility\DataManipulator.cs" />
+        <Compile Include="Utility\UserInputManager.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

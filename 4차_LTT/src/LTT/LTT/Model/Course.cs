@@ -18,6 +18,19 @@ namespace LTT.Model
         private string professor;
         private Language language;
 
+        public Course(int number, string curriculumNumber, string classNumber, string curriculumName,
+            int studentAcademicYear, int credit, string classroom, string professor)
+        {
+            this.number = number;
+            this.curriculumNumber = curriculumNumber;
+            this.classNumber = classNumber;
+            this.curriculumName = curriculumName;
+            this.studentAcademicYear = studentAcademicYear;
+            this.credit = credit;
+            this.classroom = classroom;
+            this.professor = professor;
+        }
+        
         public int Number
         {
             get => this.number;
