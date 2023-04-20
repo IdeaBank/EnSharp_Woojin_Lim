@@ -17,5 +17,82 @@ namespace LTT.Model
         private string classroom;
         private string professor;
         private Language language;
+
+        public int Number
+        {
+            get => this.number;
+            set => this.number = value;
+        }
+
+        public Department Department
+        {
+            get => this.department;
+            set => this.department = value;
+        }
+
+        public string CurriculumNumber
+        {
+            get => this.curriculumName;
+            set => this.curriculumName = value;
+        }
+
+        public string ClassNumber
+        {
+            get => this.classNumber;
+            set => this.classNumber = value;
+        }
+
+        public string CurriculumName
+        {
+            get => this.curriculumName;
+            set => this.curriculumName = value;
+        }
+
+        public CurriculumType CurriculumType
+        {
+            get => this.curriculumType;
+            set => this.curriculumType = value;
+        }
+
+        public int StudentAcademicYear
+        {
+            get => this.studentAcademicYear;
+            set => this.studentAcademicYear = value;
+        }
+
+        public int Credit
+        {
+            get => this.credit;
+            set => this.credit = value;
+        }
+
+        public List<LectureTime> LectureTimes
+        {
+            get => this.lectureTimes;
+            set => this.lectureTimes = value;
+        }
+
+        public string Classroom
+        {
+            get => this.classroom;
+            set => this.classroom = value;
+        }
+
+        public string Professor
+        {
+            get => this.professor;
+            set => this.professor = value;
+        }
+
+        public Language Language
+        {
+            get => this.language;
+            set => this.language = value;
+        }
+
+        public Course()
+        {
+            this.lectureTimes = new List<LectureTime>();
+        }
     }
 }

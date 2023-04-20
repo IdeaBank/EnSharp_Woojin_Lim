@@ -45,6 +45,7 @@
         <Compile Include="Constant\CurriculumType.cs" />
         <Compile Include="Constant\Department.cs" />
         <Compile Include="Constant\Language.cs" />
+        <Compile Include="Constant\ResultCode.cs" />
         <Compile Include="Controller\LectureTimeTableStart.cs" />
         <Compile Include="Model\Course.cs" />
         <Compile Include="Model\LectureTime.cs" />
