@@ -36,8 +36,10 @@ namespace LTT.Model
         public Student(string studentNumber, string password)
         {
             this.studentNumber = studentNumber;
-            reservedCourses = new List<Course>();
-            enlistedCourses = new List<Course>();
+            this.password = password;
+            
+            this.reservedCourses = new List<Course>();
+            this.enlistedCourses = new List<Course>();
         }
     }
 }

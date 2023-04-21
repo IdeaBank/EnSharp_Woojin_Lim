@@ -6,12 +6,12 @@ namespace LTT.Utility
 {
     public class UserInputManager
     {
-        private static bool IsDigit(char ch)
+        private bool IsDigit(char ch)
         {
             return '0' <= ch && ch <= '9';
         }
 
-        private static bool IsSpecialCharacter(char ch)
+        private bool IsSpecialCharacter(char ch)
         {
             char[] availableSpecialCharacter =
             {
@@ -30,17 +30,17 @@ namespace LTT.Utility
             return false;
         }
 
-        private static bool IsAlphabet(char ch)
+        private bool IsAlphabet(char ch)
         {
             return ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
         }
 
-        private static bool IsHangeul(char ch)
+        private bool IsHangeul(char ch)
         {
             return (0xac00 <= ch && ch <= 0xd7a3) || (0x3131 <= ch && ch <= 0x318e);
         }
 
-        private static bool IsDigitOrCharacter(char ch, bool canEnterKorean)
+        private bool IsDigitOrCharacter(char ch, bool canEnterKorean)
         {
             if (canEnterKorean)
             {
@@ -50,7 +50,7 @@ namespace LTT.Utility
             return IsAlphabet(ch) || IsDigit(ch) || IsSpecialCharacter(ch);
         }
 
-        public static KeyValuePair<ResultCode, string> ReadInputFromUser(ConsoleWriter consoleWriter, int cursorX,
+        public KeyValuePair<ResultCode, string> ReadInputFromUser(ConsoleWriter consoleWriter, int cursorX,
             int cursorY, int maxInputLength,
             bool isPassword, bool canEnterKorean, string defaultInput = "")
         {
@@ -69,13 +69,13 @@ namespace LTT.Utility
                 // 비밀번호를 입력 받는 상황이면 *로 출력
                 if (isPassword)
                 {
-                    consoleWriter.WriteOnPosition(cursorX, cursorY, new string('*', currentInput.Length));
+                    consoleWriter.PrintOnPosition(cursorX, cursorY, new string('*', currentInput.Length), Align.LEFT);
                 }
 
                 // 비밀번호를 입력 받는 상황이 아니면 현재 입력한 값 출력
                 else
                 {
-                    consoleWriter.WriteOnPosition(cursorX, cursorY, currentInput);
+                    consoleWriter.PrintOnPosition(cursorX, cursorY, currentInput, Align.LEFT);
                 }
 
                 // 키를 입력 받음
@@ -98,7 +98,7 @@ namespace LTT.Utility
                     currentInput = currentInput.Substring(0, currentInput.Length - 1);
 
                     // 출력한 문자열 다 지우기
-                    consoleWriter.WriteOnPosition(cursorX, cursorY, new string(' ', maxInputLength));
+                    consoleWriter.PrintOnPosition(cursorX, cursorY, new string(' ', maxInputLength), Align.LEFT);
                 }
 
                 else

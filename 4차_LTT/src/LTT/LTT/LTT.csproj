@@ -42,11 +42,16 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Constant\Align.cs" />
         <Compile Include="Constant\CurriculumType.cs" />
         <Compile Include="Constant\Department.cs" />
         <Compile Include="Constant\Language.cs" />
+        <Compile Include="Constant\MenuList.cs" />
+        <Compile Include="Constant\MenuType.cs" />
+        <Compile Include="Constant\MoveDirection.cs" />
         <Compile Include="Constant\ResultCode.cs" />
         <Compile Include="Controller\LectureTimeTableStart.cs" />
+        <Compile Include="Controller\MenuSelector.cs" />
         <Compile Include="Model\Course.cs" />
         <Compile Include="Model\LectureTime.cs" />
         <Compile Include="Model\Student.cs" />
@@ -56,6 +61,11 @@
         <Compile Include="Utility\ConsoleWriter.cs" />
         <Compile Include="Utility\DataManipulator.cs" />
         <Compile Include="Utility\UserInputManager.cs" />
+        <Compile Include="View\EnlistCourse\EnlistMenuView.cs" />
+        <Compile Include="View\MainMenuView.cs" />
+        <Compile Include="View\ReserveCourse\ReserveMenuView.cs" />
+        <Compile Include="View\StudentLoginView.cs" />
+        <Compile Include="View\ViewList.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

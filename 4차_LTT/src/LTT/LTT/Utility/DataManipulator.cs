@@ -48,22 +48,22 @@ namespace LTT.Utility
                    !CheckCurriculumNumberDuplicate(previousCourses, newCourse);
         }
 
-        public ResultCode TryLogin(TotalData totalData, string id, string password)
+        public KeyValuePair<ResultCode, int> TryLogin(TotalData totalData, string id, string password)
         {
-            foreach (Student student in totalData.Students)
+            for (int i = 0; i < totalData.Students.Count; ++i)
             {
-                if (student.StudentNumber == id)
+                if (totalData.Students[i].StudentNumber == id)
                 {
-                    if (student.Password == password)
+                    if (totalData.Students[i].Password == password)
                     {
-                        return ResultCode.SUCCESS;
+                        return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                     }
 
-                    return ResultCode.PASSWORD_DO_NOT_MATCH;
+                    return new KeyValuePair<ResultCode, int>(ResultCode.PASSWORD_DO_NOT_MATCH, -1);
                 }
             }
 
-            return ResultCode.ID_DO_NO_EXIST;
+            return new KeyValuePair<ResultCode, int>(ResultCode.ID_DO_NO_EXIST, -1);
         }
 
         public int GetStudentIndexByNumber(List<Student> students, string studentNumber)
