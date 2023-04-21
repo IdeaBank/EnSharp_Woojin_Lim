@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LTT.Constant;
 using LTT.View;
 
-namespace LTT.Controller
+namespace LTT.Utility
 {
     public class MenuSelector
     {

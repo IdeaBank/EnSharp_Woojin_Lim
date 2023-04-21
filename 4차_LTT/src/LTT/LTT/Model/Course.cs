@@ -13,6 +13,7 @@ namespace LTT.Model
         private CurriculumType curriculumType;
         private int studentAcademicYear;
         private int credit;
+        private string lectureTimeString;
         private List<LectureTime> lectureTimes;
         private string classroom;
         private string professor;
@@ -30,7 +31,7 @@ namespace LTT.Model
             this.classroom = classroom;
             this.professor = professor;
         }
-        
+
         public int Number
         {
             get => this.number;
@@ -43,10 +44,33 @@ namespace LTT.Model
             set => this.department = value;
         }
 
+        public string DepartmentString
+        {
+            get
+            {
+                switch (this.department)
+                {
+                    case Department.SOFTWARE:
+                        return "소프트웨어학과";
+
+                    case Department.COMPUTER_SCIENCE:
+                        return "컴퓨터공학과";
+
+                    case Department.INTELLIGENT_MECHATRONICS_ENGINEERING:
+                        return "지능기전학과";
+
+                    case Department.MACHINE_AEROSPACE_ENGINEERING:
+                        return "기계항공공학과";
+                }
+
+                return "";
+            }
+        }
+
         public string CurriculumNumber
         {
-            get => this.curriculumName;
-            set => this.curriculumName = value;
+            get => this.curriculumNumber;
+            set => this.curriculumNumber = value;
         }
 
         public string ClassNumber
@@ -67,6 +91,24 @@ namespace LTT.Model
             set => this.curriculumType = value;
         }
 
+        public string CurriculumString
+        {
+            get
+            {
+                switch (this.curriculumType)
+                {
+                    case CurriculumType.MAJOR_SELECTIVE:
+                        return "전공선택";
+                    case CurriculumType.MAJOR_ESSENTIAL:
+                        return "전공필수";
+                    case CurriculumType.COMMON_GENERAL_ELECTIVE_ESSENTIAL:
+                        return "공통교양필수";
+                }
+
+                return "";
+            }
+        }
+
         public int StudentAcademicYear
         {
             get => this.studentAcademicYear;
@@ -83,6 +125,12 @@ namespace LTT.Model
         {
             get => this.lectureTimes;
             set => this.lectureTimes = value;
+        }
+
+        public string LectureTimeString
+        {
+            get => this.lectureTimeString;
+            set => this.lectureTimeString = value;
         }
 
         public string Classroom
@@ -102,6 +150,27 @@ namespace LTT.Model
             get => this.language;
             set => this.language = value;
         }
+
+        public string LanguageString
+        {
+            get
+            {
+                switch (this.language)
+                {
+                    case Language.ENGLISH:
+                        return "영어";
+
+                    case Language.KOREAN:
+                        return "한국어";
+
+                    case Language.ENGLISH_AND_KOREAN:
+                        return "영어/한국어";
+                }
+
+                return "";
+            }
+        }
+
 
         public Course()
         {

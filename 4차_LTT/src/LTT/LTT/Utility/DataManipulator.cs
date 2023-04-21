@@ -92,11 +92,21 @@ namespace LTT.Utility
             return -1;
         }
 
-        public Course MakeCourse(int number, string department, string curriculumNumber, 
-            string classNumber, string curriculumName, string curriculumType, 
-            int studentAcademicYear, int credit, string lectureTimes, 
+        public Course MakeCourse(int number, string department, string curriculumNumber,
+            string classNumber, string curriculumName, string curriculumType,
+            int studentAcademicYear, int credit, string lectureTimes,
             string classroom, string professor, string language)
         {
+            if (lectureTimes == null)
+            {
+                lectureTimes = "";
+            }
+
+            if(classroom == null)
+            {
+                classroom = "";
+            }
+
             Course newCourse = new Course(number, curriculumNumber, classNumber, curriculumName, studentAcademicYear, credit, classroom, professor);
             
             switch (department)
@@ -134,6 +144,7 @@ namespace LTT.Utility
             }
 
             newCourse.LectureTimes = GetLectureTime(lectureTimes);
+            newCourse.LectureTimeString = lectureTimes;
 
             switch (language)
             {
@@ -157,7 +168,7 @@ namespace LTT.Utility
         {
             List<LectureTime> result = new List<LectureTime>();
             
-            if (lectureTimes.Length == 0)
+            if (lectureTimes == null || lectureTimes.Length == 0)
             {
                 return result;
             }

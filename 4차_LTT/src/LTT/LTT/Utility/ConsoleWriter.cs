@@ -10,13 +10,13 @@ namespace LTT.Utility
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
             
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 4, " .d888b,?88   d8P d888b8b   d888b8b    88bd88b  d888b8b  ");
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 3, " ?8b,   d88   88 d8P' ?88  d8P' ?88    88P' ?8bd8P' ?88  ");
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 2, "   `?8b ?8(  d88 88b  ,88b 88b  ,88b  d88   88P88b  ,88b ");
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 1, "`?888P' `?88P'?8b`?88P'`88b`?88P'`88bd88'   88b`?88P'`88b");
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up + 0, "                        )88                           )88");
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up + 1, "                       ,88P                          ,88P");
-            PrintOnPosition(windowWidthHalf, windowHeightHalf - up + 2, "                   `?8888P                       `?8888P ");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 3, " .d888b,?88   d8P d888b8b   d888b8b    88bd88b  d888b8b  ");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 2, " ?8b,   d88   88 d8P' ?88  d8P' ?88    88P' ?8bd8P' ?88  ");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 1, "   `?8b ?8(  d88 88b  ,88b 88b  ,88b  d88   88P88b  ,88b ");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up - 0, "`?888P' `?88P'?8b`?88P'`88b`?88P'`88bd88'   88b`?88P'`88b");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up + 1, "                        )88                           )88");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up + 2, "                       ,88P                          ,88P");
+            PrintOnPosition(windowWidthHalf, windowHeightHalf - up + 3, "                   `?8888P                       `?8888P ");
         }
         
         private int GetKoreanCount(string str)
@@ -37,7 +37,7 @@ namespace LTT.Utility
             return koreanCount;
         }
         
-        private string StringPadRight(string str, int count)
+        public string StringPadRight(string str, int count)
         {
             // 전체 문자열 개수에서 한글 개수를 뺀 수 만큼 오른쪽 칸을 비우고 반환
             return str.PadRight(count - GetKoreanCount(str), ' ');
@@ -51,10 +51,8 @@ namespace LTT.Utility
                     break;
 
                 case Align.CENTER:
-                    string str_temp = str.ToString();
-                    int korCount = GetKoreanCount(str_temp.Substring(0, (int)(str_temp.Length / 2.0 + 0.5)));
-                    Console.SetCursorPosition(
-                        x - str.Length / 2, y);
+                    int koreanCount = GetKoreanCount(str.Substring(0, (int)(str.Length / 2.0 + 0.5)));
+                    Console.SetCursorPosition(x - koreanCount - str.Length / 2, y);
                     break;
 
                 case Align.RIGHT:

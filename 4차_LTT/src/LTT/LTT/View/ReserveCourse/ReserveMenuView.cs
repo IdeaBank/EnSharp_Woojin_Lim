@@ -1,4 +1,5 @@
 using LTT.Utility;
+using System;
 
 namespace LTT.View.ReserveCourse
 {
@@ -9,6 +10,13 @@ namespace LTT.View.ReserveCourse
         public ReserveMenuView(ConsoleWriter consoleWriter)
         {
             this.consoleWriter = consoleWriter;
+        }
+
+        public void MakeView()
+        {
+            Console.Clear();
+
+            consoleWriter.PrintLogo(5);
         }
 
         public void UpdateView(int currentSelectionIndex)

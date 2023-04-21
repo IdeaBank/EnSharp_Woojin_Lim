@@ -78,8 +78,14 @@ namespace LTT.Utility
                     consoleWriter.PrintOnPosition(cursorX, cursorY, currentInput, Align.LEFT);
                 }
 
+                // 입력 단계에서는 커서 보이게 설정
+                Console.CursorVisible = true;
+
                 // 키를 입력 받음
                 keyInput = Console.ReadKey(true);
+
+                // 입력 받았으면 다시 커서 안 보이게 설정
+                Console.CursorVisible = false;
 
                 // ESC키를 눌렀으면 종료
                 if (keyInput.Key == ConsoleKey.Escape)
