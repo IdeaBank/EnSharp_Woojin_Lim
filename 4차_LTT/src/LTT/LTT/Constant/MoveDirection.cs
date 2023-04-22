@@ -3,6 +3,8 @@ namespace LTT.Constant
     public enum MoveDirection
     {
         UP,
-        DOWN
+        DOWN,
+        LEFT,
+        RIGHT
     }
 }

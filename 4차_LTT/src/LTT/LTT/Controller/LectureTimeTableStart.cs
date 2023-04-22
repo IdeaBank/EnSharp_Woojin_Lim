@@ -119,9 +119,6 @@ namespace LTT.Controller
         {
             viewList.StudentLoginView.PrintLogin("", "");
 
-            int targetLeft = Console.WindowWidth / 4 * 3;
-            int targetTop = Console.WindowHeight / 4 * 3;
-
             // id, password의 일치 여부를 저장하는 변수 
             KeyValuePair<ResultCode, int> loginResult = new KeyValuePair<ResultCode, int>(ResultCode.FAIL, -1);
             // 로그인 결과의 힌트를 보여주기 위한 변수 (ex. ID가 틀렸습니다. Password가 틀렸습니다)
@@ -130,6 +127,10 @@ namespace LTT.Controller
             // 아이디와 비번 둘 중 하나라도 일치하지 않으면 반복
             while (loginResult.Key != ResultCode.SUCCESS)
             {
+                // 콘솔창의 크기 얻어오기
+                int targetLeft = Console.WindowWidth / 4 * 3;
+                int targetTop = Console.WindowHeight / 4 * 3;
+
                 // 로그인 창 출력
                 viewList.StudentLoginView.PrintLogin(loginHint[0], loginHint[1]);
 

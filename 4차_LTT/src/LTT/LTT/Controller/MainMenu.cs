@@ -54,7 +54,9 @@ namespace LTT.Controller
                     switch (currentSelectionIndex)
                     {
                         case 0:
-                            viewList.CourseListView.ShowCourseList(this.totalData.Courses);
+                            LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                            viewList.LectureTimeSearchView.MakeView();
+                            lectureTimeSearcher.LectureTimeSearch();
                             break;
                         case 1:
                             Console.WriteLine("2");

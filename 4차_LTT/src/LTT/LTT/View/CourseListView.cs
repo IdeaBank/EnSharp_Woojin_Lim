@@ -28,7 +28,9 @@ namespace LTT.View
                 consoleWriter.StringPadRight("요일 및 강의시간", 40) + consoleWriter.StringPadRight("강의실", 20) +
                 consoleWriter.StringPadRight("메인 교수명", 30) + consoleWriter.StringPadRight("강의 언어", 10);
 
+            Console.WriteLine(new string('=', 210));
             Console.WriteLine(instruction);
+            Console.WriteLine(new string('=', 210));
 
             foreach (Course course in courses)
             {

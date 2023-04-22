@@ -78,7 +78,7 @@ namespace LTT.Utility
 
             return -1;
         }
-        
+
         private int GetCourseIndexByNumber(List<Course> courses, int courseNumber)
         {
             for (int i = 0; i < courses.Count; ++i)
@@ -102,27 +102,27 @@ namespace LTT.Utility
                 lectureTimes = "";
             }
 
-            if(classroom == null)
+            if (classroom == null)
             {
                 classroom = "";
             }
 
             Course newCourse = new Course(number, curriculumNumber, classNumber, curriculumName, studentAcademicYear, credit, classroom, professor);
-            
+
             switch (department)
             {
                 case "컴퓨터공학과":
                     newCourse.Department = Department.COMPUTER_SCIENCE;
                     break;
-                
+
                 case "소프트웨어학과":
                     newCourse.Department = Department.SOFTWARE;
                     break;
-                
+
                 case "지능기전공학부":
                     newCourse.Department = Department.INTELLIGENT_MECHATRONICS_ENGINEERING;
                     break;
-                
+
                 case "기계항공우주공학부":
                     newCourse.Department = Department.MACHINE_AEROSPACE_ENGINEERING;
                     break;
@@ -133,11 +133,11 @@ namespace LTT.Utility
                 case "공통교양필수":
                     newCourse.CurriculumType = CurriculumType.COMMON_GENERAL_ELECTIVE_ESSENTIAL;
                     break;
-                
+
                 case "전공필수":
                     newCourse.CurriculumType = CurriculumType.MAJOR_ESSENTIAL;
                     break;
-                
+
                 case "전공선택":
                     newCourse.CurriculumType = CurriculumType.MAJOR_SELECTIVE;
                     break;
@@ -151,11 +151,11 @@ namespace LTT.Utility
                 case "한국어":
                     newCourse.Language = Language.KOREAN;
                     break;
-                
+
                 case "영어":
                     newCourse.Language = Language.ENGLISH;
                     break;
-                
+
                 case "영어/한국어":
                     newCourse.Language = Language.ENGLISH_AND_KOREAN;
                     break;
@@ -167,7 +167,7 @@ namespace LTT.Utility
         private List<LectureTime> GetLectureTime(string lectureTimes)
         {
             List<LectureTime> result = new List<LectureTime>();
-            
+
             if (lectureTimes == null || lectureTimes.Length == 0)
             {
                 return result;
@@ -181,7 +181,7 @@ namespace LTT.Utility
             foreach (string tempString in splitResult)
             {
                 string splitString = tempString.Trim();
-                
+
                 switch (splitString[0])
                 {
                     case '일':
@@ -212,14 +212,14 @@ namespace LTT.Utility
                         firstDay = DayOfWeek.Saturday;
                         break;
                 }
-                
+
                 if (splitString.Length == 13)
                 {
                     LectureTime lectureTime = new LectureTime();
                     lectureTime.Day = firstDay;
                     lectureTime.StartTime = Int32.Parse(splitString[2].ToString() + splitString[3]) * 60 +
                                             Int32.Parse(splitString[5].ToString() + splitString[6]);
-                    
+
                     lectureTime.EndTime = Int32.Parse(splitString[8].ToString() + splitString[9]) * 60 +
                                           Int32.Parse(splitString[11].ToString() + splitString[12]);
 
@@ -258,12 +258,12 @@ namespace LTT.Utility
                             secondDay = DayOfWeek.Saturday;
                             break;
                     }
-                    
+
                     LectureTime firstLectureTime = new LectureTime();
                     firstLectureTime.Day = firstDay;
                     firstLectureTime.StartTime = Int32.Parse(splitString[4].ToString() + splitString[5]) * 60 +
                                                  Int32.Parse(splitString[7].ToString() + splitString[8]);
-                    
+
                     firstLectureTime.EndTime = Int32.Parse(splitString[10].ToString() + splitString[11]) * 60 +
                                                Int32.Parse(splitString[13].ToString() + splitString[14]);
 
@@ -271,7 +271,7 @@ namespace LTT.Utility
                     secondLectureTime.Day = secondDay;
                     secondLectureTime.StartTime = firstLectureTime.StartTime;
                     secondLectureTime.EndTime = firstLectureTime.EndTime;
-                    
+
                     result.Add(firstLectureTime);
                     result.Add(secondLectureTime);
                 }
@@ -279,7 +279,7 @@ namespace LTT.Utility
 
             return result;
         }
-        
+
         private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex)
         {
             if (IsClassCompatible(courseList, newCourse))
@@ -290,7 +290,7 @@ namespace LTT.Utility
 
             return ResultCode.FAIL;
         }
-        
+
         public ResultCode AddReservedCourse(TotalData totalData, int courseNumber, int studentIndex)
         {
             int courseIndex = GetCourseIndexByNumber(totalData.Courses, courseNumber);
@@ -300,7 +300,7 @@ namespace LTT.Utility
             {
                 return ResultCode.NO_COURSE;
             }
-            
+
             return AddCourse(totalData.Students[studentIndex].ReservedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
         }
 
@@ -313,7 +313,7 @@ namespace LTT.Utility
             {
                 return ResultCode.NO_COURSE;
             }
-            
+
             return AddCourse(totalData.Students[studentIndex].EnListedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
         }
 
@@ -325,12 +325,12 @@ namespace LTT.Utility
             {
                 return ResultCode.NO_COURSE;
             }
-            
+
             courseList.RemoveAt(courseIndex);
-            
+
             return ResultCode.SUCCESS;
         }
-        
+
         public ResultCode RemoveReservedCourse(TotalData totalData, int courseNumber, int userIndex)
         {
             return RemoveCourse(totalData.Students[userIndex].ReservedCourses, courseNumber);
@@ -340,7 +340,7 @@ namespace LTT.Utility
         {
             return RemoveCourse(totalData.Students[userIndex].EnListedCourses, courseNumber);
         }
-        
+
         public List<Course> GetCourseListExcept(TotalData totalData, List<Course> coursesToIgnore)
         {
             // 리스트 복사
@@ -361,6 +361,57 @@ namespace LTT.Utility
 
             // 결과 반환
             return totalCourse;
+        }
+
+        public List<Course> SearchCourseList(TotalData totalData, int departmentIndex, int curriculumTypeIndex, string name, string professor, string studentAcademicYear, string curriculumNumber)
+        {
+            List<Course> searchResult = new List<Course>();
+            string departmentString = "", curriculumTypeString = "";
+
+            switch(departmentIndex)
+            {
+                case 1:
+                    departmentString = "컴퓨터공학과";
+                    break;
+                case 2:
+                    departmentString = "소프트웨어학과";
+                    break;
+                case 3:
+                    departmentString = "지능기전공학부";
+                    break;
+                case 4:
+                    departmentString = "기계항공우주공학부";
+                    break;
+            }
+
+            switch (curriculumTypeIndex)
+            {
+                case 1:
+                    curriculumTypeString = "공통교양필수";
+                    break;
+                case 2:
+                    curriculumTypeString = "전공필수";
+                    break;
+                case 3:
+                    curriculumTypeString = "전공선택";
+                    break;
+            }
+
+
+            foreach(Course course in totalData.Courses)
+            {
+                if ((course.DepartmentString == departmentString || departmentString == "") &&
+                    (course.CurriculumString == curriculumTypeString || curriculumTypeString == "") &&
+                    (course.CurriculumName == name || name == "") &&
+                    (course.Professor == professor || professor == "") &&
+                    (course.StudentAcademicYear.ToString() == studentAcademicYear || studentAcademicYear == "") &&
+                    (course.CurriculumNumber == curriculumNumber || curriculumNumber == ""))
+                {
+                    searchResult.Add(course);
+                }
+            }
+
+            return searchResult;
         }
     }
 }

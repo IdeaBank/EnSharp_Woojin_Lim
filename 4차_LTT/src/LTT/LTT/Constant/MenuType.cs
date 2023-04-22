@@ -4,6 +4,7 @@ namespace LTT.Constant
     {
         MAIN_MENU,
         RESERVE_COURSE,
-        ENLIST_COURSE
+        ENLIST_COURSE,
+        SEARCH_TIME_TABLE
     }
 }

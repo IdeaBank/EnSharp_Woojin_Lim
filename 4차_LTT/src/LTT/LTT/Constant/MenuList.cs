@@ -5,6 +5,7 @@ namespace LTT.Constant
         VIEW_ALL_TIME_TABLE,
         RESERVE_COURSE,
         ENLIST_COURSE,
-        VIEW_ENLISTED_COURSE
+        VIEW_ENLISTED_COURSE,
+        SEARCH_TIME_TABLE
     }
 }

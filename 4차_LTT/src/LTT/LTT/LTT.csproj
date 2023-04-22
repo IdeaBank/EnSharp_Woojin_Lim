@@ -53,6 +53,7 @@
     <Compile Include="Constant\ResultCode.cs" />
     <Compile Include="Controller\LectureTimeTableStart.cs" />
     <Compile Include="Controller\MainMenu.cs" />
+    <Compile Include="Controller\LectureTimeSearcher.cs" />
     <Compile Include="Utility\MenuSelector.cs" />
     <Compile Include="Model\Course.cs" />
     <Compile Include="Model\LectureTime.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Utility\UserInputManager.cs" />
     <Compile Include="View\CourseListView.cs" />
     <Compile Include="View\EnlistCourse\EnlistMenuView.cs" />
+    <Compile Include="View\LectureTimeSearchView.cs" />
     <Compile Include="View\MainMenuView.cs" />
     <Compile Include="View\ReserveCourse\ReserveMenuView.cs" />
     <Compile Include="View\StudentLoginView.cs" />
