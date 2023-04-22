@@ -51,9 +51,11 @@
     <Compile Include="Constant\MenuType.cs" />
     <Compile Include="Constant\MoveDirection.cs" />
     <Compile Include="Constant\ResultCode.cs" />
+    <Compile Include="Controller\EnlistCourse\EnlistMenu.cs" />
     <Compile Include="Controller\LectureTimeTableStart.cs" />
     <Compile Include="Controller\MainMenu.cs" />
     <Compile Include="Controller\LectureTimeSearcher.cs" />
+    <Compile Include="Controller\ReserveCourse\ReserveMenu.cs" />
     <Compile Include="Utility\MenuSelector.cs" />
     <Compile Include="Model\Course.cs" />
     <Compile Include="Model\LectureTime.cs" />

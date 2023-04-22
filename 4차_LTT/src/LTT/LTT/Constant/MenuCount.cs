@@ -9,5 +9,7 @@ namespace LTT.Constant
     public class MenuCount
     {
         public const int MAIN_MENU = 4;
+        public const int RESERVE_MENU = 4;
+        public const int ENLIST_MENU = 4;
     }
 }

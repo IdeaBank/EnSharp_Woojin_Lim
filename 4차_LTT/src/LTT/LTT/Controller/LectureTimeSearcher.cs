@@ -64,15 +64,19 @@ namespace LTT.Controller
                     case 2:
                         name = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 5, 20, false, true, name.Value);
                         break;
+
                     case 3:
                         professor = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 6, 20, false, true, professor.Value);
                         break;
+
                     case 4:
                         studentAcademicYear = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 7, 20, false, true, studentAcademicYear.Value);
                         break;
+
                     case 5:
                         curriculumNumber = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 8, 20, false, true, curriculumNumber.Value);
                         break;
+
                     case 6:
                         Console.Clear();
                         viewList.CourseListView.ShowCourseList(dataManipulator.SearchCourseList(this.totalData, currentSelectionColumnIndex[0], currentSelectionColumnIndex[1], name.Value, professor.Value, studentAcademicYear.Value, curriculumNumber.Value));

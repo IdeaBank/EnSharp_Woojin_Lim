@@ -291,9 +291,9 @@ namespace LTT.Utility
             return ResultCode.FAIL;
         }
 
-        public ResultCode AddReservedCourse(TotalData totalData, int courseNumber, int studentIndex)
+        public ResultCode AddReservedCourse(TotalData totalData, List<Course> courseList, int courseNumber, int studentIndex)
         {
-            int courseIndex = GetCourseIndexByNumber(totalData.Courses, courseNumber);
+            int courseIndex = GetCourseIndexByNumber(courseList, courseNumber);
 
             // 강의가 없으면 NO_COURSE 반환
             if (courseIndex == -1)
@@ -304,9 +304,9 @@ namespace LTT.Utility
             return AddCourse(totalData.Students[studentIndex].ReservedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
         }
 
-        public ResultCode AddEnlistedCourse(TotalData totalData, int courseNumber, int studentIndex)
+        public ResultCode AddEnlistedCourse(TotalData totalData, List<Course> courseList, int courseNumber, int studentIndex)
         {
-            int courseIndex = GetCourseIndexByNumber(totalData.Courses, courseNumber);
+            int courseIndex = GetCourseIndexByNumber(courseList, courseNumber);
 
             // 강의가 없으면 NO_COURSE 반환
             if (courseIndex == -1)
@@ -402,8 +402,8 @@ namespace LTT.Utility
             {
                 if ((course.DepartmentString == departmentString || departmentString == "") &&
                     (course.CurriculumString == curriculumTypeString || curriculumTypeString == "") &&
-                    (course.CurriculumName == name || name == "") &&
-                    (course.Professor == professor || professor == "") &&
+                    (course.CurriculumName.Contains(name) || name == "") &&
+                    (course.Professor.Contains(professor) || professor == "") &&
                     (course.StudentAcademicYear.ToString() == studentAcademicYear || studentAcademicYear == "") &&
                     (course.CurriculumNumber == curriculumNumber || curriculumNumber == ""))
                 {

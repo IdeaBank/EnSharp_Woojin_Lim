@@ -1,4 +1,5 @@
-﻿using LTT.Model;
+﻿using LTT.Constant;
+using LTT.Model;
 using LTT.Utility;
 using LTT.View;
 using System;
@@ -6,13 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LTT.Constant;
-using LTT.Controller.ReserveCourse;
-using LTT.Controller.EnlistCourse;
 
-namespace LTT.Controller
+namespace LTT.Controller.EnlistCourse
 {
-    class MainMenu
+    public class EnlistMenu
     {
         private TotalData totalData;
         private DataManipulator dataManipulator;
@@ -22,7 +20,7 @@ namespace LTT.Controller
         private MenuSelector menuSelector;
         private int currentSelectionIndex;
 
-        public MainMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector) 
+        public EnlistMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector)
         {
             this.totalData = totalData;
             this.dataManipulator = dataManipulator;
@@ -36,13 +34,13 @@ namespace LTT.Controller
         {
             this.currentSelectionIndex = 0;
 
-            viewList.MainMenuView.MakeView();
+            viewList.EnlistMenuView.MakeView();
 
             KeyValuePair<ResultCode, int> selectResult = new KeyValuePair<ResultCode, int>();
-            
+
             while (selectResult.Key != ResultCode.ESC_PRESSED)
             {
-                selectResult = menuSelector.ChooseMenu(0, MenuCount.MAIN_MENU, MenuType.MAIN_MENU);
+                selectResult = menuSelector.ChooseMenu(0, MenuCount.ENLIST_MENU, MenuType.ENLIST_COURSE);
 
                 if (selectResult.Key == ResultCode.ESC_PRESSED)
                 {
@@ -56,24 +54,20 @@ namespace LTT.Controller
                     switch (currentSelectionIndex)
                     {
                         case 0:
-                            LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
-                            viewList.LectureTimeSearchView.MakeView();
-                            lectureTimeSearcher.LectureTimeSearch();
+
                             break;
                         case 1:
-                            ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
-                            reserveMenu.Start();
+                            Console.WriteLine("2");
                             break;
                         case 2:
-                            EnlistMenu enlistMenu = new EnlistMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
-                            enlistMenu.Start();
+                            Console.WriteLine("3");
                             break;
                         case 3:
                             Console.WriteLine("4");
                             break;
                     }
 
-                    viewList.MainMenuView.MakeView();
+                    viewList.EnlistMenuView.MakeView();
                 }
             }
         }
