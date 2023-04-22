@@ -19,8 +19,9 @@ namespace LTT.Controller.EnlistCourse
         private ViewList viewList;
         private MenuSelector menuSelector;
         private int currentSelectionIndex;
+        private int userIndex;
 
-        public EnlistMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector)
+        public EnlistMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector, int userIndex)
         {
             this.totalData = totalData;
             this.dataManipulator = dataManipulator;
@@ -28,6 +29,7 @@ namespace LTT.Controller.EnlistCourse
             this.userInputManager = userInputManager;
             this.viewList = viewList;
             this.menuSelector = menuSelector;
+            this.userIndex = userIndex;
         }
 
         public void Start()

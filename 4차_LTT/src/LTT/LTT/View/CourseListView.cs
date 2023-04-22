@@ -43,8 +43,6 @@ namespace LTT.View
 
                 Console.WriteLine(value);
             }
-
-            Console.ReadKey();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace LTT.Controller
             this.menuSelector = menuSelector;
         }
 
-        public void LectureTimeSearch()
+        public KeyValuePair<ResultCode, List<Course>> LectureTimeSearch(List<Course> coursesToIgnore)
         {
             int currentSelectionRowIndex = 0;
             int[] currentSelectionColumnIndex = new int[2] { -1, -1 };
@@ -46,7 +46,7 @@ namespace LTT.Controller
 
                 if (selectRowResult.Key == ResultCode.ESC_PRESSED)
                 {
-                    return;
+                    return new KeyValuePair<ResultCode, List<Course>>(ResultCode.ESC_PRESSED, null);
                 }
 
                 switch (currentSelectionRowIndex)
@@ -79,10 +79,13 @@ namespace LTT.Controller
 
                     case 6:
                         Console.Clear();
-                        viewList.CourseListView.ShowCourseList(dataManipulator.SearchCourseList(this.totalData, currentSelectionColumnIndex[0], currentSelectionColumnIndex[1], name.Value, professor.Value, studentAcademicYear.Value, curriculumNumber.Value));
-                        return;
+                        List<Course> searchResultList = dataManipulator.SearchCourseList(this.totalData, coursesToIgnore, currentSelectionColumnIndex[0], currentSelectionColumnIndex[1], name.Value, professor.Value, studentAcademicYear.Value, curriculumNumber.Value);
+                        viewList.CourseListView.ShowCourseList(searchResultList);
+                        return new KeyValuePair<ResultCode, List<Course>>(ResultCode.SUCCESS, searchResultList);
                 }
             }
+
+            return new KeyValuePair<ResultCode, List<Course>>(ResultCode.SUCCESS, null);
         }
     }
 }

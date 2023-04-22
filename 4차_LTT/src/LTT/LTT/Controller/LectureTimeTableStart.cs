@@ -38,9 +38,9 @@ namespace LTT.Controller
 
             while (finish != ResultCode.Y_PRESSED)
             {
-                ResultCode loginResult = TryLogin();
+                KeyValuePair<ResultCode, int> loginResult = TryLogin();
 
-                if (loginResult == ResultCode.ESC_PRESSED)
+                if (loginResult.Key == ResultCode.ESC_PRESSED)
                 {
                     viewList.StudentLoginView.PrintQuitConfirm();
                     finish = userInputManager.InputYesOrNo();
@@ -48,7 +48,7 @@ namespace LTT.Controller
 
                 else
                 {
-                    MainMenu mainMenu = new MainMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                    MainMenu mainMenu = new MainMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, loginResult.Value);
                     mainMenu.Start();
                 }
             }
@@ -109,13 +109,14 @@ namespace LTT.Controller
                 // application 종료
                 application.Quit();
             }
+
             catch (SystemException e)
             {
                 Console.WriteLine(e.Message);
             }
         }
 
-        private ResultCode TryLogin()
+        private KeyValuePair<ResultCode, int> TryLogin()
         {
             viewList.StudentLoginView.PrintLogin("", "");
 
@@ -140,7 +141,7 @@ namespace LTT.Controller
                 // esc가 눌렸으면 함수를 끝냄
                 if (inputId.Key == ResultCode.ESC_PRESSED)
                 {
-                    return ResultCode.ESC_PRESSED;
+                    return new KeyValuePair<ResultCode, int>(ResultCode.ESC_PRESSED, -1);
                 }
 
                 // 비밀번호 입력 받기
@@ -149,7 +150,7 @@ namespace LTT.Controller
                 // esc가 눌렸으면 함수를 끝냄
                 if (inputPassword.Key == ResultCode.ESC_PRESSED)
                 {
-                    return ResultCode.ESC_PRESSED;
+                    return new KeyValuePair<ResultCode, int>(ResultCode.ESC_PRESSED, -1);
                 }
 
                 // 로그인 결과 값 얻어오기
@@ -183,7 +184,7 @@ namespace LTT.Controller
                 }
             }
 
-            return ResultCode.SUCCESS;
+            return loginResult;
         }
     }
 }

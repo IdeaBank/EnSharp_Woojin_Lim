@@ -21,8 +21,9 @@ namespace LTT.Controller
         private ViewList viewList;
         private MenuSelector menuSelector;
         private int currentSelectionIndex;
+        private int userIndex;
 
-        public MainMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector) 
+        public MainMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector, int userIndex) 
         {
             this.totalData = totalData;
             this.dataManipulator = dataManipulator;
@@ -30,6 +31,7 @@ namespace LTT.Controller
             this.userInputManager = userInputManager;
             this.viewList = viewList;
             this.menuSelector = menuSelector;
+            this.userIndex = userIndex;
         }
 
         public void Start()
@@ -58,14 +60,15 @@ namespace LTT.Controller
                         case 0:
                             LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                             viewList.LectureTimeSearchView.MakeView();
-                            lectureTimeSearcher.LectureTimeSearch();
+                            lectureTimeSearcher.LectureTimeSearch(new List<Course>());
+                            Console.ReadKey();
                             break;
                         case 1:
-                            ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                            ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
                             reserveMenu.Start();
                             break;
                         case 2:
-                            EnlistMenu enlistMenu = new EnlistMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                            EnlistMenu enlistMenu = new EnlistMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
                             enlistMenu.Start();
                             break;
                         case 3:

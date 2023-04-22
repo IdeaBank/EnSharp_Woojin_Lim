@@ -43,5 +43,10 @@ namespace LTT.View.EnlistCourse
                 }
             }
         }
+
+        public void MakeEnlistAddingView()
+        {
+
+        }
     }
 }

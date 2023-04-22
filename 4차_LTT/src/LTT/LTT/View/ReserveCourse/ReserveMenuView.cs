@@ -43,5 +43,12 @@ namespace LTT.View.ReserveCourse
                 }
             }
         }
+
+        public void MakeReserveAddingView(int availableCredit, int reservedCredit)
+        {
+            string instruction = "등록 가능 학점 : " + availableCredit + "    담은 학점 : " + reservedCredit + "   담을 과목 : " + new string(' ', 30);
+
+            Console.Write(instruction);
+        }
     }
 }

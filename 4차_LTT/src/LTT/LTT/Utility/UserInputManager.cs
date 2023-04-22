@@ -6,9 +6,22 @@ namespace LTT.Utility
 {
     public class UserInputManager
     {
-        private bool IsDigit(char ch)
+        public bool IsDigit(char ch)
         {
             return '0' <= ch && ch <= '9';
+        }
+
+        public bool IsNumber(string str)
+        {
+            foreach(char ch in str)
+            {
+                if(!IsDigit(ch))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool IsSpecialCharacter(char ch)

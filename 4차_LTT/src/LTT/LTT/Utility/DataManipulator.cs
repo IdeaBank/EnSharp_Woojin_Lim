@@ -301,7 +301,7 @@ namespace LTT.Utility
                 return ResultCode.NO_COURSE;
             }
 
-            return AddCourse(totalData.Students[studentIndex].ReservedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
+            return AddCourse(totalData.Students[studentIndex].ReservedCourses, courseList[courseIndex], courseIndex, studentIndex);
         }
 
         public ResultCode AddEnlistedCourse(TotalData totalData, List<Course> courseList, int courseNumber, int studentIndex)
@@ -314,7 +314,7 @@ namespace LTT.Utility
                 return ResultCode.NO_COURSE;
             }
 
-            return AddCourse(totalData.Students[studentIndex].EnListedCourses, totalData.Courses[courseIndex], courseIndex, studentIndex);
+            return AddCourse(totalData.Students[studentIndex].EnListedCourses, courseList[courseIndex], courseIndex, studentIndex);
         }
 
         private ResultCode RemoveCourse(List<Course> courseList, int courseNumber)
@@ -363,9 +363,11 @@ namespace LTT.Utility
             return totalCourse;
         }
 
-        public List<Course> SearchCourseList(TotalData totalData, int departmentIndex, int curriculumTypeIndex, string name, string professor, string studentAcademicYear, string curriculumNumber)
+        public List<Course> SearchCourseList(TotalData totalData, List<Course> coursesToIgnore, int departmentIndex, int curriculumTypeIndex, string name, string professor, string studentAcademicYear, string curriculumNumber)
         {
             List<Course> searchResult = new List<Course>();
+            List<Course> targetCourses = GetCourseListExcept(totalData, coursesToIgnore);
+
             string departmentString = "", curriculumTypeString = "";
 
             switch(departmentIndex)
@@ -398,7 +400,7 @@ namespace LTT.Utility
             }
 
 
-            foreach(Course course in totalData.Courses)
+            foreach(Course course in targetCourses)
             {
                 if ((course.DepartmentString == departmentString || departmentString == "") &&
                     (course.CurriculumString == curriculumTypeString || curriculumTypeString == "") &&

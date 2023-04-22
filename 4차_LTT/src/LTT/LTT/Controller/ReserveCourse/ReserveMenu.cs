@@ -19,8 +19,9 @@ namespace LTT.Controller.ReserveCourse
         private ViewList viewList;
         private MenuSelector menuSelector;
         private int currentSelectionIndex;
+        private int userIndex;
 
-        public ReserveMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector)
+        public ReserveMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector, int userIndex)
         {
             this.totalData = totalData;
             this.dataManipulator = dataManipulator;
@@ -28,6 +29,7 @@ namespace LTT.Controller.ReserveCourse
             this.userInputManager = userInputManager;
             this.viewList = viewList;
             this.menuSelector = menuSelector;
+            this.userIndex = userIndex;
         }
 
         public void Start()
@@ -37,6 +39,8 @@ namespace LTT.Controller.ReserveCourse
             viewList.ReserveMenuView.MakeView();
 
             KeyValuePair<ResultCode, int> selectResult = new KeyValuePair<ResultCode, int>();
+
+            dataManipulator.AddReservedCourse(totalData, totalData.Courses, 1, 0);
 
             while (selectResult.Key != ResultCode.ESC_PRESSED)
             {
@@ -54,10 +58,11 @@ namespace LTT.Controller.ReserveCourse
                     switch (currentSelectionIndex)
                     {
                         case 0:
-                            
+                            AddReservedCourse();
                             break;
                         case 1:
-                            Console.WriteLine("2");
+                            viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].ReservedCourses);
+                            Console.ReadKey(true);
                             break;
                         case 2:
                             Console.WriteLine("3");
@@ -69,6 +74,69 @@ namespace LTT.Controller.ReserveCourse
 
                     viewList.ReserveMenuView.MakeView();
                 }
+            }
+        }
+
+
+        private void AddReservedCourse()
+        {
+            LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+            viewList.LectureTimeSearchView.MakeView();
+
+            KeyValuePair<ResultCode, List<Course>> searchResultList = lectureTimeSearcher.LectureTimeSearch(totalData.Students[userIndex].ReservedCourses);
+
+            if (searchResultList.Key == ResultCode.ESC_PRESSED)
+            {
+                return;
+            }    
+
+            KeyValuePair<ResultCode, string> result = new KeyValuePair<ResultCode, string>();
+
+            while (result.Key != ResultCode.ESC_PRESSED)
+            {
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write(new string(' ', 200));
+                Console.SetCursorPosition(0, Console.CursorTop);
+
+                int studentTotalReservedCourse = 0;
+
+                foreach (Course course in totalData.Students[userIndex].ReservedCourses)
+                {
+                    studentTotalReservedCourse += course.Credit;
+                }
+
+                viewList.ReserveMenuView.MakeReserveAddingView(24 - studentTotalReservedCourse, studentTotalReservedCourse);
+
+                result = userInputManager.ReadInputFromUser(consoleWriter, Console.CursorLeft, Console.CursorTop, 3, false, false);
+
+                if(result.Key == ResultCode.ESC_PRESSED)
+                {
+                    return;
+                }
+
+                if(!userInputManager.IsNumber(result.Value) || result.Value == "")
+                {
+                    continue;
+                }
+
+                ResultCode addReservedCourseResult = dataManipulator.AddReservedCourse(totalData, searchResultList.Value, Int32.Parse(result.Value), userIndex);
+
+                switch(addReservedCourseResult)
+                {
+                    case ResultCode.SUCCESS:
+                        consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "등록 성공", Align.LEFT, ConsoleColor.Green);
+                        break;
+
+                    case ResultCode.NO_COURSE:
+                        consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "이미 등록되어 있거나 없는 강의입니다!", Align.LEFT, ConsoleColor.Red);
+                        break;
+
+                    case ResultCode.FAIL:
+                        consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "해당 시간에 이미 강의가 있습니다!", Align.LEFT, ConsoleColor.Red);
+                        break;
+                }
+
+                Console.ReadKey();
             }
         }
     }
