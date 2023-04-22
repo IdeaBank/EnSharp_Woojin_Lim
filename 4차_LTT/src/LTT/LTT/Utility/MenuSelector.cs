@@ -47,6 +47,9 @@ namespace LTT.Utility
                 case MenuType.SEARCH_TIME_TABLE:
                     viewList.LectureTimeSearchView.UpdateView(currentSelectionIndex, columnIndexList2);
                     break;
+                case MenuType.RESERVED_OR_ALL_COURSE:
+                    viewList.ReservedOrAllCourseView.UpdateView(currentSelectionIndex);
+                    break;
             }
         }
         

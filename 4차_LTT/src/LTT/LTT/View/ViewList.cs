@@ -13,6 +13,7 @@ namespace LTT.View
         private CourseListView courseListView;
         private LectureTimeSearchView lectureTimeSearchView;
         private TimeTableView timeTableView;
+        private ReservedOrAllCourseView reservedOrAllCourseView;
 
         public StudentLoginView StudentLoginView
         {
@@ -49,6 +50,11 @@ namespace LTT.View
             get => this.timeTableView;
         }
 
+        public ReservedOrAllCourseView ReservedOrAllCourseView
+        {
+            get => this.reservedOrAllCourseView;
+        }
+
         public ViewList(ConsoleWriter consoleWriter)
         {
             this.studentLoginView = new StudentLoginView(consoleWriter);
@@ -58,6 +64,7 @@ namespace LTT.View
             this.courseListView = new CourseListView(consoleWriter);
             this.lectureTimeSearchView = new LectureTimeSearchView(consoleWriter);
             this.timeTableView = new TimeTableView(consoleWriter);
+            this.reservedOrAllCourseView = new ReservedOrAllCourseView(consoleWriter);
         }
     }
 }

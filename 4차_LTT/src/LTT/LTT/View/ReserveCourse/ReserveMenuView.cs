@@ -30,7 +30,7 @@ namespace LTT.View.ReserveCourse
                 "관심 과목 삭제"
             };
 
-            for (int i = 0; i < MenuCount.RESERVE_MENU; ++i)
+            for (int i = 0; i < MenuCount.RESERVE_MENU; ++i)   
             {
                 if (i == selectionIndex)
                 {
