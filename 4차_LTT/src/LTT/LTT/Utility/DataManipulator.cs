@@ -280,8 +280,25 @@ namespace LTT.Utility
             return result;
         }
 
+        private int GetTotalCredit(List<Course> courseList)
+        {
+            int totalCredit = 0;
+
+            foreach(Course course in courseList)
+            {
+                totalCredit += course.Credit;
+            }
+
+            return totalCredit;
+        }
+
         private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex)
         {
+            if(GetTotalCredit(courseList) + newCourse.Credit > 24)
+            {
+                return ResultCode.OVER_MAX;
+            }
+
             if (IsClassCompatible(courseList, newCourse))
             {
                 courseList.Add(newCourse);

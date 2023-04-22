@@ -72,6 +72,7 @@
     <Compile Include="View\MainMenuView.cs" />
     <Compile Include="View\ReserveCourse\ReserveMenuView.cs" />
     <Compile Include="View\StudentLoginView.cs" />
+    <Compile Include="View\TimeTableView.cs" />
     <Compile Include="View\ViewList.cs" />
   </ItemGroup>
   <ItemGroup>

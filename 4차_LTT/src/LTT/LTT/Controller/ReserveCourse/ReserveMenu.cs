@@ -65,7 +65,9 @@ namespace LTT.Controller.ReserveCourse
                             Console.ReadKey(true);
                             break;
                         case 2:
-                            Console.WriteLine("3");
+                            Console.Clear();
+                            viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].ReservedCourses);
+                            Console.ReadKey(true);
                             break;
                         case 3:
                             Console.WriteLine("4");
@@ -133,6 +135,10 @@ namespace LTT.Controller.ReserveCourse
 
                     case ResultCode.FAIL:
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "해당 시간에 이미 강의가 있습니다!", Align.LEFT, ConsoleColor.Red);
+                        break;
+
+                    case ResultCode.OVER_MAX:
+                        consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "최대 등록 가능한 학점 수를 초과했습니다!", Align.LEFT, ConsoleColor.Red);
                         break;
                 }
 
