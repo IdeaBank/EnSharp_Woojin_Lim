@@ -44,9 +44,11 @@ namespace LTT.View.EnlistCourse
             }
         }
 
-        public void MakeEnlistAddingView()
+        public void MakeEnlistAddingView(int availableCredit, int reservedCredit)
         {
+            string instruction = "등록 가능 학점 : " + availableCredit + "    등록한 학점 : " + reservedCredit + "   등록한 과목 : " + new string(' ', 30);
 
+            Console.Write(instruction);
         }
     }
 }
