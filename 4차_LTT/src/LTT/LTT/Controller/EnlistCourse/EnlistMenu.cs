@@ -60,12 +60,12 @@ namespace LTT.Controller.EnlistCourse
                             reservedOrAllCourse.Start();
                             break;
                         case 1:
-                            viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].EnListedCourses);
+                            viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].EnlistedCourses);
                             Console.ReadKey(true);
                             break;
                         case 2:
                             Console.Clear();
-                            viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnListedCourses);
+                            viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
                             Console.ReadKey(true);
                             break;
                         case 3:

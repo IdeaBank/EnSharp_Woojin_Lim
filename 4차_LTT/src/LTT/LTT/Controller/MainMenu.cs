@@ -72,7 +72,8 @@ namespace LTT.Controller
                             enlistMenu.Start();
                             break;
                         case 3:
-                            Console.WriteLine("4");
+                            ExcelFileSaver excelFileSaver = new ExcelFileSaver();
+                            excelFileSaver.SaveToFile(totalData.Students[userIndex]);
                             break;
                     }
 

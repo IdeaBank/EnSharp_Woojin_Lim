@@ -40,8 +40,6 @@ namespace LTT.Controller.ReserveCourse
 
             KeyValuePair<ResultCode, int> selectResult = new KeyValuePair<ResultCode, int>();
 
-            dataManipulator.AddReservedCourse(totalData, totalData.Courses, 1, 0);
-
             while (selectResult.Key != ResultCode.ESC_PRESSED)
             {
                 selectResult = menuSelector.ChooseMenu(0, MenuCount.RESERVE_MENU, MenuType.RESERVE_COURSE);

@@ -45,7 +45,7 @@ namespace LTT.View
 
             for(int i = 540; i < 1260; i += 30)
             {
-                Console.SetCursorPosition(1, ((i - 540) / 30 * 2) + 20);
+                Console.SetCursorPosition(1, ((i - 540) / 30 * 2) + 10);
                 Console.Write((i / 60).ToString("00") + ":" + (i % 60).ToString("00") + "~" + ((i + 30) / 60).ToString("00") + ":" + ((i + 30) % 60).ToString("00"));
             }
 
@@ -60,7 +60,7 @@ namespace LTT.View
                             if(lectureTime.StartTime <= j && j < lectureTime.EndTime && (int)lectureTime.Day == i)
                             {
                                 int cursorLeft = (i + 1) * 30; 
-                                int cursorTop = ((j - 540) / 30 * 2) + 20;
+                                int cursorTop = ((j - 540) / 30 * 2) + 10;
 
                                 Console.SetCursorPosition(cursorLeft, cursorTop);
 

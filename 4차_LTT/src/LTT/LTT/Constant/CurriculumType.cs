@@ -5,7 +5,6 @@ namespace LTT.Constant
         ALL,
         COMMON_GENERAL_ELECTIVE_ESSENTIAL,
         MAJOR_ESSENTIAL,
-        MAJOR_SELECTIVE,
-        
+        MAJOR_SELECTIVE
     }
 }

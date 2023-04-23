@@ -331,7 +331,7 @@ namespace LTT.Utility
                 return ResultCode.NO_COURSE;
             }
 
-            return AddCourse(totalData.Students[studentIndex].EnListedCourses, courseList[courseIndex], courseIndex, studentIndex);
+            return AddCourse(totalData.Students[studentIndex].EnlistedCourses, courseList[courseIndex], courseIndex, studentIndex);
         }
 
         private ResultCode RemoveCourse(List<Course> courseList, int courseNumber)
@@ -355,7 +355,7 @@ namespace LTT.Utility
 
         public ResultCode RemoveEnlistedCourse(TotalData totalData, int courseNumber, int userIndex)
         {
-            return RemoveCourse(totalData.Students[userIndex].EnListedCourses, courseNumber);
+            return RemoveCourse(totalData.Students[userIndex].EnlistedCourses, courseNumber);
         }
 
         public List<Course> GetCourseListExcept(TotalData totalData, List<Course> coursesToIgnore)

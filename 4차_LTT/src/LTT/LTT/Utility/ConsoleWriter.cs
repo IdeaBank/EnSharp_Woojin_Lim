@@ -67,12 +67,10 @@ namespace LTT.Utility
 
             Console.ForegroundColor = color;
             
-            // 원하는 문자열 출력
+            // 원하는 문자열 출력s
             Console.Write(str);
             
             Console.ResetColor();
         }
-        
-        
     }
 }

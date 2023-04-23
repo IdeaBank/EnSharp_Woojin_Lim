@@ -27,7 +27,7 @@ namespace LTT.Model
             set => this.reservedCourses = value;
         }
 
-        public List<Course> EnListedCourses
+        public List<Course> EnlistedCourses
         {
             get => this.enlistedCourses;
             set => this.enlistedCourses = value;

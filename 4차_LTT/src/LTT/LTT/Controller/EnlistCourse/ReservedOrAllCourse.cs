@@ -80,7 +80,7 @@ namespace LTT.Controller.EnlistCourse
                 LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                 viewList.LectureTimeSearchView.MakeView();
 
-                searchResultList = lectureTimeSearcher.LectureTimeSearch(totalData.Students[userIndex].EnListedCourses);
+                searchResultList = lectureTimeSearcher.LectureTimeSearch(totalData.Students[userIndex].EnlistedCourses);
 
                 if (searchResultList.Key == ResultCode.ESC_PRESSED)
                 {
@@ -100,7 +100,7 @@ namespace LTT.Controller.EnlistCourse
 
                 int studentTotalEnlistedCourse = 0;
 
-                foreach (Course course in totalData.Students[userIndex].EnListedCourses)
+                foreach (Course course in totalData.Students[userIndex].EnlistedCourses)
                 {
                     studentTotalEnlistedCourse += course.Credit;
                 }
@@ -116,16 +116,17 @@ namespace LTT.Controller.EnlistCourse
 
                 if (!userInputManager.IsNumber(result.Value) || result.Value == "")
                 {
-                    consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "숫자를 입력해주세요", Align.LEFT, ConsoleColor.Green);
+                    consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "숫자를 입력해주세요", Align.LEFT, ConsoleColor.Red);
                     Console.ReadKey();
                     continue;
                 }
 
                 ResultCode addEnlistedCourseResult = dataManipulator.AddEnlistedCourse(totalData, searchResultList.Value, Int32.Parse(result.Value), userIndex);
-
+               
                 switch (addEnlistedCourseResult)
                 {
                     case ResultCode.SUCCESS:
+                        dataManipulator.RemoveReservedCourse(totalData, Int32.Parse(result.Value), userIndex);
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "등록 성공", Align.LEFT, ConsoleColor.Green);
                         break;
 
