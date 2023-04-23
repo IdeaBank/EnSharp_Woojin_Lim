@@ -40,8 +40,6 @@ namespace LTT.Controller.EnlistCourse
 
             KeyValuePair<ResultCode, int> selectResult = new KeyValuePair<ResultCode, int>();
 
-            dataManipulator.AddReservedCourse(totalData, totalData.Courses, 1, 0);
-
             while (selectResult.Key != ResultCode.ESC_PRESSED)
             {
                 selectResult = menuSelector.ChooseMenu(0, MenuCount.RESERVED_OR_ALL_MENU, MenuType.RESERVED_OR_ALL_COURSE);
@@ -122,11 +120,11 @@ namespace LTT.Controller.EnlistCourse
                 }
 
                 ResultCode addEnlistedCourseResult = dataManipulator.AddEnlistedCourse(totalData, searchResultList.Value, Int32.Parse(result.Value), userIndex);
-               
+
                 switch (addEnlistedCourseResult)
                 {
                     case ResultCode.SUCCESS:
-                        dataManipulator.RemoveReservedCourse(totalData, Int32.Parse(result.Value), userIndex);
+                        dataManipulator.RemoveReservedCourse(totalData.Students[userIndex].ReservedCourses, Int32.Parse(result.Value), userIndex);
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "등록 성공", Align.LEFT, ConsoleColor.Green);
                         break;
 

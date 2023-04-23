@@ -68,7 +68,8 @@ namespace LTT.Controller.ReserveCourse
                             Console.ReadKey(true);
                             break;
                         case 3:
-                            Console.WriteLine("4");
+                            CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                            courseRemover.RemoveCourseFromList(totalData.Students[userIndex].ReservedCourses, userIndex, MenuType.RESERVE_COURSE);
                             break;
                     }
 
@@ -88,7 +89,7 @@ namespace LTT.Controller.ReserveCourse
             if (searchResultList.Key == ResultCode.ESC_PRESSED)
             {
                 return;
-            }    
+            }
 
             KeyValuePair<ResultCode, string> result = new KeyValuePair<ResultCode, string>();
 
@@ -109,19 +110,19 @@ namespace LTT.Controller.ReserveCourse
 
                 result = userInputManager.ReadInputFromUser(consoleWriter, Console.CursorLeft, Console.CursorTop, 3, false, false);
 
-                if(result.Key == ResultCode.ESC_PRESSED)
+                if (result.Key == ResultCode.ESC_PRESSED)
                 {
                     return;
                 }
 
-                if(!userInputManager.IsNumber(result.Value) || result.Value == "")
+                if (!userInputManager.IsNumber(result.Value) || result.Value == "")
                 {
                     continue;
                 }
 
                 ResultCode addReservedCourseResult = dataManipulator.AddReservedCourse(totalData, searchResultList.Value, Int32.Parse(result.Value), userIndex);
 
-                switch(addReservedCourseResult)
+                switch (addReservedCourseResult)
                 {
                     case ResultCode.SUCCESS:
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "등록 성공", Align.LEFT, ConsoleColor.Green);

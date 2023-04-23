@@ -19,11 +19,11 @@ namespace LTT.View
 
         public void ShowTimeTable(List<Course> courses)
         {
-            for(int i = 1; i < 6; ++i)
+            for (int i = 1; i < 6; ++i)
             {
-                Console.SetCursorPosition((i + 1) * 30, 4);
+                Console.SetCursorPosition(i * 30, 4);
 
-                switch(i)
+                switch (i)
                 {
                     case 1:
                         Console.Write("월");
@@ -43,23 +43,26 @@ namespace LTT.View
                 }
             }
 
-            for(int i = 540; i < 1260; i += 30)
+            for (int i = 540; i < 1260; i += 30)
             {
                 Console.SetCursorPosition(1, ((i - 540) / 30 * 2) + 10);
                 Console.Write((i / 60).ToString("00") + ":" + (i % 60).ToString("00") + "~" + ((i + 30) / 60).ToString("00") + ":" + ((i + 30) % 60).ToString("00"));
             }
 
-            foreach(Course course in courses)
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.WriteLine(new string('-', 50));
+
+            foreach (Course course in courses)
             {
-                foreach(LectureTime lectureTime in course.LectureTimes)
+                foreach (LectureTime lectureTime in course.LectureTimes)
                 {
-                    for(int i = 1; i < 6; ++i)
+                    for (int i = 1; i < 6; ++i)
                     {
-                        for(int j = 540; j < 1260; j += 30)
+                        for (int j = 540; j < 1260; j += 30)
                         {
-                            if(lectureTime.StartTime <= j && j < lectureTime.EndTime && (int)lectureTime.Day == i)
+                            if (lectureTime.StartTime <= j && j < lectureTime.EndTime && (int)lectureTime.Day == i)
                             {
-                                int cursorLeft = (i + 1) * 30; 
+                                int cursorLeft = i * 30;
                                 int cursorTop = ((j - 540) / 30 * 2) + 10;
 
                                 Console.SetCursorPosition(cursorLeft, cursorTop);
@@ -72,6 +75,18 @@ namespace LTT.View
                             }
                         }
                     }
+                }
+            }
+
+            int courseCount = 0;
+            foreach (Course course in courses)
+            {
+                if (course.LectureTimeString == "")
+                {
+                    Console.SetCursorPosition(0, 57 + courseCount);
+                    courseCount += 1;
+
+                    Console.WriteLine(course.CurriculumName);
                 }
             }
         }

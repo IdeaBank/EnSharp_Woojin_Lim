@@ -12,8 +12,8 @@ namespace LTT.Utility
 {
     public class ExcelFileSaver
     {
-        public ExcelFileSaver() 
-        { 
+        public ExcelFileSaver()
+        {
 
         }
 
@@ -40,8 +40,7 @@ namespace LTT.Utility
                 worksheet.Cells[2, 11] = "메인교수명";
                 worksheet.Cells[2, 12] = "강의언어";
 
-                worksheet.Range[worksheet.Cells[1,1], worksheet.Cells[2, 12]].Font.Bold = true;
-                worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[2, 12]].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[2, 12]].Font.Bold = true;
 
                 for (int i = 0; i < student.EnlistedCourses.Count; ++i)
                 {
@@ -68,7 +67,6 @@ namespace LTT.Utility
                 worksheet.Cells[2, 19] = "금";
 
                 worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[2, 19]].Font.Bold = true;
-                worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[2, 19]].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
                 for (int i = 540; i < 1260; i += 30)
                 {
@@ -96,7 +94,20 @@ namespace LTT.Utility
                     }
                 }
 
+                int courseCount = 0;
+                foreach (Course course in student.EnlistedCourses)
+                {
+                    if (course.LectureTimeString == "")
+                    {
+                        worksheet.Range[worksheet.Cells[50 + courseCount, 15], worksheet.Cells[50 + courseCount, 20]].Merge();
+                        worksheet.Cells[50 + courseCount, 15] = course.CurriculumName;
+                        courseCount += 1;
+                    }
+                }
+
                 worksheet.Columns.AutoFit();
+
+                worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[60, 21]].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
                 workbook.SaveAs(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\" + student.StudentNumber.ToString() + ".xlsx");
                 workbook.Close();

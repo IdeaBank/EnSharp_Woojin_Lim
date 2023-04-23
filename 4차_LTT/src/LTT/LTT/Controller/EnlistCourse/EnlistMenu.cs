@@ -69,7 +69,8 @@ namespace LTT.Controller.EnlistCourse
                             Console.ReadKey(true);
                             break;
                         case 3:
-                            Console.WriteLine("4");
+                            CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                            courseRemover.RemoveCourseFromList(totalData.Students[userIndex].EnlistedCourses, userIndex, MenuType.ENLIST_COURSE);
                             break;
                     }
 

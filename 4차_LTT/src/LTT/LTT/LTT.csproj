@@ -50,6 +50,7 @@
     <Compile Include="Constant\MenuType.cs" />
     <Compile Include="Constant\MoveDirection.cs" />
     <Compile Include="Constant\ResultCode.cs" />
+    <Compile Include="Controller\CourseRemover.cs" />
     <Compile Include="Controller\EnlistCourse\EnlistMenu.cs" />
     <Compile Include="Controller\EnlistCourse\ReservedOrAllCourse.cs" />
     <Compile Include="Controller\LectureTimeTableStart.cs" />

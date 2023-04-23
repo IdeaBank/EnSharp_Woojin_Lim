@@ -348,14 +348,14 @@ namespace LTT.Utility
             return ResultCode.SUCCESS;
         }
 
-        public ResultCode RemoveReservedCourse(TotalData totalData, int courseNumber, int userIndex)
+        public ResultCode RemoveReservedCourse(List<Course> courseList, int courseNumber, int userIndex)
         {
-            return RemoveCourse(totalData.Students[userIndex].ReservedCourses, courseNumber);
+            return RemoveCourse(courseList, courseNumber);
         }
 
-        public ResultCode RemoveEnlistedCourse(TotalData totalData, int courseNumber, int userIndex)
+        public ResultCode RemoveEnlistedCourse(List<Course> courseList, int courseNumber, int userIndex)
         {
-            return RemoveCourse(totalData.Students[userIndex].EnlistedCourses, courseNumber);
+            return RemoveCourse(courseList, courseNumber);
         }
 
         public List<Course> GetCourseListExcept(TotalData totalData, List<Course> coursesToIgnore)

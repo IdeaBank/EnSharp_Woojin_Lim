@@ -23,7 +23,7 @@ namespace LTT.Controller
         private int currentSelectionIndex;
         private int userIndex;
 
-        public MainMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector, int userIndex) 
+        public MainMenu(TotalData totalData, DataManipulator dataManipulator, ConsoleWriter consoleWriter, UserInputManager userInputManager, ViewList viewList, MenuSelector menuSelector, int userIndex)
         {
             this.totalData = totalData;
             this.dataManipulator = dataManipulator;
@@ -41,7 +41,7 @@ namespace LTT.Controller
             viewList.MainMenuView.MakeView();
 
             KeyValuePair<ResultCode, int> selectResult = new KeyValuePair<ResultCode, int>();
-            
+
             while (selectResult.Key != ResultCode.ESC_PRESSED)
             {
                 selectResult = menuSelector.ChooseMenu(0, MenuCount.MAIN_MENU, MenuType.MAIN_MENU);
