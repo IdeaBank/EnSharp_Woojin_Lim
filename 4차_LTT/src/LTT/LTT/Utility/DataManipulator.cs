@@ -292,20 +292,24 @@ namespace LTT.Utility
             return totalCredit;
         }
 
-        private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex)
+        private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex, bool isEnlistedCourse)
         {
             if(GetTotalCredit(courseList) + newCourse.Credit > 24)
             {
-                return ResultCode.OVER_MAX;
+                return ResultCode.OVER_MAX_CREDIT;
             }
 
-            if (IsClassCompatible(courseList, newCourse))
+
+            if (isEnlistedCourse)
             {
-                courseList.Add(newCourse);
-                return ResultCode.SUCCESS;
+                if (!IsClassCompatible(courseList, newCourse))
+                {
+                    return ResultCode.FAIL;
+                }
             }
 
-            return ResultCode.FAIL;
+            courseList.Add(newCourse);
+            return ResultCode.SUCCESS;
         }
 
         public ResultCode AddReservedCourse(TotalData totalData, List<Course> courseList, int courseNumber, int studentIndex)
@@ -318,7 +322,7 @@ namespace LTT.Utility
                 return ResultCode.NO_COURSE;
             }
 
-            return AddCourse(totalData.Students[studentIndex].ReservedCourses, courseList[courseIndex], courseIndex, studentIndex);
+            return AddCourse(totalData.Students[studentIndex].ReservedCourses, courseList[courseIndex], courseIndex, studentIndex, false);
         }
 
         public ResultCode AddEnlistedCourse(TotalData totalData, List<Course> courseList, int courseNumber, int studentIndex)
@@ -331,7 +335,7 @@ namespace LTT.Utility
                 return ResultCode.NO_COURSE;
             }
 
-            return AddCourse(totalData.Students[studentIndex].EnlistedCourses, courseList[courseIndex], courseIndex, studentIndex);
+            return AddCourse(totalData.Students[studentIndex].EnlistedCourses, courseList[courseIndex], courseIndex, studentIndex, true);
         }
 
         private ResultCode RemoveCourse(List<Course> courseList, int courseNumber)

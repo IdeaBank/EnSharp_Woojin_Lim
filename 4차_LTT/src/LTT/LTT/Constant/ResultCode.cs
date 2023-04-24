@@ -12,6 +12,6 @@ namespace LTT.Constant
         N_PRESSED,
         NO_STUDENT,
         NO_COURSE,
-        OVER_MAX
+        OVER_MAX_CREDIT
     }
 }

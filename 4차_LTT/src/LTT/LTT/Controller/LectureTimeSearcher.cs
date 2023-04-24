@@ -52,11 +52,15 @@ namespace LTT.Controller
                 switch (currentSelectionRowIndex)
                 {
                     case 0:
+                        currentSelectionColumnIndex[0] = 0;
+                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[0] = menuSelector.ChooseColumn(currentSelectionRowIndex, 5, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
                     case 1:
+                        currentSelectionColumnIndex[1] = 0;
+                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[1] = menuSelector.ChooseColumn(currentSelectionRowIndex, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;

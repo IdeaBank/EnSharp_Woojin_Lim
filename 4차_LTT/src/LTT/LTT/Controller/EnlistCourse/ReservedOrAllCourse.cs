@@ -136,7 +136,7 @@ namespace LTT.Controller.EnlistCourse
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "해당 시간에 이미 강의가 있습니다!", Align.LEFT, ConsoleColor.Red);
                         break;
 
-                    case ResultCode.OVER_MAX:
+                    case ResultCode.OVER_MAX_CREDIT:
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "최대 등록 가능한 학점 수를 초과했습니다!", Align.LEFT, ConsoleColor.Red);
                         break;
                 }
