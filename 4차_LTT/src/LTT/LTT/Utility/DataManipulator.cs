@@ -10,12 +10,16 @@ namespace LTT.Utility
     {
         private bool CheckTimeOverlap(List<Course> previousCourses, Course newCourse)
         {
+            // 기존에 있던 강의들을 순회함
             foreach (Course previousCourse in previousCourses)
             {
+                // 기존에 있던 강의들의 강의 시간을 순회함
                 foreach (LectureTime previousLectureTime in previousCourse.LectureTimes)
                 {
+                    // 새로운 강의의 강의 시간을 순회함
                     foreach (LectureTime newLectureTime in newCourse.LectureTimes)
                     {
+                        // 새로운 강의와 기존에 있던 강의의 시간이 겹친다면 참을 반환
                         if (previousLectureTime.Day == newLectureTime.Day &&
                             previousLectureTime.StartTime < newLectureTime.EndTime &&
                             newLectureTime.StartTime < previousLectureTime.EndTime)
@@ -26,48 +30,60 @@ namespace LTT.Utility
                 }
             }
 
+            // 겹치지 않는다면 false 반환
             return false;
         }
 
         private bool CheckCurriculumNumberDuplicate(List<Course> previousCourses, Course newCourse)
         {
+            // 기존에 있던 강의들을 순회함
             foreach (Course previousCourse in previousCourses)
             {
+                // 기존에 있던 강의의 학수번호와 겹치는 것이 있다면 true 반환
                 if (previousCourse.CurriculumNumber == newCourse.CurriculumNumber)
                 {
                     return true;
                 }
             }
 
+            // 겹치지 않는다면 false 반환
             return false;
         }
 
         private bool IsClassCompatible(List<Course> previousCourses, Course newCourse)
         {
+            // 시간이 겹치거나 학수번호가 겹치는 지 여부를 반환
             return !CheckTimeOverlap(previousCourses, newCourse) &&
                    !CheckCurriculumNumberDuplicate(previousCourses, newCourse);
         }
 
         public KeyValuePair<ResultCode, int> TryLogin(TotalData totalData, string id, string password)
         {
+            // 학생 리스트를 순회함
             for (int i = 0; i < totalData.Students.Count; ++i)
             {
+                // 아이디가 존재하면
                 if (totalData.Students[i].StudentNumber == id)
                 {
+                    // 패스워드가 일치하면
                     if (totalData.Students[i].Password == password)
                     {
+                        // 성공 반환
                         return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                     }
 
+                    // 패스워드가 일치하지 않으면 실패 반환
                     return new KeyValuePair<ResultCode, int>(ResultCode.PASSWORD_DO_NOT_MATCH, -1);
                 }
             }
 
+            // 아이디가 존재하지 않으면 실패 반환
             return new KeyValuePair<ResultCode, int>(ResultCode.ID_DO_NO_EXIST, -1);
         }
 
         public int GetStudentIndexByNumber(List<Student> students, string studentNumber)
         {
+            // 학생 리스트에서 studentNumber을 활용해 인덱스 값 얻어오기
             for (int i = 0; i < students.Count; ++i)
             {
                 if (students[i].StudentNumber == studentNumber)
@@ -81,6 +97,7 @@ namespace LTT.Utility
 
         private int GetCourseIndexByNumber(List<Course> courses, int courseNumber)
         {
+            // 강의 리스트에서 courseNumber을 활용해 인덱스 값 얻어오기
             for (int i = 0; i < courses.Count; ++i)
             {
                 if (courses[i].Number == courseNumber)
@@ -97,6 +114,7 @@ namespace LTT.Utility
             int studentAcademicYear, int credit, string lectureTimes,
             string classroom, string professor, string language)
         {
+            // null 값들을 모두 빈 문자열로 바꿔줘 NullReferenceException 수정
             if (lectureTimes == null)
             {
                 lectureTimes = "";
@@ -107,8 +125,10 @@ namespace LTT.Utility
                 classroom = "";
             }
 
+            // 새로운 강의 추가
             Course newCourse = new Course(number, curriculumNumber, classNumber, curriculumName, studentAcademicYear, credit, classroom, professor);
 
+            // 각 값에 따라 데이터 저장
             switch (department)
             {
                 case "컴퓨터공학과":
@@ -143,6 +163,7 @@ namespace LTT.Utility
                     break;
             }
 
+            // 강의 시간 분석
             newCourse.LectureTimes = GetLectureTime(lectureTimes);
             newCourse.LectureTimeString = lectureTimes;
 
@@ -166,22 +187,29 @@ namespace LTT.Utility
 
         private List<LectureTime> GetLectureTime(string lectureTimes)
         {
+            // 강의시간 분석
             List<LectureTime> result = new List<LectureTime>();
 
+            // 강의시간이 비어있으면 빈 리스트 반환
             if (lectureTimes == null || lectureTimes.Length == 0)
             {
                 return result;
             }
 
+            // 콤마 기준으로 여러 개의 문자열로 나눔
             string[] splitResult = lectureTimes.Split(',');
 
+            // 최대 2개의 요일이 있으므로 2개의 요일을 담을 변수 선언
             DayOfWeek firstDay = DayOfWeek.Monday;
             DayOfWeek secondDay = DayOfWeek.Monday;
 
+            // 나눈 결과를 순회함
             foreach (string tempString in splitResult)
             {
+                // 좌우 공백을 없애줌
                 string splitString = tempString.Trim();
 
+                // 첫 문자에 따라 첫 번째 요일에 값을 넣어줌
                 switch (splitString[0])
                 {
                     case '일':
@@ -213,6 +241,7 @@ namespace LTT.Utility
                         break;
                 }
 
+                // 요일이 문자열에 하나만 있으면 시간 분석해서 하나만 넣어줌
                 if (splitString.Length == 13)
                 {
                     LectureTime lectureTime = new LectureTime();
@@ -226,6 +255,7 @@ namespace LTT.Utility
                     result.Add(lectureTime);
                 }
 
+                // 요일이 문자열에 두 개 있으면 시간 분석해서 둘 다 넣어줌
                 else
                 {
                     switch (splitString[2])
@@ -277,6 +307,7 @@ namespace LTT.Utility
                 }
             }
 
+            // 분석한 시간표를 반환함
             return result;
         }
 
@@ -284,31 +315,39 @@ namespace LTT.Utility
         {
             int totalCredit = 0;
 
+            // 선택한 강의 리스트의 학점의 합을 구함
             foreach(Course course in courseList)
             {
                 totalCredit += course.Credit;
             }
 
+            // 학점의 합 반환
             return totalCredit;
         }
 
         private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex, bool isEnlistedCourse)
         {
+            // 기존 강의 리스트에 새로운 강의를 더했을 때 총 학점 수가 24점이 넘으면 실패 반환
             if(GetTotalCredit(courseList) + newCourse.Credit > 24)
             {
                 return ResultCode.OVER_MAX_CREDIT;
             }
 
-
+            // 만약 수강신청 중이면
             if (isEnlistedCourse)
             {
+                // 만약 기존 강의 리스트에 새로운 강의를 더할 수 없으면
                 if (!IsClassCompatible(courseList, newCourse))
                 {
+                    // 실패 반환
                     return ResultCode.FAIL;
                 }
             }
 
+            // 아무 이상 없으면 리스트에 추가
             courseList.Add(newCourse);
+
+            // 성공 반환
             return ResultCode.SUCCESS;
         }
 
