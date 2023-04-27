@@ -93,9 +93,9 @@ namespace LTT.Utility
 
                 worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[2, 19]].Font.Bold = true;
 
-                for (int i = 540; i < 1260; i += 30)
+                for (int i = 480; i < 1260; i += 30)
                 {
-                    worksheet.Cells[(i - 540) / 30 * 2 + 3, 14] = ((i / 60).ToString("00") + ":" + (i % 60).ToString("00") + "~" + ((i + 30) / 60).ToString("00") + ":" + ((i + 30) % 60).ToString("00"));
+                    worksheet.Cells[(i - 480) / 30 * 2 + 3, 14] = ((i / 60).ToString("00") + ":" + (i % 60).ToString("00") + "~" + ((i + 30) / 60).ToString("00") + ":" + ((i + 30) % 60).ToString("00"));
                 }
 
                 foreach (Course course in student.EnlistedCourses)
@@ -104,11 +104,11 @@ namespace LTT.Utility
                     {
                         for (int i = 1; i < 6; ++i)
                         {
-                            for (int j = 540; j < 1260; j += 30)
+                            for (int j = 480; j < 1260; j += 30)
                             {
                                 if (lectureTime.StartTime <= j && j < lectureTime.EndTime && (int)lectureTime.Day == i)
                                 {
-                                    int x = ((j - 540) / 30 * 2) + 3;
+                                    int x = ((j - 480) / 30 * 2) + 3;
                                     int y = i + 14;
 
                                     worksheet.Cells[x, y] = course.CurriculumName;
@@ -125,7 +125,7 @@ namespace LTT.Utility
                     if (course.LectureTimeString == "")
                     {
                         worksheet.Range[worksheet.Cells[50 + courseCount, 15], worksheet.Cells[50 + courseCount, 20]].Merge();
-                        worksheet.Cells[50 + courseCount, 15] = course.CurriculumName;
+                        worksheet.Cells[55 + courseCount, 15] = course.CurriculumName;
                         courseCount += 1;
                     }
                 }

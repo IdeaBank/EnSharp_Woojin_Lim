@@ -57,7 +57,7 @@ namespace LTT.Controller.EnlistCourse
                     {
                         case 0:
                             AddCourse(totalData.Students[userIndex].ReservedCourses);
-                            userInputManager.ReadUntilESC();
+                            Console.ReadKey(true);
                             break;
                         case 1:
                             AddCourse();

@@ -43,9 +43,9 @@ namespace LTT.View
                 }
             }
 
-            for (int i = 540; i < 1260; i += 30)
+            for (int i = 480; i < 1260; i += 30)
             {
-                Console.SetCursorPosition(1, ((i - 540) / 30 * 2) + 10);
+                Console.SetCursorPosition(1, ((i - 480) / 30 * 2) + 10);
                 Console.Write((i / 60).ToString("00") + ":" + (i % 60).ToString("00") + "~" + ((i + 30) / 60).ToString("00") + ":" + ((i + 30) % 60).ToString("00"));
             }
 
@@ -58,12 +58,12 @@ namespace LTT.View
                 {
                     for (int i = 1; i < 6; ++i)
                     {
-                        for (int j = 540; j < 1260; j += 30)
+                        for (int j = 480; j < 1260; j += 30)
                         {
                             if (lectureTime.StartTime <= j && j < lectureTime.EndTime && (int)lectureTime.Day == i)
                             {
                                 int cursorLeft = i * 30;
-                                int cursorTop = ((j - 540) / 30 * 2) + 10;
+                                int cursorTop = ((j - 480) / 30 * 2) + 10;
 
                                 Console.SetCursorPosition(cursorLeft, cursorTop);
 
@@ -83,7 +83,7 @@ namespace LTT.View
             {
                 if (course.LectureTimeString == "")
                 {
-                    Console.SetCursorPosition(0, 57 + courseCount);
+                    Console.SetCursorPosition(0, 61 + courseCount);
                     courseCount += 1;
 
                     Console.WriteLine(course.CurriculumName);
