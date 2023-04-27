@@ -43,6 +43,10 @@ namespace LTT.View
 
                 Console.WriteLine(value);
             }
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("<ESC> 키를 눌러 뒤로가기");
+            Console.ResetColor();
         }
     }
 }

@@ -72,8 +72,8 @@ namespace LTT.View
                 "3학년"
             };
 
-            consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 3, new string(' ', 120), Align.LEFT);
-            consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 4, new string(' ', 120), Align.LEFT);
+            consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 3, new string(' ', 200), Align.LEFT);
+            consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 4, new string(' ', 200), Align.LEFT);
 
             for (int i = 0; i < mainMenuList.Length; ++i)
             {
@@ -88,50 +88,64 @@ namespace LTT.View
                 }
             }
 
+            const int stringSize = 20;
+
             if (selectedItems[0] != -1)
             {
-                for(int i = 0; i < departmentList.Length; ++i)
+                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 3);
+
+                for (int i = 0; i < departmentList.Length; ++i)
                 {
                     if (i == selectedItems[0])
                     {
-                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 20, windowHeightHalf + 3, departmentList[i], Align.LEFT, ConsoleColor.Green);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(consoleWriter.StringPadRight(departmentList[i], stringSize));
+                        Console.ResetColor();
                     }
 
                     else
                     {
-                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 20, windowHeightHalf + 3, departmentList[i], Align.LEFT, ConsoleColor.White);
+                        Console.Write(consoleWriter.StringPadRight(departmentList[i], stringSize));
                     }
                 }
             }
 
             if (selectedItems[1] != -1)
             {
+                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 4);
+
                 for (int i = 0; i < curriculumType.Length; ++i)
                 {
                     if (i == selectedItems[1])
                     {
-                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 4, curriculumType[i], Align.LEFT, ConsoleColor.Green);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(consoleWriter.StringPadRight(curriculumType[i], stringSize));
+                        Console.ResetColor();
                     }
 
                     else
                     {
-                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 4, curriculumType[i], Align.LEFT, ConsoleColor.White);
+                        Console.Write(consoleWriter.StringPadRight(curriculumType[i], stringSize));
                     }
                 }
             }
 
             if (selectedItems[2] != -1)
             {
+                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 7);
+
                 for (int i = 0; i < curriculumType.Length; ++i)
                 {
                     if (i == selectedItems[2])
                     {
-                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 7, academicYear[i], Align.LEFT, ConsoleColor.Green);
+                        Console.ForegroundColor = ConsoleColor.Green;   
+                        Console.Write(consoleWriter.StringPadRight(academicYear[i], stringSize));
+                        Console.ResetColor();
                     }
 
                     else
                     {
-                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 7, academicYear[i], Align.LEFT, ConsoleColor.White);
+                        Console.Write(consoleWriter.StringPadRight(academicYear[i], stringSize));
                     }
                 }
             }

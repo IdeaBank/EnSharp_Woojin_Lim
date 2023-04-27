@@ -61,12 +61,12 @@ namespace LTT.Controller.EnlistCourse
                             break;
                         case 1:
                             viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].EnlistedCourses);
-                            Console.ReadKey(true);
+                            userInputManager.ReadUntilESC();
                             break;
                         case 2:
                             Console.Clear();
                             viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
-                            Console.ReadKey(true);
+                            userInputManager.ReadUntilESC();
                             break;
                         case 3:
                             CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);

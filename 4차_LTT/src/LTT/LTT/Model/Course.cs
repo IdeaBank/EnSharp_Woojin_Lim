@@ -57,10 +57,10 @@ namespace LTT.Model
                         return "컴퓨터공학과";
 
                     case Department.INTELLIGENT_MECHATRONICS_ENGINEERING:
-                        return "지능기전학과";
+                        return "지능기전공학부";
 
                     case Department.MACHINE_AEROSPACE_ENGINEERING:
-                        return "기계항공공학과";
+                        return "기계항공우주공학부";
                 }
 
                 return "";

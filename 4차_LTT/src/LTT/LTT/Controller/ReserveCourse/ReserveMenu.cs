@@ -60,12 +60,12 @@ namespace LTT.Controller.ReserveCourse
                             break;
                         case 1:
                             viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].ReservedCourses);
-                            Console.ReadKey(true);
+                            userInputManager.ReadUntilESC();
                             break;
                         case 2:
                             Console.Clear();
                             viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].ReservedCourses);
-                            Console.ReadKey(true);
+                            userInputManager.ReadUntilESC();
                             break;
                         case 3:
                             CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);

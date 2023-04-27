@@ -459,9 +459,17 @@ namespace LTT.Controller
                     break;
             }
 
-            if(studentAcademicYearIndex != -1)
+            switch(studentAcademicYearIndex)
             {
-                studentAcademicYearString = studentAcademicYearIndex.ToString();
+                case 1:
+                    studentAcademicYearString = "1";
+                    break;
+                case 2:
+                    studentAcademicYearString = "2";
+                    break;
+                case 3:
+                    studentAcademicYearString = "3";
+                    break;
             }
 
 
