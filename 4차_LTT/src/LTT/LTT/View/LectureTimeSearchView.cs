@@ -64,6 +64,14 @@ namespace LTT.View
                 "전공선택"
             };
 
+            string[] academicYear =
+            {
+                "전체",
+                "1학년",
+                "2학년",
+                "3학년"
+            };
+
             consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 3, new string(' ', 120), Align.LEFT);
             consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 4, new string(' ', 120), Align.LEFT);
 
@@ -108,6 +116,22 @@ namespace LTT.View
                     else
                     {
                         consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 4, curriculumType[i], Align.LEFT, ConsoleColor.White);
+                    }
+                }
+            }
+
+            if (selectedItems[2] != -1)
+            {
+                for (int i = 0; i < curriculumType.Length; ++i)
+                {
+                    if (i == selectedItems[2])
+                    {
+                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 7, academicYear[i], Align.LEFT, ConsoleColor.Green);
+                    }
+
+                    else
+                    {
+                        consoleWriter.PrintOnPosition(windowWidthHalf + i * 15, windowHeightHalf + 7, academicYear[i], Align.LEFT, ConsoleColor.White);
                     }
                 }
             }

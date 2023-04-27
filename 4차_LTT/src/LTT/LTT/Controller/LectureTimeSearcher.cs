@@ -32,11 +32,10 @@ namespace LTT.Controller
         public KeyValuePair<ResultCode, List<Course>> LectureTimeSearch(List<Course> coursesToIgnore)
         {
             int currentSelectionRowIndex = 0;
-            int[] currentSelectionColumnIndex = new int[2] { -1, -1 };
+            int[] currentSelectionColumnIndex = new int[3] { -1, -1, -1 };
 
             KeyValuePair<ResultCode, string> name = new KeyValuePair<ResultCode, string>(ResultCode.SUCCESS, ""),
                 professor = new KeyValuePair<ResultCode, string>(ResultCode.SUCCESS, ""),
-                studentAcademicYear = new KeyValuePair<ResultCode, string>(ResultCode.SUCCESS, ""),
                 curriculumNumber = new KeyValuePair<ResultCode, string>(ResultCode.SUCCESS, "");
 
             while (currentSelectionRowIndex != 6)
@@ -74,7 +73,10 @@ namespace LTT.Controller
                         break;
 
                     case 4:
-                        studentAcademicYear = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 7, 20, false, true, studentAcademicYear.Value);
+                        currentSelectionColumnIndex[2] = 0;
+                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
+                        currentSelectionColumnIndex[2] = menuSelector.ChooseColumn(2, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
+                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
                     case 5:
@@ -83,7 +85,7 @@ namespace LTT.Controller
 
                     case 6:
                         Console.Clear();
-                        List<Course> searchResultList = dataManipulator.SearchCourseList(this.totalData, coursesToIgnore, currentSelectionColumnIndex[0], currentSelectionColumnIndex[1], name.Value, professor.Value, studentAcademicYear.Value, curriculumNumber.Value);
+                        List<Course> searchResultList = dataManipulator.SearchCourseList(this.totalData, coursesToIgnore, currentSelectionColumnIndex[0], currentSelectionColumnIndex[1], name.Value, professor.Value, currentSelectionColumnIndex[2], curriculumNumber.Value);
                         viewList.CourseListView.ShowCourseList(searchResultList);
                         return new KeyValuePair<ResultCode, List<Course>>(ResultCode.SUCCESS, searchResultList);
                 }

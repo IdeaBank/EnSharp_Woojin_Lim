@@ -61,7 +61,8 @@ namespace LTT.Controller
                             LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                             viewList.LectureTimeSearchView.MakeView();
                             lectureTimeSearcher.LectureTimeSearch(new List<Course>());
-                            Console.ReadKey();
+                            userInputManager.ReadUntilESC();
+
                             break;
                         case 1:
                             ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
@@ -72,8 +73,10 @@ namespace LTT.Controller
                             enlistMenu.Start();
                             break;
                         case 3:
+                            Console.Clear();
+                            viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
                             ExcelFileSaver excelFileSaver = new ExcelFileSaver();
-                            excelFileSaver.SaveToFile(totalData.Students[userIndex]);
+                            excelFileSaver.AskSaveFile(totalData.Students[userIndex]);
                             break;
                     }
 

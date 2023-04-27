@@ -32,6 +32,8 @@ namespace LTT.Controller
             AddSampleStudent();
             GetLectureTimeData();
 
+            Console.SetWindowSize(300, 50);
+
             Console.Clear();
 
             ResultCode finish = ResultCode.SUCCESS;

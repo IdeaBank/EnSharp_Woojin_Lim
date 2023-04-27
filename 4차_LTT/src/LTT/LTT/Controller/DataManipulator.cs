@@ -4,7 +4,7 @@ using System.Linq;
 using LTT.Constant;
 using LTT.Model;
 
-namespace LTT.Utility
+namespace LTT.Controller
 {
     public class DataManipulator
     {
@@ -423,12 +423,12 @@ namespace LTT.Utility
             return totalCourse;
         }
 
-        public List<Course> SearchCourseList(TotalData totalData, List<Course> coursesToIgnore, int departmentIndex, int curriculumTypeIndex, string name, string professor, string studentAcademicYear, string curriculumNumber)
+        public List<Course> SearchCourseList(TotalData totalData, List<Course> coursesToIgnore, int departmentIndex, int curriculumTypeIndex, string name, string professor, int studentAcademicYearIndex, string curriculumNumber)
         {
             List<Course> searchResult = new List<Course>();
             List<Course> targetCourses = GetCourseListExcept(totalData, coursesToIgnore);
 
-            string departmentString = "", curriculumTypeString = "";
+            string departmentString = "", curriculumTypeString = "", studentAcademicYearString = "";
 
             switch(departmentIndex)
             {
@@ -459,6 +459,11 @@ namespace LTT.Utility
                     break;
             }
 
+            if(studentAcademicYearIndex != -1)
+            {
+                studentAcademicYearString = studentAcademicYearIndex.ToString();
+            }
+
 
             foreach(Course course in targetCourses)
             {
@@ -466,7 +471,7 @@ namespace LTT.Utility
                     (course.CurriculumString == curriculumTypeString || curriculumTypeString == "") &&
                     (course.CurriculumName.Contains(name) || name == "") &&
                     (course.Professor.Contains(professor) || professor == "") &&
-                    (course.StudentAcademicYear.ToString() == studentAcademicYear || studentAcademicYear == "") &&
+                    (course.StudentAcademicYear.ToString() == studentAcademicYearString || studentAcademicYearString == "") &&
                     (course.CurriculumNumber == curriculumNumber || curriculumNumber == ""))
                 {
                     searchResult.Add(course);

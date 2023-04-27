@@ -17,7 +17,32 @@ namespace LTT.Utility
 
         }
 
-        public void SaveToFile(Student student)
+        public void AskSaveFile(Student student)
+        {
+            ConsoleKeyInfo consoleKey = new ConsoleKeyInfo();
+
+            Console.WriteLine("<ESC> 뒤로가기 <ENTER> 파일로 저장");
+
+            while (consoleKey.Key != ConsoleKey.Escape && consoleKey.Key != ConsoleKey.Enter)
+            {
+                consoleKey = Console.ReadKey(true);
+
+                if (consoleKey.Key == ConsoleKey.Enter)
+                {
+                    SaveToFile(student);
+                }
+
+                else if (consoleKey.Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+
+            }
+
+            return;
+        }
+
+        private void SaveToFile(Student student)
         {
             try
             {

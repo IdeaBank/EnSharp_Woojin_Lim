@@ -66,7 +66,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\ConsoleWriter.cs" />
-    <Compile Include="Utility\DataManipulator.cs" />
+    <Compile Include="Controller\DataManipulator.cs" />
     <Compile Include="Utility\UserInputManager.cs" />
     <Compile Include="View\CourseListView.cs" />
     <Compile Include="View\EnlistCourse\EnlistMenuView.cs" />

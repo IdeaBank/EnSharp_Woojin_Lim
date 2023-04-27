@@ -165,5 +165,21 @@ namespace LTT.Utility
 
             return ResultCode.N_PRESSED;
         }
+
+
+        public void ReadUntilESC()
+        {
+            bool isESCPressed = false;
+
+            while(!isESCPressed)
+            {
+                ConsoleKeyInfo keyInput = Console.ReadKey(true);
+                
+                if(keyInput.Key == ConsoleKey.Escape)
+                {
+                    isESCPressed = true;
+                }
+            }
+        }
     }
 }
