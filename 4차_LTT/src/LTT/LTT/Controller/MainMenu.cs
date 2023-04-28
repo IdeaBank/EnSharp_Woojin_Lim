@@ -45,7 +45,7 @@ namespace LTT.Controller
             while (selectResult.Key != ResultCode.ESC_PRESSED)
             {
                 selectResult = menuSelector.ChooseMenu(0, MenuCount.MAIN_MENU, MenuType.MAIN_MENU);
-
+                
                 if (selectResult.Key == ResultCode.ESC_PRESSED)
                 {
                     return;
@@ -57,22 +57,21 @@ namespace LTT.Controller
 
                     switch (currentSelectionIndex)
                     {
-                        case 0:
+                        case SearchMenu.SEARCH_LECTURE_TIME:
                             LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                             viewList.LectureTimeSearchView.MakeView();
                             lectureTimeSearcher.LectureTimeSearch(new List<Course>());
                             userInputManager.ReadUntilESC();
-
                             break;
-                        case 1:
+                        case SearchMenu.RESERVE_MENU:
                             ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
                             reserveMenu.Start();
                             break;
-                        case 2:
+                        case SearchMenu.ENLIST_MENU:
                             EnlistMenu enlistMenu = new EnlistMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
                             enlistMenu.Start();
                             break;
-                        case 3:
+                        case SearchMenu.SAVE_EXCEL:
                             Console.Clear();
                             viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
                             ExcelFileSaver excelFileSaver = new ExcelFileSaver();
