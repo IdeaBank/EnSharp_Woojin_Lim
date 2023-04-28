@@ -49,32 +49,31 @@ namespace LTT.Controller.ReserveCourse
                     return;
                 }
 
-                else
+
+                this.currentSelectionIndex = selectResult.Value;
+
+                switch (currentSelectionIndex)
                 {
-                    this.currentSelectionIndex = selectResult.Value;
-
-                    switch (currentSelectionIndex)
-                    {
-                        case 0:
-                            AddReservedCourse();
-                            break;
-                        case 1:
-                            viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].ReservedCourses);
-                            userInputManager.ReadUntilESC();
-                            break;
-                        case 2:
-                            Console.Clear();
-                            viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].ReservedCourses);
-                            userInputManager.ReadUntilESC();
-                            break;
-                        case 3:
-                            CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
-                            courseRemover.RemoveCourseFromList(totalData.Students[userIndex].ReservedCourses, userIndex, MenuType.RESERVE_COURSE);
-                            break;
-                    }
-
-                    viewList.ReserveMenuView.MakeView();
+                    case SearchMenu.ADD_RESERVED_COURSE:
+                        AddReservedCourse();
+                        break;
+                    case SearchMenu.SHOW_RESERVED_COURSE:
+                        viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].ReservedCourses);
+                        userInputManager.ReadUntilESC();
+                        break;
+                    case SearchMenu.SHOW_RESERVED_TIME_TABLE:
+                        Console.Clear();
+                        viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].ReservedCourses);
+                        userInputManager.ReadUntilESC();
+                        break;
+                    case SearchMenu.REMOVE_RESERVED_COURSE:
+                        CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                        courseRemover.RemoveCourseFromList(totalData.Students[userIndex].ReservedCourses, userIndex, MenuType.RESERVE_COURSE);
+                        break;
                 }
+
+                viewList.ReserveMenuView.MakeView();
+
             }
         }
 

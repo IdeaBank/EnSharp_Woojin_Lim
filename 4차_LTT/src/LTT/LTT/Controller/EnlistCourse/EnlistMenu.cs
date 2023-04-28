@@ -49,33 +49,31 @@ namespace LTT.Controller.EnlistCourse
                     return;
                 }
 
-                else
+                this.currentSelectionIndex = selectResult.Value;
+
+                switch (currentSelectionIndex)
                 {
-                    this.currentSelectionIndex = selectResult.Value;
-
-                    switch (currentSelectionIndex)
-                    {
-                        case 0:
-                            ReservedOrAllCourse reservedOrAllCourse = new ReservedOrAllCourse(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
-                            reservedOrAllCourse.Start();
-                            break;
-                        case 1:
-                            viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].EnlistedCourses);
-                            userInputManager.ReadUntilESC();
-                            break;
-                        case 2:
-                            Console.Clear();
-                            viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
-                            userInputManager.ReadUntilESC();
-                            break;
-                        case 3:
-                            CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
-                            courseRemover.RemoveCourseFromList(totalData.Students[userIndex].EnlistedCourses, userIndex, MenuType.ENLIST_COURSE);
-                            break;
-                    }
-
-                    viewList.EnlistMenuView.MakeView();
+                    case SearchMenu.RESERVE_OR_SEARCH:
+                        ReservedOrAllCourse reservedOrAllCourse = new ReservedOrAllCourse(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
+                        reservedOrAllCourse.Start();
+                        break;
+                    case SearchMenu.SHOW_ENLISTED_COURSE:
+                        viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].EnlistedCourses);
+                        userInputManager.ReadUntilESC();
+                        break;
+                    case SearchMenu.SHOW_ENLISTED_TIME_TABLE:
+                        Console.Clear();
+                        viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
+                        userInputManager.ReadUntilESC();
+                        break;
+                    case SearchMenu.REMOVE_ENLISTED_COURSE:
+                        CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
+                        courseRemover.RemoveCourseFromList(totalData.Students[userIndex].EnlistedCourses, userIndex, MenuType.ENLIST_COURSE);
+                        break;
                 }
+
+                viewList.EnlistMenuView.MakeView();
+
             }
         }
     }

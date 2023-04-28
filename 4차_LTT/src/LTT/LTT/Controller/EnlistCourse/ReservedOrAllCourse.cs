@@ -49,25 +49,24 @@ namespace LTT.Controller.EnlistCourse
                     return;
                 }
 
-                else
+
+                this.currentSelectionIndex = selectResult.Value;
+
+                switch (currentSelectionIndex)
                 {
-                    this.currentSelectionIndex = selectResult.Value;
-
-                    switch (currentSelectionIndex)
-                    {
-                        case 0:
-                            AddCourse(totalData.Students[userIndex].ReservedCourses);
-                            Console.ReadKey(true);
-                            break;
-                        case 1:
-                            AddCourse();
-                            break;
-                    }
-
-                    viewList.ReserveMenuView.MakeView();
+                    case 0:
+                        AddCourse(totalData.Students[userIndex].ReservedCourses);
+                        Console.ReadKey(true);
+                        break;
+                    case 1:
+                        AddCourse();
+                        break;
                 }
+
+                viewList.ReserveMenuView.MakeView();
             }
         }
+
 
         private void AddCourse(List<Course> courses = null)
         {
