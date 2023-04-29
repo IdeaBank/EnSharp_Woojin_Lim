@@ -40,9 +40,9 @@ namespace LTT.View
             {
                 "개설학과전공",
                 "이수구분",
+                "학년",
                 "교과목명",
                 "교수명",
-                "학년",
                 "학수번호",
                 "<검색하기>"
             };
@@ -132,7 +132,7 @@ namespace LTT.View
 
             if (selectedItems[2] != -1)
             {
-                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 7);
+                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 5);
 
                 for (int i = 0; i < curriculumType.Length; ++i)
                 {

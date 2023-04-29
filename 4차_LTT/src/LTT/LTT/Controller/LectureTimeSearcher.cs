@@ -64,19 +64,19 @@ namespace LTT.Controller
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
+                    case SearchMenu.ACADEMIC_YEAR:
+                        currentSelectionColumnIndex[2] = 0;
+                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
+                        currentSelectionColumnIndex[2] = menuSelector.ChooseColumn(2, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
+                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
+                        break;
+                    
                     case SearchMenu.COURSE_NAME:
                         name = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 5, 20, false, true, name.Value);
                         break;
 
                     case SearchMenu.PROFESSOR:
                         professor = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 6, 20, false, true, professor.Value);
-                        break;
-
-                    case SearchMenu.ACADEMIC_YEAR:
-                        currentSelectionColumnIndex[2] = 0;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
-                        currentSelectionColumnIndex[2] = menuSelector.ChooseColumn(2, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
                     case SearchMenu.CURRICULUM_NUMBER:

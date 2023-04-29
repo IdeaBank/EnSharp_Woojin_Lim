@@ -13,9 +13,9 @@ namespace LTT.Constant
     {
         public const int DEPARTMENT = 0;
         public const int CURRICULUM_TYPE = 1;
-        public const int COURSE_NAME = 2;
-        public const int PROFESSOR = 3;
-        public const int ACADEMIC_YEAR = 4;
+        public const int ACADEMIC_YEAR = 2;
+        public const int COURSE_NAME = 3;
+        public const int PROFESSOR = 4;
         public const int CURRICULUM_NUMBER = 5;
         public const int SEARCH = 6;
 
