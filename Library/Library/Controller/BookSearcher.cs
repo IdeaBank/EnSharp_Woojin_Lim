@@ -15,7 +15,7 @@ namespace Library.Controller
         }
         
         // 책 검색 기능
-        public void SearchBook()
+        public ResultCode SearchBook()
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -30,7 +30,7 @@ namespace Library.Controller
             // ESC키가 눌렸으면 반환
             if (nameInputResult.Key == ResultCode.ESC_PRESSED)
             {
-                return;
+                return ResultCode.ESC_PRESSED;
             }
             
             // 책 저자를 입력 받음
@@ -40,7 +40,7 @@ namespace Library.Controller
             // ESC키가 눌렸으면 반환
             if (authorInputResult.Key == ResultCode.ESC_PRESSED)
             {
-                return;
+                return ResultCode.ESC_PRESSED;
             }
 
             // 책 출판사를 입력 받음
@@ -50,7 +50,7 @@ namespace Library.Controller
             // ESC키가 눌렸으면 반환
             if (publisherInputResult.Key == ResultCode.ESC_PRESSED)
             {
-                return;
+                return ResultCode.ESC_PRESSED;
             }
 
             // 책 검색 결과를 저장
@@ -62,6 +62,8 @@ namespace Library.Controller
 
             // 키를 입력 받을때까지 출력 유지
             Console.ReadKey(true);
+
+            return ResultCode.SUCCESS;
         }
     }
 }

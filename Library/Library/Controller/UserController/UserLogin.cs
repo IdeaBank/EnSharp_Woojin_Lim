@@ -53,21 +53,19 @@ namespace Library.Controller.UserController
                 KeyValuePair<ResultCode, int> loginResult = combinedManager.UserManager.LoginAsUser(inputId.Value, inputPassword.Value);
 
                 // 로그인이 성공했으면 isLoggedIn에 true를 저장
-                if (loginResult.Key == ResultCode.SUCCESS)
+                switch (loginResult.Key)
                 {
-                    isLoggedIn[0] = isLoggedIn[1] = true;
-                }
-                
-                // 로그인에 실패했고, 결과가 NO_ID면 ID가 없다고 표시
-                if (loginResult.Key == ResultCode.NO_ID)
-                {
-                    loginHint[0] = "No ID";
-                }
-
-                // 로그인에 실패했고, 결과가 WRONG_PASSWORD면 비밀번호가 틀렸다고 표시
-                if (loginResult.Key == ResultCode.WRONG_PASSWORD)
-                {
-                    loginHint[1] = "Wrong Password";
+                    case ResultCode.SUCCESS:
+                        isLoggedIn[0] = isLoggedIn[1] = true;
+                        break;
+                    
+                    case ResultCode.NO_ID:
+                        loginHint[0] = "No ID";
+                        break;
+                    
+                    case ResultCode.WRONG_PASSWORD:
+                        loginHint[1] = "Wrong password";
+                        break;
                 }
 
                 // 만약 로그인에 실패했다면 무슨 오류가 있었는지 표시

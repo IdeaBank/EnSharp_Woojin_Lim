@@ -13,7 +13,7 @@ namespace Library.Constants
         WRONG_PASSWORD,
         ESC_PRESSED,
         ENTER_PRESSED,
-        FATAL_ERROR,
+        DO_NOT_MATCH_REGEX,
         YES,
         NO
     }

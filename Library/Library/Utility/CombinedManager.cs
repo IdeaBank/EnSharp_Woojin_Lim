@@ -1,3 +1,5 @@
+using Library.Controller;
+
 namespace Library.Utility
 {
     public class CombinedManager
@@ -15,7 +17,7 @@ namespace Library.Utility
             get => this.userManager;
         }
 
-        public CombinedManager(BookManager bookManager, UserManager userManager)
+        public CombinedManager(BookManager bookManager, UserManager userManagerx)
         {
             this.bookManager = bookManager;
             this.userManager = userManager;

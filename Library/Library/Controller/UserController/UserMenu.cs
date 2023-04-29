@@ -64,8 +64,10 @@ namespace Library.Controller.UserController
                     break;
                 case MenuSelection.BORROW_BOOK:
                     // 책을 빌리기 전 검색창 출력
-                    bookSearcher.SearchBook();
-                    BorrowBook();
+                    if (bookSearcher.SearchBook() == ResultCode.SUCCESS)
+                    {
+                        BorrowBook();
+                    }
                     break;
                 case MenuSelection.CHECK_BORROWED_BOOK:
                     CheckBorrowedBook();

@@ -20,30 +20,51 @@ namespace Library.Controller.UserController
             
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = { "", "", "", "", "", "", "" };
-            bool[] inputValid = { false, false, false, false, false, false, false };
             string[] previousInput = new string[7];
             bool allRegexPassed = false;
             
             // 각 입력 값을 저장하기 위한 변수 선언
-            KeyValuePair<ResultCode, string> 
-                idInputResult = new KeyValuePair<ResultCode, string>(),
-                passwordInputResult = new KeyValuePair<ResultCode, string>(),
-                passwordConfirmResult = new KeyValuePair<ResultCode, string>(),
-                nameInputResult = new KeyValuePair<ResultCode, string>(),
-                userAgeInputResult = new KeyValuePair<ResultCode, string>(),
-                phoneNumberInputResult = new KeyValuePair<ResultCode, string>(),
-                addressInputResult = new KeyValuePair<ResultCode, string>();
+            List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
+
+            for (int i = 0; i < 7; ++i)
+            {
+                inputs.Add(new KeyValuePair<ResultCode, string>());
+            }
             
             // 모든 정규식에 부합할 때까지 반복
             while (!allRegexPassed)
             {
-                // UI 출력 후 아무 키나 입력 받음
+                // UI 출력 후 일시 정지
                 Console.Clear();
                 UserLoginOrRegisterView.PrintRegister(warning, previousInput);
                 Console.ReadKey();
+                
+                // 이후 경고 내용을 없앰
                 Console.Clear();
                 warning = new string[7];
                 UserLoginOrRegisterView.PrintRegister(warning, previousInput);
+
+
+                for (int i = 0; i < 7; ++i)
+                {
+                    if (inputs[i].Key == ResultCode.SUCCESS)
+                    {
+                        continue;
+                    }
+                    
+                    GetUserInput(inputs, i);
+
+                    switch (inputs[i].Key)
+                    {
+                        case ResultCode.ESC_PRESSED:
+                            return;
+                        case ResultCode.DO_NOT_MATCH_REGEX:
+                            
+                            break;
+                        case ResultCode.SUCCESS:
+                            break;
+                    }
+                }
                 
                 // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 아이디를 입력 받음
                 if (!inputValid[0])

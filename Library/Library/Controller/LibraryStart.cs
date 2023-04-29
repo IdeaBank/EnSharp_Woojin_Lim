@@ -17,12 +17,17 @@ namespace Library.Controller
         // 책과 유저의 정보를 다룰 때 사용하는 클래스 선언
         private BookManager bookManager;
         private UserManager userManager;
-        
+
         // 통합해서 관리할 수 있게 해주는 클래스 선언
         private CombinedManager combinedManager;
+        private BookSearcher bookSearcher;
         
         // 현재 커서 위치 저장할 변수 선언
         private int currentSelectionIndex;
+        
+        
+        private UserLoginOrRegister userLoginOrRegister;
+        private AdminLogin adminLogin;
         
         public LibraryStart()
         {
@@ -31,8 +36,12 @@ namespace Library.Controller
             this.totalData = new TotalData();
             this.bookManager = new BookManager(totalData);
             this.userManager = new UserManager(totalData);
-            this.combinedManager = new CombinedManager(this.bookManager, this.userManager);
-
+            this.combinedManager = new CombinedManager(bookManager, userManager);
+            this.bookSearcher = new BookSearcher(totalData, combinedManager);
+            
+            this.userLoginOrRegister = new UserLoginOrRegister(totalData, combinedManager);
+            this.adminLogin = new AdminLogin(totalData, combinedManager);
+            
             this.currentSelectionIndex = 0;
         }
 
@@ -116,12 +125,10 @@ namespace Library.Controller
             switch (this.currentSelectionIndex)
             {
                 case MenuSelection.SELECT_LOGIN_OR_REGISTER:
-                    UserLoginOrRegister userLoginOrRegister = new UserLoginOrRegister(totalData, combinedManager);
                     userLoginOrRegister.SelectLoginOrRegister();
                     break;
                 
                 case MenuSelection.ADMIN_LOGIN:
-                    AdminLogin adminLogin = new AdminLogin(totalData, combinedManager);
                     adminLogin.TryLogin();
                     break;
             }

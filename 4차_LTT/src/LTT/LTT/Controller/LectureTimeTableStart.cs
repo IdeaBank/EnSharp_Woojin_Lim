@@ -27,10 +27,17 @@ namespace LTT.Controller
             this.menuSelector = new MenuSelector(viewList);
         }
 
+        private static void CancelKeyPressed(object sender, ConsoleCancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
+        
         public void StartProgram()
         {
             AddSampleStudent();
             GetLectureTimeData();
+            
+            Console.CancelKeyPress += CancelKeyPressed;
 
             Console.SetWindowSize(300, 50);
 

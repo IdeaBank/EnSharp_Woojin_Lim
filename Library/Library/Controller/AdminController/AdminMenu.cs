@@ -12,11 +12,13 @@ namespace Library.Controller.AdminController
     public class AdminMenu: ControllerInterface
     {
         private int currentSelectionIndex;
-
+        private BookSearcher bookSearcher;
+        
         // 생성자에서 현재 커서 위치를 0으로 초기화
         public AdminMenu(TotalData data, CombinedManager combinedManager): base(data, combinedManager)
         {
             this.currentSelectionIndex = 0;
+            this.bookSearcher = new BookSearcher(data, combinedManager);
         }
         
         public void SelectAdminMenu()
@@ -48,9 +50,6 @@ namespace Library.Controller.AdminController
 
         private void EnterNextMenu()
         {
-            // 책 검색을 위한 클래스의 인스턴스 생성
-            BookSearcher bookSearcher = new BookSearcher(this.data, this.combinedManager);
-            
             // 현재 커서 위치에 따라 메뉴 진입
             switch (this.currentSelectionIndex)
             {

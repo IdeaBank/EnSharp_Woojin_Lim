@@ -177,5 +177,7 @@ namespace Library.Utility
 
             return ResultCode.NO;
         }
+        
+        public static GetInput()
     }
 }
