@@ -141,8 +141,10 @@ namespace Library.Controller.UserController
         private void CheckBorrowedBook()
         {
             Console.Clear();
+
             // 현재 유저가 빌린 책 리스트를 출력
             SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[currentUserIndex].Name, data.Users[currentUserIndex].BorrowedBooks);
+            
             Console.ReadKey(true);
         }
 
@@ -189,9 +191,12 @@ namespace Library.Controller.UserController
 
         private void CheckReturnedBook()
         {
+            Console.Clear();
+            
             // 반납한 책 리스트 출력
             SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[this.currentUserIndex].Name,
                 data.Users[this.currentUserIndex].ReturnedBooks);
+            
             Console.ReadKey(true);
         }
 
