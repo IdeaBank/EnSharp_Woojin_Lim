@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Utility
 {
     public class BookManager
     {
         private TotalData totalData;
-        
+
         public BookManager(TotalData totalData)
         {
             this.totalData = totalData;
@@ -26,11 +26,11 @@ namespace Library.Utility
                     return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
                 }
             }
-            
+
             // 실패 여부 반환
             return new KeyValuePair<ResultCode, int>(ResultCode.NO_BOOK, -1);
         }
-        
+
         public ResultCode AddBook(string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
         {
             // 새로운 책 생성
@@ -38,13 +38,13 @@ namespace Library.Utility
 
             // 책 저장한 개수를 1 증가시킴
             totalData.AddedBookCount += 1;
-            
+
             // 아이디에 해당 개수를 저장
             book.Id = totalData.AddedBookCount;
-            
+
             // 총 데이터에 책을 넣음
             totalData.Books.Add(book);
-            
+
             return ResultCode.SUCCESS;
         }
 
@@ -52,7 +52,7 @@ namespace Library.Utility
         {
             // 책 검색 결과를 저장하기 위한 리스트 선언
             List<Book> searchResult = new List<Book>();
-            
+
             // 책을 순회하며
             foreach (Book book in totalData.Books)
             {
@@ -68,7 +68,7 @@ namespace Library.Utility
             // 책 검색 결과 반환
             return searchResult;
         }
-        
+
         public ResultCode BorrowBook(int userIndex, int bookId)
         {
             // 아이디에 해당하는 책을 찾고 결과과 인덱스 값을 저장
@@ -83,7 +83,7 @@ namespace Library.Utility
                 {
                     // 책을 대여
                     BorrowedBook borrowedBook = new BorrowedBook(bookId, DateTime.Now.ToString());
-                    
+
                     // 책의 개수를 1개 감소시키고 해당 유저의 빌린 책 리스트에 추가
                     totalData.Books[bookIndex].Quantity -= 1;
                     totalData.Users[userIndex].BorrowedBooks.Add(borrowedBook);
@@ -117,7 +117,7 @@ namespace Library.Utility
                     return ResultCode.SUCCESS;
                 }
             }
-            
+
             // 책을 못 찾았다면 책이 없다는 결과 반환
             return ResultCode.NO_BOOK;
         }
@@ -127,7 +127,7 @@ namespace Library.Utility
             // 아이디에 해당하는 책을 찾고 결과과 인덱스 값을 저장
             KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
             int bookIndex = findResult.Value;
-            
+
             // 책을 찾는데 성공했으면 책을 수정
             if (findResult.Key == ResultCode.SUCCESS)
             {

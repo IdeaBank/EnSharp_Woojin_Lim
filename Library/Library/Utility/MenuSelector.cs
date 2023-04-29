@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
 using Library.Constants;
 using Library.View;
 using Library.View.AdminView;
 using Library.View.UserView;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Utility
 {
@@ -13,7 +13,7 @@ namespace Library.Utility
 
         private MenuSelector()
         {
-            
+
         }
 
         public static MenuSelector getInstance
@@ -64,11 +64,11 @@ namespace Library.Utility
                     break;
             }
         }
-        
+
         private static KeyValuePair<ResultCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
         {
             ShowView(currentMenu, currentSelectionIndex);
-            
+
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             switch (keyInfo.Key)

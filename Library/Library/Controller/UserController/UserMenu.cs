@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
 using Library.Utility;
 using Library.View;
 using Library.View.UserView;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.UserController
 {
@@ -46,7 +46,7 @@ namespace Library.Controller.UserController
                 {
                     return;
                 }
-                
+
                 Console.Clear();
             }
         }
@@ -55,7 +55,7 @@ namespace Library.Controller.UserController
         {
             // 책을 검색하기 위한 클래스의 인스턴스 생성
             BookSearcher bookSearcher = new BookSearcher(this.data, this.combinedManager);
-            
+
             // 인덱스에 따라 다음 메뉴로 이동
             switch (this.currentSelectionIndex)
             {
@@ -101,7 +101,7 @@ namespace Library.Controller.UserController
 
             // 책 아이디를 입력하기 위한 변수 선언
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                windowHeightHalf, InputMax.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
+                windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
@@ -116,14 +116,14 @@ namespace Library.Controller.UserController
                 // 책을 빌리는 것을 시도하고 결과값 저장
                 ResultCode borrowBookResult =
                     combinedManager.BookManager.BorrowBook(currentUserIndex, bookIdInputResult.Value[0] - '0');
-                
+
                 // 성공 여부에 따라 결과 출력
                 if (borrowBookResult == ResultCode.SUCCESS)
                 {
                     UserMenuView.PrintBorrowOrReturnBookResult("책을 성공적으로 빌렸습니다.");
                 }
 
-                else if(borrowBookResult == ResultCode.BOOK_NOT_ENOUGH)
+                else if (borrowBookResult == ResultCode.BOOK_NOT_ENOUGH)
                 {
                     UserMenuView.PrintBorrowOrReturnBookResult("책이 부족합니다.");
                 }
@@ -132,7 +132,7 @@ namespace Library.Controller.UserController
                 {
                     UserMenuView.PrintBorrowOrReturnBookResult("책이 존재하지 않습니다.");
                 }
-                
+
                 // 일시 정지
                 Console.ReadKey(true);
             }
@@ -154,7 +154,7 @@ namespace Library.Controller.UserController
 
             // 책 아이디를 저장하기 위한 변수 선언
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                windowHeightHalf, InputMax.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
+                windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
             // ESC키를 입력 받았으면 반환
@@ -169,7 +169,7 @@ namespace Library.Controller.UserController
                 // 책 반납을 시도하고 결과값 저장
                 ResultCode returnBookResult =
                     combinedManager.BookManager.ReturnBook(currentUserIndex, bookIdInputResult.Value[0] - '0');
-                
+
                 // 책 반납 결과에 따라 값 출력
                 if (returnBookResult == ResultCode.SUCCESS)
                 {
@@ -180,7 +180,7 @@ namespace Library.Controller.UserController
                 {
                     UserMenuView.PrintBorrowOrReturnBookResult("책이 존재하지 않습니다.");
                 }
-                
+
                 // 일시 정지
                 Console.ReadKey(true);
             }
@@ -189,20 +189,20 @@ namespace Library.Controller.UserController
         private void CheckReturnedBook()
         {
             // 반납한 책 리스트 출력
-            SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[this.currentUserIndex].Name, 
+            SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[this.currentUserIndex].Name,
                 data.Users[this.currentUserIndex].ReturnedBooks);
             Console.ReadKey(true);
         }
 
         private void EditUserInformation()
         {
-            
+
         }
 
         private ResultCode Withdraw()
         {
             UserSelectionView.PrintYesOrNO("Are you sure to exit?");
-            
+
             // 회원탈퇴 여부를 물어보고 Y키가 입력되었으면
             if (UserInputManager.InputYesOrNo() == ResultCode.YES)
             {

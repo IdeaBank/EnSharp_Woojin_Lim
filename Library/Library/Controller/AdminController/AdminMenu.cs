@@ -1,26 +1,26 @@
-using System;
-using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
 using Library.Utility;
 using Library.View;
 using Library.View.AdminView;
 using Library.View.UserView;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.AdminController
 {
-    public class AdminMenu: ControllerInterface
+    public class AdminMenu : ControllerInterface
     {
         private int currentSelectionIndex;
         private BookSearcher bookSearcher;
-        
+
         // 생성자에서 현재 커서 위치를 0으로 초기화
-        public AdminMenu(TotalData data, CombinedManager combinedManager): base(data, combinedManager)
+        public AdminMenu(TotalData data, CombinedManager combinedManager) : base(data, combinedManager)
         {
             this.currentSelectionIndex = 0;
             this.bookSearcher = new BookSearcher(data, combinedManager);
         }
-        
+
         public void SelectAdminMenu()
         {
             Console.Clear();
@@ -90,9 +90,9 @@ namespace Library.Controller.AdminController
             bool[] inputValid = { false, false, false, false, false, false, false, false };
             string[] previousInput = new string[8];
             bool allRegexPassed = false;
-            
+
             // 각 입력 값을 저장하기 위한 변수 선언
-            KeyValuePair<ResultCode, string> 
+            KeyValuePair<ResultCode, string>
                 nameInputResult = new KeyValuePair<ResultCode, string>(),
                 authorInputResult = new KeyValuePair<ResultCode, string>(),
                 publisherInputResult = new KeyValuePair<ResultCode, string>(),
@@ -117,7 +117,7 @@ namespace Library.Controller.AdminController
                 if (!inputValid[0])
                 {
                     nameInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf, InputMax.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -127,7 +127,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_NAME, nameInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_NAME, nameInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[0] = "영어, 한글, 숫자, ?!+= 1개 이상";
                         continue;
@@ -142,7 +142,7 @@ namespace Library.Controller.AdminController
                 if (!inputValid[1])
                 {
                     authorInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 1, InputMax.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 1, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -150,10 +150,9 @@ namespace Library.Controller.AdminController
                     {
                         return;
                     }
-                    
+
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_AUTHOR,
-                            authorInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_AUTHOR, authorInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[1] = "영어, 한글 1개 이상";
                         continue;
@@ -163,12 +162,12 @@ namespace Library.Controller.AdminController
                     previousInput[1] = authorInputResult.Value;
                     inputValid[1] = true;
                 }
-                
+
                 // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 출판사를 입력 받음
                 if (!inputValid[2])
                 {
                     publisherInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 2, InputMax.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 2, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -178,7 +177,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_PUBLISHER, publisherInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_PUBLISHER, publisherInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[2] = "영어, 한글 1개 이상";
                         continue;
@@ -188,12 +187,12 @@ namespace Library.Controller.AdminController
                     previousInput[2] = publisherInputResult.Value;
                     inputValid[2] = true;
                 }
-                
+
                 // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 수량을 입력 받음
                 if (!inputValid[3])
                 {
                     quantityInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 3, InputMax.BOOK_QUANTITY, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 3, MaxInputLength.BOOK_QUANTITY, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -203,7 +202,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_QUANTITY, quantityInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_QUANTITY, quantityInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[3] = "1-999사이의 자연수";
                         continue;
@@ -214,12 +213,12 @@ namespace Library.Controller.AdminController
                     inputValid[3] = true;
                 }
 
-                
+
                 // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 가격을 입력 받음
                 if (!inputValid[4])
                 {
                     priceInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 4, InputMax.BOOK_PRICE, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 4, MaxInputLength.BOOK_PRICE, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -229,7 +228,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_PRICE, priceInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_PRICE, priceInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[4] = "1-9999999사이의 자연수";
                         continue;
@@ -244,7 +243,7 @@ namespace Library.Controller.AdminController
                 if (!inputValid[5])
                 {
                     publishedDateInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 5, InputMax.BOOK_PUBLISHED_DATE, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 5, MaxInputLength.BOOK_PUBLISHED_DATE, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -254,8 +253,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_PUBLISHED_DATE,
-                            publishedDateInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_PUBLISHED_DATE, publishedDateInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[5] = "19xx or 20xx-xx-xx";
                         continue;
@@ -270,7 +268,7 @@ namespace Library.Controller.AdminController
                 if (!inputValid[6])
                 {
                     isbnInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 6, InputMax.BOOK_ISBN, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 6, MaxInputLength.BOOK_ISBN, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.DO_NOT_ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -280,7 +278,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_ISBN, isbnInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_ISBN, isbnInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[6] = "정수9개 + 영어1개 + 공백 + 정수13개";
                         continue;
@@ -290,12 +288,12 @@ namespace Library.Controller.AdminController
                     previousInput[6] = isbnInputResult.Value;
                     inputValid[6] = true;
                 }
-                
+
                 // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 설명을 입력 받음
                 if (!inputValid[7])
                 {
                     descriptionInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 7, InputMax.BOOK_DESCRIPTION, InputParameter.IS_NOT_PASSWORD,
+                        windowHeightHalf + 7, MaxInputLength.BOOK_DESCRIPTION, InputParameter.IS_NOT_PASSWORD,
                         InputParameter.ENTER_KOREAN);
 
                     // ESC키를 입력 받을 시 반환
@@ -305,7 +303,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (!UserInputManager.MatchesRegex(RegularExpression.BOOK_DESCRIPTION, descriptionInputResult.Value))
+                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_DESCRIPTION, descriptionInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
                     {
                         warning[7] = "최소1개의 문자(공백포함)";
                         continue;
@@ -319,19 +317,19 @@ namespace Library.Controller.AdminController
                 // 모든 정규식에 부합하면 allRegexPassed에 true 값 저장
                 allRegexPassed = true;
             }
-            
+
             // 모든 정규식에 부합하면 책 추가
             combinedManager.BookManager.AddBook(
-                nameInputResult.Value, 
+                nameInputResult.Value,
                 authorInputResult.Value,
                 publisherInputResult.Value,
-                Int32.Parse(quantityInputResult.Value), 
-                Int32.Parse(priceInputResult.Value), 
-                publishedDateInputResult.Value, 
-                isbnInputResult.Value, 
+                Int32.Parse(quantityInputResult.Value),
+                Int32.Parse(priceInputResult.Value),
+                publishedDateInputResult.Value,
+                isbnInputResult.Value,
                 descriptionInputResult.Value
                 );
-            
+
             // 결과를 출력하고 유지시키기 위해 키를 입력 받음
             UserLoginOrRegisterView.PrintRegisterResult("BOOK ADDED!");
             Console.ReadKey(true);
@@ -346,7 +344,7 @@ namespace Library.Controller.AdminController
 
             // 책 아이디를 입력 받음
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                windowHeightHalf, InputMax.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
+                windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
             // ESC키가 눌려지면 반환
@@ -376,19 +374,19 @@ namespace Library.Controller.AdminController
 
         private void EditBook()
         {
-            
+
         }
 
         private void DeleteMember()
         {
             SearchBookOrUserView.PrintDeleteUser();
-            
+
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
             // 유저 번호를 입력 받음
             KeyValuePair<ResultCode, string> userNumberInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                windowHeightHalf, InputMax.USER_NUMBER, InputParameter.IS_NOT_PASSWORD,
+                windowHeightHalf, MaxInputLength.USER_NUMBER, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
             // ESC키가 눌려지면 반환
@@ -396,13 +394,13 @@ namespace Library.Controller.AdminController
             {
                 return;
             }
-            
+
             // 숫자가 입력되었을 시
             if (userNumberInputResult.Value.Length > 0 && ('0' <= userNumberInputResult.Value[0] && userNumberInputResult.Value[0] <= '9'))
             {
                 // 숫자에 해당하는 아이디 값의 책 삭제를 시도하고 값 저장
                 ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userNumberInputResult.Value[0] - '0');
-                
+
                 // 성공했으면 결과 출력
                 if (deleteResult == ResultCode.SUCCESS)
                 {
@@ -413,8 +411,8 @@ namespace Library.Controller.AdminController
                 {
                     AdminMenuView.PrintDeleteResult("책을 모두 반납해야 합니다!");
                 }
-                
-                else 
+
+                else
                 {
                     AdminMenuView.PrintDeleteResult("사용자가 존재하지 않습니다.");
                 }
@@ -438,30 +436,30 @@ namespace Library.Controller.AdminController
             int windowHeightHalf = Console.WindowHeight / 2;
 
             SearchBookOrUserView.PrintSearchUser();
-            
+
             // 유저 이름을 입력 받음
-            KeyValuePair<ResultCode, string> nameInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                windowHeightHalf - 2, InputMax.USER_NAME, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+            KeyValuePair<ResultCode, string> nameInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                windowHeightHalf - 2, MaxInputLength.USER_NAME, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
             if (nameInputResult.Key == ResultCode.ESC_PRESSED)
             {
                 return;
             }
-            
+
             // 유저 아이디를 입력 받음
-            KeyValuePair<ResultCode, string> idInputResult =  UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                windowHeightHalf - 1, InputMax.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+            KeyValuePair<ResultCode, string> idInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                windowHeightHalf - 1, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
             if (idInputResult.Key == ResultCode.ESC_PRESSED)
             {
                 return;
             }
-            
+
             // 유저 주소를 입력 받음
-            KeyValuePair<ResultCode, string> addressInputResult =  UserInputManager.ReadInputFromUser(windowWidthHalf, 
-                windowHeightHalf - 0, InputMax.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+            KeyValuePair<ResultCode, string> addressInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                windowHeightHalf - 0, MaxInputLength.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
             if (idInputResult.Key == ResultCode.ESC_PRESSED)
@@ -472,7 +470,7 @@ namespace Library.Controller.AdminController
             // 유저 검색 결과를 저장
             List<User> searchUserResult = combinedManager.UserManager.SearchUser(nameInputResult.Value,
                 idInputResult.Value, addressInputResult.Value);
-            
+
             // 유저 검색 결과를 출력
             SearchBookOrUserView.ViewSearchUserResult(searchUserResult);
 

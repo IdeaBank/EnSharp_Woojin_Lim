@@ -16,3 +16,10 @@
 /Users/woojin/Development/EN_SHARP/Library/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache
 /Users/woojin/Development/EN_SHARP/Library/Library/obj/Debug/Library.exe
 /Users/woojin/Development/EN_SHARP/Library/Library/obj/Debug/Library.pdb
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\obj\Debug\Library.csproj.AssemblyReference.cache
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\obj\Debug\Library.csproj.SuggestedBindingRedirects.cache
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\obj\Debug\Library.csproj.CoreCompileInputs.cache
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\obj\Debug\Library.exe
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\obj\Debug\Library.pdb
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\bin\Debug\Library.exe
+C:\Users\Woojin\Documents\GitHub\Woojin_Lim\Library\Library\bin\Debug\Library.pdb

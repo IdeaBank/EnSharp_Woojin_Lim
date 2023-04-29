@@ -15,7 +15,7 @@ namespace Library.Model
             get => this.addedUserCount;
             set => this.addedUserCount = value;
         }
-        
+
         public int AddedBookCount
         {
             get => this.addedBookCount;

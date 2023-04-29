@@ -1,6 +1,6 @@
-using System;
 using Library.Constants;
 using Library.Utility;
+using System;
 
 namespace Library.View.AdminView
 {
@@ -10,7 +10,7 @@ namespace Library.View.AdminView
 
         private AdminMenuView()
         {
-            
+
         }
 
         public AdminMenuView getInstance
@@ -40,13 +40,13 @@ namespace Library.View.AdminView
         {
             ConsoleWriter.DrawContour(60, 4);
         }
-        
+
         public static void PrintAdminMenu(int currentSelectionIndex)
         {
             string[] loginOrRegister = new[] { "도서 찾기", "도서 추가", "도서 삭제", "도서 수정", "회원 관리", "대여 상황" };
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;
-            
+
             for (int i = 0; i < MenuCount.ADMIN; ++i)
             {
                 if (i == currentSelectionIndex)
@@ -62,8 +62,8 @@ namespace Library.View.AdminView
                 }
             }
         }
-        
-        public static void PrintAddBook(string []warnings, string []previousInput)
+
+        public static void PrintAddBook(string[] warnings, string[] previousInput)
         {
             Console.Clear();
             PrintAddBookContour();
@@ -73,9 +73,9 @@ namespace Library.View.AdminView
 
             string[] instructions = new string[]
             {
-                "Enter name: ", 
-                "Enter author: ", 
-                "Enter publisher: ", 
+                "Enter name: ",
+                "Enter author: ",
+                "Enter publisher: ",
                 "Enter quantity: ",
                 "Enter price: ",
                 "Enter published date: ",
@@ -98,7 +98,7 @@ namespace Library.View.AdminView
         {
             Console.Clear();
             PrintChooseBookContour();
-            
+
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
@@ -109,7 +109,7 @@ namespace Library.View.AdminView
         {
             Console.Clear();
             PrintChooseBookContour();
-            
+
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 

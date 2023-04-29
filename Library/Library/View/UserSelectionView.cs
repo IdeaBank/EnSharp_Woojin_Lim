@@ -1,6 +1,6 @@
-using System;
 using Library.Constants;
 using Library.Utility;
+using System;
 
 namespace Library.View
 {
@@ -10,7 +10,7 @@ namespace Library.View
 
         private UserSelectionView()
         {
-            
+
         }
 
         public UserSelectionView getInstance
@@ -34,9 +34,9 @@ namespace Library.View
             Console.Clear();
             ConsoleWriter.DrawContour(30, 6);
 
-            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 1, 
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 1,
                 instruction, AlignType.CENTER);
-            
+
             ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 1,
                 "Y: yes, N: no", AlignType.CENTER);
         }

@@ -1,6 +1,7 @@
-using System;
 using Library.Constants;
 using Library.Utility;
+using System;
+using System.Collections.Generic;
 
 namespace Library.View.UserView
 {
@@ -85,7 +86,7 @@ namespace Library.View.UserView
             }
         }
 
-        public static void PrintRegister(string []warnings, string []previousInput)
+        public static void PrintRegister(string[] warnings, List<KeyValuePair<ResultCode, string>> inputs)
         {
             Console.Clear();
             PrintRegisterContour();
@@ -95,9 +96,9 @@ namespace Library.View.UserView
 
             string[] instructions = new string[]
             {
-                "Enter ID: ", 
-                "Enter Password: ", 
-                "Confirm Password: ", 
+                "Enter ID: ",
+                "Enter Password: ",
+                "Confirm Password: ",
                 "Enter Name: ",
                 "Enter Age: ",
                 "Enter Phone Number: ",
@@ -110,7 +111,7 @@ namespace Library.View.UserView
                     AlignType.LEFT);
                 ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
                     AlignType.RIGHT, ConsoleColor.Red);
-                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, previousInput[i],
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, inputs[i].Value,
                     AlignType.RIGHT);
             }
         }
@@ -118,12 +119,12 @@ namespace Library.View.UserView
         public static void PrintRegisterResult(string resultString)
         {
             Console.Clear();
-            
+
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
-            
+
             ConsoleWriter.DrawContour(30, 5);
-            
+
             ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, resultString,
                 AlignType.CENTER);
         }

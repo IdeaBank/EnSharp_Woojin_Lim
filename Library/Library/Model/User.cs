@@ -27,31 +27,31 @@ namespace Library.Model
             get => this.id;
             set => this.id = value;
         }
-        
+
         public string Password
         {
             get => this.password;
             set => this.password = value;
         }
-        
+
         public string Name
         {
             get => this.name;
             set => this.name = value;
         }
-        
+
         public int BirthYear
         {
             get => this.birthYear;
             set => this.birthYear = value;
         }
-        
+
         public string PhoneNumber
         {
             get => this.phoneNumber;
             set => this.phoneNumber = value;
         }
-        
+
         public string Address
         {
             get => this.address;
@@ -69,7 +69,7 @@ namespace Library.Model
             get => this.returnedBooks;
             set => this.returnedBooks = value;
         }
-        
+
         public User()
         {
             this.borrowedBooks = new List<BorrowedBook>();

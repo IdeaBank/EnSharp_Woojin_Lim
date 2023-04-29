@@ -1,5 +1,5 @@
-using System;
 using Library.Constants;
+using System;
 
 namespace Library.Utility
 {
@@ -9,7 +9,7 @@ namespace Library.Utility
 
         private ConsoleWriter()
         {
-            
+
         }
 
         public ConsoleWriter getInstance
@@ -31,11 +31,11 @@ namespace Library.Utility
             Console.Write(str);
         }
 
-        public static void WriteOnPositionWithAlign(int cursorX, int cursorY, string str, AlignType alignType, ConsoleColor color=ConsoleColor.White)
+        public static void WriteOnPositionWithAlign(int cursorX, int cursorY, string str, AlignType alignType, ConsoleColor color = ConsoleColor.White)
         {
             int currentX = Console.CursorLeft;
             int currentY = Console.CursorTop;
-            
+
             switch (alignType)
             {
                 case AlignType.LEFT:
@@ -52,7 +52,7 @@ namespace Library.Utility
             Console.ForegroundColor = color;
             Console.Write(str);
             Console.ResetColor();
-            
+
             Console.SetCursorPosition(currentX, currentY);
         }
 
@@ -60,10 +60,10 @@ namespace Library.Utility
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
-            
+
             int currentX = Console.CursorLeft;
             int currentY = Console.CursorTop;
-            
+
             WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - contourHeight / 2,
                 new string('#', countourWidth), AlignType.CENTER);
 
@@ -75,7 +75,7 @@ namespace Library.Utility
 
             WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + contourHeight / 2 - 1,
                 new string('#', countourWidth), AlignType.CENTER);
-            
+
             Console.SetCursorPosition(currentX, currentY);
         }
     }

@@ -1,88 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{27092A4F-C87C-47EE-A25B-9BA9057FF6BB}</ProjectGuid>
-        <OutputType>Exe</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Library</RootNamespace>
-        <AssemblyName>Library</AssemblyName>
-        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Constants\AlignType.cs" />
-        <Compile Include="Constants\MenuSelection.cs" />
-        <Compile Include="Constants\ResultCode.cs" />
-        <Compile Include="Constants\InputMax.cs" />
-        <Compile Include="Constants\InputParameter.cs" />
-        <Compile Include="Constants\MenuCount.cs" />
-        <Compile Include="Constants\MenuType.cs" />
-        <Compile Include="Constants\MoveDirection.cs" />
-        <Compile Include="Constants\RegularExpression.cs" />
-        <Compile Include="Controller\AdminController\AdminLogin.cs" />
-        <Compile Include="Controller\AdminController\AdminMenu.cs" />
-        <Compile Include="Controller\ControllerInterface.cs" />
-        <Compile Include="Controller\LibraryStart.cs" />
-        <Compile Include="Controller\BookSearcher.cs" />
-        <Compile Include="Controller\UserController\UserLogin.cs" />
-        <Compile Include="Controller\UserController\UserLoginOrRegister.cs" />
-        <Compile Include="Controller\UserController\UserMenu.cs" />
-        <Compile Include="Controller\UserController\UserRegister.cs" />
-        <Compile Include="Model\Book.cs" />
-        <Compile Include="Model\BorrowedBook.cs" />
-        <Compile Include="Model\TotalData.cs" />
-        <Compile Include="Model\User.cs" />
-        <Compile Include="ProgramStart.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Utility\BookManager.cs" />
-        <Compile Include="Utility\CombinedManager.cs" />
-        <Compile Include="Utility\ConsoleWriter.cs" />
-        <Compile Include="Utility\MenuSelector.cs" />
-        <Compile Include="Utility\UserInputManager.cs" />
-        <Compile Include="Utility\UserManager.cs" />
-        <Compile Include="View\AdminView\AdminMenuView.cs" />
-        <Compile Include="View\SearchBookOrUserView.cs" />
-        <Compile Include="View\UserOrAdminView.cs" />
-        <Compile Include="View\UserSelectionView.cs" />
-        <Compile Include="View\UserView\UserLoginOrRegisterView.cs" />
-        <Compile Include="View\UserView\UserMenuView.cs" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27092A4F-C87C-47EE-A25B-9BA9057FF6BB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Library</RootNamespace>
+    <AssemblyName>Library</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\AlignType.cs" />
+    <Compile Include="Constants\MenuSelection.cs" />
+    <Compile Include="Constants\ResultCode.cs" />
+    <Compile Include="Constants\MaxInputLength.cs" />
+    <Compile Include="Constants\InputParameter.cs" />
+    <Compile Include="Constants\MenuCount.cs" />
+    <Compile Include="Constants\MenuType.cs" />
+    <Compile Include="Constants\MoveDirection.cs" />
+    <Compile Include="Constants\RegularExpression.cs" />
+    <Compile Include="Controller\AdminController\AdminLogin.cs" />
+    <Compile Include="Controller\AdminController\AdminMenu.cs" />
+    <Compile Include="Controller\ControllerInterface.cs" />
+    <Compile Include="Controller\LibraryStart.cs" />
+    <Compile Include="Controller\BookSearcher.cs" />
+    <Compile Include="Controller\UserController\UserLogin.cs" />
+    <Compile Include="Controller\UserController\UserLoginOrRegister.cs" />
+    <Compile Include="Controller\UserController\UserMenu.cs" />
+    <Compile Include="Controller\UserController\UserRegister.cs" />
+    <Compile Include="Model\Book.cs" />
+    <Compile Include="Model\BorrowedBook.cs" />
+    <Compile Include="Model\TotalData.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="ProgramStart.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\BookManager.cs" />
+    <Compile Include="Utility\CombinedManager.cs" />
+    <Compile Include="Utility\ConsoleWriter.cs" />
+    <Compile Include="Utility\MenuSelector.cs" />
+    <Compile Include="Utility\UserInputManager.cs" />
+    <Compile Include="Utility\UserManager.cs" />
+    <Compile Include="View\AdminView\AdminMenuView.cs" />
+    <Compile Include="View\SearchBookOrUserView.cs" />
+    <Compile Include="View\UserOrAdminView.cs" />
+    <Compile Include="View\UserSelectionView.cs" />
+    <Compile Include="View\UserView\UserLoginOrRegisterView.cs" />
+    <Compile Include="View\UserView\UserMenuView.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
     </Target>
     <Target Name="AfterBuild">
     </Target>
     -->
-
 </Project>

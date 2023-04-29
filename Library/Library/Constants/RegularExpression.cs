@@ -8,7 +8,7 @@ namespace Library.Constants
         public const string USER_AGE = @"^200$|^(1[0-9]{2})$|^([1-9]{1}[0-9]{1})$|^([1-9]{1})$";
         public const string USER_PHONE_NUMBER = @"^01[0-9]{1}-[0-9]{4}-[0-9]{4}$";
         public const string USER_ADDRESS = @"^a";
-        
+
         public const string BOOK_NAME = @"^[0-9a-zA-Zㄱ-힇?!+=]+";
         public const string BOOK_AUTHOR = @"^[a-zA-Zㄱ-힇]+";
         public const string BOOK_PUBLISHER = @"^[a-zA-Zㄱ-힇]+";

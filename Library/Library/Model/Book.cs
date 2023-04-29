@@ -14,7 +14,7 @@ namespace Library.Model
 
         public Book()
         {
-            
+
         }
 
         public Book(string name, string author, string publisher, int quantity, int price, string publishedDate,
@@ -29,7 +29,7 @@ namespace Library.Model
             this.isbn = isbn;
             this.description = description;
         }
-        
+
         public int Id
         {
             get => id;

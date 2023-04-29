@@ -1,6 +1,6 @@
-using System;
 using Library.Constants;
 using Library.Utility;
+using System;
 
 namespace Library.View
 {
@@ -10,7 +10,7 @@ namespace Library.View
 
         private UserOrAdminView()
         {
-            
+
         }
 
         public UserOrAdminView getInstance
@@ -30,16 +30,16 @@ namespace Library.View
         {
             ConsoleWriter.DrawContour(30, 8);
         }
-        
+
         public static void PrintUserOrAdmin(int currentSelectionIndex)
         {
             Console.Clear();
             PrintUserOrAdminContour();
-            
+
             string[] userOrAdminInstruction = new[] { "User", "Administrator" };
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;
-            
+
             for (int i = 0; i < MenuCount.MAIN; ++i)
             {
                 if (i == currentSelectionIndex)

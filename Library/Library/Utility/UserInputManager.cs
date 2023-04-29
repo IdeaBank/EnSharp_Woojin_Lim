@@ -1,7 +1,8 @@
+using Library.Constants;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Text.RegularExpressions;
-using Library.Constants;
 
 namespace Library.Utility
 {
@@ -12,7 +13,7 @@ namespace Library.Utility
 
         private UserInputManager()
         {
-            
+
         }
 
         public static UserInputManager getInstance
@@ -28,12 +29,18 @@ namespace Library.Utility
             }
         }
 
-        public static bool MatchesRegex(string expression, string str)
+        public static ResultCode MatchesRegex(string expression, string str)
         {
             Regex regex = new Regex(expression);
-            return regex.IsMatch(str);
+
+            if (regex.IsMatch(str))
+            {
+                return ResultCode.SUCCESS;
+            }
+
+            return ResultCode.DO_NOT_MATCH_REGEX;
         }
-        
+
         // Return true if character is between 0 and 9
         private static bool IsDigit(char ch)
         {
@@ -65,7 +72,7 @@ namespace Library.Utility
         {
             return ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z');
         }
-        
+
         // Return true if character is Hangeul
         private static bool IsKoreanCharacter(char ch)
         {
@@ -82,19 +89,19 @@ namespace Library.Utility
 
             return IsAlphabet(ch) || IsDigit(ch) || IsSpecialCharacter(ch);
         }
-        
+
         // Get input from user and return its result.
         // Return FailCode.ESC_PRESSED if esc is pressed during input.
-        public static KeyValuePair<ResultCode, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength, 
+        public static KeyValuePair<ResultCode, string> ReadInputFromUser(int cursorX, int cursorY, int maxInputLength,
             bool isPassword, bool canEnterKorean, string defaultInput = "")
         {
             // Set cursor visible
             Console.CursorVisible = true;
-            
+
             // Set current input into default input
             string currentInput = defaultInput;
             ResultCode inputResult = ResultCode.SUCCESS;
-            
+
             ConsoleKeyInfo keyInput = new ConsoleKeyInfo();
 
             // While Enter key is not pressed
@@ -120,7 +127,7 @@ namespace Library.Utility
                 {
                     // Set cursor invisible
                     Console.CursorVisible = false;
-                    
+
                     // set input result to esc_pressed and break while loop
                     inputResult = ResultCode.ESC_PRESSED;
                     break;
@@ -149,7 +156,7 @@ namespace Library.Utility
 
             // Set cursor invisible
             Console.CursorVisible = false;
-            
+
             // Return input result
             return new KeyValuePair<ResultCode, string>(inputResult, currentInput);
         }
@@ -168,7 +175,7 @@ namespace Library.Utility
                 {
                     return ResultCode.YES;
                 }
-                
+
                 else if (consoleKeyInfo.Key == ConsoleKey.N || consoleKeyInfo.Key == ConsoleKey.Escape)
                 {
                     return ResultCode.NO;
@@ -177,7 +184,93 @@ namespace Library.Utility
 
             return ResultCode.NO;
         }
-        
-        public static GetInput()
+
+        public static ResultCode ValidateInput(KeyValuePair<ResultCode, string> input, int inputIndex)
+        {
+            ResultCode resultCode = ResultCode.SUCCESS;
+
+            if (input.Key == ResultCode.ESC_PRESSED)
+            {
+                return ResultCode.ESC_PRESSED;
+            }
+
+            switch (inputIndex)
+            {
+                case 0:
+                    resultCode = MatchesRegex(RegularExpression.USER_ID_AND_PASSWORD, input.Value);
+                    break;
+                case 1:
+                    resultCode = MatchesRegex(RegularExpression.USER_ID_AND_PASSWORD, input.Value);
+                    break;
+                case 2:
+                    resultCode = MatchesRegex(RegularExpression.USER_ID_AND_PASSWORD, input.Value);
+                    break;
+                case 3:
+                    resultCode = MatchesRegex(RegularExpression.USER_NAME, input.Value);
+                    break;
+                case 4:
+                    resultCode = MatchesRegex(RegularExpression.USER_AGE, input.Value);
+                    break;
+                case 5:
+                    resultCode = MatchesRegex(RegularExpression.USER_PHONE_NUMBER, input.Value);
+                    break;
+                case 6:
+                    resultCode = MatchesRegex(RegularExpression.USER_ADDRESS, input.Value);
+                    break;
+            }
+
+            return resultCode;
+        }
+
+        public static ResultCode GetUserInput(List<KeyValuePair<ResultCode, string>> inputs, int inputIndex)
+        {
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            switch (inputIndex)
+            {
+                case 0:
+                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 1:
+                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 2:
+                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 2, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 3:
+                    inputs[3] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 3, MaxInputLength.USER_NAME, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+                    break;
+                case 4:
+                    inputs[4] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 4, MaxInputLength.USER_AGE, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 5:
+                    inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, MaxInputLength.USER_PHONE_NUMBER, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 6:
+                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, MaxInputLength.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+            }
+
+            ResultCode validateResult = ValidateInput(inputs[inputIndex], inputIndex);
+
+            if (validateResult == ResultCode.DO_NOT_MATCH_REGEX)
+            {
+                inputs[inputIndex] = new KeyValuePair<ResultCode, string>(ResultCode.DO_NOT_MATCH_REGEX, "");
+            }
+
+            if(inputIndex == 2)
+            {
+                if (inputs[1].Value != inputs[2].Value)
+                {
+                    inputs[1] = new KeyValuePair<ResultCode, string>(ResultCode.NO, "");
+                    inputs[2] = new KeyValuePair<ResultCode, string>(ResultCode.NO, "");
+
+                    return ResultCode.DO_NOT_MATCH_PASSWORD;
+                }
+            }
+
+            return inputs[inputIndex].Key;
+        }
     }
 }

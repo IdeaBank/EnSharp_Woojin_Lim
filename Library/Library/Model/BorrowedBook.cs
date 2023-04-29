@@ -10,7 +10,7 @@ namespace Library.Model
         {
             get => this.bookId;
         }
-        
+
         public string BorrowedDate
         {
             get => this.borrowedDate;

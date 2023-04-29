@@ -14,6 +14,7 @@ namespace Library.Constants
         ESC_PRESSED,
         ENTER_PRESSED,
         DO_NOT_MATCH_REGEX,
+        DO_NOT_MATCH_PASSWORD,
         YES,
         NO
     }

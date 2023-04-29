@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
 using Library.Utility;
 using Library.View.UserView;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.UserController
 {
-    public class UserLoginOrRegister: ControllerInterface
+    public class UserLoginOrRegister : ControllerInterface
     {
         private int currentSelectionIndex;
-        
-        public UserLoginOrRegister(TotalData data, CombinedManager combinedManager): base(data, combinedManager)
+
+        public UserLoginOrRegister(TotalData data, CombinedManager combinedManager) : base(data, combinedManager)
         {
             this.currentSelectionIndex = 0;
         }

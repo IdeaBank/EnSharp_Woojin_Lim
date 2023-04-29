@@ -1,7 +1,7 @@
 namespace Library.Constants
 {
     // 최대 몇 자리까지 입력할 수 있는지 정의해놓은 클래스
-    public class InputMax
+    public class MaxInputLength
     {
         public const int USER_NUMBER = 5;
         public const int USER_ID_PASSWORD = 15;

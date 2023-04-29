@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Library.Constants;
 using Library.Model;
+using System.Collections.Generic;
 
 namespace Library.Utility
 {
@@ -15,7 +15,7 @@ namespace Library.Utility
 
         private KeyValuePair<ResultCode, int> GetUserIndex(int userNumber)
         {
-            for(int i = 0; i < totalData.Users.Count; ++i)
+            for (int i = 0; i < totalData.Users.Count; ++i)
             {
                 if (totalData.Users[i].Number == userNumber)
                 {
@@ -25,7 +25,7 @@ namespace Library.Utility
 
             return new KeyValuePair<ResultCode, int>(ResultCode.NO_USER, -1);
         }
-        
+
         public ResultCode AddUser(string id, string password, string name, int birthYear, string phoneNumber, string address)
         {
             foreach (User tempUser in totalData.Users)
@@ -35,9 +35,9 @@ namespace Library.Utility
                     return ResultCode.USER_ID_EXISTS;
                 }
             }
-            
+
             User user = new User();
-            
+
             totalData.AddedUserCount += 1;
             user.Number = totalData.AddedUserCount;
 
@@ -49,7 +49,7 @@ namespace Library.Utility
             user.Address = address;
 
             totalData.Users.Add(user);
-            
+
             return ResultCode.SUCCESS;
         }
 
@@ -85,14 +85,14 @@ namespace Library.Utility
                     return new KeyValuePair<ResultCode, int>(ResultCode.WRONG_PASSWORD, -1);
                 }
             }
-            
+
             return new KeyValuePair<ResultCode, int>(ResultCode.NO_ID, -1);
         }
 
         public ResultCode DeleteUser(int userNumber)
         {
             KeyValuePair<ResultCode, int> findResult = GetUserIndex(userNumber);
-            
+
             int userIndex = findResult.Value;
 
             if (findResult.Key == ResultCode.SUCCESS)
@@ -101,9 +101,9 @@ namespace Library.Utility
                 {
                     return ResultCode.MUST_RETURN_BOOK;
                 }
-                
+
                 totalData.Users.RemoveAt(userIndex);
-                
+
                 return ResultCode.SUCCESS;
             }
 
@@ -114,7 +114,7 @@ namespace Library.Utility
         {
             // 유저 검색 결과를 저장하기 위한 리스트 선언
             List<User> searchResult = new List<User>();
-            
+
             // 유저를 순회하며
             foreach (User user in totalData.Users)
             {
