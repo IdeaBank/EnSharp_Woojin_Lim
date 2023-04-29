@@ -9,7 +9,7 @@ namespace LTT.Constant
         RESERVED_OR_ALL_COURSE
     }
 
-    public class SearchMenu
+    public class SelectCase
     {
         public const int DEPARTMENT = 0;
         public const int CURRICULUM_TYPE = 1;
@@ -33,5 +33,8 @@ namespace LTT.Constant
         public const int SHOW_ENLISTED_COURSE = 1;
         public const int SHOW_ENLISTED_TIME_TABLE = 2;
         public const int REMOVE_ENLISTED_COURSE = 3;
+
+        public const int SELECT_FROM_RESERVED = 0;
+        public const int SELECT_FROM_SEARCH_RESULT = 1;
     }
 }

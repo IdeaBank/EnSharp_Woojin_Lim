@@ -50,40 +50,40 @@ namespace LTT.Controller
 
                 switch (currentSelectionRowIndex)
                 {
-                    case SearchMenu.DEPARTMENT:
+                    case SelectCase.DEPARTMENT:
                         currentSelectionColumnIndex[0] = 0;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[0] = menuSelector.ChooseColumn(currentSelectionRowIndex, 5, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
-                    case SearchMenu.CURRICULUM_TYPE:
+                    case SelectCase.CURRICULUM_TYPE:
                         currentSelectionColumnIndex[1] = 0;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[1] = menuSelector.ChooseColumn(currentSelectionRowIndex, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
-                    case SearchMenu.ACADEMIC_YEAR:
+                    case SelectCase.ACADEMIC_YEAR:
                         currentSelectionColumnIndex[2] = 0;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[2] = menuSelector.ChooseColumn(2, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
                         viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
                     
-                    case SearchMenu.COURSE_NAME:
+                    case SelectCase.COURSE_NAME:
                         name = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 5, 20, false, true, name.Value);
                         break;
 
-                    case SearchMenu.PROFESSOR:
+                    case SelectCase.PROFESSOR:
                         professor = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 6, 20, false, true, professor.Value);
                         break;
 
-                    case SearchMenu.CURRICULUM_NUMBER:
+                    case SelectCase.CURRICULUM_NUMBER:
                         curriculumNumber = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 8, 20, false, true, curriculumNumber.Value);
                         break;
 
-                    case SearchMenu.SEARCH:
+                    case SelectCase.SEARCH:
                         Console.Clear();
                         List<Course> searchResultList = dataManipulator.SearchCourseList(this.totalData, coursesToIgnore, currentSelectionColumnIndex[0], currentSelectionColumnIndex[1], name.Value, professor.Value, currentSelectionColumnIndex[2], curriculumNumber.Value);
                         viewList.CourseListView.ShowCourseList(searchResultList);

@@ -57,21 +57,21 @@ namespace LTT.Controller
 
                     switch (currentSelectionIndex)
                     {
-                        case SearchMenu.SEARCH_LECTURE_TIME:
+                        case SelectCase.SEARCH_LECTURE_TIME:
                             LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                             viewList.LectureTimeSearchView.MakeView();
                             lectureTimeSearcher.LectureTimeSearch(new List<Course>());
                             userInputManager.ReadUntilESC();
                             break;
-                        case SearchMenu.RESERVE_MENU:
+                        case SelectCase.RESERVE_MENU:
                             ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
                             reserveMenu.Start();
                             break;
-                        case SearchMenu.ENLIST_MENU:
+                        case SelectCase.ENLIST_MENU:
                             EnlistMenu enlistMenu = new EnlistMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
                             enlistMenu.Start();
                             break;
-                        case SearchMenu.SAVE_EXCEL:
+                        case SelectCase.SAVE_EXCEL:
                             Console.Clear();
                             viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].EnlistedCourses);
                             ExcelFileSaver excelFileSaver = new ExcelFileSaver();

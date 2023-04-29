@@ -42,6 +42,35 @@ namespace LTT.Utility
             return;
         }
 
+        private void WriteDefaultData(Worksheet worksheet)
+        {
+            worksheet.Cells[1, 1] = "수강신청내역";
+            worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[1, 12]].Merge();
+            worksheet.Cells[2, 1] = "NO";
+            worksheet.Cells[2, 2] = "개설학과전공";
+            worksheet.Cells[2, 3] = "학수번호";
+            worksheet.Cells[2, 4] = "분반";
+            worksheet.Cells[2, 5] = "교과목명";
+            worksheet.Cells[2, 6] = "이수구분";
+            worksheet.Cells[2, 7] = "학년";
+            worksheet.Cells[2, 8] = "학점";
+            worksheet.Cells[2, 9] = "요일 및 강의시간";
+            worksheet.Cells[2, 10] = "강의실";
+            worksheet.Cells[2, 11] = "메인교수명";
+            worksheet.Cells[2, 12] = "강의언어";
+            
+            worksheet.Cells[1, 14] = "시간표";
+            worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[1, 20]].Merge();
+            worksheet.Cells[2, 15] = "월";
+            worksheet.Cells[2, 16] = "화";
+            worksheet.Cells[2, 17] = "수";
+            worksheet.Cells[2, 18] = "목";
+            worksheet.Cells[2, 19] = "금";
+
+            worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[2, 19]].Font.Bold = true;
+
+        }
+        
         private void SaveToFile(Student student)
         {
             try
@@ -49,22 +78,7 @@ namespace LTT.Utility
                 Excel.Application excel = new Excel.Application();
                 Excel.Workbook workbook = excel.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
                 Excel.Worksheet worksheet = workbook.Worksheets[1] as Excel.Worksheet;
-
-                worksheet.Cells[1, 1] = "수강신청내역";
-                worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[1, 12]].Merge();
-                worksheet.Cells[2, 1] = "NO";
-                worksheet.Cells[2, 2] = "개설학과전공";
-                worksheet.Cells[2, 3] = "학수번호";
-                worksheet.Cells[2, 4] = "분반";
-                worksheet.Cells[2, 5] = "교과목명";
-                worksheet.Cells[2, 6] = "이수구분";
-                worksheet.Cells[2, 7] = "학년";
-                worksheet.Cells[2, 8] = "학점";
-                worksheet.Cells[2, 9] = "요일 및 강의시간";
-                worksheet.Cells[2, 10] = "강의실";
-                worksheet.Cells[2, 11] = "메인교수명";
-                worksheet.Cells[2, 12] = "강의언어";
-
+                
                 worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[2, 12]].Font.Bold = true;
 
                 for (int i = 0; i < student.EnlistedCourses.Count; ++i)
@@ -82,17 +96,7 @@ namespace LTT.Utility
                     worksheet.Cells[3 + i, 11] = student.EnlistedCourses[i].Professor;
                     worksheet.Cells[3 + i, 12] = student.EnlistedCourses[i].LanguageString;
                 }
-
-                worksheet.Cells[1, 14] = "시간표";
-                worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[1, 20]].Merge();
-                worksheet.Cells[2, 15] = "월";
-                worksheet.Cells[2, 16] = "화";
-                worksheet.Cells[2, 17] = "수";
-                worksheet.Cells[2, 18] = "목";
-                worksheet.Cells[2, 19] = "금";
-
-                worksheet.Range[worksheet.Cells[1, 14], worksheet.Cells[2, 19]].Font.Bold = true;
-
+                
                 for (int i = 480; i < 1260; i += 30)
                 {
                     worksheet.Cells[(i - 480) / 30 * 2 + 3, 14] = ((i / 60).ToString("00") + ":" + (i % 60).ToString("00") + "~" + ((i + 30) / 60).ToString("00") + ":" + ((i + 30) % 60).ToString("00"));

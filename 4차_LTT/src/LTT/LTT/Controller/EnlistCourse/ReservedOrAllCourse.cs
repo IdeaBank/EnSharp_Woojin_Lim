@@ -54,11 +54,11 @@ namespace LTT.Controller.EnlistCourse
 
                 switch (currentSelectionIndex)
                 {
-                    case 0:
+                    case SelectCase.SELECT_FROM_RESERVED:
                         AddCourse(totalData.Students[userIndex].ReservedCourses);
                         Console.ReadKey(true);
                         break;
-                    case 1:
+                    case SelectCase.SELECT_FROM_SEARCH_RESULT:
                         AddCourse();
                         break;
                 }

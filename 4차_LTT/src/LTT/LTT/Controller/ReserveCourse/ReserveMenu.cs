@@ -54,19 +54,19 @@ namespace LTT.Controller.ReserveCourse
 
                 switch (currentSelectionIndex)
                 {
-                    case SearchMenu.ADD_RESERVED_COURSE:
+                    case SelectCase.ADD_RESERVED_COURSE:
                         AddReservedCourse();
                         break;
-                    case SearchMenu.SHOW_RESERVED_COURSE:
+                    case SelectCase.SHOW_RESERVED_COURSE:
                         viewList.CourseListView.ShowCourseList(totalData.Students[userIndex].ReservedCourses);
                         userInputManager.ReadUntilESC();
                         break;
-                    case SearchMenu.SHOW_RESERVED_TIME_TABLE:
+                    case SelectCase.SHOW_RESERVED_TIME_TABLE:
                         Console.Clear();
                         viewList.TimeTableView.ShowTimeTable(totalData.Students[userIndex].ReservedCourses);
                         userInputManager.ReadUntilESC();
                         break;
-                    case SearchMenu.REMOVE_RESERVED_COURSE:
+                    case SelectCase.REMOVE_RESERVED_COURSE:
                         CourseRemover courseRemover = new CourseRemover(dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                         courseRemover.RemoveCourseFromList(totalData.Students[userIndex].ReservedCourses, userIndex, MenuType.RESERVE_COURSE);
                         break;
