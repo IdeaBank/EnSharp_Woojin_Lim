@@ -15,13 +15,9 @@ namespace Library.Controller.UserController
 
         public void Register()
         {
-            int windowWidthHalf = Console.WindowWidth / 2;
-            int windowHeightHalf = Console.WindowHeight / 2;
-
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = new string[7];
             string[] warning_message = { "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "영어, 한글 1개 이상", "1-200사이의 자연수", "01x-xxxx-xxxx", "[a]" };
-            string[] previousInput = new string[7];
             bool allRegexPassed = false;
 
             // 각 입력 값을 저장하기 위한 변수 선언
@@ -36,12 +32,10 @@ namespace Library.Controller.UserController
             while (!allRegexPassed)
             {
                 // UI 출력 후 일시 정지
-                Console.Clear();
                 UserLoginOrRegisterView.PrintRegister(warning, inputs);
                 Console.ReadKey();
 
                 // 이후 경고 내용을 없앰
-                Console.Clear();
                 warning = new string[7];
                 UserLoginOrRegisterView.PrintRegister(warning, inputs);
 
@@ -54,7 +48,7 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
-                    ResultCode inputResult = UserInputManager.GetUserInput(inputs, i);
+                    ResultCode inputResult = UserInputManager.GetUserInformationInput(inputs, i);
 
                     switch (inputResult)
                     {
@@ -76,22 +70,22 @@ namespace Library.Controller.UserController
                     }
                 }
 
-                if(!isInputValid)
+                if (!isInputValid)
                 {
                     continue;
                 }
-                
+
                 allRegexPassed = true;
             }
 
             // 등록을 시도하고 결과값을 저장
-            ResultCode registerResult = combinedManager.UserManager.AddUser(inputs[0].Value, inputs[1].Value, inputs[3].Value, DateTime.Now.Year - Int32.Parse(inputs[4].Value) + 1, 
+            ResultCode registerResult = combinedManager.UserManager.AddUser(inputs[0].Value, inputs[1].Value, inputs[3].Value, DateTime.Now.Year - Int32.Parse(inputs[4].Value) + 1,
                 inputs[5].Value, inputs[6].Value);
 
             // 동일 아이디가 중복되었을 시 결과 출력
             if (registerResult == ResultCode.USER_ID_EXISTS)
             {
-                UserLoginOrRegisterView.PrintRegisterResult("SAME ID EXISTS!");
+                UserLoginOrRegisterView.PrintRegisterResult("SAME ID EXISTS!", ConsoleColor.Red);
                 Console.ReadKey(true);
             }
 

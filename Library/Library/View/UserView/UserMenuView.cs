@@ -46,14 +46,14 @@ namespace Library.View.UserView
             {
                 if (i == currentSelectionIndex)
                 {
-                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.Green);
+                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf - 3 + i,
+                        loginOrRegister[i], AlignType.RIGHT, ConsoleColor.Green);
                 }
 
                 else
                 {
-                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.White);
+                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf - 3 + i,
+                        loginOrRegister[i], AlignType.RIGHT, ConsoleColor.White);
                 }
             }
         }

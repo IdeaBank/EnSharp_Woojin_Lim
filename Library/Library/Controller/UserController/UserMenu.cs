@@ -140,6 +140,7 @@ namespace Library.Controller.UserController
 
         private void CheckBorrowedBook()
         {
+            Console.Clear();
             // 현재 유저가 빌린 책 리스트를 출력
             SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[currentUserIndex].Name, data.Users[currentUserIndex].BorrowedBooks);
             Console.ReadKey(true);

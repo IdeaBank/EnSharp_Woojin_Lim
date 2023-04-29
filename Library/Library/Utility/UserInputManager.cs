@@ -1,7 +1,6 @@
 using Library.Constants;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Text.RegularExpressions;
 
 namespace Library.Utility
@@ -39,6 +38,21 @@ namespace Library.Utility
             }
 
             return ResultCode.DO_NOT_MATCH_REGEX;
+        }
+
+        private static int GetHangeulCount(string str)
+        {
+            int count = 0;
+
+            foreach(char ch in str)
+            {
+                if((0xac00 <= ch && ch <= 0xd7a3) || (0x3131 <= ch && ch <= 0x318e))
+                {
+                    count += 1;
+                }
+            }
+
+            return count;
         }
 
         // Return true if character is between 0 and 9
@@ -140,7 +154,7 @@ namespace Library.Utility
                     currentInput = currentInput.Substring(0, currentInput.Length - 1);
 
                     // Remove printed input
-                    ConsoleWriter.WriteOnPosition(cursorX, cursorY, new string(' ', maxInputLength));
+                    ConsoleWriter.WriteOnPosition(cursorX, cursorY, new string(' ', maxInputLength + GetHangeulCount(currentInput) + 1));
                 }
 
                 else
@@ -185,7 +199,7 @@ namespace Library.Utility
             return ResultCode.NO;
         }
 
-        public static ResultCode ValidateInput(KeyValuePair<ResultCode, string> input, int inputIndex)
+        public static ResultCode ValidateUserInformationInput(KeyValuePair<ResultCode, string> input, int inputIndex)
         {
             ResultCode resultCode = ResultCode.SUCCESS;
 
@@ -222,7 +236,7 @@ namespace Library.Utility
             return resultCode;
         }
 
-        public static ResultCode GetUserInput(List<KeyValuePair<ResultCode, string>> inputs, int inputIndex)
+        public static ResultCode GetUserInformationInput(List<KeyValuePair<ResultCode, string>> inputs, int inputIndex)
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -248,18 +262,18 @@ namespace Library.Utility
                     inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, MaxInputLength.USER_PHONE_NUMBER, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
                     break;
                 case 6:
-                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, MaxInputLength.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, MaxInputLength.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
                     break;
             }
 
-            ResultCode validateResult = ValidateInput(inputs[inputIndex], inputIndex);
+            ResultCode validateResult = ValidateUserInformationInput(inputs[inputIndex], inputIndex);
 
             if (validateResult == ResultCode.DO_NOT_MATCH_REGEX)
             {
                 inputs[inputIndex] = new KeyValuePair<ResultCode, string>(ResultCode.DO_NOT_MATCH_REGEX, "");
             }
 
-            if(inputIndex == 2)
+            if (inputIndex == 2)
             {
                 if (inputs[1].Value != inputs[2].Value)
                 {
@@ -271,6 +285,104 @@ namespace Library.Utility
             }
 
             return inputs[inputIndex].Key;
+        }
+
+        public static ResultCode ValidateBookInformationInput(KeyValuePair<ResultCode, string> input, int inputIndex)
+        {
+            ResultCode resultCode = ResultCode.SUCCESS;
+
+            if (input.Key == ResultCode.ESC_PRESSED)
+            {
+                return ResultCode.ESC_PRESSED;
+            }
+
+            switch (inputIndex)
+            {
+                case 0:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_NAME, input.Value);
+                    break;
+                case 1:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_AUTHOR, input.Value);
+                    break;
+                case 2:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_PUBLISHER, input.Value);
+                    break;
+                case 3:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_QUANTITY, input.Value);
+                    break;
+                case 4:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_PRICE, input.Value);
+                    break;
+                case 5:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_PUBLISHED_DATE, input.Value);
+                    break;
+                case 6:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_ISBN, input.Value);
+                    break;
+                case 7:
+                    resultCode = MatchesRegex(RegularExpression.BOOK_DESCRIPTION, input.Value);
+                    break;
+            }
+
+            return resultCode;
+        }
+
+        public static ResultCode GetBookInformationInput(List<KeyValuePair<ResultCode, string>> inputs, int inputIndex)
+        {
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            switch (inputIndex)
+            {
+                case 0:
+                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+                    break;
+                case 1:
+                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+                    break;
+                case 2:
+                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 2, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+                    break;
+                case 3:
+                    inputs[3] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 3, MaxInputLength.BOOK_QUANTITY, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 4:
+                    inputs[4] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 4, MaxInputLength.BOOK_PRICE, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 5:
+                    inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, MaxInputLength.BOOK_PUBLISHED_DATE, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 6:
+                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, MaxInputLength.BOOK_ISBN, InputParameter.IS_NOT_PASSWORD, InputParameter.DO_NOT_ENTER_KOREAN);
+                    break;
+                case 7:
+                    inputs[7] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 7, MaxInputLength.BOOK_DESCRIPTION, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
+                    break;
+            }
+
+            ResultCode validateResult = ValidateBookInformationInput(inputs[inputIndex], inputIndex);
+
+            if (validateResult == ResultCode.DO_NOT_MATCH_REGEX)
+            {
+                inputs[inputIndex] = new KeyValuePair<ResultCode, string>(ResultCode.DO_NOT_MATCH_REGEX, "");
+            }
+
+            return inputs[inputIndex].Key;
+        }
+
+        public static void ReadUntilESC()
+        {
+            bool isESCPressed = false;
+
+            while (!isESCPressed)
+            {
+                ConsoleKeyInfo keyInput = Console.ReadKey(true);
+
+                if (keyInput.Key == ConsoleKey.Escape)
+                {
+                    isESCPressed = true;
+                }
+            }
         }
     }
 }

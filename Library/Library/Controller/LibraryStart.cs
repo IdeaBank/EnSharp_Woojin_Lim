@@ -79,6 +79,7 @@ namespace Library.Controller
         {
             Console.Clear();
             AddSampleData();
+            Console.SetWindowSize(200, 50);
 
             // 커서 안 보이게 설정
             Console.CursorVisible = false;

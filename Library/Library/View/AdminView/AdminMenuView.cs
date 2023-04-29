@@ -1,6 +1,7 @@
 using Library.Constants;
 using Library.Utility;
 using System;
+using System.Collections.Generic;
 
 namespace Library.View.AdminView
 {
@@ -33,7 +34,7 @@ namespace Library.View.AdminView
 
         private static void PrintAddBookContour()
         {
-            ConsoleWriter.DrawContour(55, 20);
+            ConsoleWriter.DrawContour(80, 20);
         }
 
         private static void PrintChooseBookContour()
@@ -51,21 +52,20 @@ namespace Library.View.AdminView
             {
                 if (i == currentSelectionIndex)
                 {
-                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.Green);
+                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf - 3 + i,
+                        loginOrRegister[i], AlignType.RIGHT, ConsoleColor.Green);
                 }
 
                 else
                 {
-                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
-                        loginOrRegister[i], AlignType.CENTER, ConsoleColor.White);
+                    ConsoleWriter.WriteOnPositionWithAlign(consoleWindowWidthHalf- 4, consoleWindowHeightHalf - 3 + i,
+                        loginOrRegister[i], AlignType.RIGHT, ConsoleColor.White);
                 }
             }
         }
 
-        public static void PrintAddBook(string[] warnings, string[] previousInput)
+        public static void PrintAddBook(string[] warnings, List<KeyValuePair<ResultCode, string>> inputs)
         {
-            Console.Clear();
             PrintAddBookContour();
 
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -89,7 +89,7 @@ namespace Library.View.AdminView
                     AlignType.LEFT);
                 ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
                     AlignType.RIGHT, ConsoleColor.Red);
-                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, previousInput[i],
+                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, inputs[i].Value,
                     AlignType.RIGHT);
             }
         }

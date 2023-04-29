@@ -33,7 +33,6 @@ namespace Library.View
 
         public static void PrintUserOrAdmin(int currentSelectionIndex)
         {
-            Console.Clear();
             PrintUserOrAdminContour();
 
             string[] userOrAdminInstruction = new[] { "User", "Administrator" };

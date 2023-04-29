@@ -56,23 +56,35 @@ namespace Library.Controller.AdminController
                 case MenuSelection.SEARCH_BOOK:
                     bookSearcher.SearchBook();
                     break;
+
                 case MenuSelection.ADD_BOOK:
                     AddBook();
                     break;
+
                 // 책을 삭제하기 전 책 검색
                 case MenuSelection.DELETE_BOOK:
-                    bookSearcher.SearchBook();
-                    DeleteBook();
+                    if (bookSearcher.SearchBook() != ResultCode.ESC_PRESSED)
+                    {
+                        DeleteBook();
+                    }
                     break;
+
+                // 책을 수정하기 전 책 검색
                 case MenuSelection.EDIT_BOOK:
-                    bookSearcher.SearchBook();
-                    EditBook();
+                    if (bookSearcher.SearchBook() != ResultCode.ESC_PRESSED)
+                    {
+                        EditBook();
+                    }
                     break;
+
                 // 유저를 없애기 전에 유저 검색
                 case MenuSelection.DELETE_MEMBER:
-                    SearchMember();
-                    DeleteMember();
+                    if (SearchMember() != ResultCode.ESC_PRESSED)
+                    {
+                        DeleteMember();
+                    }
                     break;
+
                 case MenuSelection.VIEW_BORROWED_BOOKS:
                     ViewBorrowedBooks();
                     break;
@@ -81,254 +93,72 @@ namespace Library.Controller.AdminController
 
         private void AddBook()
         {
-            // 화면의 너비와 높이를 받아 옴
-            int windowWidthHalf = Console.WindowWidth / 2;
-            int windowHeightHalf = Console.WindowHeight / 2;
-
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = new string[8];
-            bool[] inputValid = { false, false, false, false, false, false, false, false };
-            string[] previousInput = new string[8];
+
+            string[] warning_message = {
+                "영어, 한글, 숫자, ?!+= 1개 이상", "영어, 한글 1개 이상", "영어, 한글 1개 이상", "1-999사이의 자연수",
+                "1-9999999사이의 자연수", "19xx or 20xx-xx-xx", "정수9개 + 영어1개 + 공백 + 정수13개", "최소1개의 문자(공백포함)"
+            };
+
             bool allRegexPassed = false;
 
             // 각 입력 값을 저장하기 위한 변수 선언
-            KeyValuePair<ResultCode, string>
-                nameInputResult = new KeyValuePair<ResultCode, string>(),
-                authorInputResult = new KeyValuePair<ResultCode, string>(),
-                publisherInputResult = new KeyValuePair<ResultCode, string>(),
-                quantityInputResult = new KeyValuePair<ResultCode, string>(),
-                priceInputResult = new KeyValuePair<ResultCode, string>(),
-                publishedDateInputResult = new KeyValuePair<ResultCode, string>(),
-                isbnInputResult = new KeyValuePair<ResultCode, string>(),
-                descriptionInputResult = new KeyValuePair<ResultCode, string>();
+            List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
+
+            for (int i = 0; i < 8; ++i)
+            {
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, ""));
+            }
 
             // 모든 정규식에 부합할 때까지 반복
             while (!allRegexPassed)
             {
-                // UI 출력 후 아무 키나 입력 받음
-                Console.Clear();
-                AdminMenuView.PrintAddBook(warning, previousInput);
+                // UI 출력 후 일시 정지
+                AdminMenuView.PrintAddBook(warning, inputs);
                 Console.ReadKey();
-                Console.Clear();
+
+                // 이후 경고 내용을 없앰
                 warning = new string[8];
-                AdminMenuView.PrintAddBook(warning, previousInput);
+                AdminMenuView.PrintAddBook(warning, inputs);
 
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 이름을 입력 받음
-                if (!inputValid[0])
+                bool isInputValid = true;
+
+                for (int i = 0; i < 8 && isInputValid; ++i)
                 {
-                    nameInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (nameInputResult.Key == ResultCode.ESC_PRESSED)
+                    if (inputs[i].Key == ResultCode.SUCCESS)
                     {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_NAME, nameInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[0] = "영어, 한글, 숫자, ?!+= 1개 이상";
                         continue;
                     }
 
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[0] = nameInputResult.Value;
-                    inputValid[0] = true;
+                    ResultCode inputResult = UserInputManager.GetBookInformationInput(inputs, i);
+
+                    switch (inputResult)
+                    {
+                        case ResultCode.ESC_PRESSED:
+                            return;
+
+                        case ResultCode.DO_NOT_MATCH_REGEX:
+                            warning[i] = warning_message[i];
+                            isInputValid = false;
+                            break;
+
+                        case ResultCode.SUCCESS:
+                            break;
+                    }
                 }
 
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 작가를 입력 받음
-                if (!inputValid[1])
+                if (!isInputValid)
                 {
-                    authorInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 1, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (authorInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_AUTHOR, authorInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[1] = "영어, 한글 1개 이상";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[1] = authorInputResult.Value;
-                    inputValid[1] = true;
+                    continue;
                 }
 
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 출판사를 입력 받음
-                if (!inputValid[2])
-                {
-                    publisherInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 2, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (publisherInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_PUBLISHER, publisherInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[2] = "영어, 한글 1개 이상";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[2] = publisherInputResult.Value;
-                    inputValid[2] = true;
-                }
-
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 수량을 입력 받음
-                if (!inputValid[3])
-                {
-                    quantityInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 3, MaxInputLength.BOOK_QUANTITY, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.DO_NOT_ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (quantityInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_QUANTITY, quantityInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[3] = "1-999사이의 자연수";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[3] = quantityInputResult.Value;
-                    inputValid[3] = true;
-                }
-
-
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 가격을 입력 받음
-                if (!inputValid[4])
-                {
-                    priceInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 4, MaxInputLength.BOOK_PRICE, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.DO_NOT_ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (priceInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_PRICE, priceInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[4] = "1-9999999사이의 자연수";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[4] = priceInputResult.Value;
-                    inputValid[4] = true;
-                }
-
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 출판 날짜를 입력 받음
-                if (!inputValid[5])
-                {
-                    publishedDateInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 5, MaxInputLength.BOOK_PUBLISHED_DATE, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.DO_NOT_ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (publishedDateInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_PUBLISHED_DATE, publishedDateInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[5] = "19xx or 20xx-xx-xx";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[5] = publishedDateInputResult.Value;
-                    inputValid[5] = true;
-                }
-
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 ISBN을 입력 받음
-                if (!inputValid[6])
-                {
-                    isbnInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 6, MaxInputLength.BOOK_ISBN, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.DO_NOT_ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (isbnInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_ISBN, isbnInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[6] = "정수9개 + 영어1개 + 공백 + 정수13개";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[6] = isbnInputResult.Value;
-                    inputValid[6] = true;
-                }
-
-                // 처음이거나 이전에 입력한 값이 정규표현식에 부합하지 않는다면 설명을 입력 받음
-                if (!inputValid[7])
-                {
-                    descriptionInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                        windowHeightHalf + 7, MaxInputLength.BOOK_DESCRIPTION, InputParameter.IS_NOT_PASSWORD,
-                        InputParameter.ENTER_KOREAN);
-
-                    // ESC키를 입력 받을 시 반환
-                    if (descriptionInputResult.Key == ResultCode.ESC_PRESSED)
-                    {
-                        return;
-                    }
-
-                    // 정규표현식에 부합하지 않으면 경고 메세지 출력 후 다시 입력 받음
-                    if (UserInputManager.MatchesRegex(RegularExpression.BOOK_DESCRIPTION, descriptionInputResult.Value) == ResultCode.DO_NOT_MATCH_REGEX)
-                    {
-                        warning[7] = "최소1개의 문자(공백포함)";
-                        continue;
-                    }
-
-                    // 정규표현식에 부합하면 입력 값을 저장
-                    previousInput[7] = descriptionInputResult.Value;
-                    inputValid[7] = true;
-                }
-
-                // 모든 정규식에 부합하면 allRegexPassed에 true 값 저장
                 allRegexPassed = true;
             }
 
             // 모든 정규식에 부합하면 책 추가
-            combinedManager.BookManager.AddBook(
-                nameInputResult.Value,
-                authorInputResult.Value,
-                publisherInputResult.Value,
-                Int32.Parse(quantityInputResult.Value),
-                Int32.Parse(priceInputResult.Value),
-                publishedDateInputResult.Value,
-                isbnInputResult.Value,
-                descriptionInputResult.Value
-                );
+            combinedManager.BookManager.AddBook(inputs[0].Value, inputs[1].Value, inputs[2].Value, Int32.Parse(inputs[3].Value), Int32.Parse(inputs[4].Value), 
+                inputs[5].Value, inputs[6].Value, inputs[7].Value);
 
             // 결과를 출력하고 유지시키기 위해 키를 입력 받음
             UserLoginOrRegisterView.PrintRegisterResult("BOOK ADDED!");
@@ -424,13 +254,17 @@ namespace Library.Controller.AdminController
 
         private void ViewBorrowedBooks()
         {
+            Console.Clear();
+
             foreach (User user in data.Users)
             {
                 SearchBookOrUserView.PrintBorrowedOrReturnedBooks(user.Name, user.BorrowedBooks);
             }
+
+            UserInputManager.ReadUntilESC();
         }
 
-        private void SearchMember()
+        private ResultCode SearchMember()
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -444,7 +278,7 @@ namespace Library.Controller.AdminController
             // ESC키가 눌렸으면 반환
             if (nameInputResult.Key == ResultCode.ESC_PRESSED)
             {
-                return;
+                return ResultCode.ESC_PRESSED;
             }
 
             // 유저 아이디를 입력 받음
@@ -454,7 +288,7 @@ namespace Library.Controller.AdminController
             // ESC키가 눌렸으면 반환
             if (idInputResult.Key == ResultCode.ESC_PRESSED)
             {
-                return;
+                return ResultCode.ESC_PRESSED;
             }
 
             // 유저 주소를 입력 받음
@@ -464,7 +298,7 @@ namespace Library.Controller.AdminController
             // ESC키가 눌렸으면 반환
             if (idInputResult.Key == ResultCode.ESC_PRESSED)
             {
-                return;
+                return ResultCode.ESC_PRESSED;
             }
 
             // 유저 검색 결과를 저장
@@ -476,6 +310,8 @@ namespace Library.Controller.AdminController
 
             // 키를 입력 받을때까지 출력 유지
             Console.ReadKey(true);
+
+            return ResultCode.SUCCESS;
         }
     }
 }

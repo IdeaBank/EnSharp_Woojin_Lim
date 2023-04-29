@@ -34,7 +34,7 @@ namespace Library.View.UserView
 
         public static void PrintRegisterContour()
         {
-            ConsoleWriter.DrawContour(50, 18);
+            ConsoleWriter.DrawContour(150, 18);
         }
 
         public static void PrintLoginOrRegister(int currentSelectionIndex)
@@ -61,7 +61,6 @@ namespace Library.View.UserView
 
         public static void PrintLogin(string idHint, string passwordHint)
         {
-            Console.Clear();
             PrintLoginOrRegisterContour();
 
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -88,7 +87,6 @@ namespace Library.View.UserView
 
         public static void PrintRegister(string[] warnings, List<KeyValuePair<ResultCode, string>> inputs)
         {
-            Console.Clear();
             PrintRegisterContour();
 
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -116,7 +114,7 @@ namespace Library.View.UserView
             }
         }
 
-        public static void PrintRegisterResult(string resultString)
+        public static void PrintRegisterResult(string resultString, ConsoleColor color = ConsoleColor.White)
         {
             Console.Clear();
 
@@ -126,7 +124,7 @@ namespace Library.View.UserView
             ConsoleWriter.DrawContour(30, 5);
 
             ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, resultString,
-                AlignType.CENTER);
+                AlignType.CENTER, color);
         }
     }
 }

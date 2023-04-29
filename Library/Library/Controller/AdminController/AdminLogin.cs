@@ -54,7 +54,7 @@ namespace Library.Controller.AdminController
                 // 로그인 결과 값 얻어오기
                 KeyValuePair<ResultCode, int> loginResult = combinedManager.UserManager.LoginAsAdministrator(inputId.Value, inputPassword.Value);
 
-                switch(loginResult.Key)
+                switch (loginResult.Key)
                 {
                     // 로그인이 성공했으면 isLoggedIn에 true를 저장
                     case ResultCode.SUCCESS:

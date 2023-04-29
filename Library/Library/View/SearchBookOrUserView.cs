@@ -153,7 +153,6 @@ namespace Library.View
 
         public static void PrintBorrowedOrReturnedBooks(string userName, List<BorrowedBook> books)
         {
-            Console.Clear();
             Console.WriteLine(new string('=', 15) + userName + new string('=', 15));
 
             foreach (BorrowedBook book in books)
@@ -163,10 +162,6 @@ namespace Library.View
 
                 Console.Write("Borrowed date: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BorrowedDate);
-
-                Console.Write("Returned date: ".PadLeft(15, ' '));
-                Console.WriteLine(book.ReturnedDate);
-                Console.WriteLine();
             }
 
             Console.WriteLine(new string('=', 36));
