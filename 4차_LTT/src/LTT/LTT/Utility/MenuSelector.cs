@@ -31,7 +31,7 @@ namespace LTT.Utility
             return currentSelectionIndex;
         }
 
-        private void ShowView(MenuType currentMenu, int currentSelectionIndex, int[] columnIndexList2)
+        private void ShowView(MenuType currentMenu, int currentSelectionIndex, int[] columnIndexList2, bool isEntering = false)
         {
             switch (currentMenu)
             {
@@ -45,7 +45,7 @@ namespace LTT.Utility
                     viewList.EnlistMenuView.UpdateView(currentSelectionIndex);
                     break;
                 case MenuType.SEARCH_TIME_TABLE:
-                    viewList.LectureTimeSearchView.UpdateView(currentSelectionIndex, columnIndexList2);
+                    viewList.LectureTimeSearchView.UpdateView(currentSelectionIndex, columnIndexList2, isEntering);
                     break;
                 case MenuType.RESERVED_OR_ALL_COURSE:
                     viewList.ReservedOrAllCourseView.UpdateView(currentSelectionIndex);
@@ -55,7 +55,7 @@ namespace LTT.Utility
         
         private KeyValuePair<ResultCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu, int[] columnIndexList)
         {
-            ShowView(currentMenu, currentSelectionIndex, columnIndexList);
+            ShowView(currentMenu, currentSelectionIndex, columnIndexList, false);
             
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
@@ -117,7 +117,7 @@ namespace LTT.Utility
 
         private KeyValuePair<ResultCode, int> ChangeColumnSelection(int rowSelectionIndex, int MAX_SELECTION, MenuType currentMenu, int[] columnIndexList)
         {
-            ShowView(currentMenu, rowSelectionIndex, columnIndexList);
+            ShowView(currentMenu, rowSelectionIndex, columnIndexList, true);
 
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 

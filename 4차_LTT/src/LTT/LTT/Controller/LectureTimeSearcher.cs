@@ -48,39 +48,35 @@ namespace LTT.Controller
                     return new KeyValuePair<ResultCode, List<Course>>(ResultCode.ESC_PRESSED, null);
                 }
 
+                viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex, true);
+
                 switch (currentSelectionRowIndex)
                 {
                     case SelectCase.DEPARTMENT:
                         currentSelectionColumnIndex[0] = 0;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[0] = menuSelector.ChooseColumn(currentSelectionRowIndex, 5, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
                     case SelectCase.CURRICULUM_TYPE:
                         currentSelectionColumnIndex[1] = 0;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[1] = menuSelector.ChooseColumn(currentSelectionRowIndex, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
 
                     case SelectCase.ACADEMIC_YEAR:
                         currentSelectionColumnIndex[2] = 0;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         currentSelectionColumnIndex[2] = menuSelector.ChooseColumn(2, 4, Constant.MenuType.SEARCH_TIME_TABLE, currentSelectionColumnIndex).Value;
-                        viewList.LectureTimeSearchView.UpdateView(currentSelectionRowIndex, currentSelectionColumnIndex);
                         break;
                     
                     case SelectCase.COURSE_NAME:
-                        name = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 5, 20, false, true, name.Value);
+                        name = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2 - 30, Console.WindowHeight / 2 + 6, 20, false, true, name.Value);
                         break;
 
                     case SelectCase.PROFESSOR:
-                        professor = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 6, 20, false, true, professor.Value);
+                        professor = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2 - 30, Console.WindowHeight / 2 + 7, 20, false, true, professor.Value);
                         break;
 
                     case SelectCase.CURRICULUM_NUMBER:
-                        curriculumNumber = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2, Console.WindowHeight / 2 + 8, 20, false, true, curriculumNumber.Value);
+                        curriculumNumber = userInputManager.ReadInputFromUser(consoleWriter, Console.WindowWidth / 2 - 30, Console.WindowHeight / 2 + 8, 20, false, true, curriculumNumber.Value);
                         break;
 
                     case SelectCase.SEARCH:

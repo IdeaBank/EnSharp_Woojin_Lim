@@ -123,7 +123,6 @@ namespace LTT.Controller.EnlistCourse
                 switch (addEnlistedCourseResult)
                 {
                     case ResultCode.SUCCESS:
-                        dataManipulator.RemoveReservedCourse(totalData.Students[userIndex].ReservedCourses, Int32.Parse(result.Value), userIndex);
                         consoleWriter.PrintOnPosition(Console.CursorLeft, Console.CursorTop, "등록 성공", Align.LEFT, ConsoleColor.Green);
                         break;
 

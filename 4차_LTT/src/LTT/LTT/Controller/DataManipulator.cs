@@ -327,21 +327,31 @@ namespace LTT.Controller
 
         private ResultCode AddCourse(List<Course> courseList, Course newCourse, int courseIndex, int studentIndex, bool isEnlistedCourse)
         {
-            // 기존 강의 리스트에 새로운 강의를 더했을 때 총 학점 수가 24점이 넘으면 실패 반환
-            if(GetTotalCredit(courseList) + newCourse.Credit > 24)
-            {
-                return ResultCode.OVER_MAX_CREDIT;
-            }
 
-            // 만약 수강신청 중이면
             if (isEnlistedCourse)
             {
-                // 만약 기존 강의 리스트에 새로운 강의를 더할 수 없으면
-                if (!IsClassCompatible(courseList, newCourse))
+                // 수강 신청 중일 때, 기존 강의 리스트에 새로운 강의를 더했을 때 총 학점 수가 21점이 넘으면 실패 반환
+                if (GetTotalCredit(courseList) + newCourse.Credit > 21)
                 {
-                    // 실패 반환
-                    return ResultCode.FAIL;
+                    return ResultCode.OVER_MAX_CREDIT;
                 }
+            }
+
+            // else는 없어도 정상 작동하지만, 가독성을 위해 추가 (어짜피 수강신청 중일때 21학점 넘으면 OVER_MAX_CREDIT을 RETURN하게 했으므로, 아래 식을 만족하면 위 식도 만족하기 때문에 else를 안 써도 로직에 문제는 없음.)
+            else
+            {
+                // 관심강의 담기 중일 때, 기존 강의 리스트에 새로운 강의를 더했을 때 총 학점 수가 21점이 넘으면 실패 반환
+                if (GetTotalCredit(courseList) + newCourse.Credit > 24)
+                {
+                    return ResultCode.OVER_MAX_CREDIT;
+                }
+            }
+
+            // 만약 기존 강의 리스트에 새로운 강의를 더할 수 없으면
+            if (!IsClassCompatible(courseList, newCourse))
+            {
+                // 실패 반환
+                return ResultCode.FAIL;
             }
 
             // 아무 이상 없으면 리스트에 추가

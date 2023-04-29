@@ -3,6 +3,7 @@ using LTT.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace LTT.View
             consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf - 6, "입력을 완료한 뒤에 <검색하기>에서 ENTER를 눌러 검색");
         }
 
-        public void UpdateView(int selectionIndex, int[] selectedItems)
+        public void UpdateView(int selectionIndex, int[] selectedItems, bool isSelecting)
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -72,19 +73,25 @@ namespace LTT.View
                 "3학년"
             };
 
-            consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 3, new string(' ', 200), Align.LEFT);
-            consoleWriter.PrintOnPosition(windowWidthHalf, windowHeightHalf + 4, new string(' ', 200), Align.LEFT);
+            consoleWriter.PrintOnPosition(windowWidthHalf - 30, windowHeightHalf + 3, new string(' ', 200), Align.LEFT);
+            consoleWriter.PrintOnPosition(windowWidthHalf - 30, windowHeightHalf + 4, new string(' ', 200), Align.LEFT);
+            consoleWriter.PrintOnPosition(windowWidthHalf - 30, windowHeightHalf + 5, new string(' ', 200), Align.LEFT);
 
             for (int i = 0; i < mainMenuList.Length; ++i)
             {
-                if (i == selectionIndex)
+                if (i == selectionIndex && !isSelecting)
                 {
-                    consoleWriter.PrintOnPosition(windowWidthHalf - 4, windowHeightHalf + i + 3, mainMenuList[i], Align.RIGHT, ConsoleColor.Green);
+                    consoleWriter.PrintOnPosition(windowWidthHalf - 34, windowHeightHalf + i + 3, mainMenuList[i], Align.RIGHT, ConsoleColor.Green);
+                }
+
+                else if (i == selectionIndex && isSelecting)
+                {
+                    consoleWriter.PrintOnPosition(windowWidthHalf - 34, windowHeightHalf + i + 3, mainMenuList[i], Align.RIGHT, ConsoleColor.Red);
                 }
 
                 else
                 {
-                    consoleWriter.PrintOnPosition(windowWidthHalf - 4, windowHeightHalf + i + 3, mainMenuList[i], Align.RIGHT, ConsoleColor.White);
+                    consoleWriter.PrintOnPosition(windowWidthHalf - 34, windowHeightHalf + i + 3, mainMenuList[i], Align.RIGHT, ConsoleColor.White);
                 }
             }
 
@@ -92,7 +99,7 @@ namespace LTT.View
 
             if (selectedItems[0] != -1)
             {
-                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 3);
+                Console.SetCursorPosition(windowWidthHalf - 30, windowHeightHalf + 3);
 
                 for (int i = 0; i < departmentList.Length; ++i)
                 {
@@ -112,7 +119,7 @@ namespace LTT.View
 
             if (selectedItems[1] != -1)
             {
-                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 4);
+                Console.SetCursorPosition(windowWidthHalf - 30, windowHeightHalf + 4);
 
                 for (int i = 0; i < curriculumType.Length; ++i)
                 {
@@ -132,7 +139,7 @@ namespace LTT.View
 
             if (selectedItems[2] != -1)
             {
-                Console.SetCursorPosition(windowWidthHalf, windowHeightHalf + 5);
+                Console.SetCursorPosition(windowWidthHalf - 30, windowHeightHalf + 5);
 
                 for (int i = 0; i < curriculumType.Length; ++i)
                 {

@@ -60,8 +60,13 @@ namespace LTT.Controller
                         case SelectCase.SEARCH_LECTURE_TIME:
                             LectureTimeSearcher lectureTimeSearcher = new LectureTimeSearcher(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector);
                             viewList.LectureTimeSearchView.MakeView();
-                            lectureTimeSearcher.LectureTimeSearch(new List<Course>());
-                            userInputManager.ReadUntilESC();
+                            
+                            // 검색했을 때만 ESC를 누를때까지 대기
+                            if(lectureTimeSearcher.LectureTimeSearch(new List<Course>()).Key == ResultCode.SUCCESS)
+                            {
+                                userInputManager.ReadUntilESC();
+                            }
+
                             break;
                         case SelectCase.RESERVE_MENU:
                             ReserveMenu reserveMenu = new ReserveMenu(totalData, dataManipulator, consoleWriter, userInputManager, viewList, menuSelector, userIndex);
