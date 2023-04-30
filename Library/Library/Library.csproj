@@ -107,6 +107,7 @@
     <Compile Include="Utility\CombinedManager.cs" />
     <Compile Include="Utility\ConsoleWriter.cs" />
     <Compile Include="Utility\MenuSelector.cs" />
+    <Compile Include="Utility\SqlManager.cs" />
     <Compile Include="Utility\UserInputManager.cs" />
     <Compile Include="Utility\UserManager.cs" />
     <Compile Include="View\AdminView\AdminMenuView.cs" />

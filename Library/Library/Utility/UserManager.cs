@@ -1,74 +1,78 @@
 using Library.Constants;
 using Library.Model;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace Library.Utility
 {
     public class UserManager
     {
         private TotalData totalData;
-
-        public UserManager(TotalData totalData)
+        private SqlManager sqlManager;
+        private DataSet dataSet;
+        
+        public UserManager(TotalData totalData, SqlManager sqlManager)
         {
             this.totalData = totalData;
+            this.sqlManager = sqlManager;
         }
 
-        private KeyValuePair<ResultCode, int> GetUserIndex(int userNumber)
+        private bool IsUserExist(string id)
         {
-            for (int i = 0; i < totalData.Users.Count; ++i)
+            dataSet = sqlManager.ExecuteSql("select * from User where id=\'" + id + "\'", "User");
+
+            if (dataSet.Tables["User"].Rows.Count == 0)
             {
-                if (totalData.Users[i].Number == userNumber)
-                {
-                    return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
-                }
+                return false;
             }
 
-            return new KeyValuePair<ResultCode, int>(ResultCode.NO_USER, -1);
+            return true;
         }
 
         public ResultCode AddUser(string id, string password, string name, int birthYear, string phoneNumber, string address)
         {
-            foreach (User tempUser in totalData.Users)
+            if (IsUserExist(id))
             {
-                if (tempUser.Id == id)
-                {
-                    return ResultCode.USER_ID_EXISTS;
-                }
+                return ResultCode.USER_ID_EXISTS;
             }
-
-            User user = new User();
-
-            totalData.AddedUserCount += 1;
-            user.Number = totalData.AddedUserCount;
-
-            user.Id = id;
-            user.Password = password;
-            user.Name = name;
-            user.BirthYear = birthYear;
-            user.PhoneNumber = phoneNumber;
-            user.Address = address;
-
-            totalData.Users.Add(user);
-
+            
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "INSERT INTO User(id, password, name, birth_year, phone_number, address) VALUES(@id, @password, @name, @birth_year, @phone_number, @address)";
+            comm.Parameters.AddWithValue("@id", id);
+            comm.Parameters.AddWithValue("@password", password);
+            comm.Parameters.AddWithValue("@name", name);
+            comm.Parameters.AddWithValue("@birth_year", birthYear);
+            comm.Parameters.AddWithValue("@phone_number", phoneNumber);
+            comm.Parameters.AddWithValue("@address", address);
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
+            
             return ResultCode.SUCCESS;
         }
 
-        public KeyValuePair<ResultCode, int> LoginAsUser(string id, string password)
+        public KeyValuePair<ResultCode, string> LoginAsUser(string id, string password)
         {
-            for (int i = 0; i < totalData.Users.Count; ++i)
+            dataSet = sqlManager.ExecuteSql("select id, password from User", "User");
+
+            foreach (DataRow row in dataSet.Tables["User"].Rows)
             {
-                if (totalData.Users[i].Id == id)
+                if (row["id"].ToString() == id)
                 {
-                    if (totalData.Users[i].Password == password)
+                    if (row["password"].ToString() == password)
                     {
-                        return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
+                        return new KeyValuePair<ResultCode, string>(ResultCode.SUCCESS, row["id"].ToString());
                     }
 
-                    return new KeyValuePair<ResultCode, int>(ResultCode.WRONG_PASSWORD, -1);
+                    return new KeyValuePair<ResultCode, string>(ResultCode.WRONG_PASSWORD, "");
                 }
             }
 
-            return new KeyValuePair<ResultCode, int>(ResultCode.NO_ID, -1);
+            return new KeyValuePair<ResultCode, string>(ResultCode.NO_ID, "");
         }
 
         public KeyValuePair<ResultCode, int> LoginAsAdministrator(string id, string password)
@@ -89,46 +93,32 @@ namespace Library.Utility
             return new KeyValuePair<ResultCode, int>(ResultCode.NO_ID, -1);
         }
 
-        public ResultCode DeleteUser(int userNumber)
+        public ResultCode DeleteUser(string userId)
         {
-            KeyValuePair<ResultCode, int> findResult = GetUserIndex(userNumber);
+            this.dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where user_id=\'" + userId + "\'", "Borrowed_Book");
 
-            int userIndex = findResult.Value;
-
-            if (findResult.Key == ResultCode.SUCCESS)
+            if (dataSet.Tables["Borrowed_Book"].Rows.Count != 0)
             {
-                if (totalData.Users[userIndex].BorrowedBooks.Count > 0)
-                {
-                    return ResultCode.MUST_RETURN_BOOK;
-                }
-
-                totalData.Users.RemoveAt(userIndex);
-
-                return ResultCode.SUCCESS;
+                return ResultCode.MUST_RETURN_BOOK;
             }
+            
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "delete from User where id=\'" + userId + "\'";
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
 
-            return ResultCode.NO_USER;
+            return ResultCode.SUCCESS;
         }
 
-        public List<User> SearchUser(string name, string id, string address)
+        public DataSet SearchUser(string name, string id, string address)
         {
             // 유저 검색 결과를 저장하기 위한 리스트 선언
-            List<User> searchResult = new List<User>();
+            this.dataSet = sqlManager.ExecuteSql("select * from User where name like \'%" + name + "%\' and id like \'%" + id + "%\' and address like \'%" + address + "%\'", "User");
 
-            // 유저를 순회하며
-            foreach (User user in totalData.Users)
-            {
-                // 이름, 아이디에 해당하는 유저를 리스트에 넣음
-                if ((user.Name.Contains(name) || name.Length == 0) &&
-                    (user.Id == id || id.Length == 0) &&
-                    (user.Address.Contains(address) || address.Length == 0))
-                {
-                    searchResult.Add(user);
-                }
-            }
-
-            // 유저 검색 결과 반환
-            return searchResult;
+            return dataSet;
         }
     }
 }

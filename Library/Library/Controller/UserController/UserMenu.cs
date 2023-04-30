@@ -11,12 +11,12 @@ namespace Library.Controller.UserController
     public class UserMenu : ControllerInterface
     {
         private int currentSelectionIndex;
-        private int currentUserIndex;
+        private string currentUserId;
 
-        public UserMenu(TotalData data, CombinedManager combinedManager, int currentSelectionIndex, int currentUserIndex) : base(data, combinedManager)
+        public UserMenu(TotalData data, CombinedManager combinedManager, int currentSelectionIndex, string currentUserId) : base(data, combinedManager)
         {
             this.currentSelectionIndex = currentSelectionIndex;
-            this.currentUserIndex = currentUserIndex;
+            this.currentUserId = currentUserId;
         }
 
         public void SelectUserMenu()
@@ -62,6 +62,7 @@ namespace Library.Controller.UserController
                 case MenuSelection.SEARCH_BOOK:
                     bookSearcher.SearchBook();
                     break;
+                
                 case MenuSelection.BORROW_BOOK:
                     // 책을 빌리기 전 검색창 출력
                     if (bookSearcher.SearchBook() == ResultCode.SUCCESS)
@@ -69,20 +70,25 @@ namespace Library.Controller.UserController
                         BorrowBook();
                     }
                     break;
+                
                 case MenuSelection.CHECK_BORROWED_BOOK:
                     CheckBorrowedBook();
                     break;
+                
                 case MenuSelection.RETURN_BOOK:
                     // 책을 반납하기 전 빌린 책 리스트 표시
                     CheckBorrowedBook();
                     ReturnBook();
                     break;
+                
                 case MenuSelection.CHECK_RETURNED_BOOK:
                     CheckReturnedBook();
                     break;
+                
                 case MenuSelection.EDIT_USER_INFORMATION:
                     EditUserInformation();
                     break;
+                
                 case MenuSelection.WITHDRAW:
                     if (Withdraw() == ResultCode.SUCCESS)
                         return true;
@@ -111,11 +117,11 @@ namespace Library.Controller.UserController
             }
 
             // 아이디가 입력되었고 숫자면
-            if (bookIdInputResult.Value.Length > 0 && ('0' <= bookIdInputResult.Value[0] && bookIdInputResult.Value[0] <= '9'))
+            if (bookIdInputResult.Value.Length > 0 && (UserInputManager.IsNumber(bookIdInputResult.Value)))
             {
                 // 책을 빌리는 것을 시도하고 결과값 저장
                 ResultCode borrowBookResult =
-                    combinedManager.BookManager.BorrowBook(currentUserIndex, bookIdInputResult.Value[0] - '0');
+                    combinedManager.BookManager.BorrowBook(currentUserId, bookIdInputResult.Value);
 
                 // 성공 여부에 따라 결과 출력
                 if (borrowBookResult == ResultCode.SUCCESS)
@@ -143,7 +149,7 @@ namespace Library.Controller.UserController
             Console.Clear();
 
             // 현재 유저가 빌린 책 리스트를 출력
-            SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[currentUserIndex].Name, data.Users[currentUserIndex].BorrowedBooks);
+            SearchBookOrUserView.PrintBorrowedBooks(currentUserId, combinedManager.BookManager.GetBorrowedBooks(currentUserId));
             
             Console.ReadKey(true);
         }
@@ -167,11 +173,11 @@ namespace Library.Controller.UserController
             }
 
             // 아이디가 입력되었고 숫자면
-            if (bookIdInputResult.Value.Length > 0 && '0' <= bookIdInputResult.Value[0] && bookIdInputResult.Value[0] <= '9')
+            if (bookIdInputResult.Value.Length > 0 && UserInputManager.IsNumber(bookIdInputResult.Value))
             {
                 // 책 반납을 시도하고 결과값 저장
                 ResultCode returnBookResult =
-                    combinedManager.BookManager.ReturnBook(currentUserIndex, bookIdInputResult.Value[0] - '0');
+                    combinedManager.BookManager.ReturnBook(bookIdInputResult.Value, currentUserId);
 
                 // 책 반납 결과에 따라 값 출력
                 if (returnBookResult == ResultCode.SUCCESS)
@@ -194,8 +200,7 @@ namespace Library.Controller.UserController
             Console.Clear();
             
             // 반납한 책 리스트 출력
-            SearchBookOrUserView.PrintBorrowedOrReturnedBooks(data.Users[this.currentUserIndex].Name,
-                data.Users[this.currentUserIndex].ReturnedBooks);
+            SearchBookOrUserView.PrintReturnedBooks(currentUserId, combinedManager.BookManager.GetReturnedBooks(currentUserId));
             
             Console.ReadKey(true);
         }
@@ -213,7 +218,7 @@ namespace Library.Controller.UserController
             if (UserInputManager.InputYesOrNo() == ResultCode.YES)
             {
                 // 탈퇴를 시도함. 그 결과가 성공이면
-                if (combinedManager.UserManager.DeleteUser(data.Users[this.currentUserIndex].Number) == ResultCode.SUCCESS)
+                if (combinedManager.UserManager.DeleteUser(currentUserId) == ResultCode.SUCCESS)
                 {
                     // 결과 출력 후 결과 반환
                     UserSelectionView.PrintYesOrNO("Withdraw success!");

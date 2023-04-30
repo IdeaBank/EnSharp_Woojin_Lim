@@ -16,6 +16,7 @@ namespace Library.Constants
         DO_NOT_MATCH_REGEX,
         DO_NOT_MATCH_PASSWORD,
         YES,
-        NO
+        NO,
+        FAIL
     }
 }

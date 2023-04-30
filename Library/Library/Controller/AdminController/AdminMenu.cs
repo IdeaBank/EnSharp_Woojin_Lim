@@ -6,6 +6,7 @@ using Library.View.AdminView;
 using Library.View.UserView;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Library.Controller.AdminController
 {
@@ -157,7 +158,7 @@ namespace Library.Controller.AdminController
             }
 
             // 모든 정규식에 부합하면 책 추가
-            combinedManager.BookManager.AddBook(inputs[0].Value, inputs[1].Value, inputs[2].Value, Int32.Parse(inputs[3].Value), Int32.Parse(inputs[4].Value), 
+            combinedManager.BookManager.AddBook(inputs[0].Value, inputs[1].Value, inputs[2].Value, inputs[3].Value, inputs[4].Value, 
                 inputs[5].Value, inputs[6].Value, inputs[7].Value);
 
             // 결과를 출력하고 유지시키기 위해 키를 입력 받음
@@ -184,10 +185,10 @@ namespace Library.Controller.AdminController
             }
 
             // 숫자가 입력되었을 시
-            if ('0' <= bookIdInputResult.Value[0] && bookIdInputResult.Value[0] <= '9')
+            if (UserInputManager.IsNumber(bookIdInputResult.Value))
             {
                 // 숫자에 해당하는 아이디 값의 책 삭제를 시도하고 결과 출력
-                if (combinedManager.BookManager.RemoveBook(bookIdInputResult.Value[0] - '0') == ResultCode.SUCCESS)
+                if (combinedManager.BookManager.RemoveBook(bookIdInputResult.Value) == ResultCode.SUCCESS)
                 {
                     AdminMenuView.PrintDeleteResult("책을 성공적으로 제거했습니다.");
                 }
@@ -226,10 +227,10 @@ namespace Library.Controller.AdminController
             }
 
             // 숫자가 입력되었을 시
-            if (userNumberInputResult.Value.Length > 0 && ('0' <= userNumberInputResult.Value[0] && userNumberInputResult.Value[0] <= '9'))
+            if (userNumberInputResult.Value.Length > 0 && (UserInputManager.IsNumber(userNumberInputResult.Value)))
             {
                 // 숫자에 해당하는 아이디 값의 책 삭제를 시도하고 값 저장
-                ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userNumberInputResult.Value[0] - '0');
+                ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userNumberInputResult.Value);
 
                 // 성공했으면 결과 출력
                 if (deleteResult == ResultCode.SUCCESS)
@@ -256,9 +257,12 @@ namespace Library.Controller.AdminController
         {
             Console.Clear();
 
-            foreach (User user in data.Users)
+            DataSet dataSet = combinedManager.SqlManager.ExecuteSql("select * from User", "User");
+
+            foreach (DataRow row in dataSet.Tables["User"].Rows)
             {
-                SearchBookOrUserView.PrintBorrowedOrReturnedBooks(user.Name, user.BorrowedBooks);
+                DataSet bookData = combinedManager.SqlManager.ExecuteSql("select * from Borrowed_Book where user_id=" + row["id"], "Borrowed_Book");
+                SearchBookOrUserView.PrintBorrowedBooks(row["name"].ToString(), bookData);
             }
 
             UserInputManager.ReadUntilESC();
@@ -302,7 +306,7 @@ namespace Library.Controller.AdminController
             }
 
             // 유저 검색 결과를 저장
-            List<User> searchUserResult = combinedManager.UserManager.SearchUser(nameInputResult.Value,
+            DataSet searchUserResult = combinedManager.UserManager.SearchUser(nameInputResult.Value,
                 idInputResult.Value, addressInputResult.Value);
 
             // 유저 검색 결과를 출력

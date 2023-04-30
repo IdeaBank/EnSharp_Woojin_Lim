@@ -50,7 +50,7 @@ namespace Library.Controller.UserController
                 }
 
                 // 로그인 결과 값 얻어오기
-                KeyValuePair<ResultCode, int> loginResult = combinedManager.UserManager.LoginAsUser(inputId.Value, inputPassword.Value);
+                KeyValuePair<ResultCode, string> loginResult = combinedManager.UserManager.LoginAsUser(inputId.Value, inputPassword.Value);
 
                 // 로그인이 성공했으면 isLoggedIn에 true를 저장
                 switch (loginResult.Key)
@@ -80,7 +80,7 @@ namespace Library.Controller.UserController
                 }
 
                 // 로그인에 성공했다면 관리자 메뉴 표시 및 다음 메뉴 입력 받기
-                UserMenu userMenu = new UserMenu(data, combinedManager, loginResult.Value, loginResult.Value);
+                UserMenu userMenu = new UserMenu(data, combinedManager, 0, loginResult.Value);
                 userMenu.SelectUserMenu();
             }
         }

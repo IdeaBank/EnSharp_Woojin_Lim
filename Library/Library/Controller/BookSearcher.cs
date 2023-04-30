@@ -4,6 +4,7 @@ using Library.Utility;
 using Library.View;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Library.Controller
 {
@@ -54,7 +55,7 @@ namespace Library.Controller
             }
 
             // 책 검색 결과를 저장
-            List<Book> searchBookResult = combinedManager.BookManager.SearchBook(nameInputResult.Value,
+            DataSet searchBookResult = combinedManager.BookManager.SearchBook(nameInputResult.Value,
                 authorInputResult.Value, publisherInputResult.Value);
 
             // 책 검색 결과를 출력

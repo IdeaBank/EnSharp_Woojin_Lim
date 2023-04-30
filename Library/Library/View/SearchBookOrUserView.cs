@@ -3,6 +3,7 @@ using Library.Model;
 using Library.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Library.View
 {
@@ -96,72 +97,89 @@ namespace Library.View
                 "경기도 고양시", AlignType.RIGHT);
         }
 
-        public static void ViewSearchBookResult(List<Book> books)
+        public static void ViewSearchBookResult(DataSet books)
         {
             Console.Clear();
             Console.WriteLine(new string('=', 15) + "RESULT" + new string('=', 15));
 
-            foreach (Book book in books)
+            foreach (DataRow book in books.Tables["Book"].Rows)
             {
                 Console.Write("ID: ".PadLeft(15, ' '));
-                Console.WriteLine(book.Id);
+                Console.WriteLine(book["id"]);
 
                 Console.Write("Name: ".PadLeft(15, ' '));
-                Console.WriteLine(book.Name);
+                Console.WriteLine(book["name"]);
 
                 Console.Write("Author: ".PadLeft(15, ' '));
-                Console.WriteLine(book.Author);
+                Console.WriteLine(book["author"]);
 
                 Console.Write("Publisher: ".PadLeft(15, ' '));
-                Console.WriteLine(book.Publisher);
+                Console.WriteLine(book["publisher"]);
 
                 Console.Write("Description: ".PadLeft(15, ' '));
-                Console.WriteLine(book.Description);
+                Console.WriteLine(book["description"]);
                 Console.WriteLine();
             }
 
             Console.WriteLine(new string('=', 36));
         }
 
-        public static void ViewSearchUserResult(List<User> users)
+        public static void ViewSearchUserResult(DataSet users)
         {
             Console.Clear();
             Console.WriteLine(new string('=', 15) + "RESULT" + new string('=', 15));
 
-            foreach (User user in users)
+            foreach (DataRow user in users.Tables["User"].Rows)
             {
-                Console.Write("Number: ".PadLeft(15, ' '));
-                Console.WriteLine(user.Number);
-
                 Console.Write("Name: ".PadLeft(15, ' '));
-                Console.WriteLine(user.Name);
+                Console.WriteLine(user["name"]);
 
                 Console.Write("ID: ".PadLeft(15, ' '));
-                Console.WriteLine(user.Id);
+                Console.WriteLine(user["id"]);
 
                 Console.Write("Age: ".PadLeft(15, ' '));
-                Console.WriteLine(DateTime.Now.Year - user.BirthYear + 1);
+                Console.WriteLine(DateTime.Now.Year - int.Parse(user["birth_year"].ToString()) + 1);
 
 
                 Console.Write("Address: ".PadLeft(15, ' '));
-                Console.WriteLine(user.Address);
+                Console.WriteLine(user["address"]);
                 Console.WriteLine();
             }
 
             Console.WriteLine(new string('=', 36));
         }
 
-        public static void PrintBorrowedOrReturnedBooks(string userName, List<BorrowedBook> books)
+        public static void PrintBorrowedBooks(string userName, DataSet books)
         {
             Console.WriteLine(new string('=', 15) + userName + new string('=', 15));
 
-            foreach (BorrowedBook book in books)
+            foreach (DataRow row in books.Tables["Borrowed_Book"].Rows)
             {
                 Console.Write("ID: ".PadLeft(15, ' '));
-                Console.WriteLine(book.BookId);
+                Console.WriteLine(row["book_id"]);
 
                 Console.Write("Borrowed date: ".PadLeft(15, ' '));
-                Console.WriteLine(book.BorrowedDate);
+                Console.WriteLine(row["borrowed_date"]);
+            }
+
+            Console.WriteLine(new string('=', 36));
+            Console.WriteLine();
+        }
+        
+        public static void PrintReturnedBooks(string userName, DataSet books)
+        {
+            Console.WriteLine(new string('=', 15) + userName + new string('=', 15));
+
+            foreach (DataRow row in books.Tables["Returned_Book"].Rows)
+            {
+                Console.Write("ID: ".PadLeft(15, ' '));
+                Console.WriteLine(row["book_id"]);
+
+                Console.Write("Borrowed date: ".PadLeft(15, ' '));
+                Console.WriteLine(row["borrowed_date"]);
+                
+                Console.Write("Returned date: ".PadLeft(15, ' '));
+                Console.WriteLine(row["returned_date"]);
             }
 
             Console.WriteLine(new string('=', 36));

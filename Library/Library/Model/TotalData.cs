@@ -4,23 +4,9 @@ namespace Library.Model
 {
     public class TotalData
     {
-        private int addedUserCount;
-        private int addedBookCount;
         private List<User> users;
         private List<User> administrators;
         private List<Book> books;
-
-        public int AddedUserCount
-        {
-            get => this.addedUserCount;
-            set => this.addedUserCount = value;
-        }
-
-        public int AddedBookCount
-        {
-            get => this.addedBookCount;
-            set => this.addedBookCount = value;
-        }
 
         public List<User> Users
         {
@@ -42,8 +28,6 @@ namespace Library.Model
 
         public TotalData()
         {
-            addedBookCount = 0;
-            addedUserCount = 0;
             users = new List<User>();
             administrators = new List<User>();
             books = new List<Book>();

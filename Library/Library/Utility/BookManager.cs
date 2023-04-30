@@ -2,169 +2,200 @@ using Library.Constants;
 using Library.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using MySql.Data.MySqlClient;
 
 namespace Library.Utility
 {
     public class BookManager
     {
         private TotalData totalData;
+        private SqlManager sqlManager;
+        private DataSet dataSet;
 
-        public BookManager(TotalData totalData)
+        public BookManager(TotalData totalData, SqlManager sqlManager)
         {
             this.totalData = totalData;
+            this.sqlManager = sqlManager;
+            this.dataSet = new DataSet();
         }
 
-        private KeyValuePair<ResultCode, int> GetBookIndex(int bookId)
+        private bool IsBookExist(string id)
         {
-            // 책 데이터를 읽고
-            for (int i = 0; i < totalData.Books.Count; ++i)
+            dataSet = sqlManager.ExecuteSql("select * from Book where id=" + id, "Book");
+
+            if (dataSet.Tables["Book"].Rows.Count == 0)
             {
-                // 아이디를 발견했으면
-                if (totalData.Books[i].Id == bookId)
-                {
-                    // 성공 여부와 인덱스 반환
-                    return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, i);
-                }
+                return false;
             }
 
-            // 실패 여부 반환
-            return new KeyValuePair<ResultCode, int>(ResultCode.NO_BOOK, -1);
+            return true;
         }
 
-        public ResultCode AddBook(string name, string author, string publisher, int quantity, int price, string publishedDate, string isbn, string description)
+        private KeyValuePair<bool, string> IsBookExistInBorrowedBook(string bookId, string userId)
         {
-            // 새로운 책 생성
-            Book book = new Book(name, author, publisher, quantity, price, publishedDate, isbn, description);
+            dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where book_id=" + bookId + " and user_id=\'" + userId + "\'", "Borrowed_Book");
+            
+            if (dataSet.Tables["Borrowed_Book"].Rows.Count == 0)
+            {
+                return new KeyValuePair<bool, string>(false, "");
+            }
 
-            // 책 저장한 개수를 1 증가시킴
-            totalData.AddedBookCount += 1;
+            return new KeyValuePair<bool, string>(true, dataSet.Tables["Borrowed_Book"].Rows[0]["borrowed_date"].ToString());
+        }
+        
+        private bool IsBookAvailable(string id)
+        {
+            dataSet = sqlManager.ExecuteSql("select * from Book where id=" + id, "Book");
 
-            // 아이디에 해당 개수를 저장
-            book.Id = totalData.AddedBookCount;
+            if (int.Parse(dataSet.Tables["Book"].Rows[0]["quantity"].ToString()) == 0)
+            {
+                return false;
+            }
 
-            // 총 데이터에 책을 넣음
-            totalData.Books.Add(book);
+            return true;
+        } 
+
+        public void AddBook(string name, string author, string publisher, string quantity, string price, string publishedDate, string isbn, string description)
+        {
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "INSERT INTO Book(name, author, publisher, quantity, price, published_date, isbn, description) VALUES(@name, @author, @publisher, @quantity, @price, @published_date, @isbn, @description)";
+            comm.Parameters.AddWithValue("@name", name);
+            comm.Parameters.AddWithValue("@author", author);
+            comm.Parameters.AddWithValue("@publisher", publisher);
+            comm.Parameters.AddWithValue("@quantity", quantity);
+            comm.Parameters.AddWithValue("@price", price);
+            comm.Parameters.AddWithValue("@published_date", publishedDate);
+            comm.Parameters.AddWithValue("@isbn", isbn);
+            comm.Parameters.AddWithValue("@description", description);
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
+        }
+
+        public DataSet SearchBook(string name, string author, string publisher)
+        {
+            // 책을 순회하며
+            dataSet = sqlManager.ExecuteSql(
+                "select * from Book where name like \'%" + name + "%\' and author like \'%" + author +
+                "%\' and publisher like \'%" + publisher + "%\'", "Book");
+
+            // 책 검색 결과 반환
+            return dataSet;
+        }
+        
+        public ResultCode BorrowBook(string userId, string bookId)
+        {
+            if (!IsBookExist(bookId))
+            {
+                return ResultCode.NO_BOOK;
+            }
+
+            if (!IsBookAvailable(bookId))
+            {
+                return ResultCode.BOOK_NOT_ENOUGH;
+            }
+            
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "update Book set quantity = quantity - 1 where id=" + bookId;
+            comm.ExecuteNonQuery();
+            
+            comm.CommandText = "INSERT INTO Borrowed_Book(user_id, book_id, borrowed_date) VALUES(@user_id, @book_id, @borrowed_date)";
+            comm.Parameters.AddWithValue("@user_id", userId);
+            comm.Parameters.AddWithValue("@book_id", bookId);
+            comm.Parameters.AddWithValue("@borrowed_date", DateTime.Now.ToString());
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
 
             return ResultCode.SUCCESS;
         }
 
-        public List<Book> SearchBook(string name, string author, string publisher)
+        public ResultCode ReturnBook(string bookId, string userId)
         {
-            // 책 검색 결과를 저장하기 위한 리스트 선언
-            List<Book> searchResult = new List<Book>();
-
-            // 책을 순회하며
-            foreach (Book book in totalData.Books)
+            KeyValuePair<bool, string> borrowedBookInfo = IsBookExistInBorrowedBook(bookId, userId);
+            if (!borrowedBookInfo.Key)
             {
-                // 이름, 저자, 출판사에 해당하는 책을 리스트에 넣음
-                if ((book.Name.Contains(name) || name.Length == 0) &&
-                    (book.Author.Contains(author) || author.Length == 0) &&
-                    (book.Publisher.Contains(publisher) || publisher.Length == 0))
-                {
-                    searchResult.Add(book);
-                }
+                return ResultCode.NO_BOOK;
             }
 
-            // 책 검색 결과 반환
-            return searchResult;
-        }
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "update Book set quantity = quantity + 1 where id=" + bookId;
+            comm.ExecuteNonQuery();
+            
+            comm.CommandText = "INSERT INTO Returned_Book(user_id, book_id, borrowed_date, returned_date) VALUES(@user_id, @book_id, @borrowed_date, @returned_date)";
+            comm.Parameters.AddWithValue("@user_id", userId);
+            comm.Parameters.AddWithValue("@book_id", bookId);
+            comm.Parameters.AddWithValue("@borrowed_date", borrowedBookInfo.Value);
+            comm.Parameters.AddWithValue("@returned_date", DateTime.Now.ToString());
+            comm.ExecuteNonQuery();
 
-        public ResultCode BorrowBook(int userIndex, int bookId)
-        {
-            // 아이디에 해당하는 책을 찾고 결과과 인덱스 값을 저장
-            KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
-            int bookIndex = findResult.Value;
+            comm.CommandText = "DELETE from Borrowed_Book where book_id=" + bookId + " and user_id=\'" + userId + "\'";
+            comm.ExecuteNonQuery();
 
-            // 찾았으면
-            if (findResult.Key == ResultCode.SUCCESS)
-            {
-                // 해당 책이 1권 이상 있다면
-                if (totalData.Books[bookIndex].Quantity > 0)
-                {
-                    // 책을 대여
-                    BorrowedBook borrowedBook = new BorrowedBook(bookId, DateTime.Now.ToString());
-
-                    // 책의 개수를 1개 감소시키고 해당 유저의 빌린 책 리스트에 추가
-                    totalData.Books[bookIndex].Quantity -= 1;
-                    totalData.Users[userIndex].BorrowedBooks.Add(borrowedBook);
-
-                    // 성공했다는 결과 반환
-                    return ResultCode.SUCCESS;
-                }
-
-                // 책이 1권 미만이라면 책이 부족하다는 결과 반환
-                return ResultCode.BOOK_NOT_ENOUGH;
-            }
-
-            // 책을 찾지 못했다면 책이 없다는 결과 반환
-            return ResultCode.NO_BOOK;
-        }
-
-        public ResultCode ReturnBook(int userIndex, int bookId)
-        {
-            // 빌린 책 리스트를 순회
-            foreach (BorrowedBook borrowedBook in totalData.Users[userIndex].BorrowedBooks)
-            {
-                // 빌린 책 리스트에서 해당 책 아이디와 같은 책을 찾았으면
-                if (borrowedBook.BookId == bookId)
-                {
-                    // 빌린 책 리스트에서 삭제하고 반납한 책 리스트에 추가
-                    totalData.Users[userIndex].BorrowedBooks.Remove(borrowedBook);
-                    borrowedBook.ReturnedDate = DateTime.Now.ToString();
-                    totalData.Users[userIndex].ReturnedBooks.Add(borrowedBook);
-
-                    // 성공했다는 결과 반환
-                    return ResultCode.SUCCESS;
-                }
-            }
-
-            // 책을 못 찾았다면 책이 없다는 결과 반환
-            return ResultCode.NO_BOOK;
+            sqlManager.Conn.Close();
+            
+            return ResultCode.SUCCESS;
         }
 
         public ResultCode EditBook(int bookId, Book book)
         {
-            // 아이디에 해당하는 책을 찾고 결과과 인덱스 값을 저장
-            KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
-            int bookIndex = findResult.Value;
-
-            // 책을 찾는데 성공했으면 책을 수정
-            if (findResult.Key == ResultCode.SUCCESS)
-            {
-                totalData.Books[bookIndex].Name = book.Name;
-                totalData.Books[bookIndex].Author = book.Author;
-                totalData.Books[bookIndex].Publisher = book.Publisher;
-                totalData.Books[bookIndex].Quantity = book.Quantity;
-                totalData.Books[bookIndex].Price = book.Price;
-                totalData.Books[bookIndex].PublishedDate = book.PublishedDate;
-                totalData.Books[bookIndex].Isbn = book.Isbn;
-                totalData.Books[bookIndex].Description = book.Description;
-
-                // 성공했다는 결과 반환
-                return ResultCode.SUCCESS;
-            }
 
             // 책을 못 찾았다면 책이 없다는 결과 반환
             return ResultCode.NO_BOOK;
         }
 
-        public ResultCode RemoveBook(int bookId)
+        private bool IsBookBorrowed(string bookId)
         {
-            // 아이디에 해당하는 책을 찾고 결과과 인덱스 값을 저장
-            KeyValuePair<ResultCode, int> findResult = GetBookIndex(bookId);
-            int bookIndex = findResult.Value;
+            dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where book_id=" + bookId, "Borrowed_Book");
 
-            // 책을 찾는데 성공했다면
-            if (findResult.Key == ResultCode.SUCCESS)
+            if (dataSet.Tables["Borrowed_Book"].Rows.Count == 0)
             {
-                // 해당 책을 삭제하고 성공했다는 결과 반환
-                totalData.Books.RemoveAt(bookIndex);
-
-                return ResultCode.SUCCESS;
+                return false;
             }
 
+            return true;
+        }
+
+        public ResultCode RemoveBook(string bookId)
+        {
+            if (IsBookBorrowed(bookId))
+            {
+                return ResultCode.FAIL;
+            }
+            
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "delete from Book where id=" + bookId;
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
+            
             // 책을 못 찾았다면 책이 없다는 결과 반환
             return ResultCode.NO_BOOK;
+        }
+
+        public DataSet GetBorrowedBooks(string userId)
+        {
+            dataSet.Clear();
+            dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where user_id=\'" + userId + "\'", "Borrowed_Book");
+
+            return dataSet;
+        }
+        
+        public DataSet GetReturnedBooks(string userId)
+        {
+            dataSet.Clear();
+            dataSet = sqlManager.ExecuteSql("select * from Returned_Book where user_id=\'" + userId + "\'", "Returned_Book");
+
+            return dataSet;
         }
     }
 }

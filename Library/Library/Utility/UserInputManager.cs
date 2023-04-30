@@ -55,6 +55,20 @@ namespace Library.Utility
             return count;
         }
 
+
+        public static bool IsNumber(string str)
+        {
+            foreach (char ch in str)
+            {
+                if (!IsDigit(ch))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        
         // Return true if character is between 0 and 9
         private static bool IsDigit(char ch)
         {
