@@ -67,7 +67,7 @@ namespace Library.Controller
             AddSampleData();
             Console.SetWindowSize(200, 50);
 
-            // 커서 안 보이게 설정
+            // 커서 안 보이게 설정 (입력 하는 단계에서만 커서를 보이게 함)
             Console.CursorVisible = false;
 
             // 메뉴 선택을 저장하기 위한 변수

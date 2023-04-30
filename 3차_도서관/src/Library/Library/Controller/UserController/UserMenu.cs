@@ -109,7 +109,7 @@ namespace Library.Controller.UserController
             // 책 아이디를 입력하기 위한 변수 선언
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
-                InputParameter.DO_NOT_ENTER_KOREAN);
+                InputParameter.CANNOT_ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
             if (bookIdInputResult.Key == ResultCode.ESC_PRESSED)
@@ -165,7 +165,7 @@ namespace Library.Controller.UserController
             // 책 아이디를 저장하기 위한 변수 선언
             KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
-                InputParameter.DO_NOT_ENTER_KOREAN);
+                InputParameter.CANNOT_ENTER_KOREAN);
 
             // ESC키를 입력 받았으면 반환
             if (bookIdInputResult.Key == ResultCode.ESC_PRESSED || bookIdInputResult.Value.Length == 0)
@@ -218,6 +218,7 @@ namespace Library.Controller.UserController
             // 각 입력 값을 저장하기 위한 변수 선언
             List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
 
+            // 기존 유저 정보를 넣어줌
             inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["id"].ToString()));
             inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["password"].ToString()));
             inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["password"].ToString()));
@@ -241,6 +242,7 @@ namespace Library.Controller.UserController
 
                 for (int i = 1; i < 7 && isInputValid; ++i)
                 {
+                    // 제대로 입력 받은 값은 넘어감
                     if (inputs[i].Key == ResultCode.SUCCESS)
                     {
                         continue;
@@ -250,14 +252,17 @@ namespace Library.Controller.UserController
 
                     switch (inputResult)
                     {
+                        // ESC키가 눌렸으면 이를 반환
                         case ResultCode.ESC_PRESSED:
                             return;
 
+                        // 정규식에 맞지 않으면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_REGEX:
                             warning[i] = warning_message[i];
                             isInputValid = false;
                             break;
 
+                        // 패스워드가 패스워드 확인과 다르면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_PASSWORD:
                             warning[1] = warning[2] = "PASSWORD DO NOT MATCH!";
                             isInputValid = false;
@@ -276,7 +281,7 @@ namespace Library.Controller.UserController
                 allRegexPassed = true;
             }
 
-            // 등록을 시도하고 결과값을 저장
+            // 등록을 시도
             combinedManager.UserManager.EditUser(inputs[0].Value, inputs[1].Value, 
                 inputs[3].Value, (DateTime.Now.Year - Int32.Parse(inputs[4].Value) + 1).ToString(),
                 inputs[5].Value, inputs[6].Value);

@@ -23,6 +23,7 @@ namespace Library.Controller.UserController
             // 각 입력 값을 저장하기 위한 변수 선언
             List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
 
+            // 빈 값을 inputs에 넣어줌
             for (int i = 0; i < 7; ++i)
             {
                 inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, ""));
@@ -48,18 +49,22 @@ namespace Library.Controller.UserController
                         continue;
                     }
 
+                    // 유저 정보를 입력 받음
                     ResultCode inputResult = UserInputManager.GetUserInformationInput(inputs, i);
 
                     switch (inputResult)
                     {
+                        // ESC키가 눌렸으면 이를 반환
                         case ResultCode.ESC_PRESSED:
                             return;
 
+                        // 정규식에 맞지 않으면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_REGEX:
                             warning[i] = warning_message[i];
                             isInputValid = false;
                             break;
 
+                        // 패스워드와 패스워드 확인이 다르면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_PASSWORD:
                             warning[1] = warning[2] = "PASSWORD DO NOT MATCH!";
                             isInputValid = false;
