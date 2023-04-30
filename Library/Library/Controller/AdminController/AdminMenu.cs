@@ -216,21 +216,20 @@ namespace Library.Controller.AdminController
             int windowHeightHalf = Console.WindowHeight / 2;
 
             // 유저 번호를 입력 받음
-            KeyValuePair<ResultCode, string> userNumberInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
-                windowHeightHalf, MaxInputLength.USER_NUMBER, InputParameter.IS_NOT_PASSWORD,
+            KeyValuePair<ResultCode, string> userIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                windowHeightHalf, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.DO_NOT_ENTER_KOREAN);
 
             // ESC키가 눌려지면 반환
-            if (userNumberInputResult.Key == ResultCode.ESC_PRESSED)
+            if (userIdInputResult.Key == ResultCode.ESC_PRESSED)
             {
                 return;
             }
 
-            // 숫자가 입력되었을 시
-            if (userNumberInputResult.Value.Length > 0 && (UserInputManager.IsNumber(userNumberInputResult.Value)))
+            
+            if (userIdInputResult.Value.Length > 0)
             {
-                // 숫자에 해당하는 아이디 값의 책 삭제를 시도하고 값 저장
-                ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userNumberInputResult.Value);
+                ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userIdInputResult.Value);
 
                 // 성공했으면 결과 출력
                 if (deleteResult == ResultCode.SUCCESS)

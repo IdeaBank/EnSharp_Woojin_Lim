@@ -194,7 +194,7 @@ namespace Library.View
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
-            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "Number of user to remove: ", AlignType.LEFT);
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of user to remove: ", AlignType.LEFT);
         }
     }
 }

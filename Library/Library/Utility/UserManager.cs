@@ -97,6 +97,11 @@ namespace Library.Utility
         {
             this.dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where user_id=\'" + userId + "\'", "Borrowed_Book");
 
+            if (!IsUserExist(userId))
+            {
+                return ResultCode.NO_USER;
+            }
+            
             if (dataSet.Tables["Borrowed_Book"].Rows.Count != 0)
             {
                 return ResultCode.MUST_RETURN_BOOK;
