@@ -92,6 +92,25 @@ namespace Library.Utility
 
             return new KeyValuePair<ResultCode, int>(ResultCode.NO_ID, -1);
         }
+        
+        public void EditUser(string userId, string password, string name, string birthYear, string phoneNumber, string address)
+        {
+            string updateQuery = "set ";
+
+            updateQuery += "password=\'" + password + "\', ";
+            updateQuery += "name=\'" + name + "\', ";
+            updateQuery += "birth_year=" + birthYear + ", ";
+            updateQuery += "phone_number=\'" + phoneNumber + "\', ";
+            updateQuery += "address=\'" + address + "\'";
+            
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "update User " + updateQuery + " where id=\'" + userId + "\'";
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
+        }
 
         public ResultCode DeleteUser(string userId)
         {
@@ -122,6 +141,13 @@ namespace Library.Utility
         {
             // 유저 검색 결과를 저장하기 위한 리스트 선언
             this.dataSet = sqlManager.ExecuteSql("select * from User where name like \'%" + name + "%\' and id like \'%" + id + "%\' and address like \'%" + address + "%\'", "User");
+
+            return dataSet;
+        }
+
+        public DataSet GetUser(string userId)
+        { 
+            dataSet = sqlManager.ExecuteSql("select * from User where id=\'" + userId + "\'", "User");
 
             return dataSet;
         }

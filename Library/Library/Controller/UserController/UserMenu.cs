@@ -5,6 +5,7 @@ using Library.View;
 using Library.View.UserView;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Library.Controller.UserController
 {
@@ -207,7 +208,81 @@ namespace Library.Controller.UserController
 
         private void EditUserInformation()
         {
+            // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
+            string[] warning = new string[7];
+            string[] warning_message = { "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "영어, 한글 1개 이상", "1-200사이의 자연수", "01x-xxxx-xxxx", "[a]" };
+            bool allRegexPassed = false;
 
+            DataSet dataSet = combinedManager.UserManager.GetUser(currentUserId);
+
+            // 각 입력 값을 저장하기 위한 변수 선언
+            List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
+
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["id"].ToString()));
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["password"].ToString()));
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["password"].ToString()));
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["name"].ToString()));
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, (DateTime.Now.Year - (int)dataSet.Tables["User"].Rows[0]["birth_year"] + 1).ToString()));
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["phone_number"].ToString()));
+            inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["User"].Rows[0]["address"].ToString()));
+            
+            // 모든 정규식에 부합할 때까지 반복
+            while (!allRegexPassed)
+            {
+                // UI 출력 후 일시 정지
+                UserLoginOrRegisterView.PrintRegister(warning, inputs);
+                Console.ReadKey();
+
+                // 이후 경고 내용을 없앰
+                warning = new string[7];
+                UserLoginOrRegisterView.PrintRegister(warning, inputs);
+
+                bool isInputValid = true;
+
+                for (int i = 1; i < 7 && isInputValid; ++i)
+                {
+                    if (inputs[i].Key == ResultCode.SUCCESS)
+                    {
+                        continue;
+                    }
+
+                    ResultCode inputResult = UserInputManager.GetUserInformationInput(inputs, i);
+
+                    switch (inputResult)
+                    {
+                        case ResultCode.ESC_PRESSED:
+                            return;
+
+                        case ResultCode.DO_NOT_MATCH_REGEX:
+                            warning[i] = warning_message[i];
+                            isInputValid = false;
+                            break;
+
+                        case ResultCode.DO_NOT_MATCH_PASSWORD:
+                            warning[1] = warning[2] = "PASSWORD DO NOT MATCH!";
+                            isInputValid = false;
+                            break;
+
+                        case ResultCode.SUCCESS:
+                            break;
+                    }
+                }
+
+                if (!isInputValid)
+                {
+                    continue;
+                }
+
+                allRegexPassed = true;
+            }
+
+            // 등록을 시도하고 결과값을 저장
+            combinedManager.UserManager.EditUser(inputs[0].Value, inputs[1].Value, 
+                inputs[3].Value, (DateTime.Now.Year - Int32.Parse(inputs[4].Value) + 1).ToString(),
+                inputs[5].Value, inputs[6].Value);
+            
+            UserLoginOrRegisterView.PrintRegisterResult("EDIT SUCCESS!");
+            Console.ReadKey(true);
         }
 
         private ResultCode Withdraw()
