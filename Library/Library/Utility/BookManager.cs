@@ -20,7 +20,7 @@ namespace Library.Utility
             this.dataSet = new DataSet();
         }
 
-        private bool IsBookExist(string id)
+        public bool IsBookExist(string id)
         {
             dataSet = sqlManager.ExecuteSql("select * from Book where id=" + id, "Book");
 
@@ -144,11 +144,26 @@ namespace Library.Utility
             return ResultCode.SUCCESS;
         }
 
-        public ResultCode EditBook(int bookId, Book book)
+        public void EditBook(string bookId, string name, string author, string publisher, string quantity, string price, string publishedDate, string isbn, string description)
         {
+            string updateQuery = "set ";
 
-            // 책을 못 찾았다면 책이 없다는 결과 반환
-            return ResultCode.NO_BOOK;
+            updateQuery += "name=\'" + name + "\', ";
+            updateQuery += "author=\'" + author + "\', ";
+            updateQuery += "publisher=\'" + publisher + "\', ";
+            updateQuery += "quantity=" + quantity + ", ";
+            updateQuery += "price=" + price + ", ";
+            updateQuery += "published_date=\'" + publishedDate + "\', ";
+            updateQuery += "isbn=\'" + isbn + "\', ";
+            updateQuery += "description=\'" + description + "\' ";
+            
+            sqlManager.Conn.Open();
+            
+            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            comm.CommandText = "update Book " + updateQuery + " where id=" + bookId;
+            comm.ExecuteNonQuery();
+            
+            sqlManager.Conn.Close();
         }
 
         private bool IsBookBorrowed(string bookId)
@@ -192,8 +207,14 @@ namespace Library.Utility
         
         public DataSet GetReturnedBooks(string userId)
         {
-            dataSet.Clear();
             dataSet = sqlManager.ExecuteSql("select * from Returned_Book where user_id=\'" + userId + "\'", "Returned_Book");
+
+            return dataSet;
+        }
+
+        public DataSet GetBook(string bookId)
+        {
+            dataSet = sqlManager.ExecuteSql("select * from Book where id=" + bookId, "Book");
 
             return dataSet;
         }

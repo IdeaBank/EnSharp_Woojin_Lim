@@ -109,8 +109,18 @@ namespace Library.View.UserView
                     AlignType.LEFT);
                 ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
                     AlignType.RIGHT, ConsoleColor.Red);
-                ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, inputs[i].Value,
+                
+                if (i == 1 || i == 2)
+                {
+                    ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, new String('*', inputs[i].Value.Length),
                     AlignType.RIGHT);
+                }
+
+                else
+                {
+                    ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, inputs[i].Value,
+                        AlignType.RIGHT);
+                }
             }
         }
 

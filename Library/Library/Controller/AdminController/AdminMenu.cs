@@ -94,6 +94,84 @@ namespace Library.Controller.AdminController
 
         private void AddBook()
         {
+            // 각 입력 값을 저장하기 위한 변수 선언
+            List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
+
+            for (int i = 0; i < 8; ++i)
+            {
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, ""));
+            }
+
+            if (InsertBookInfo(inputs) == ResultCode.ESC_PRESSED)
+            {
+                return;
+            }
+            
+            combinedManager.BookManager.AddBook(inputs[0].Value, inputs[1].Value, inputs[2].Value, inputs[3].Value, inputs[4].Value, 
+                inputs[5].Value, inputs[6].Value, inputs[7].Value);
+
+            // 결과를 출력하고 유지시키기 위해 키를 입력 받음
+            UserLoginOrRegisterView.PrintRegisterResult("BOOK ADDED!");
+            Console.ReadKey(true);
+        }
+
+        private void EditBook()
+        {
+            AdminMenuView.PrintEditBook();
+
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            // 책 아이디를 입력 받음
+            KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
+                InputParameter.DO_NOT_ENTER_KOREAN);
+
+            // ESC키가 눌려지면 반환
+            if (bookIdInputResult.Key == ResultCode.ESC_PRESSED)
+            {
+                return;
+            }
+
+            // 숫자가 입력되었을 시
+            if (UserInputManager.IsNumber(bookIdInputResult.Value))
+            {
+                if (!combinedManager.BookManager.IsBookExist(bookIdInputResult.Value))
+                {
+                    UserLoginOrRegisterView.PrintRegisterResult("BOOK DOES NOT EXIST!");
+                    Console.ReadKey(true);
+                    return;
+                }
+
+                DataSet dataSet = combinedManager.BookManager.GetBook(bookIdInputResult.Value);
+
+                // 각 입력 값을 저장하기 위한 변수 선언
+                List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
+
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["name"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["author"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["publisher"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["quantity"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["price"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["published_date"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["isbn"].ToString()));
+                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, dataSet.Tables["Book"].Rows[0]["description"].ToString()));
+
+                if (InsertBookInfo(inputs) == ResultCode.ESC_PRESSED)
+                {
+                    return;
+                }
+            
+                combinedManager.BookManager.EditBook(bookIdInputResult.Value, inputs[0].Value, inputs[1].Value, inputs[2].Value, inputs[3].Value, inputs[4].Value, inputs[5].Value, inputs[6].Value, inputs[7].Value);
+
+                // 결과를 출력하고 유지시키기 위해 키를 입력 받음
+                UserLoginOrRegisterView.PrintRegisterResult("BOOK EDITED!");
+                Console.ReadKey(true);
+            }
+        }
+        
+        private ResultCode InsertBookInfo(List<KeyValuePair<ResultCode, string>> inputs)
+        {
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = new string[8];
 
@@ -103,15 +181,7 @@ namespace Library.Controller.AdminController
             };
 
             bool allRegexPassed = false;
-
-            // 각 입력 값을 저장하기 위한 변수 선언
-            List<KeyValuePair<ResultCode, string>> inputs = new List<KeyValuePair<ResultCode, string>>();
-
-            for (int i = 0; i < 8; ++i)
-            {
-                inputs.Add(new KeyValuePair<ResultCode, string>(ResultCode.NO, ""));
-            }
-
+            
             // 모든 정규식에 부합할 때까지 반복
             while (!allRegexPassed)
             {
@@ -137,7 +207,7 @@ namespace Library.Controller.AdminController
                     switch (inputResult)
                     {
                         case ResultCode.ESC_PRESSED:
-                            return;
+                            return ResultCode.ESC_PRESSED;
 
                         case ResultCode.DO_NOT_MATCH_REGEX:
                             warning[i] = warning_message[i];
@@ -157,13 +227,7 @@ namespace Library.Controller.AdminController
                 allRegexPassed = true;
             }
 
-            // 모든 정규식에 부합하면 책 추가
-            combinedManager.BookManager.AddBook(inputs[0].Value, inputs[1].Value, inputs[2].Value, inputs[3].Value, inputs[4].Value, 
-                inputs[5].Value, inputs[6].Value, inputs[7].Value);
-
-            // 결과를 출력하고 유지시키기 위해 키를 입력 받음
-            UserLoginOrRegisterView.PrintRegisterResult("BOOK ADDED!");
-            Console.ReadKey(true);
+            return ResultCode.SUCCESS;
         }
 
         private void DeleteBook()
@@ -203,11 +267,6 @@ namespace Library.Controller.AdminController
             }
         }
 
-        private void EditBook()
-        {
-
-        }
-
         private void DeleteMember()
         {
             SearchBookOrUserView.PrintDeleteUser();
@@ -226,29 +285,34 @@ namespace Library.Controller.AdminController
                 return;
             }
 
-            
-            if (userIdInputResult.Value.Length > 0)
+            UserSelectionView.PrintYesOrNO("Are you sure to delete user "+ userIdInputResult.Value + "?");
+
+            // 회원탈퇴 여부를 물어보고 Y키가 입력되었으면
+            if (UserInputManager.InputYesOrNo() == ResultCode.YES)
             {
-                ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userIdInputResult.Value);
-
-                // 성공했으면 결과 출력
-                if (deleteResult == ResultCode.SUCCESS)
+                if (userIdInputResult.Value.Length > 0)
                 {
-                    AdminMenuView.PrintDeleteResult("사용자를 성공적으로 제거했습니다.");
-                }
+                    ResultCode deleteResult = combinedManager.UserManager.DeleteUser(userIdInputResult.Value);
 
-                else if (deleteResult == ResultCode.MUST_RETURN_BOOK)
-                {
-                    AdminMenuView.PrintDeleteResult("책을 모두 반납해야 합니다!");
-                }
+                    // 성공했으면 결과 출력
+                    if (deleteResult == ResultCode.SUCCESS)
+                    {
+                        AdminMenuView.PrintDeleteResult("사용자를 성공적으로 제거했습니다.");
+                    }
 
-                else
-                {
-                    AdminMenuView.PrintDeleteResult("사용자가 존재하지 않습니다.");
-                }
+                    else if (deleteResult == ResultCode.MUST_RETURN_BOOK)
+                    {
+                        AdminMenuView.PrintDeleteResult("책을 모두 반납해야 합니다!");
+                    }
 
-                // 일시 정지
-                Console.ReadKey(true);
+                    else
+                    {
+                        AdminMenuView.PrintDeleteResult("사용자가 존재하지 않습니다.");
+                    }
+
+                    // 일시 정지
+                    Console.ReadKey(true);
+                }
             }
         }
 
@@ -260,11 +324,11 @@ namespace Library.Controller.AdminController
 
             foreach (DataRow row in dataSet.Tables["User"].Rows)
             {
-                DataSet bookData = combinedManager.SqlManager.ExecuteSql("select * from Borrowed_Book where user_id=" + row["id"], "Borrowed_Book");
-                SearchBookOrUserView.PrintBorrowedBooks(row["name"].ToString(), bookData);
+                DataSet bookData = combinedManager.SqlManager.ExecuteSql("select * from Borrowed_Book where user_id=\'" + row["id"] + "\'", "Borrowed_Book");
+                SearchBookOrUserView.PrintBorrowedBooks(row["id"].ToString(), bookData);
             }
 
-            UserInputManager.ReadUntilESC();
+            Console.ReadKey();
         }
 
         private ResultCode SearchMember()

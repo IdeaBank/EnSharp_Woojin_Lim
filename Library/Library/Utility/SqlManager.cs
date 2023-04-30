@@ -28,7 +28,7 @@ namespace Library.Utility
             MySqlDataAdapter adpt = new MySqlDataAdapter(sql, conn);
             adpt.Fill(dataSet, table);
             
-            return this.dataSet;
+            return this.dataSet.Copy();
         }
     }
 }

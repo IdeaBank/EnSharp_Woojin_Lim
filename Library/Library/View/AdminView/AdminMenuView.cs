@@ -104,6 +104,17 @@ namespace Library.View.AdminView
 
             ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book to remove: ", AlignType.LEFT);
         }
+        
+        public static void PrintEditBook()
+        {
+            Console.Clear();
+            PrintChooseBookContour();
+
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            ConsoleWriter.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book to edit: ", AlignType.LEFT);
+        }
 
         public static void PrintDeleteResult(string str)
         {
