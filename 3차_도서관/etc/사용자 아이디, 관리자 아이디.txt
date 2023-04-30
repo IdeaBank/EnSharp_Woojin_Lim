@@ -4,11 +4,8 @@ admin123
 
 사용자
 
-user1234
-pass1234
+userid12
+userpw12
 
-user4321
-pass4321
-
-sosquadron
-dnltjd01!
+userid09
+userpw11
