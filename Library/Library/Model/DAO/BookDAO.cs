@@ -188,21 +188,40 @@ namespace Library.Model.DAO
             DatabaseConnection.getInstance.ExecuteCommand(command);
         }
 
-        public DataSet SearchBook(string name, string author, string publisher)
+        public List<BookDTO> SearchBook(string name, string author, string publisher)
         {
             if (name == "" && author == "" && publisher == "")
             {
-                return new DataSet();
+                return new List<BookDTO>();
             }
 
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = SqlQuery.SELECT_BOOK_WITH_SEARCH_STRING;
 
-            command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@author", author);
-            command.Parameters.AddWithValue("@publisher", publisher);
+            command.Parameters.AddWithValue("@name", "%" + name + "%");
+            command.Parameters.AddWithValue("@author", "%" + author + "%");
+            command.Parameters.AddWithValue("@publisher", "%" + publisher + "%");
 
-            return DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+            DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+            List<BookDTO> books = new List<BookDTO>();
+            
+            foreach (DataRow row in dataSet.Tables["book"].Rows)
+            {
+                BookDTO book = new BookDTO();
+
+                book.Id = int.Parse(row["id"].ToString());
+                book.Author = row["author"].ToString();
+                book.Publisher = row["publisher"].ToString();
+                book.Name = row["name"].ToString();
+                book.Quantity = int.Parse(row["quantity"].ToString());
+                book.Price = int.Parse(row["price"].ToString());
+                book.Isbn = row["isbn"].ToString();
+                book.Description = row["description"].ToString();
+                
+                books.Add(book);
+            }
+
+            return books;
         }
 
         public ResultCode BorrowBook(string userId, int bookId)

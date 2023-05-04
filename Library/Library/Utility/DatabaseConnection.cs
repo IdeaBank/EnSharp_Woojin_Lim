@@ -37,8 +37,12 @@ namespace Library.Utility
         {
             DataSet dataSet = new DataSet();
 
-            MySqlDataAdapter adpt = new MySqlDataAdapter(command.ToString(), this.conn);
+            MySqlDataAdapter adpt = new MySqlDataAdapter();
+            adpt.SelectCommand = command;
+            
+            conn.Open();
             adpt.Fill(dataSet, tableName);
+            conn.Close();
 
             return dataSet;
         }

@@ -44,6 +44,21 @@ namespace Library.Model.DAO
             return true;
         }
 
+        private UserDTO DataRowToUserDTO(DataRow row)
+        {
+            UserDTO user = new UserDTO
+            {
+                Id = row["id"].ToString(),
+                Password = row["password"].ToString(),
+                Name = row["name"].ToString(),
+                BirthYear = int.Parse(row["name"].ToString()),
+                PhoneNumber = row["phone_number"].ToString(),
+                Address = row["address"].ToString()
+            };
+
+            return user;
+        }
+
         public List<UserDTO> GetAllUsers()
         {
             List<UserDTO> users = new List<UserDTO>();
@@ -55,16 +70,7 @@ namespace Library.Model.DAO
 
             foreach (DataRow row in dataSet.Tables["user"].Rows)
             {
-                UserDTO user = new UserDTO();
-
-                user.Id = row["id"].ToString();
-                user.Password = row["password"].ToString();
-                user.Name = row["name"].ToString();
-                user.BirthYear = int.Parse(row["name"].ToString());
-                user.PhoneNumber = row["phone_number"].ToString();
-                user.Address = row["address"].ToString();
-                
-                users.Add(user);
+                users.Add(DataRowToUserDTO(row));
             }
             
             return users;
@@ -80,16 +86,7 @@ namespace Library.Model.DAO
             DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "user");
             DataRow dataRow = dataSet.Tables["user"].Rows[0];
 
-            UserDTO user = new UserDTO();
-
-            user.Id = dataRow["id"].ToString();
-            user.Password = dataRow["password"].ToString();
-            user.Name = dataRow["name"].ToString();
-            user.BirthYear = int.Parse(dataRow["birth_year"].ToString());
-            user.PhoneNumber = dataRow["phone_number"].ToString();
-            user.Address = dataRow["address"].ToString();
-
-            return user;
+            return DataRowToUserDTO(dataRow);
         }
 
         public ResultCode AddUser(UserDTO user)
@@ -194,21 +191,30 @@ namespace Library.Model.DAO
             return ResultCode.SUCCESS;
         }
 
-        public DataSet SearchUser(string name, string id, string address)
+        public List<UserDTO> SearchUser(string name, string id, string address)
         {
             if (name == "" && id == "" && address == "")
             {
-                return new DataSet();
+                return new List<UserDTO>();
             }
 
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = SqlQuery.SELECT_BOOK_WITH_SEARCH_STRING;
 
-            command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@id", id);
-            command.Parameters.AddWithValue("@address", address);
+            command.Parameters.AddWithValue("@name", "%" + name + "%");
+            command.Parameters.AddWithValue("@id", "%" + id + "%");
+            command.Parameters.AddWithValue("@address", "%" + address + "%");
 
-            return DatabaseConnection.getInstance.ExecuteSelection(command, "user");
+            DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "user");
+            
+            List<UserDTO> users = new List<UserDTO>();
+            
+            foreach (DataRow row in dataSet.Tables["user"].Rows)
+            {
+                users.Add(DataRowToUserDTO(row));
+            }
+
+            return users;
         }
     }
 }

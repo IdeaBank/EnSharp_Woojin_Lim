@@ -8,10 +8,10 @@ namespace Library.Constant
         public const string SELECT_ADMINISTRATOR_WITH_ID = "SELECT * FROM administrator WHERE ID = @id";
 
         public const string SELECT_BOOK_WITH_SEARCH_STRING =
-            "SELECT * FROM book WHERE name LIKE '%@name%' AND author LIKE '%@author%' AND publisher LIKE '%@publisher%'";
+            "SELECT * FROM book WHERE name LIKE @name AND author LIKE @author AND publisher LIKE @publisher";
 
         public const string SELECT_USER_WITH_SEARCH_STRING =
-            "SELECT * FROM user WHERE name LIKE '%@name%' AND id LIKE '%@id%' AND address LIKE '%@address%'";
+            "SELECT * FROM user WHERE name LIKE @name AND id LIKE @id AND address LIKE @address";
 
         public const string SELECT_BORROWED_BOOK_WITH_BOOK_ID = "SELECT * FROM borrowed_Book WHERE book_id = @book_id";
 

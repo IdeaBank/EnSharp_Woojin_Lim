@@ -1,11 +1,13 @@
-﻿namespace Library
+﻿using Library.Controller;
+
+namespace Library
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            //LibraryStart libraryStart = new LibraryStart();
-            //libraryStart.StartLibrary();
+            LibraryStart libraryStart = new LibraryStart();
+            libraryStart.StartLibrary();
         }
     }
 }

@@ -1,25 +1,25 @@
-using Library.Constants;
-using Library.Utility;
 using System;
+using Library.Constant;
+using Library.Utility;
 
-namespace Library.View.UserView
+namespace Library.View.User
 {
-    public class UserMenuView
+    public class MenuView
     {
-        private static UserMenuView _instance;
+        private static MenuView _instance;
 
-        private UserMenuView()
+        private MenuView()
         {
 
         }
 
-        public static UserMenuView getInstance
+        public static MenuView getInstance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new UserMenuView();
+                    _instance = new MenuView();
                 }
 
                 return _instance;
@@ -42,7 +42,7 @@ namespace Library.View.UserView
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;
 
-            for (int i = 0; i < MenuCount.USER; ++i)
+            for (int i = 0; i < Constant.Menu.Count.USER; ++i)
             {
                 if (i == currentSelectionIndex)
                 {

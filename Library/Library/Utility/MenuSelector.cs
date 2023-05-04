@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Library.Constant;
 using Library.Model;
 
@@ -46,16 +45,16 @@ namespace Library.Utility
             switch (currentMenu)
             {
                 case Constant.Menu.Type.USER_OR_ADMIN:
-                    UserOrAdminView.PrintUserOrAdmin(currentSelectionIndex);
+                    View.UserOrAdminView.getInstance.PrintUserOrAdmin(currentSelectionIndex);
                     break;
                 case Constant.Menu.Type.USER_LOGIN_OR_REGISTER:
-                    UserLoginOrRegisterView.PrintLoginOrRegister(currentSelectionIndex);
+                    View.User.LoginOrRegisterView.getInstance.PrintLoginOrRegister(currentSelectionIndex);
                     break;
                 case Constant.Menu.Type.USER:
-                    UserMenuView.PrintUserMenu(currentSelectionIndex);
+                    View.User.MenuView.getInstance.PrintUserMenu(currentSelectionIndex);
                     break;
                 case Constant.Menu.Type.ADMIN:
-                    AdminMenuView.PrintAdminMenu(currentSelectionIndex);
+                    View.Admin.MenuView.getInstance.PrintAdminMenu(currentSelectionIndex);
                     break;
             }
         }

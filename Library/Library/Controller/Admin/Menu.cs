@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using Library.Constant;
 using Library.Model;
 using Library.Model.DAO;
@@ -27,7 +26,7 @@ namespace Library.Controller.Admin
             while (result.ResultCode != ResultCode.ESC_PRESSED)
             {
                 // UI 출력
-                AdminMenuView.PrintAdminMenuContour();
+                View.Admin.MenuView.getInstance.PrintAdminMenuContour();
                 result = MenuSelector.getInstance.ChooseMenu(0, Constant.Menu.Count.ADMIN, Constant.Menu.Type.ADMIN);
 
                 // ESC키가 눌렸으면 반환
@@ -51,7 +50,7 @@ namespace Library.Controller.Admin
             switch (this.currentSelectionIndex)
             {
                 case Constant.Menu.Selection.SEARCH_BOOK:
-                    bookSearcher.SearchBook();
+                    BookSearcher.getInstance.SearchBook();
                     break;
 
                 case Constant.Menu.Selection.ADD_BOOK:
@@ -60,7 +59,7 @@ namespace Library.Controller.Admin
 
                 // 책을 삭제하기 전 책 검색
                 case Constant.Menu.Selection.DELETE_BOOK:
-                    if (bookSearcher.SearchBook() != ResultCode.ESC_PRESSED)
+                    if (BookSearcher.getInstance.SearchBook() != ResultCode.ESC_PRESSED)
                     {
                         DeleteBook();
                     }
@@ -69,7 +68,7 @@ namespace Library.Controller.Admin
 
                 // 책을 수정하기 전 책 검색
                 case Constant.Menu.Selection.EDIT_BOOK:
-                    if (bookSearcher.SearchBook() != ResultCode.ESC_PRESSED)
+                    if (BookSearcher.getInstance.SearchBook() != ResultCode.ESC_PRESSED)
                     {
                         EditBook();
                     }
@@ -115,14 +114,14 @@ namespace Library.Controller.Admin
             BookDAO.getInstance.AddBook(newBook);
 
             // 결과를 출력하고 유지시키기 위해 키를 입력 받음
-            UserLoginOrRegisterView.PrintRegisterResult("BOOK ADDED!");
+            View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK ADDED!");
             Console.ReadKey(true);
         }
 
         private void EditBook()
         {
             // 책 정보를 수정하는 UI를 출력해 줌
-            AdminMenuView.PrintEditBook();
+            View.Admin.MenuView.getInstance.PrintEditBook();
 
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -145,13 +144,13 @@ namespace Library.Controller.Admin
                 // 책이 존재하지 않으면 경고창을 띄워줌
                 if (!BookDAO.getInstance.BookExists(int.Parse(bookIdInputResult.Input)))
                 {
-                    UserLoginOrRegisterView.PrintRegisterResult("BOOK DOES NOT EXIST!");
+                    View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK DOES NOT EXIST!");
                     Console.ReadKey(true);
                     return;
                 }
 
                 // 책 정보를 얻어옴
-                BookDTO originalBook = BookDAO.getInstance.GetBookInfo(int.Parse(bookIdInputResult.Input)));
+                BookDTO originalBook = BookDAO.getInstance.GetBookInfo(int.Parse(bookIdInputResult.Input));
 
                 // 각 입력 값을 저장하기 위한 변수 선언
                 List<UserInput> inputs = new List<UserInput>
@@ -189,7 +188,7 @@ namespace Library.Controller.Admin
                 BookDAO.getInstance.EditBook(updatedBook);
 
                 // 결과를 출력하고 유지시키기 위해 키를 입력 받음
-                UserLoginOrRegisterView.PrintRegisterResult("BOOK EDITED!");
+                View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK EDITED!");
                 Console.ReadKey(true);
             }
         }
@@ -209,12 +208,12 @@ namespace Library.Controller.Admin
             while (!allRegexPassed)
             {
                 // UI 출력 후 일시 정지
-                AdminMenuView.PrintAddBook(warning, inputs);
+                View.Admin.MenuView.getInstance.PrintAddBook(warning, inputs);
                 Console.ReadKey();
 
                 // 이후 경고 내용을 없앰
                 warning = new string[8];
-                AdminMenuView.PrintAddBook(warning, inputs);
+                View.Admin.MenuView.getInstance.PrintAddBook(warning, inputs);
 
                 bool isInputValid = true;
 
@@ -259,7 +258,7 @@ namespace Library.Controller.Admin
 
         private void DeleteBook()
         {
-            AdminMenuView.PrintDeleteBook();
+            View.Admin.MenuView.getInstance.PrintDeleteBook();
 
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -282,12 +281,12 @@ namespace Library.Controller.Admin
                 // 숫자에 해당하는 아이디 값의 책 삭제를 시도하고 결과 출력
                 if (BookDAO.getInstance.RemoveBook(int.Parse(bookIdInputResult.Input)) == ResultCode.SUCCESS)
                 {
-                    AdminMenuView.PrintDeleteResult("책을 성공적으로 제거했습니다.");
+                    View.Admin.MenuView.getInstance.PrintDeleteResult("책을 성공적으로 제거했습니다.");
                 }
 
                 else
                 {
-                    AdminMenuView.PrintDeleteResult("책이 존재하지 않습니다.");
+                    View.Admin.MenuView.getInstance.PrintDeleteResult("책이 존재하지 않습니다.");
                 }
 
                 // 일시 정지
@@ -297,7 +296,7 @@ namespace Library.Controller.Admin
 
         private void DeleteMember()
         {
-            SearchBookOrUserView.PrintDeleteUser();
+            View.SearchResultView.getInstance.PrintDeleteUser();
 
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -314,7 +313,7 @@ namespace Library.Controller.Admin
                 return;
             }
 
-            UserSelectionView.PrintYesOrNO("Are you sure to delete user " + userIdInputResult.Input + "?");
+            View.UserSelectionView.getInstance.PrintYesOrNO("Are you sure to delete user " + userIdInputResult.Input + "?");
 
             // 회원 삭제 여부를 물어보고 Y키가 입력되었으면
             if (UserInputManager.getInstance.InputYesOrNo() == ResultCode.YES)
@@ -325,21 +324,19 @@ namespace Library.Controller.Admin
                     // 삭제를 시도
                     ResultCode deleteResult = UserDAO.getInstance.DeleteUser(userIdInputResult.Input);
 
-                    // 성공했으면 결과 출력
-                    if (deleteResult == ResultCode.SUCCESS)
+                    switch (deleteResult)
                     {
-                        AdminMenuView.PrintDeleteResult("사용자를 성공적으로 제거했습니다.");
-                    }
-
-                    // 실패했으면 그 이유를 출력
-                    else if (deleteResult == ResultCode.MUST_RETURN_BOOK)
-                    {
-                        AdminMenuView.PrintDeleteResult("책을 모두 반납해야 합니다!");
-                    }
-
-                    else
-                    {
-                        AdminMenuView.PrintDeleteResult("사용자가 존재하지 않습니다.");
+                        // 성공했으면 결과 출력
+                        case ResultCode.SUCCESS:
+                            View.Admin.MenuView.getInstance.PrintDeleteResult("사용자를 성공적으로 제거했습니다.");
+                            break;
+                        // 실패했으면 그 이유를 출력
+                        case ResultCode.MUST_RETURN_BOOK:
+                            View.Admin.MenuView.getInstance.PrintDeleteResult("책을 모두 반납해야 합니다!");
+                            break;
+                        default:
+                            View.Admin.MenuView.getInstance.PrintDeleteResult("사용자가 존재하지 않습니다.");
+                            break;
                     }
 
                     // 일시 정지
@@ -360,7 +357,7 @@ namespace Library.Controller.Admin
             {
                 List<BorrowedBookDTO> bookData =
                     BookDAO.getInstance.GetBorrowedBooks(user.Id);
-                SearchBookOrUserView.PrintBorrowedBooks(user.Id, bookData);
+                View.SearchResultView.getInstance.PrintBorrowedBooks(user.Id, bookData);
             }
 
             Console.ReadKey();
@@ -378,7 +375,7 @@ namespace Library.Controller.Admin
                 inputs.Add(new UserInput(ResultCode.NO, ""));
             }
             
-            SearchBookOrUserView.PrintSearchUser();
+            View.SearchResultView.getInstance.PrintSearchUser();
 
             for (int i = 0; i < 3; ++i)
             {
@@ -391,11 +388,11 @@ namespace Library.Controller.Admin
             }
 
             // 유저 검색 결과를 저장
-            DataSet searchUserResult = UserDAO.getInstance.SearchUser(inputs[0].Input,
+            List<UserDTO> searchUserResult = UserDAO.getInstance.SearchUser(inputs[0].Input,
                 inputs[1].Input, inputs[2].Input);
 
             // 유저 검색 결과를 출력
-            SearchBookOrUserView.ViewSearchUserResult(searchUserResult);
+            View.SearchResultView.getInstance.ViewSearchUserResult(searchUserResult);
 
             // 키를 입력 받을때까지 출력 유지
             Console.ReadKey(true);
