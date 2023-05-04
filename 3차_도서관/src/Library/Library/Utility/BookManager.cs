@@ -190,8 +190,7 @@ namespace Library.Utility
             
             SqlManager.getInstance.Conn.Close();
             
-            // 책을 못 찾았다면 책이 없다는 결과 반환
-            return ResultCode.NO_BOOK;
+            return ResultCode.SUCCESS;
         }
 
         public DataSet GetBorrowedBooks(string userId)
