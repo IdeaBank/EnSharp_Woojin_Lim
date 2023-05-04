@@ -90,6 +90,8 @@
         <Compile Include="Constant\RegularExpression.cs" />
         <Compile Include="Constant\ResultCode.cs" />
         <Compile Include="Constant\SqlQuery.cs" />
+        <Compile Include="Controller\Admin\Login.cs" />
+        <Compile Include="Controller\Admin\Menu.cs" />
         <Compile Include="Model\DAO\BookDAO.cs" />
         <Compile Include="Model\DAO\UserDAO.cs" />
         <Compile Include="Model\DTO\BookDTO.cs" />

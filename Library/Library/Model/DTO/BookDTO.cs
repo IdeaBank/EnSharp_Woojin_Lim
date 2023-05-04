@@ -16,6 +16,20 @@ namespace Library.Model.DTO
         {
         }
 
+        public BookDTO(string name, string author, string publisher, int quantity, int price,
+            string publishedDate,
+            string isbn, string description)
+        {
+            this.name = name;
+            this.author = author;
+            this.publisher = publisher;
+            this.quantity = quantity;
+            this.price = price;
+            this.publishedDate = publishedDate;
+            this.isbn = isbn;
+            this.description = description;
+        }
+
         public BookDTO(int id, string name, string author, string publisher, int quantity, int price,
             string publishedDate,
             string isbn, string description)

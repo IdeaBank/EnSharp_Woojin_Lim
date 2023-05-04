@@ -8,6 +8,7 @@ namespace Library.Constant.Input
         public const int USER_PHONE_NUMBER = 13;
         public const int USER_ADDRESS = 30;
 
+        public const int BOOK_ID = 3;
         public const int BOOK_NAME_AUTHOR_PUBLISHER = 20;
         public const int BOOK_QUANTITY = 3;
         public const int BOOK_PRICE = 7;

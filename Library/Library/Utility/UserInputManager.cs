@@ -414,6 +414,32 @@ namespace Library.Utility
             return inputs[inputIndex].ResultCode;
         }
 
+        public ResultCode GetSearchUserInput(List<UserInput> inputs, int inputIndex)
+        {
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            switch (inputIndex)
+            {
+                case 0:
+                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf - 2, Constant.Input.Max.USER_NAME,
+                        Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN);
+                    break;
+                case 1:
+                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf - 1,
+                        Constant.Input.Max.USER_ID_PASSWORD, Constant.Input.Parameter.IS_NOT_PASSWORD,
+                        Constant.Input.Parameter.CANNOT_ENTER_KOREAN);
+                    break;
+                case 2:
+                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf - 0,
+                        Constant.Input.Max.USER_ADDRESS, Constant.Input.Parameter.IS_NOT_PASSWORD,
+                        Constant.Input.Parameter.CAN_ENTER_KOREAN);
+                    break;
+            }
+
+            return inputs[inputIndex].ResultCode;
+        }
+
         public void ReadUntilEsc()
         {
             bool isEscPressed = false;

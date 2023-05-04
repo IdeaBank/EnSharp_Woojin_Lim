@@ -4,6 +4,7 @@ namespace Library.Constant
     {
         public const string SELECT_BOOK_WITH_ID = "SELECT * FROM book WHERE id = @id";
         public const string SELECT_USER_WITH_ID = "SELECT * FROM user WHERE id = @id";
+        public const string SELECT_ALL_USER = "SELECT * FROM user";
         public const string SELECT_ADMINISTRATOR_WITH_ID = "SELECT * FROM administrator WHERE ID = @id";
 
         public const string SELECT_BOOK_WITH_SEARCH_STRING =

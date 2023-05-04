@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using Library.Constant;
 using Library.Model.DTO;
@@ -14,7 +15,7 @@ namespace Library.Model.DAO
         {
         }
 
-        public UserDAO getInstance
+        public static UserDAO getInstance
         {
             get
             {
@@ -41,6 +42,32 @@ namespace Library.Model.DAO
             }
 
             return true;
+        }
+
+        public List<UserDTO> GetAllUsers()
+        {
+            List<UserDTO> users = new List<UserDTO>();
+
+            MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.SELECT_ALL_USER;
+
+            DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "user");
+
+            foreach (DataRow row in dataSet.Tables["user"].Rows)
+            {
+                UserDTO user = new UserDTO();
+
+                user.Id = row["id"].ToString();
+                user.Password = row["password"].ToString();
+                user.Name = row["name"].ToString();
+                user.BirthYear = int.Parse(row["name"].ToString());
+                user.PhoneNumber = row["phone_number"].ToString();
+                user.Address = row["address"].ToString();
+                
+                users.Add(user);
+            }
+            
+            return users;
         }
 
         public UserDTO GetUserInfo(string userId)
