@@ -86,6 +86,30 @@ namespace Library.Model.DAO
             return true;
         }
 
+        public BookDTO GetBookInfo(int bookId)
+        {
+            MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.SELECT_BOOK_WITH_ID;
+
+            command.Parameters.AddWithValue("@id", bookId);
+
+            DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+            DataRow dataRow = dataSet.Tables["book"].Rows[0];
+            
+            BookDTO book = new BookDTO();
+
+            book.Name = dataRow["name"].ToString();
+            book.Author = dataRow["author"].ToString();
+            book.Publisher = dataRow["publisher"].ToString();
+            book.Quantity = int.Parse(dataRow["quantity"].ToString());
+            book.Price = int.Parse(dataRow["price"].ToString());
+            book.PublishedDate = dataRow["published_date"].ToString();
+            book.Isbn = dataRow["isbn"].ToString();
+            book.Description = dataRow["description"].ToString();
+
+            return book;
+        }
+
         public BorrowedBookDTO GetBorrowedBookInfo(string userId, int bookId)
         {
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();

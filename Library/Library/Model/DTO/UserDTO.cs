@@ -10,6 +10,11 @@ namespace Library.Model.DTO
         private string phoneNumber;
         private string address;
 
+        public UserDTO()
+        {
+            
+        }
+        
         public UserDTO(string id, string password, string name, int birthYear, string phoneNumber, string address)
         {
             this.id = id;

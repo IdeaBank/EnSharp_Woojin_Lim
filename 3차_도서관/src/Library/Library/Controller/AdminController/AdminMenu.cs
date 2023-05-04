@@ -125,7 +125,7 @@ namespace Library.Controller.AdminController
             int windowHeightHalf = Console.WindowHeight / 2;
 
             // 책 아이디를 입력 받음
-            KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+            KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.CANNOT_ENTER_KOREAN);
 
@@ -136,7 +136,7 @@ namespace Library.Controller.AdminController
             }
 
             // 숫자가 입력되었을 시
-            if (UserInputManager.IsNumber(bookIdInputResult.Value))
+            if (UserInputManager.getInstance.IsNumber(bookIdInputResult.Value))
             {
                 // 책이 존재하지 않으면 경고창을 띄워줌
                 if (!combinedManager.BookManager.IsBookExist(bookIdInputResult.Value))
@@ -209,7 +209,7 @@ namespace Library.Controller.AdminController
                     }
 
                     // 책 정보를 입력 받음
-                    ResultCode inputResult = UserInputManager.GetBookInformationInput(inputs, i);
+                    ResultCode inputResult = UserInputManager.getInstance.GetBookInformationInput(inputs, i);
 
                     switch (inputResult)
                     {
@@ -247,7 +247,7 @@ namespace Library.Controller.AdminController
             int windowHeightHalf = Console.WindowHeight / 2;
 
             // 책 아이디를 입력 받음
-            KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+            KeyValuePair<ResultCode, string> bookIdInputResult = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, MaxInputLength.BOOK_ID, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.CANNOT_ENTER_KOREAN);
 
@@ -258,7 +258,7 @@ namespace Library.Controller.AdminController
             }
 
             // 숫자가 입력되었을 시
-            if (UserInputManager.IsNumber(bookIdInputResult.Value))
+            if (UserInputManager.getInstance.IsNumber(bookIdInputResult.Value))
             {
                 // 숫자에 해당하는 아이디 값의 책 삭제를 시도하고 결과 출력
                 if (combinedManager.BookManager.RemoveBook(bookIdInputResult.Value) == ResultCode.SUCCESS)
@@ -284,7 +284,7 @@ namespace Library.Controller.AdminController
             int windowHeightHalf = Console.WindowHeight / 2;
 
             // 유저 번호를 입력 받음
-            KeyValuePair<ResultCode, string> userIdInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+            KeyValuePair<ResultCode, string> userIdInputResult = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD,
                 InputParameter.CANNOT_ENTER_KOREAN);
 
@@ -297,7 +297,7 @@ namespace Library.Controller.AdminController
             UserSelectionView.PrintYesOrNO("Are you sure to delete user "+ userIdInputResult.Value + "?");
 
             // 회원 삭제 여부를 물어보고 Y키가 입력되었으면
-            if (UserInputManager.InputYesOrNo() == ResultCode.YES)
+            if (UserInputManager.getInstance.InputYesOrNo() == ResultCode.YES)
             {
                 // 바로 엔터를 누른 것이 아니면
                 if (userIdInputResult.Value.Length > 0)
@@ -353,7 +353,7 @@ namespace Library.Controller.AdminController
             SearchBookOrUserView.PrintSearchUser();
 
             // 유저 이름을 입력 받음
-            KeyValuePair<ResultCode, string> nameInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+            KeyValuePair<ResultCode, string> nameInputResult = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf - 2, MaxInputLength.USER_NAME, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
@@ -363,7 +363,7 @@ namespace Library.Controller.AdminController
             }
 
             // 유저 아이디를 입력 받음
-            KeyValuePair<ResultCode, string> idInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+            KeyValuePair<ResultCode, string> idInputResult = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf - 1, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환
@@ -373,7 +373,7 @@ namespace Library.Controller.AdminController
             }
 
             // 유저 주소를 입력 받음
-            KeyValuePair<ResultCode, string> addressInputResult = UserInputManager.ReadInputFromUser(windowWidthHalf,
+            KeyValuePair<ResultCode, string> addressInputResult = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                 windowHeightHalf - 0, MaxInputLength.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN);
 
             // ESC키가 눌렸으면 반환

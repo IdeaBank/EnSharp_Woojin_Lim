@@ -1,27 +1,27 @@
-using Library.Constants;
+using Library.Constant;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Library.Utility
 {
-    public class UserInputManager
+    public class UserInput
     {
         // Singleton
-        private static UserInputManager _instance;
+        private static UserInput _instance;
 
-        private UserInputManager()
+        private UserInput()
         {
 
         }
 
-        public static UserInputManager getInstance
+        public static UserInput getInstance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new UserInputManager();
+                    _instance = new UserInput();
                 }
 
                 return _instance;
@@ -102,7 +102,7 @@ namespace Library.Utility
         }
 
         // Return true if character is Hangeul
-        private bool IsKoreanCharacter(char ch)
+        private static bool IsKoreanCharacter(char ch)
         {
             return (0xac00 <= ch && ch <= 0xd7a3) || (0x3131 <= ch && ch <= 0x318e);
         }
@@ -258,25 +258,25 @@ namespace Library.Utility
             switch (inputIndex)
             {
                 case 0:
-                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf, Constant.Input.Max.USER_ID_PASSWORD, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 1:
-                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1, Constant.Input.Max.USER_ID_PASSWORD, Constant.Input.Parameter.IS_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 2:
-                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 2, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 2, Constant.Input.Max.USER_ID_PASSWORD, Constant.Input.Parameter.IS_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 3:
-                    inputs[3] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 3, MaxInputLength.USER_NAME, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[3] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 3, Constant.Input.Max.USER_NAME, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 4:
-                    inputs[4] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 4, MaxInputLength.USER_AGE, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[4] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 4, Constant.Input.Max.USER_AGE, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 5:
-                    inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, MaxInputLength.USER_PHONE_NUMBER, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, Constant.Input.Max.USER_PHONE_NUMBER, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 6:
-                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, MaxInputLength.USER_ADDRESS, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, Constant.Input.Max.USER_ADDRESS, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
             }
 
@@ -349,28 +349,28 @@ namespace Library.Utility
             switch (inputIndex)
             {
                 case 0:
-                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[0] = ReadInputFromUser(windowWidthHalf, windowHeightHalf, Constant.Input.Max.BOOK_NAME_AUTHOR_PUBLISHER, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 1:
-                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[1] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1, Constant.Input.Max.BOOK_NAME_AUTHOR_PUBLISHER, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 2:
-                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 2, MaxInputLength.BOOK_NAME_AUTHOR_PUBLISHER, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[2] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 2, Constant.Input.Max.BOOK_NAME_AUTHOR_PUBLISHER, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 3:
-                    inputs[3] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 3, MaxInputLength.BOOK_QUANTITY, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[3] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 3, Constant.Input.Max.BOOK_QUANTITY, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 4:
-                    inputs[4] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 4, MaxInputLength.BOOK_PRICE, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[4] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 4, Constant.Input.Max.BOOK_PRICE, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 5:
-                    inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, MaxInputLength.BOOK_PUBLISHED_DATE, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[5] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 5, Constant.Input.Max.BOOK_PUBLISHED_DATE, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 6:
-                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, MaxInputLength.BOOK_ISBN, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[6] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 6, Constant.Input.Max.BOOK_ISBN, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
                 case 7:
-                    inputs[7] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 7, MaxInputLength.BOOK_DESCRIPTION, InputParameter.IS_NOT_PASSWORD, InputParameter.ENTER_KOREAN, inputs[inputIndex].Value);
+                    inputs[7] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 7, Constant.Input.Max.BOOK_DESCRIPTION, Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CAN_ENTER_KOREAN, inputs[inputIndex].Value);
                     break;
             }
 

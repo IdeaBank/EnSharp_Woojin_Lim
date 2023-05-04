@@ -31,7 +31,7 @@ namespace Library.Controller.AdminController
                 UserLoginOrRegisterView.PrintLogin(loginHint[0], loginHint[1]);
 
                 // 아이디 입력 받기
-                KeyValuePair<ResultCode, string> inputId = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                KeyValuePair<ResultCode, string> inputId = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                     windowHeightHalf, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_NOT_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, "");
 
                 // esc가 눌렸으면 함수를 끝냄
@@ -41,7 +41,7 @@ namespace Library.Controller.AdminController
                 }
 
                 // 비밀번호 입력 받기
-                KeyValuePair<ResultCode, string> inputPassword = UserInputManager.ReadInputFromUser(windowWidthHalf,
+                KeyValuePair<ResultCode, string> inputPassword = UserInputManager.getInstance.ReadInputFromUser(windowWidthHalf,
                     windowHeightHalf + 1, MaxInputLength.USER_ID_PASSWORD, InputParameter.IS_PASSWORD, InputParameter.CANNOT_ENTER_KOREAN, "");
 
                 // esc가 눌렸으면 함수를 끝냄

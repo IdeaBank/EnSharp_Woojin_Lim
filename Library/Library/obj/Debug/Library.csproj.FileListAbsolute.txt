@@ -1,0 +1,3 @@
+/Users/woojin/Development/EN_SHARP/Library/Library/obj/Debug/Library.csproj.AssemblyReference.cache
+/Users/woojin/Development/EN_SHARP/Library/Library/obj/Debug/Library.exe.config
+/Users/woojin/Development/EN_SHARP/Library/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache
