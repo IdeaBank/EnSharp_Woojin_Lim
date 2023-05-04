@@ -1,21 +1,15 @@
 using Library.Constants;
 using Library.Controller.AdminController;
 using Library.Controller.UserController;
-using Library.Model;
 using Library.Utility;
 using Library.View;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using MySql.Data.MySqlClient;
 
 namespace Library.Controller
 {
     public class LibraryStart
     {
-        // 모든 유저 / 책 데이터를 저장할 totalData 선언
-        private TotalData totalData;
-
         // 책과 유저의 정보를 다룰 때 사용하는 클래스 선언
         private BookManager bookManager;
         private UserManager userManager;
@@ -35,36 +29,20 @@ namespace Library.Controller
         public LibraryStart()
         {
             // 생성자에서는 각 멤버 변수의 인스턴스 생성 및 커서 위치 0으로 초기화
+            this.bookManager = new BookManager();
+            this.userManager = new UserManager();
+            this.combinedManager = new CombinedManager(bookManager, userManager);
+            this.bookSearcher = new BookSearcher(combinedManager);
 
-            this.totalData = new TotalData();
-            this.sqlManager = new SqlManager();
-            this.bookManager = new BookManager(totalData, sqlManager);
-            this.userManager = new UserManager(totalData, sqlManager);
-            this.combinedManager = new CombinedManager(bookManager, userManager, sqlManager);
-            this.bookSearcher = new BookSearcher(totalData, combinedManager);
-
-            this.userLoginOrRegister = new UserLoginOrRegister(totalData, combinedManager);
-            this.adminLogin = new AdminLogin(totalData, combinedManager);
+            this.userLoginOrRegister = new UserLoginOrRegister(combinedManager);
+            this.adminLogin = new AdminLogin(combinedManager);
 
             this.currentSelectionIndex = 0;
-        }
-
-        private void AddSampleData()
-        {
-            // 관리자 추가
-            User administrator = new User
-            {
-                Id = "admin123",
-                Password = "admin123"
-            };
-
-            this.totalData.Administrators.Add(administrator);
         }
 
         public void StartLibrary()
         {
             Console.Clear();
-            AddSampleData();
             Console.SetWindowSize(200, 50);
 
             // 커서 안 보이게 설정 (입력 하는 단계에서만 커서를 보이게 함)
@@ -81,7 +59,7 @@ namespace Library.Controller
             {
                 // UI 출력 및 메뉴 선택
                 UserOrAdminView.PrintUserOrAdminContour();
-                result = MenuSelector.ChooseMenu(0, MenuCount.MAIN, MenuType.USER_OR_ADMIN);
+                result = MenuSelector.getInstance.ChooseMenu(0, MenuCount.MAIN, MenuType.USER_OR_ADMIN);
 
                 // esc키가 눌렸을 경우 종료 여부를 물어보고 Y키를 눌렸을 경우 종료, N키를 눌렀을 경우 취소
                 if (result.Key == ResultCode.ESC_PRESSED)

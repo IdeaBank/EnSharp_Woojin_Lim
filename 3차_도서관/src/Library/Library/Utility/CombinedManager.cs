@@ -4,7 +4,6 @@ namespace Library.Utility
     {
         private BookManager bookManager;
         private UserManager userManager;
-        private SqlManager sqlManager;
 
         public BookManager BookManager
         {
@@ -15,18 +14,11 @@ namespace Library.Utility
         {
             get => this.userManager;
         }
-
-        public SqlManager SqlManager
-        {
-            get => this.sqlManager;
-        }
-
         
-        public CombinedManager(BookManager bookManager, UserManager userManager, SqlManager sqlManager)
+        public CombinedManager(BookManager bookManager, UserManager userManager)
         {
             this.bookManager = bookManager;
             this.userManager = userManager;
-            this.sqlManager = sqlManager;
         }
     }
 }

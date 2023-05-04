@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View.UserView;
 using System;
@@ -7,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Library.Controller.AdminController
 {
-    public class AdminLogin : ControllerInterface
+    public class AdminLogin: AbstractController
     {
-        public AdminLogin(TotalData totalData, CombinedManager combinedManager) : base(totalData, combinedManager)
+        public AdminLogin(CombinedManager combinedManager) : base(combinedManager)
         {
         }
 
@@ -52,7 +51,7 @@ namespace Library.Controller.AdminController
                 }
 
                 // 로그인 결과 값 얻어오기
-                KeyValuePair<ResultCode, int> loginResult = combinedManager.UserManager.LoginAsAdministrator(inputId.Value, inputPassword.Value);
+                KeyValuePair<ResultCode, string> loginResult = combinedManager.UserManager.LoginAsAdministrator(inputId.Value, inputPassword.Value);
 
                 switch (loginResult.Key)
                 {
@@ -84,7 +83,7 @@ namespace Library.Controller.AdminController
             }
 
             // 로그인에 성공했다면 관리자 메뉴 표시 및 다음 메뉴 입력 받기
-            AdminMenu adminLogin = new AdminMenu(data, combinedManager);
+            AdminMenu adminLogin = new AdminMenu(combinedManager);
             adminLogin.SelectAdminMenu();
         }
     }

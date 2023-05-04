@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View;
 using System;
@@ -8,11 +7,10 @@ using System.Data;
 
 namespace Library.Controller
 {
-    public class BookSearcher : ControllerInterface
+    public class BookSearcher : AbstractController
     {
-        public BookSearcher(TotalData data, CombinedManager combinedManager) : base(data, combinedManager)
+        public BookSearcher(CombinedManager combinedManager): base(combinedManager)
         {
-
         }
 
         // 책 검색 기능

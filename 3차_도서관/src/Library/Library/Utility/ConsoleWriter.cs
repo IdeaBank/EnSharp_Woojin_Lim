@@ -56,7 +56,7 @@ namespace Library.Utility
             Console.SetCursorPosition(currentX, currentY);
         }
 
-        public static void DrawContour(int countourWidth, int contourHeight)
+        public static void DrawContour(int contourWidth, int contourHeight)
         {
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
@@ -65,16 +65,16 @@ namespace Library.Utility
             int currentY = Console.CursorTop;
 
             WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - contourHeight / 2,
-                new string('#', countourWidth), AlignType.CENTER);
+                new string('#', contourWidth), AlignType.CENTER);
 
             for (int i = 0; i < contourHeight - 2; ++i)
             {
                 WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - contourHeight / 2 + 1 + i,
-                    '#' + new string(' ', countourWidth - 2) + '#', AlignType.CENTER);
+                    '#' + new string(' ', contourWidth - 2) + '#', AlignType.CENTER);
             }
 
             WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + contourHeight / 2 - 1,
-                new string('#', countourWidth), AlignType.CENTER);
+                new string('#', contourWidth), AlignType.CENTER);
 
             Console.SetCursorPosition(currentX, currentY);
         }

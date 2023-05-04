@@ -29,7 +29,7 @@ namespace Library.Utility
             }
         }
 
-        private static int MoveCursorInMenu(MoveDirection direction, int currentSelectionIndex, int MAX_SELECTION)
+        private int MoveCursorInMenu(MoveDirection direction, int currentSelectionIndex, int MAX_SELECTION)
         {
             switch (direction)
             {
@@ -46,7 +46,7 @@ namespace Library.Utility
             return currentSelectionIndex;
         }
 
-        private static void ShowView(MenuType currentMenu, int currentSelectionIndex)
+        private void ShowView(MenuType currentMenu, int currentSelectionIndex)
         {
             switch (currentMenu)
             {
@@ -65,7 +65,7 @@ namespace Library.Utility
             }
         }
 
-        private static KeyValuePair<ResultCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
+        private KeyValuePair<ResultCode, int> ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, MenuType currentMenu)
         {
             ShowView(currentMenu, currentSelectionIndex);
 
@@ -91,14 +91,14 @@ namespace Library.Utility
             return new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, currentSelectionIndex);
         }
 
-        public static KeyValuePair<ResultCode, int> ChooseMenu(int currentSelectionIndex, int MAX_SELECTION,
+        public KeyValuePair<ResultCode, int> ChooseMenu(int currentSelectionIndex, int MAX_SELECTION,
             MenuType currentMenu)
         {
             KeyValuePair<ResultCode, int> result = new KeyValuePair<ResultCode, int>(ResultCode.SUCCESS, -1);
 
             while (result.Key != ResultCode.ESC_PRESSED && result.Key != ResultCode.ENTER_PRESSED)
             {
-                result = MenuSelector.ChangeSelection(currentSelectionIndex, MAX_SELECTION, currentMenu);
+                result = ChangeSelection(currentSelectionIndex, MAX_SELECTION, currentMenu);
 
                 currentSelectionIndex = result.Value;
 

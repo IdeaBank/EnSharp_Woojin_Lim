@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,20 +8,16 @@ namespace Library.Utility
 {
     public class BookManager
     {
-        private TotalData totalData;
-        private SqlManager sqlManager;
         private DataSet dataSet;
 
-        public BookManager(TotalData totalData, SqlManager sqlManager)
+        public BookManager()
         {
-            this.totalData = totalData;
-            this.sqlManager = sqlManager;
             this.dataSet = new DataSet();
         }
 
         public bool IsBookExist(string id)
         {
-            dataSet = sqlManager.ExecuteSql("select * from Book where id=" + id, "Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Book where id=" + id, "Book");
 
             if (dataSet.Tables["Book"].Rows.Count == 0)
             {
@@ -34,7 +29,7 @@ namespace Library.Utility
 
         private KeyValuePair<bool, string> IsBookExistInBorrowedBook(string bookId, string userId)
         {
-            dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where book_id=" + bookId + " and user_id=\'" + userId + "\'", "Borrowed_Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Borrowed_Book where book_id=" + bookId + " and user_id=\'" + userId + "\'", "Borrowed_Book");
             
             if (dataSet.Tables["Borrowed_Book"].Rows.Count == 0)
             {
@@ -46,7 +41,7 @@ namespace Library.Utility
         
         private bool IsBookAvailable(string id)
         {
-            dataSet = sqlManager.ExecuteSql("select * from Book where id=" + id, "Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Book where id=" + id, "Book");
 
             if (int.Parse(dataSet.Tables["Book"].Rows[0]["quantity"].ToString()) == 0)
             {
@@ -58,9 +53,9 @@ namespace Library.Utility
 
         public void AddBook(string name, string author, string publisher, string quantity, string price, string publishedDate, string isbn, string description)
         {
-            sqlManager.Conn.Open();
+            SqlManager.getInstance.Conn.Open();
             
-            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            MySqlCommand comm = SqlManager.getInstance.Conn.CreateCommand();
             comm.CommandText = "INSERT INTO Book(name, author, publisher, quantity, price, published_date, isbn, description) VALUES(@name, @author, @publisher, @quantity, @price, @published_date, @isbn, @description)";
             comm.Parameters.AddWithValue("@name", name);
             comm.Parameters.AddWithValue("@author", author);
@@ -72,13 +67,13 @@ namespace Library.Utility
             comm.Parameters.AddWithValue("@description", description);
             comm.ExecuteNonQuery();
             
-            sqlManager.Conn.Close();
+            SqlManager.getInstance.Conn.Close();
         }
 
         public DataSet SearchBook(string name, string author, string publisher)
         {
             // 책을 순회하며
-            dataSet = sqlManager.ExecuteSql(
+            dataSet = SqlManager.getInstance.ExecuteSql(
                 "select * from Book where name like \'%" + name + "%\' and author like \'%" + author +
                 "%\' and publisher like \'%" + publisher + "%\'", "Book");
 
@@ -98,9 +93,9 @@ namespace Library.Utility
                 return ResultCode.BOOK_NOT_ENOUGH;
             }
             
-            sqlManager.Conn.Open();
+            SqlManager.getInstance.Conn.Open();
             
-            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            MySqlCommand comm = SqlManager.getInstance.Conn.CreateCommand();
             comm.CommandText = "update Book set quantity = quantity - 1 where id=" + bookId;
             comm.ExecuteNonQuery();
             
@@ -110,7 +105,7 @@ namespace Library.Utility
             comm.Parameters.AddWithValue("@borrowed_date", DateTime.Now.ToString());
             comm.ExecuteNonQuery();
             
-            sqlManager.Conn.Close();
+            SqlManager.getInstance.Conn.Close();
 
             return ResultCode.SUCCESS;
         }
@@ -123,9 +118,9 @@ namespace Library.Utility
                 return ResultCode.NO_BOOK;
             }
 
-            sqlManager.Conn.Open();
+            SqlManager.getInstance.Conn.Open();
             
-            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            MySqlCommand comm = SqlManager.getInstance.Conn.CreateCommand();
             comm.CommandText = "update Book set quantity = quantity + 1 where id=" + bookId;
             comm.ExecuteNonQuery();
             
@@ -136,10 +131,12 @@ namespace Library.Utility
             comm.Parameters.AddWithValue("@returned_date", DateTime.Now.ToString());
             comm.ExecuteNonQuery();
 
-            comm.CommandText = "DELETE from Borrowed_Book where book_id=" + bookId + " and user_id=\'" + userId + "\'";
+            comm.CommandText = "DELETE from Borrowed_Book where book_id=@book_id and user_id=@user_id";
+            comm.Parameters.AddWithValue("@book_id", bookId);
+            comm.Parameters.AddWithValue("@user_id", userId);
             comm.ExecuteNonQuery();
 
-            sqlManager.Conn.Close();
+            SqlManager.getInstance.Conn.Close();
             
             return ResultCode.SUCCESS;
         }
@@ -157,18 +154,18 @@ namespace Library.Utility
             updateQuery += "isbn=\'" + isbn + "\', ";
             updateQuery += "description=\'" + description + "\' ";
             
-            sqlManager.Conn.Open();
+            SqlManager.getInstance.Conn.Open();
             
-            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            MySqlCommand comm = SqlManager.getInstance.Conn.CreateCommand();
             comm.CommandText = "update Book " + updateQuery + " where id=" + bookId;
             comm.ExecuteNonQuery();
             
-            sqlManager.Conn.Close();
+            SqlManager.getInstance.Conn.Close();
         }
 
         private bool IsBookBorrowed(string bookId)
         {
-            dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where book_id=" + bookId, "Borrowed_Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Borrowed_Book where book_id=" + bookId, "Borrowed_Book");
 
             if (dataSet.Tables["Borrowed_Book"].Rows.Count == 0)
             {
@@ -185,13 +182,13 @@ namespace Library.Utility
                 return ResultCode.FAIL;
             }
             
-            sqlManager.Conn.Open();
+            SqlManager.getInstance.Conn.Open();
             
-            MySqlCommand comm = sqlManager.Conn.CreateCommand();
+            MySqlCommand comm = SqlManager.getInstance.Conn.CreateCommand();
             comm.CommandText = "delete from Book where id=" + bookId;
             comm.ExecuteNonQuery();
             
-            sqlManager.Conn.Close();
+            SqlManager.getInstance.Conn.Close();
             
             // 책을 못 찾았다면 책이 없다는 결과 반환
             return ResultCode.NO_BOOK;
@@ -200,21 +197,21 @@ namespace Library.Utility
         public DataSet GetBorrowedBooks(string userId)
         {
             dataSet.Clear();
-            dataSet = sqlManager.ExecuteSql("select * from Borrowed_Book where user_id=\'" + userId + "\'", "Borrowed_Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Borrowed_Book where user_id=\'" + userId + "\'", "Borrowed_Book");
 
             return dataSet;
         }
         
         public DataSet GetReturnedBooks(string userId)
         {
-            dataSet = sqlManager.ExecuteSql("select * from Returned_Book where user_id=\'" + userId + "\'", "Returned_Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Returned_Book where user_id=\'" + userId + "\'", "Returned_Book");
 
             return dataSet;
         }
 
         public DataSet GetBook(string bookId)
         {
-            dataSet = sqlManager.ExecuteSql("select * from Book where id=" + bookId, "Book");
+            dataSet = SqlManager.getInstance.ExecuteSql("select * from Book where id=" + bookId, "Book");
 
             return dataSet;
         }

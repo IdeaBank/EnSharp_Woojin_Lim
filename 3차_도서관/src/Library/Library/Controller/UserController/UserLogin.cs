@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View.UserView;
 using System;
@@ -7,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Library.Controller.UserController
 {
-    public class UserLogin : ControllerInterface
+    public class UserLogin : AbstractController
     {
-        public UserLogin(TotalData totalData, CombinedManager combinedManager) : base(totalData, combinedManager)
+        public UserLogin(CombinedManager combinedManager) : base(combinedManager)
         {
         }
 
@@ -80,7 +79,7 @@ namespace Library.Controller.UserController
                 }
 
                 // 로그인에 성공했다면 관리자 메뉴 표시 및 다음 메뉴 입력 받기
-                UserMenu userMenu = new UserMenu(data, combinedManager, 0, loginResult.Value);
+                UserMenu userMenu = new UserMenu(combinedManager, 0, loginResult.Value);
                 userMenu.SelectUserMenu();
             }
         }

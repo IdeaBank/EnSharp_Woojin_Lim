@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View.UserView;
 using System;
@@ -7,11 +6,11 @@ using System.Collections.Generic;
 
 namespace Library.Controller.UserController
 {
-    public class UserLoginOrRegister : ControllerInterface
+    public class UserLoginOrRegister : AbstractController
     {
         private int currentSelectionIndex;
 
-        public UserLoginOrRegister(TotalData data, CombinedManager combinedManager) : base(data, combinedManager)
+        public UserLoginOrRegister(CombinedManager combinedManager) : base(combinedManager)
         {
             this.currentSelectionIndex = 0;
         }
@@ -26,7 +25,7 @@ namespace Library.Controller.UserController
             {
                 // UI를 출력하고 메뉴를 선택함
                 UserLoginOrRegisterView.PrintLoginOrRegisterContour();
-                result = MenuSelector.ChooseMenu(0, MenuCount.USER_LOGIN_OR_REGISTER, MenuType.USER_LOGIN_OR_REGISTER);
+                result = MenuSelector.getInstance.ChooseMenu(0, MenuCount.USER_LOGIN_OR_REGISTER, MenuType.USER_LOGIN_OR_REGISTER);
 
                 // ESC키가 눌리면 반환
                 if (result.Key == ResultCode.ESC_PRESSED)
@@ -49,11 +48,11 @@ namespace Library.Controller.UserController
             switch (this.currentSelectionIndex)
             {
                 case 0:
-                    UserLogin userLogin = new UserLogin(data, combinedManager);
+                    UserLogin userLogin = new UserLogin(combinedManager);
                     userLogin.TryLogin();
                     break;
                 case 1:
-                    UserRegister userRegister = new UserRegister(data, combinedManager);
+                    UserRegister userRegister = new UserRegister(combinedManager);
                     userRegister.Register();
                     break;
             }

@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View.UserView;
 using System;
@@ -7,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Library.Controller.UserController
 {
-    public class UserRegister : ControllerInterface
+    public class UserRegister : AbstractController
     {
-        public UserRegister(TotalData data, CombinedManager combinedManager) : base(data, combinedManager)
+        public UserRegister(CombinedManager combinedManager) : base(combinedManager)
         {
         }
 

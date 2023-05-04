@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View;
 using Library.View.AdminView;
@@ -10,15 +9,15 @@ using System.Data;
 
 namespace Library.Controller.AdminController
 {
-    public class AdminMenu : ControllerInterface
+    public class AdminMenu : AbstractController
     {
         private int currentSelectionIndex;
         private BookSearcher bookSearcher;
 
-        public AdminMenu(TotalData data, CombinedManager combinedManager) : base(data, combinedManager)
+        public AdminMenu(CombinedManager combinedManager) : base(combinedManager)
         {
             this.currentSelectionIndex = 0;
-            this.bookSearcher = new BookSearcher(data, combinedManager);
+            this.bookSearcher = new BookSearcher(combinedManager);
         }
 
         public void SelectAdminMenu()
@@ -31,7 +30,7 @@ namespace Library.Controller.AdminController
             {
                 // UI 출력
                 AdminMenuView.PrintAdminMenuContour();
-                result = MenuSelector.ChooseMenu(0, MenuCount.ADMIN, MenuType.ADMIN);
+                result = MenuSelector.getInstance.ChooseMenu(0, MenuCount.ADMIN, MenuType.ADMIN);
 
                 // ESC키가 눌렸으면 반환
                 if (result.Key == ResultCode.ESC_PRESSED)
@@ -334,12 +333,12 @@ namespace Library.Controller.AdminController
             Console.Clear();
 
             // 유저 정보를 모두 불러옴
-            DataSet dataSet = combinedManager.SqlManager.ExecuteSql("select * from User", "User");
+            DataSet dataSet = SqlManager.getInstance.ExecuteSql("select * from User", "User");
 
             // 유저 아이디에 해당하는 값을 Borrowed_Book에서 찾아보고 그 결과를 출력
             foreach (DataRow row in dataSet.Tables["User"].Rows)
             {
-                DataSet bookData = combinedManager.SqlManager.ExecuteSql("select * from Borrowed_Book where user_id=\'" + row["id"] + "\'", "Borrowed_Book");
+                DataSet bookData = SqlManager.getInstance.ExecuteSql("select * from Borrowed_Book where user_id=\'" + row["id"] + "\'", "Borrowed_Book");
                 SearchBookOrUserView.PrintBorrowedBooks(row["id"].ToString(), bookData);
             }
 

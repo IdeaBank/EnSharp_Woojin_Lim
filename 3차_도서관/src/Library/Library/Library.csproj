@@ -90,7 +90,7 @@
     <Compile Include="Constants\RegularExpression.cs" />
     <Compile Include="Controller\AdminController\AdminLogin.cs" />
     <Compile Include="Controller\AdminController\AdminMenu.cs" />
-    <Compile Include="Controller\ControllerInterface.cs" />
+    <Compile Include="Controller\AbstractController.cs" />
     <Compile Include="Controller\LibraryStart.cs" />
     <Compile Include="Controller\BookSearcher.cs" />
     <Compile Include="Controller\UserController\UserLogin.cs" />
@@ -98,9 +98,6 @@
     <Compile Include="Controller\UserController\UserMenu.cs" />
     <Compile Include="Controller\UserController\UserRegister.cs" />
     <Compile Include="Model\Book.cs" />
-    <Compile Include="Model\BorrowedBook.cs" />
-    <Compile Include="Model\TotalData.cs" />
-    <Compile Include="Model\User.cs" />
     <Compile Include="ProgramStart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\BookManager.cs" />

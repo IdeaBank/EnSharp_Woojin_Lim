@@ -1,5 +1,4 @@
 using Library.Constants;
-using Library.Model;
 using Library.Utility;
 using Library.View;
 using Library.View.UserView;
@@ -9,12 +8,12 @@ using System.Data;
 
 namespace Library.Controller.UserController
 {
-    public class UserMenu : ControllerInterface
+    public class UserMenu : AbstractController
     {
         private int currentSelectionIndex;
         private string currentUserId;
 
-        public UserMenu(TotalData data, CombinedManager combinedManager, int currentSelectionIndex, string currentUserId) : base(data, combinedManager)
+        public UserMenu(CombinedManager combinedManager, int currentSelectionIndex, string currentUserId) : base(combinedManager)
         {
             this.currentSelectionIndex = currentSelectionIndex;
             this.currentUserId = currentUserId;
@@ -31,7 +30,7 @@ namespace Library.Controller.UserController
             {
                 // UI를 출력하고 메뉴를 선택함
                 UserMenuView.PrintUserMenuContour();
-                result = MenuSelector.ChooseMenu(0, MenuCount.USER, MenuType.USER);
+                result = MenuSelector.getInstance.ChooseMenu(0, MenuCount.USER, MenuType.USER);
 
                 // ESC키가 눌리면 반환
                 if (result.Key == ResultCode.ESC_PRESSED)
@@ -55,7 +54,7 @@ namespace Library.Controller.UserController
         private bool EnterNextMenu()
         {
             // 책을 검색하기 위한 클래스의 인스턴스 생성
-            BookSearcher bookSearcher = new BookSearcher(this.data, this.combinedManager);
+            BookSearcher bookSearcher = new BookSearcher(this.combinedManager);
 
             // 인덱스에 따라 다음 메뉴로 이동
             switch (this.currentSelectionIndex)
