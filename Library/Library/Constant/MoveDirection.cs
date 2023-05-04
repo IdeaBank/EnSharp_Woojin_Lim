@@ -2,7 +2,7 @@ namespace Library.Constant
 {
     public enum MoveDirection
     {
-        UP, 
+        UP,
         DOWN
     }
 }

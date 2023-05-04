@@ -46,9 +46,9 @@ namespace Library.Utility
         public void ExecuteCommand(MySqlCommand command)
         {
             this.conn.Open();
-            
+
             command.ExecuteNonQuery();
-            
+
             this.conn.Close();
         }
     }

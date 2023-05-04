@@ -96,12 +96,13 @@
         <Compile Include="Model\DTO\BorrowedBookDTO.cs" />
         <Compile Include="Model\DTO\UserDTO.cs" />
         <Compile Include="Model\ReturnedValue.cs" />
+        <Compile Include="Model\UserInput.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Utility\ConsoleWriter.cs" />
         <Compile Include="Utility\DatabaseConnection.cs" />
         <Compile Include="Utility\MenuSelector.cs" />
-        <Compile Include="Utility\UserInput.cs" />
+        <Compile Include="Utility\UserInputManager.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

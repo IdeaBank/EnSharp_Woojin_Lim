@@ -6,7 +6,7 @@ namespace Library.Constant.Menu
         public const int ADMIN_LOGIN = 1;
 
         public const int SEARCH_BOOK = 0;
-        
+
         public const int ADD_BOOK = 1;
         public const int DELETE_BOOK = 2;
         public const int EDIT_BOOK = 3;

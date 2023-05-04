@@ -19,7 +19,7 @@ namespace Library.Model
             this.resultCode = resultCode;
             this.returnedString = returnedString;
         }
-        
+
         public ResultCode ResultCode
         {
             get => this.resultCode;

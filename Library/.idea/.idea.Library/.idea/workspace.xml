@@ -8,8 +8,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ece7c6d7-4e1c-4130-8e41-56d39f371a2b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Library/Model/UserInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/AlignType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/AlignType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/Input/Max.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/Input/Max.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/Menu/Selection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/Menu/Selection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/Menu/Type.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/Menu/Type.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/MoveDirection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/MoveDirection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/ResultCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/ResultCode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Constant/SqlQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/SqlQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Library.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Library.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Model/DTO/BookDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/DTO/BookDTO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Model/DTO/UserDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/DTO/UserDTO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Model/ReturnedValue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/ReturnedValue.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Utility/ConsoleWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/ConsoleWriter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Utility/DatabaseConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/DatabaseConnection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Utility/MenuSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/MenuSelector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Utility/UserInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +47,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -69,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1683186958306</updated>
       <workItem from="1683186959331" duration="296000" />
-      <workItem from="1683187264944" duration="7918000" />
+      <workItem from="1683187264944" duration="18278000" />
     </task>
     <servers />
   </component>

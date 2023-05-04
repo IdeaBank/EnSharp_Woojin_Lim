@@ -2,14 +2,12 @@ namespace Library.Constant.Input
 {
     public class Max
     {
-        public const int USER_NUMBER = 5;
         public const int USER_ID_PASSWORD = 15;
         public const int USER_NAME = 20;
         public const int USER_AGE = 3;
         public const int USER_PHONE_NUMBER = 13;
         public const int USER_ADDRESS = 30;
 
-        public const int BOOK_ID = 3;
         public const int BOOK_NAME_AUTHOR_PUBLISHER = 20;
         public const int BOOK_QUANTITY = 3;
         public const int BOOK_PRICE = 7;

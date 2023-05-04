@@ -11,13 +11,13 @@ namespace Library.Model.DTO
         private string publishedDate;
         private string isbn;
         private string description;
-        
+
         public BookDTO()
         {
-
         }
 
-        public BookDTO(int id, string name, string author, string publisher, int quantity, int price, string publishedDate,
+        public BookDTO(int id, string name, string author, string publisher, int quantity, int price,
+            string publishedDate,
             string isbn, string description)
         {
             this.id = id;

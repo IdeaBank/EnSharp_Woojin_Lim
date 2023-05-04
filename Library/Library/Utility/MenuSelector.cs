@@ -8,10 +8,9 @@ namespace Library.Utility
     public class MenuSelector
     {
         private static MenuSelector _instance;
-        
+
         private MenuSelector()
         {
-
         }
 
         public static MenuSelector getInstance
@@ -61,7 +60,8 @@ namespace Library.Utility
             }
         }
 
-        private ReturnedValue ChangeSelection(int currentSelectionIndex, int MAX_SELECTION, Constant.Menu.Type currentMenu)
+        private ReturnedValue ChangeSelection(int currentSelectionIndex, int MAX_SELECTION,
+            Constant.Menu.Type currentMenu)
         {
             ShowView(currentMenu, currentSelectionIndex);
 

@@ -2,8 +2,8 @@ namespace Library.Constant
 {
     public enum AlignType
     {
-        LEFT, 
-        CENTER, 
+        LEFT,
+        CENTER,
         RIGHT
     }
 }

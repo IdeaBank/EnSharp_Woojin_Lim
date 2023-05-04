@@ -16,7 +16,6 @@ namespace Library.Model.DAO
 
         private BookDAO()
         {
-            
         }
 
         public static BookDAO getInstance
@@ -54,7 +53,7 @@ namespace Library.Model.DAO
             {
                 return false;
             }
-            
+
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = SqlQuery.SELECT_BOOK_WITH_ID;
             command.Parameters.AddWithValue("@id", bookId);
@@ -95,7 +94,7 @@ namespace Library.Model.DAO
 
             DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
             DataRow dataRow = dataSet.Tables["book"].Rows[0];
-            
+
             BookDTO book = new BookDTO();
 
             book.Name = dataRow["name"].ToString();
@@ -142,14 +141,15 @@ namespace Library.Model.DAO
 
             foreach (DataRow row in dataSet.Tables["borrowed_book"].Rows)
             {
-                BorrowedBookDTO borrowedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId, row["borrowed_date"].ToString(), "");
-                
+                BorrowedBookDTO borrowedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId,
+                    row["borrowed_date"].ToString(), "");
+
                 borrowedBooks.Add(borrowedBook);
             }
 
             return borrowedBooks;
         }
-        
+
         public List<BorrowedBookDTO> GetReturnedBooks(string userId)
         {
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
@@ -162,8 +162,9 @@ namespace Library.Model.DAO
 
             foreach (DataRow row in dataSet.Tables["returned_book"].Rows)
             {
-                BorrowedBookDTO returnedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId, row["borrowed_date"].ToString(), row["returned_date"].ToString());
-                
+                BorrowedBookDTO returnedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId,
+                    row["borrowed_date"].ToString(), row["returned_date"].ToString());
+
                 returnedBooks.Add(returnedBook);
             }
 
@@ -174,7 +175,7 @@ namespace Library.Model.DAO
         {
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = SqlQuery.INSERT_BOOK;
-            
+
             command.Parameters.AddWithValue("@name", book.Name);
             command.Parameters.AddWithValue("@author", book.Author);
             command.Parameters.AddWithValue("@publisher", book.Publisher);
@@ -225,11 +226,11 @@ namespace Library.Model.DAO
             command.CommandText = SqlQuery.DECREASE_BOOK_COUNT;
 
             command.Parameters.AddWithValue("@id", bookId);
-            
+
             DatabaseConnection.getInstance.ExecuteCommand(command);
-            
+
             command.CommandText = SqlQuery.INSERT_BORROWED_BOOK;
-            
+
             command.Parameters.AddWithValue("@user_id", userId);
             command.Parameters.AddWithValue("@book_id", bookId);
             command.Parameters.AddWithValue("@borrowed_date", DateTime.Now.ToString());
@@ -270,7 +271,7 @@ namespace Library.Model.DAO
             command.Parameters.AddWithValue("@isbn", book.Isbn);
             command.Parameters.AddWithValue("@description", book.Description);
             command.Parameters.AddWithValue("@id", book.Id);
-            
+
             DatabaseConnection.getInstance.ExecuteCommand(command);
         }
 

@@ -12,7 +12,6 @@ namespace Library.Model.DAO
 
         private UserDAO()
         {
-            
         }
 
         public UserDAO getInstance
@@ -50,10 +49,10 @@ namespace Library.Model.DAO
             command.CommandText = SqlQuery.SELECT_USER_WITH_ID;
 
             command.Parameters.AddWithValue("@id", userId);
-            
+
             DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "user");
             DataRow dataRow = dataSet.Tables["user"].Rows[0];
-            
+
             UserDTO user = new UserDTO();
 
             user.Id = dataRow["id"].ToString();
@@ -62,7 +61,7 @@ namespace Library.Model.DAO
             user.BirthYear = int.Parse(dataRow["birth_year"].ToString());
             user.PhoneNumber = dataRow["phone_number"].ToString();
             user.Address = dataRow["address"].ToString();
-            
+
             return user;
         }
 
@@ -82,7 +81,7 @@ namespace Library.Model.DAO
             command.Parameters.AddWithValue("@birth_year", user.BirthYear);
             command.Parameters.AddWithValue("@phone_number", user.PhoneNumber);
             command.Parameters.AddWithValue("@address", user.Address);
-            
+
             DatabaseConnection.getInstance.ExecuteCommand(command);
 
             return ResultCode.SUCCESS;
@@ -109,7 +108,7 @@ namespace Library.Model.DAO
 
             return ResultCode.WRONG_PASSWORD;
         }
-        
+
         public ResultCode LoginAsAdministrator(string userId, string userPassword)
         {
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
@@ -162,12 +161,12 @@ namespace Library.Model.DAO
             command.CommandText = SqlQuery.DELETE_USER;
 
             command.Parameters.AddWithValue("@id", userId);
-            
+
             DatabaseConnection.getInstance.ExecuteCommand(command);
 
             return ResultCode.SUCCESS;
         }
-        
+
         public DataSet SearchUser(string name, string id, string address)
         {
             if (name == "" && id == "" && address == "")

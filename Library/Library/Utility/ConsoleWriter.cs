@@ -10,7 +10,6 @@ namespace Library.Utility
 
         private ConsoleWriter()
         {
-
         }
 
         public static ConsoleWriter getInstance
@@ -32,13 +31,14 @@ namespace Library.Utility
             Console.Write(str);
         }
 
-        public void WriteOnPositionWithAlign(int cursorX, int cursorY, string str, AlignType alignType, ConsoleColor color = ConsoleColor.White)
+        public void WriteOnPositionWithAlign(int cursorX, int cursorY, string str, AlignType alignType,
+            ConsoleColor color = ConsoleColor.White)
         {
             int currentX = Console.CursorLeft;
             int currentY = Console.CursorTop;
 
             Console.ForegroundColor = color;
-            
+
             switch (alignType)
             {
                 case AlignType.LEFT:

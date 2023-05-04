@@ -12,9 +12,8 @@ namespace Library.Model.DTO
 
         public UserDTO()
         {
-            
         }
-        
+
         public UserDTO(string id, string password, string name, int birthYear, string phoneNumber, string address)
         {
             this.id = id;
@@ -24,7 +23,7 @@ namespace Library.Model.DTO
             this.phoneNumber = phoneNumber;
             this.address = address;
         }
-        
+
         public int Number
         {
             get => this.number;
