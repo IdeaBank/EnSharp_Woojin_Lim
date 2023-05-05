@@ -4,13 +4,19 @@ namespace Library.Model.DTO
     {
         private int bookId;
         private string userId;
+        private string bookName;
+        private string bookAuthor;
+        private string bookPublisher;
         private string borrowedDate;
         private string returnedDate;
 
-        public BorrowedBookDTO(int bookId, string userId, string borrowedDate, string returnedDate)
+        public BorrowedBookDTO(int bookId, string userId, string bookName, string bookAuthor, string bookPublisher, string borrowedDate, string returnedDate)
         {
             this.bookId = bookId;
             this.userId = userId;
+            this.bookName = bookName;
+            this.bookAuthor = bookAuthor;
+            this.bookPublisher = bookPublisher;
             this.borrowedDate = borrowedDate;
             this.returnedDate = returnedDate;
         }
@@ -20,16 +26,34 @@ namespace Library.Model.DTO
             get => this.bookId;
         }
 
+        public string UserId
+        {
+            get => this.userId;
+        }
+
+        public string BookName
+        {
+            get => this.bookName;
+        }
+
+        public string BookAuthor
+        {
+            get => this.bookAuthor;
+        }
+
+        public string BookPublisher
+        {
+            get => this.bookPublisher;
+        }
+
         public string BorrowedDate
         {
             get => this.borrowedDate;
-            set => this.borrowedDate = value;
         }
 
         public string ReturnedDate
         {
             get => this.returnedDate;
-            set => this.returnedDate = value;
         }
     }
 }

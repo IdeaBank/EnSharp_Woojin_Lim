@@ -2,8 +2,10 @@ namespace Library.Constant
 {
     public class SqlQuery
     {
+
         public const string SELECT_BOOK_WITH_ID = "SELECT * FROM book WHERE id = @id";
         public const string SELECT_USER_WITH_ID = "SELECT * FROM user WHERE id = @id";
+        public const string SELECT_ALL_BOOK = "SELECT * FROM book";
         public const string SELECT_ALL_USER = "SELECT * FROM user";
         public const string SELECT_ADMINISTRATOR_WITH_ID = "SELECT * FROM administrator WHERE ID = @id";
 
@@ -30,6 +32,9 @@ namespace Library.Constant
         public const string INSERT_BORROWED_BOOK =
             "INSERT INTO borrowed_Book(user_id, book_id, borrowed_date) VALUES(@user_id, @book_id, @borrowed_date)";
 
+        public const string INSERT_RETURNED_BOOK =
+            "INSERT INTO returned_book(user_id, book_id, borrowed_date, returned_date) VALUES(@user_id, @book_id, @borrowed_date, @returned_date)";
+
         public const string DECREASE_BOOK_COUNT = "UPDATE book SET quantity = quantity - 1 WHERE id = @id";
         public const string INCREASE_BOOK_COUNT = "UPDATE book SET quantity = quantity + 1 WHERE id = @id";
 
@@ -39,6 +44,7 @@ namespace Library.Constant
         public const string EDIT_USER =
             "UPDATE user SET password = @password, name = @name, birth_year = @birth_year, phone_number = @phone_number, address = @address WHERE id = @id";
 
+        public const string DELETE_BORROWED_BOOK = "DELETE FROM borrowed_book WHERE book_id = @book_id";
         public const string DELETE_BOOK = "DELETE FROM book WHERE id = @id";
         public const string DELETE_USER = "DELETE FROM user WHERE id = @id";
     }

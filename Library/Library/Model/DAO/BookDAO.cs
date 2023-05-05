@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using Library.Constant;
 using Library.Model.DTO;
 using Library.Utility;
 using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Library.Model.DAO
 {
@@ -73,7 +71,7 @@ namespace Library.Model.DAO
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = Constant.SqlQuery.SELECT_BORROWED_BOOK_WITH_BOOK_ID;
 
-            command.Parameters.AddWithValue("@id", bookId);
+            command.Parameters.AddWithValue("@book_id", bookId);
 
             DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "borrowed_book");
 
@@ -83,6 +81,42 @@ namespace Library.Model.DAO
             }
 
             return true;
+        }
+
+        private BookDTO DataRowToBookDTO(DataRow row)
+        {
+            BookDTO book = new BookDTO();
+
+            book.Id = int.Parse(row["id"].ToString());
+            book.Name = row["name"].ToString();
+            book.Author = row["author"].ToString();
+            book.Publisher = row["publisher"].ToString();
+            book.Quantity = int.Parse(row["quantity"].ToString());
+            book.Price = int.Parse(row["price"].ToString());
+            book.PublishedDate = row["published_date"].ToString();
+            book.Isbn = row["isbn"].ToString();
+            book.Description = row["description"].ToString();
+
+            return book;
+        }
+
+        public List<BookDTO> GetAllBooks()
+        {
+            List<BookDTO> books = new List<BookDTO>();
+
+            MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.SELECT_ALL_BOOK;
+
+            DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+
+            foreach (DataRow row in dataSet.Tables["book"].Rows)
+            {
+                BookDTO book = DataRowToBookDTO(row);
+
+                books.Add(book);
+            }
+
+            return books;
         }
 
         public BookDTO GetBookInfo(int bookId)
@@ -126,7 +160,15 @@ namespace Library.Model.DAO
 
             DataRow row = dataSet.Tables["borrowed_book"].Rows[0];
 
-            return new BorrowedBookDTO(bookId, userId, row["borrowed_date"].ToString(), "");
+            command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.SELECT_BOOK_WITH_ID;
+
+            command.Parameters.AddWithValue("@id", int.Parse(row["book_id"].ToString()));
+
+            DataSet bookDataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+            DataRow bookRow = bookDataSet.Tables["book"].Rows[0];
+
+            return new BorrowedBookDTO(bookId, userId, bookRow["name"].ToString(), bookRow["author"].ToString(), bookRow["publisher"].ToString(), row["borrowed_date"].ToString(), "");
         }
 
         public List<BorrowedBookDTO> GetBorrowedBooks(string userId)
@@ -141,7 +183,15 @@ namespace Library.Model.DAO
 
             foreach (DataRow row in dataSet.Tables["borrowed_book"].Rows)
             {
-                BorrowedBookDTO borrowedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId,
+                command = DatabaseConnection.getInstance.Conn.CreateCommand();
+                command.CommandText = SqlQuery.SELECT_BOOK_WITH_ID;
+
+                command.Parameters.AddWithValue("@id", int.Parse(row["book_id"].ToString()));
+
+                DataSet bookDataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+                DataRow bookRow = bookDataSet.Tables["book"].Rows[0];
+
+                BorrowedBookDTO borrowedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId, bookRow["name"].ToString(), bookRow["author"].ToString(), bookRow["publisher"].ToString(),
                     row["borrowed_date"].ToString(), "");
 
                 borrowedBooks.Add(borrowedBook);
@@ -162,7 +212,15 @@ namespace Library.Model.DAO
 
             foreach (DataRow row in dataSet.Tables["returned_book"].Rows)
             {
-                BorrowedBookDTO returnedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId,
+                command = DatabaseConnection.getInstance.Conn.CreateCommand();
+                command.CommandText = SqlQuery.SELECT_BOOK_WITH_ID;
+
+                command.Parameters.AddWithValue("@id", int.Parse(row["book_id"].ToString()));
+
+                DataSet bookDataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
+                DataRow bookRow = bookDataSet.Tables["book"].Rows[0];
+
+                BorrowedBookDTO returnedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId, bookRow["name"].ToString(), bookRow["author"].ToString(), bookRow["publisher"].ToString(),
                     row["borrowed_date"].ToString(), row["returned_date"].ToString());
 
                 returnedBooks.Add(returnedBook);
@@ -204,7 +262,7 @@ namespace Library.Model.DAO
 
             DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "book");
             List<BookDTO> books = new List<BookDTO>();
-            
+
             foreach (DataRow row in dataSet.Tables["book"].Rows)
             {
                 BookDTO book = new BookDTO();
@@ -217,7 +275,7 @@ namespace Library.Model.DAO
                 book.Price = int.Parse(row["price"].ToString());
                 book.Isbn = row["isbn"].ToString();
                 book.Description = row["description"].ToString();
-                
+
                 books.Add(book);
             }
 
@@ -248,6 +306,7 @@ namespace Library.Model.DAO
 
             DatabaseConnection.getInstance.ExecuteCommand(command);
 
+            command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = SqlQuery.INSERT_BORROWED_BOOK;
 
             command.Parameters.AddWithValue("@user_id", userId);
@@ -261,7 +320,9 @@ namespace Library.Model.DAO
 
         public ResultCode ReturnBook(string userId, int bookId)
         {
-            if (!BookExists(bookId) || GetBorrowedBookInfo(userId, bookId) == null)
+            BorrowedBookDTO borrowedBookInfo = GetBorrowedBookInfo(userId, bookId);
+
+            if (!BookExists(bookId) || borrowedBookInfo == null)
             {
                 return ResultCode.NO_BOOK;
             }
@@ -270,6 +331,23 @@ namespace Library.Model.DAO
             command.CommandText = SqlQuery.INCREASE_BOOK_COUNT;
 
             command.Parameters.AddWithValue("@id", bookId);
+
+            DatabaseConnection.getInstance.ExecuteCommand(command);
+
+            command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.INSERT_RETURNED_BOOK;
+
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@book_id", bookId);
+            command.Parameters.AddWithValue("@borrowed_date", borrowedBookInfo.BorrowedDate);
+            command.Parameters.AddWithValue("@returned_date", DateTime.Now.ToString());
+
+            DatabaseConnection.getInstance.ExecuteCommand(command);
+
+            command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.DELETE_BORROWED_BOOK;
+
+            command.Parameters.AddWithValue("@book_id", bookId);
 
             DatabaseConnection.getInstance.ExecuteCommand(command);
 

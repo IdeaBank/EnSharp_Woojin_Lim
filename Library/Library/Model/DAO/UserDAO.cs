@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Data;
 using Library.Constant;
 using Library.Model.DTO;
 using Library.Utility;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Library.Model.DAO
 {
@@ -51,7 +51,7 @@ namespace Library.Model.DAO
                 Id = row["id"].ToString(),
                 Password = row["password"].ToString(),
                 Name = row["name"].ToString(),
-                BirthYear = int.Parse(row["name"].ToString()),
+                BirthYear = int.Parse(row["birth_year"].ToString()),
                 PhoneNumber = row["phone_number"].ToString(),
                 Address = row["address"].ToString()
             };
@@ -72,7 +72,7 @@ namespace Library.Model.DAO
             {
                 users.Add(DataRowToUserDTO(row));
             }
-            
+
             return users;
         }
 
@@ -166,6 +166,8 @@ namespace Library.Model.DAO
             command.Parameters.AddWithValue("@phone_number", user.PhoneNumber);
             command.Parameters.AddWithValue("@address", user.Address);
 
+            command.Parameters.AddWithValue("@id", user.Id);
+
             DatabaseConnection.getInstance.ExecuteCommand(command);
         }
 
@@ -199,16 +201,16 @@ namespace Library.Model.DAO
             }
 
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
-            command.CommandText = SqlQuery.SELECT_BOOK_WITH_SEARCH_STRING;
+            command.CommandText = SqlQuery.SELECT_USER_WITH_SEARCH_STRING;
 
             command.Parameters.AddWithValue("@name", "%" + name + "%");
             command.Parameters.AddWithValue("@id", "%" + id + "%");
             command.Parameters.AddWithValue("@address", "%" + address + "%");
 
             DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "user");
-            
+
             List<UserDTO> users = new List<UserDTO>();
-            
+
             foreach (DataRow row in dataSet.Tables["user"].Rows)
             {
                 users.Add(DataRowToUserDTO(row));

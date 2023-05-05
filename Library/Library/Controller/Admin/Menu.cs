@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Library.Constant;
 using Library.Model;
 using Library.Model.DAO;
 using Library.Model.DTO;
 using Library.Utility;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.Admin
 {
@@ -96,7 +96,7 @@ namespace Library.Controller.Admin
             List<UserInput> inputs = new List<UserInput>();
 
             // 책 정보를 저장하기 위해 8칸을 빈 값으로 새로 채워줌
-            for (int i = 0; i < 8; ++i)
+            for (int i = 0; i < Constant.Input.Count.ADD_BOOK; ++i)
             {
                 inputs.Add(new UserInput(ResultCode.NO, ""));
             }
@@ -197,11 +197,7 @@ namespace Library.Controller.Admin
         {
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = new string[8];
-            string[] warningMessage =
-            {
-                "영어, 한글, 숫자, ?!+= 1개 이상", "영어, 한글 1개 이상", "영어, 한글 1개 이상", "1-999사이의 자연수",
-                "1-9999999사이의 자연수", "19xx or 20xx-xx-xx", "정수9개 + 영어1개 + 공백 + 정수13개", "최소1개의 문자(공백포함)"
-            };
+
             bool allRegexPassed = false;
 
             // 모든 정규식에 부합할 때까지 반복
@@ -236,7 +232,7 @@ namespace Library.Controller.Admin
 
                         // 정규표현식에 맞지 않으면 경고 메세지를 띄워줌
                         case ResultCode.DO_NOT_MATCH_REGEX:
-                            warning[i] = warningMessage[i];
+                            warning[i] = Constant.Input.Instruction.BOOK_WARNING_MESSAGE[i];
                             isInputValid = false;
                             break;
 
@@ -296,6 +292,7 @@ namespace Library.Controller.Admin
 
         private void DeleteMember()
         {
+            Console.Clear();
             View.SearchResultView.getInstance.PrintDeleteUser();
 
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -365,20 +362,16 @@ namespace Library.Controller.Admin
 
         private ResultCode SearchMember()
         {
-            int windowWidthHalf = Console.WindowWidth / 2;
-            int windowHeightHalf = Console.WindowHeight / 2;
+            Console.Clear();
+
+            View.SearchResultView.getInstance.PrintSearchUser();
+            View.SearchResultView.getInstance.ViewSearchUserResult(UserDAO.getInstance.GetAllUsers());
 
             List<UserInput> inputs = new List<UserInput>();
 
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < Constant.Input.Count.SEARCH_MEMBER; ++i)
             {
                 inputs.Add(new UserInput(ResultCode.NO, ""));
-            }
-            
-            View.SearchResultView.getInstance.PrintSearchUser();
-
-            for (int i = 0; i < 3; ++i)
-            {
                 UserInputManager.getInstance.GetSearchUserInput(inputs, i);
 
                 if (inputs[i].ResultCode == ResultCode.ESC_PRESSED)
@@ -392,6 +385,7 @@ namespace Library.Controller.Admin
                 inputs[1].Input, inputs[2].Input);
 
             // 유저 검색 결과를 출력
+            Console.Clear();
             View.SearchResultView.getInstance.ViewSearchUserResult(searchUserResult);
 
             // 키를 입력 받을때까지 출력 유지

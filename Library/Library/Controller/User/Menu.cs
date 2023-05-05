@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
 using Library.Constant;
 using Library.Model;
 using Library.Model.DAO;
 using Library.Model.DTO;
 using Library.Utility;
 using Library.View;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.User
 {
@@ -209,13 +208,10 @@ namespace Library.Controller.User
 
         private void EditUserInformation()
         {
+            Console.Clear();
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = new string[7];
-            string[] warning_message =
-            {
-                "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "영어, 한글 1개 이상", "1-200사이의 자연수",
-                "01x-xxxx-xxxx", "[a]"
-            };
+
             bool allRegexPassed = false;
 
             UserDTO originalUser = UserDAO.getInstance.GetUserInfo(currentUserId);
@@ -264,7 +260,7 @@ namespace Library.Controller.User
 
                         // 정규식에 맞지 않으면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_REGEX:
-                            warning[i] = warning_message[i];
+                            warning[i] = Constant.Input.Instruction.BOOK_WARNING_MESSAGE[i];
                             isInputValid = false;
                             break;
 
@@ -315,11 +311,13 @@ namespace Library.Controller.User
                 {
                     // 결과 출력 후 결과 반환
                     UserSelectionView.getInstance.PrintYesOrNO("Withdraw success!");
+                    Console.ReadKey();
                     return ResultCode.SUCCESS;
                 }
 
                 // 탈퇴하지 못했다면 책을 반납하라고 출력 후 결과 반환
                 UserSelectionView.getInstance.PrintYesOrNO("You must return all books!");
+                Console.ReadKey();
                 return ResultCode.MUST_RETURN_BOOK;
             }
 

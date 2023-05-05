@@ -1,8 +1,8 @@
 using Library.Constant;
+using Library.Model;
 using Library.Utility;
 using System;
 using System.Collections.Generic;
-using Library.Model;
 
 namespace Library.View.Admin
 {
@@ -37,7 +37,7 @@ namespace Library.View.Admin
         private void PrintAddBookContour()
         {
             Console.Clear();
-            ConsoleWriter.getInstance.DrawContour(80, 20);
+            ConsoleWriter.getInstance.DrawContour(120, 20);
         }
 
         private void PrintChooseBookContour()
@@ -56,13 +56,13 @@ namespace Library.View.Admin
             {
                 if (i == currentSelectionIndex)
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf + 3 +i,
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf + 3 + i,
                         loginOrRegister[i], AlignType.RIGHT, ConsoleColor.Green);
                 }
 
                 else
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf- 4, consoleWindowHeightHalf + 3 + i,
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf + 3 + i,
                         loginOrRegister[i], AlignType.RIGHT, ConsoleColor.White);
                 }
             }
@@ -78,14 +78,14 @@ namespace Library.View.Admin
 
             string[] instructions = new string[]
             {
-                "이름 : ",
-                "Enter author: ",
-                "Enter publisher: ",
-                "Enter quantity: ",
-                "Enter price: ",
-                "Enter published date: ",
-                "Enter isbn: ",
-                "Enter desription: "
+                "이름 ( 영어, 한글, 숫자, ?!+= 1개 이상 ): ",
+                "작가 ( 영어, 한글 1개 이상 ): ",
+                "출판사 ( 영어, 한글 1개 이상 ): ",
+                "수량 ( 1-999 사이의 자연수 ): ",
+                "가격 ( 1-9999999 사이의 자연수: ",
+                "출판 날짜 ( 19xx or 20xx-xx-xx ): ",
+                "ISBN ( 정수 13개 ): ",
+                "설명 ( 최소 1개의 문자(공백포함) ): "
             };
 
             for (int i = 0; i < instructions.Length; ++i)
@@ -109,7 +109,7 @@ namespace Library.View.Admin
 
             ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book to remove: ", AlignType.LEFT);
         }
-        
+
         public void PrintEditBook()
         {
             Console.Clear();

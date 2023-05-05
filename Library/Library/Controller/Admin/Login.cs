@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
 using Library.Constant;
 using Library.Model;
 using Library.Model.DAO;
 using Library.Utility;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.Admin
 {
@@ -19,6 +19,8 @@ namespace Library.Controller.Admin
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
+            Console.Clear();
+
             // id, password의 일치 여부를 저장하는 변수
             bool[] isLoggedIn = new bool[2] { false, false };
 
@@ -33,7 +35,7 @@ namespace Library.Controller.Admin
 
                 List<UserInput> inputs = new List<UserInput>();
 
-                for (int i = 0; i < 2; ++i)
+                for (int i = 0; i < Constant.Input.Count.LOGIN_INPUT; ++i)
                 {
                     inputs.Add(new UserInput(ResultCode.NO, ""));
 

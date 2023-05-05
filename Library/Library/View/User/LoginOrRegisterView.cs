@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
 using Library.Constant;
 using Library.Model;
 using Library.Utility;
+using System;
+using System.Collections.Generic;
 
 namespace Library.View.User
 {
@@ -111,12 +111,7 @@ namespace Library.View.User
                     ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
                         AlignType.LEFT, ConsoleColor.Green);
                 }
-                
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
-                    AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
-                    AlignType.RIGHT, ConsoleColor.Red);
-                
+
                 if (i == 1 || i == 2)
                 {
                     ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, new String('*', inputs[i].Input.Length),
@@ -128,6 +123,12 @@ namespace Library.View.User
                     ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, inputs[i].Input,
                         AlignType.RIGHT);
                 }
+
+                ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
+                    AlignType.LEFT);
+                ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
+                    AlignType.RIGHT, ConsoleColor.Red);
+
             }
         }
 

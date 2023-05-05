@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Library.Constant;
 using Library.Model;
 using Library.Model.DAO;
 using Library.Model.DTO;
 using Library.Utility;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.User
 {
@@ -22,10 +22,10 @@ namespace Library.Controller.User
             bool allRegexPassed = false;
 
             // 각 입력 값을 저장하기 위한 변수 선언
-            List<UserInput> inputs =  new List<UserInput>();
+            List<UserInput> inputs = new List<UserInput>();
 
             // 빈 값을 inputs에 넣어줌
-            for (int i = 0; i < 7; ++i)
+            for (int i = 0; i < Constant.Input.Count.ADD_MEMBER; ++i)
             {
                 inputs.Add(new UserInput(ResultCode.NO, ""));
             }
@@ -35,7 +35,7 @@ namespace Library.Controller.User
             {
                 // UI 출력 후 일시 정지
                 View.User.LoginOrRegisterView.getInstance.PrintRegister(warning, inputs);
-                Console.ReadKey();
+                 Console.ReadKey();
 
                 // 이후 경고 내용을 없앰
                 warning = new string[7];
@@ -43,7 +43,7 @@ namespace Library.Controller.User
 
                 bool isInputValid = true;
 
-                for (int i = 0; i < 7 && isInputValid; ++i)
+                for (int i = 0; i < Constant.Input.Count.ADD_MEMBER && isInputValid; ++i)
                 {
                     if (inputs[i].ResultCode == ResultCode.SUCCESS)
                     {
@@ -64,7 +64,7 @@ namespace Library.Controller.User
                             warning[i] = warning_message[i];
                             isInputValid = false;
                             break;
-                        
+
                         case ResultCode.USER_ID_EXISTS:
                             warning[0] = "USER ID EXISTS!!";
                             isInputValid = false;
@@ -97,7 +97,7 @@ namespace Library.Controller.User
             user.BirthYear = DateTime.Now.Year - int.Parse(inputs[4].Input) + 1;
             user.PhoneNumber = inputs[5].Input;
             user.Address = inputs[6].Input;
-            
+
             // 등록을 시도하고 결과값을 저장
             ResultCode registerResult = UserDAO.getInstance.AddUser(user);
 

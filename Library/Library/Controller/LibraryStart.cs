@@ -1,8 +1,8 @@
-using System;
 using Library.Constant;
 using Library.Model;
 using Library.Utility;
 using Library.View;
+using System;
 
 namespace Library.Controller
 {
@@ -12,7 +12,7 @@ namespace Library.Controller
         private int currentSelectionIndex;
         private User.LoginOrRegister loginOrRegister;
         private Admin.Login adminLogin;
-        
+
         public LibraryStart()
         {
             this.currentSelectionIndex = 0;

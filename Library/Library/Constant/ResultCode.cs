@@ -14,6 +14,7 @@ namespace Library.Constant
         MUST_RETURN_BOOK,
         NO_ID,
         WRONG_PASSWORD,
+        NO_ADDRESS,
 
         ESC_PRESSED,
         ENTER_PRESSED,

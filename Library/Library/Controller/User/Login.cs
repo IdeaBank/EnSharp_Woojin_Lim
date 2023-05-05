@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
 using Library.Constant;
 using Library.Model;
 using Library.Model.DAO;
 using Library.Utility;
-using MySqlX.XDevAPI.Common;
+using System;
+using System.Collections.Generic;
 
 namespace Library.Controller.User
 {
@@ -32,7 +31,7 @@ namespace Library.Controller.User
 
                 List<UserInput> inputs = new List<UserInput>();
 
-                for (int i = 0; i < 2; ++i)
+                for (int i = 0; i < Constant.Input.Count.LOGIN_INPUT; ++i)
                 {
                     inputs.Add(new UserInput(ResultCode.NO, ""));
 

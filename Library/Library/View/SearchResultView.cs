@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
 using Library.Constant;
 using Library.Model.DTO;
 using Library.Utility;
+using System;
+using System.Collections.Generic;
 
 namespace Library.View
 {
@@ -39,84 +38,47 @@ namespace Library.View
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
-            ConsoleWriter.getInstance.DrawContour(50, 17);
-
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 2, "Name: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 1, "Author: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 0, "Publisher: ",
-                AlignType.LEFT);
-
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 2,
-                new string('=', 15) + "EXAMPLE" + new string('=', 15), AlignType.CENTER);
-
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 4, "Name: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 4,
-                "세이노의 가르침", AlignType.RIGHT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 5, "Author: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 5,
-                "세이노", AlignType.RIGHT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 6, "Publisher: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 6,
-                "데이윈", AlignType.RIGHT);
-
+            Console.WriteLine("제목: ");
+            Console.WriteLine("작가: ");
+            Console.WriteLine("출판사: \n\n");
         }
 
         public void PrintSearchUser()
         {
-            int windowWidthHalf = Console.WindowWidth / 2;
-            int windowHeightHalf = Console.WindowHeight / 2;
-
-            ConsoleWriter.getInstance.DrawContour(50, 17);
-
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 2, "ID: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 1, "Name: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf - 0, "Address: ",
-                AlignType.LEFT);
-
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 2,
-                new string('=', 15) + "EXAMPLE" + new string('=', 15), AlignType.CENTER);
-
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 4, "ID: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 4,
-                "userid12", AlignType.RIGHT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 5, "Name: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 5,
-                "Woojin", AlignType.RIGHT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 6, "Address: ",
-                AlignType.LEFT);
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + 6,
-                "경기도 고양시", AlignType.RIGHT);
+            Console.WriteLine("아이디: ");
+            Console.WriteLine("이름: ");
+            Console.WriteLine("주소: ");
         }
 
         public void ViewSearchBookResult(List<BookDTO> books)
         {
-            Console.Clear();
             Console.WriteLine(new string('=', 15) + "RESULT" + new string('=', 15));
+
+            if (books.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("검색 결과가 없습니다!");
+                Console.ResetColor();
+            }
 
             foreach (BookDTO book in books)
             {
                 Console.Write("ID: ".PadLeft(15, ' '));
                 Console.WriteLine(book.Id);
 
-                Console.Write("Name: ".PadLeft(15, ' '));
+                Console.Write("책 제목: ".PadLeft(15, ' '));
                 Console.WriteLine(book.Name);
 
-                Console.Write("Author: ".PadLeft(15, ' '));
+                Console.Write("작가: ".PadLeft(15, ' '));
                 Console.WriteLine(book.Author);
 
-                Console.Write("Publisher: ".PadLeft(15, ' '));
+                Console.Write("출판사: ".PadLeft(15, ' '));
                 Console.WriteLine(book.Publisher);
 
-                Console.Write("Description: ".PadLeft(15, ' '));
+                Console.Write("책 수량: ".PadLeft(15, ' '));
+                Console.WriteLine(book.Price);
+
+                Console.Write("설명: ".PadLeft(15, ' '));
                 Console.WriteLine(book.Description);
                 Console.WriteLine();
             }
@@ -126,22 +88,28 @@ namespace Library.View
 
         public void ViewSearchUserResult(List<UserDTO> users)
         {
-            Console.Clear();
-            Console.WriteLine(new string('=', 15) + "RESULT" + new string('=', 15));
+            Console.WriteLine(new string('=', 36));
+
+            if (users.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("검색 결과가 없습니다!");
+                Console.ResetColor();
+            }
 
             foreach (UserDTO user in users)
             {
-                Console.Write("Name: ".PadLeft(15, ' '));
+                Console.Write("이름: ".PadLeft(15, ' '));
                 Console.WriteLine(user.Name);
 
-                Console.Write("ID: ".PadLeft(15, ' '));
+                Console.Write("아이디: ".PadLeft(15, ' '));
                 Console.WriteLine(user.Id);
 
-                Console.Write("Age: ".PadLeft(15, ' '));
+                Console.Write("나이: ".PadLeft(15, ' '));
                 Console.WriteLine(DateTime.Now.Year - int.Parse(user.BirthYear.ToString()) + 1);
 
 
-                Console.Write("Address: ".PadLeft(15, ' '));
+                Console.Write("주소: ".PadLeft(15, ' '));
                 Console.WriteLine(user.Address);
                 Console.WriteLine();
             }
@@ -155,8 +123,17 @@ namespace Library.View
 
             foreach (BorrowedBookDTO book in books)
             {
-                Console.Write("ID: ".PadLeft(15, ' '));
+                Console.Write("Book ID: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BookId);
+
+                Console.Write("Book Name: ".PadLeft(15, ' '));
+                Console.WriteLine(book.BookName);
+
+                Console.Write("Book Author: ".PadLeft(15, ' '));
+                Console.WriteLine(book.BookAuthor);
+
+                Console.Write("Book Publisher: ".PadLeft(15, ' '));
+                Console.WriteLine(book.BookPublisher);
 
                 Console.Write("Borrowed date: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BorrowedDate);
@@ -165,7 +142,7 @@ namespace Library.View
             Console.WriteLine(new string('=', 36));
             Console.WriteLine();
         }
-        
+
         public void PrintReturnedBooks(string userName, List<BorrowedBookDTO> books)
         {
             Console.WriteLine(new string('=', 15) + userName + new string('=', 15));
@@ -177,7 +154,7 @@ namespace Library.View
 
                 Console.Write("Borrowed date: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BorrowedDate);
-                
+
                 Console.Write("Returned date: ".PadLeft(15, ' '));
                 Console.WriteLine(book.ReturnedDate);
             }

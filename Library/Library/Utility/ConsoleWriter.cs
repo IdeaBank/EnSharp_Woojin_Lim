@@ -1,6 +1,5 @@
 using Library.Constant;
 using System;
-using System.Text;
 
 namespace Library.Utility
 {
@@ -35,7 +34,7 @@ namespace Library.Utility
             WriteOnPosition(cursorX, cursorY + 5, "  //  \\\\.-,_|___|_,-._|| \\\\_   //   \\\\_  \\\\    >>  //   \\\\_.-,//|(_  ");
             WriteOnPosition(cursorX, cursorY + 6, " (_\")(\"_)\\_)-' '-(_/(__) (__) (__)  (__)(__)  (__)(__)  (__)\\_) (__) ");
         }
-        
+
         public void WriteOnPosition(int cursorX, int cursorY, string str)
         {
             Console.SetCursorPosition(cursorX, cursorY);

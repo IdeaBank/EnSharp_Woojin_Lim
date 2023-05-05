@@ -13,7 +13,7 @@ namespace Library.Constant.Input
         public const int BOOK_QUANTITY = 3;
         public const int BOOK_PRICE = 7;
         public const int BOOK_PUBLISHED_DATE = 10;
-        public const int BOOK_ISBN = 24;
+        public const int BOOK_ISBN = 13;
         public const int BOOK_DESCRIPTION = 30;
     }
 }

@@ -1,7 +1,7 @@
-using System;
 using Library.Constant;
 using Library.Model;
 using Library.Utility;
+using System;
 
 namespace Library.Controller.User
 {
@@ -16,6 +16,8 @@ namespace Library.Controller.User
 
         public void SelectLoginOrRegister()
         {
+            Console.Clear();
+
             // 메뉴 선택 결과를 저장하기 위한 변수 선언
             ReturnedValue result = new ReturnedValue(ResultCode.SUCCESS, -1);
 

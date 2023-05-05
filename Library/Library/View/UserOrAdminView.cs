@@ -1,6 +1,6 @@
-using System;
 using Library.Constant;
 using Library.Utility;
+using System;
 
 namespace Library.View
 {
@@ -28,7 +28,8 @@ namespace Library.View
 
         public void PrintUserOrAdminContour()
         {
-            ConsoleWriter.getInstance.DrawContour(30, 8);
+            ConsoleWriter.getInstance.DrawContour(100, 24);
+            ConsoleWriter.getInstance.DrawLogo(Console.WindowWidth / 2 - 35, Console.WindowHeight / 2 - 8);
         }
 
         public void PrintUserOrAdmin(int currentSelectionIndex)
@@ -43,13 +44,13 @@ namespace Library.View
             {
                 if (i == currentSelectionIndex)
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf + 4 + i,
                         userOrAdminInstruction[i], AlignType.CENTER, ConsoleColor.Green);
                 }
 
                 else
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf - 1 + i,
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf, consoleWindowHeightHalf + 4 + i,
                         userOrAdminInstruction[i], AlignType.CENTER);
                 }
             }
