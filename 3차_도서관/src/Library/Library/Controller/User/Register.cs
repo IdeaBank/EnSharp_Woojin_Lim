@@ -35,7 +35,7 @@ namespace Library.Controller.User
             {
                 // UI 출력 후 일시 정지
                 View.User.LoginOrRegisterView.getInstance.PrintRegister(warning, inputs);
-                 Console.ReadKey();
+                Console.ReadKey();
 
                 // 이후 경고 내용을 없앰
                 warning = new string[7];

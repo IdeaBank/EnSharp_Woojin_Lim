@@ -93,22 +93,11 @@ namespace Library.View.User
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
-            string[] instructions = new string[]
-            {
-                "ID ( 8~15글자 영어, 숫자포함 ): ",
-                "패스워드 ( 8~15글자 영어, 숫자포함 ): ",
-                "패스워드 확인: ",
-                "이름 ( 영어, 한글 1개 이상 ): ",
-                "나이 ( 1-200사이의 자연수 ): ",
-                "전화번호 ( 01x-xxxx-xxxx ): ",
-                "주소 ( XX도 XX시 ): "
-            };
-
-            for (int i = 0; i < instructions.Length; ++i)
+            for (int i = 0; i < Constant.Input.Instruction.USER_INPUT_INSTRUCTION.Length; ++i)
             {
                 if (inputs[i].ResultCode == ResultCode.SUCCESS)
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, Constant.Input.Instruction.USER_INPUT_INSTRUCTION[i],
                         AlignType.LEFT, ConsoleColor.Green);
                 }
 
@@ -124,7 +113,7 @@ namespace Library.View.User
                         AlignType.RIGHT);
                 }
 
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
+                ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, Constant.Input.Instruction.USER_INPUT_INSTRUCTION[i],
                     AlignType.LEFT);
                 ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],
                     AlignType.RIGHT, ConsoleColor.Red);

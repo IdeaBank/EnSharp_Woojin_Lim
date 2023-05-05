@@ -279,9 +279,9 @@ namespace Library.Utility
                     break;
             }
 
-            if(inputIndex == Constant.Input.Type.USER_ADDRESS)
+            if (inputIndex == Constant.Input.Type.USER_ADDRESS)
             {
-                if(!IsAddressValid(input.Input))
+                if (!IsAddressValid(input.Input))
                 {
                     return ResultCode.NO_ADDRESS;
                 }

@@ -260,7 +260,7 @@ namespace Library.Controller.User
 
                         // 정규식에 맞지 않으면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_REGEX:
-                            warning[i] = Constant.Input.Instruction.BOOK_WARNING_MESSAGE[i];
+                            warning[i] = Constant.Input.Instruction.BOOK_INPUT_INSTRUCTION[i];
                             isInputValid = false;
                             break;
 

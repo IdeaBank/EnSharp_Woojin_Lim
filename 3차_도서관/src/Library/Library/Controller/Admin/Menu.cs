@@ -232,7 +232,7 @@ namespace Library.Controller.Admin
 
                         // 정규표현식에 맞지 않으면 경고 메세지를 띄워줌
                         case ResultCode.DO_NOT_MATCH_REGEX:
-                            warning[i] = Constant.Input.Instruction.BOOK_WARNING_MESSAGE[i];
+                            warning[i] = Constant.Input.Instruction.BOOK_INPUT_INSTRUCTION[i];
                             isInputValid = false;
                             break;
 
