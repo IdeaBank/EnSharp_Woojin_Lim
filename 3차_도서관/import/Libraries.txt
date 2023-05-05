@@ -1,1 +1,3 @@
 MySql.Data.MySqlClient
+Newtonsoft.Json.Linq
+System.Web.HttpUtility
