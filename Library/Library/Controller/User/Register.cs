@@ -18,7 +18,7 @@ namespace Library.Controller.User
         {
             // 경고 메세지, 각 속성이 제대로 입력되었는지 여부, 이전 입력, 모든 정규식에 부합하는지 여부를 저장하는 변수 선언
             string[] warning = new string[7];
-            string[] warning_message = { "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "영어, 한글 1개 이상", "1-200사이의 자연수", "01x-xxxx-xxxx", "[a]" };
+            string[] warning_message = { "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "8~15글자 영어, 숫자포함", "영어, 한글 1개 이상", "1-200사이의 자연수", "01x-xxxx-xxxx", "XX도 XX시" };
             bool allRegexPassed = false;
 
             // 각 입력 값을 저장하기 위한 변수 선언
@@ -62,6 +62,11 @@ namespace Library.Controller.User
                         // 정규식에 맞지 않으면 경고 메세지 출력
                         case ResultCode.DO_NOT_MATCH_REGEX:
                             warning[i] = warning_message[i];
+                            isInputValid = false;
+                            break;
+                        
+                        case ResultCode.USER_ID_EXISTS:
+                            warning[0] = "USER ID EXISTS!!";
                             isInputValid = false;
                             break;
 

@@ -25,6 +25,17 @@ namespace Library.Utility
             }
         }
 
+        public void DrawLogo(int cursorX, int cursorY)
+        {
+            WriteOnPosition(cursorX, cursorY + 0, "   _                   ____     ____        _       ____     __   __ ");
+            WriteOnPosition(cursorX, cursorY + 1, "  |\"|        ___    U | __\")uU |  _\"\\ u U  /\"\\  uU |  _\"\\ u  \\ \\ / / ");
+            WriteOnPosition(cursorX, cursorY + 2, "U | | u     |_\"_|    \\|  _ \\/ \\| |_) |/  \\/ _ \\/  \\| |_) |/   \\ V /  ");
+            WriteOnPosition(cursorX, cursorY + 3, " \\| |/__     | |      | |_) |  |  _ <    / ___ \\   |  _ <    U_|\"|_u ");
+            WriteOnPosition(cursorX, cursorY + 4, "  |_____|  U/| |\\u    |____/   |_| \\_\\  /_/   \\_\\  |_| \\_\\     |_|   ");
+            WriteOnPosition(cursorX, cursorY + 5, "  //  \\\\.-,_|___|_,-._|| \\\\_   //   \\\\_  \\\\    >>  //   \\\\_.-,//|(_  ");
+            WriteOnPosition(cursorX, cursorY + 6, " (_\")(\"_)\\_)-' '-(_/(__) (__) (__)  (__)(__)  (__)(__)  (__)\\_) (__) ");
+        }
+        
         public void WriteOnPosition(int cursorX, int cursorY, string str)
         {
             Console.SetCursorPosition(cursorX, cursorY);
@@ -42,13 +53,13 @@ namespace Library.Utility
             switch (alignType)
             {
                 case AlignType.LEFT:
-                    WriteOnPosition(cursorX - str.Length, cursorY, str);
+                    WriteOnPosition(cursorX - str.Length - UserInputManager.getInstance.GetHangeulCount(str), cursorY, str);
                     break;
                 case AlignType.RIGHT:
                     WriteOnPosition(cursorX, cursorY, str);
                     break;
                 case AlignType.CENTER:
-                    WriteOnPosition(cursorX - Encoding.Default.GetByteCount(str) / 2, cursorY, str);
+                    WriteOnPosition(cursorX - str.Length / 2 - UserInputManager.getInstance.GetHangeulCount(str.Substring(0, str.Length / 2)), cursorY, str);
                     break;
             }
 

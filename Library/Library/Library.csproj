@@ -81,6 +81,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Constant\AlignType.cs" />
+        <Compile Include="Constant\Input\Instruction.cs" />
         <Compile Include="Constant\Input\Parameter.cs" />
         <Compile Include="Constant\Input\Max.cs" />
         <Compile Include="Constant\Menu\Count.cs" />

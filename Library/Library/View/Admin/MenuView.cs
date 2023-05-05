@@ -30,16 +30,19 @@ namespace Library.View.Admin
 
         public void PrintAdminMenuContour()
         {
-            ConsoleWriter.getInstance.DrawContour(40, 13);
+            ConsoleWriter.getInstance.DrawContour(100, 24);
+            ConsoleWriter.getInstance.DrawLogo(Console.WindowWidth / 2 - 35, Console.WindowHeight / 2 - 8);
         }
 
         private void PrintAddBookContour()
         {
+            Console.Clear();
             ConsoleWriter.getInstance.DrawContour(80, 20);
         }
 
         private void PrintChooseBookContour()
         {
+            Console.Clear();
             ConsoleWriter.getInstance.DrawContour(60, 4);
         }
 
@@ -53,13 +56,13 @@ namespace Library.View.Admin
             {
                 if (i == currentSelectionIndex)
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf - 3 + i,
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf - 4, consoleWindowHeightHalf + 3 +i,
                         loginOrRegister[i], AlignType.RIGHT, ConsoleColor.Green);
                 }
 
                 else
                 {
-                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf- 4, consoleWindowHeightHalf - 3 + i,
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(consoleWindowWidthHalf- 4, consoleWindowHeightHalf + 3 + i,
                         loginOrRegister[i], AlignType.RIGHT, ConsoleColor.White);
                 }
             }
@@ -67,6 +70,7 @@ namespace Library.View.Admin
 
         public void PrintAddBook(string[] warnings, List<UserInput> inputs)
         {
+            Console.Clear();
             PrintAddBookContour();
 
             int windowWidthHalf = Console.WindowWidth / 2;
@@ -74,7 +78,7 @@ namespace Library.View.Admin
 
             string[] instructions = new string[]
             {
-                "Enter name: ",
+                "이름 : ",
                 "Enter author: ",
                 "Enter publisher: ",
                 "Enter quantity: ",

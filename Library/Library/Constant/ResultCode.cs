@@ -17,6 +17,9 @@ namespace Library.Constant
 
         ESC_PRESSED,
         ENTER_PRESSED,
+        ENTERING,
+        UP_PRESSED,
+        DOWN_PRESSED,
         DO_NOT_MATCH_REGEX,
         DO_NOT_MATCH_PASSWORD,
 

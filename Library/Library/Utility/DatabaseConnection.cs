@@ -39,7 +39,7 @@ namespace Library.Utility
 
             MySqlDataAdapter adpt = new MySqlDataAdapter();
             adpt.SelectCommand = command;
-            
+
             conn.Open();
             adpt.Fill(dataSet, tableName);
             conn.Close();

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Library.Model;
+using Library.Model.DAO;
 
 namespace Library.Utility
 {
@@ -40,7 +41,7 @@ namespace Library.Utility
             return ResultCode.DO_NOT_MATCH_REGEX;
         }
 
-        private int GetHangeulCount(string str)
+        public int GetHangeulCount(string str)
         {
             int count = 0;
 
@@ -166,6 +167,22 @@ namespace Library.Utility
                     break;
                 }
 
+                if (keyInput.Key == ConsoleKey.UpArrow)
+                {
+                    Console.CursorVisible = false;
+
+                    inputResult = ResultCode.UP_PRESSED;
+                    break;
+                }
+                
+                if (keyInput.Key == ConsoleKey.DownArrow)
+                {
+                    Console.CursorVisible = false;
+
+                    inputResult = ResultCode.DOWN_PRESSED;
+                    break;
+                }
+                
                 // If backspace is pressed and length of current input is over 0
                 if (keyInput.Key == ConsoleKey.Backspace && currentInput.Length > 0)
                 {
@@ -300,18 +317,35 @@ namespace Library.Utility
                     break;
             }
 
+            if (inputs[inputIndex].ResultCode == ResultCode.UP_PRESSED ||
+                inputs[inputIndex].ResultCode == ResultCode.DOWN_PRESSED)
+            {
+                return inputs[inputIndex].ResultCode;
+            }
+            
             ResultCode validateResult = ValidateUserInformationInput(inputs[inputIndex], inputIndex);
 
             if (validateResult == ResultCode.DO_NOT_MATCH_REGEX)
             {
-                inputs[inputIndex] = new UserInput(ResultCode.DO_NOT_MATCH_REGEX, "");
+                inputs[inputIndex].ResultCode = ResultCode.DO_NOT_MATCH_REGEX;
+                inputs[inputIndex].Input = "";
             }
 
+            if (inputIndex == 0)
+            {
+                if (UserDAO.getInstance.UserExists(inputs[0].Input))
+                {
+                    inputs[inputIndex].ResultCode = ResultCode.USER_ID_EXISTS;
+                    inputs[inputIndex].Input = "";
+                }
+            }
+            
             if (inputIndex == 2)
             {
                 if (inputs[1].Input != inputs[2].Input)
                 {
-                    inputs[2] = new UserInput(ResultCode.NO, "");
+                    inputs[2].ResultCode = ResultCode.NO;
+                    inputs[2].Input = "";
 
                     return ResultCode.DO_NOT_MATCH_PASSWORD;
                 }

@@ -95,17 +95,23 @@ namespace Library.View.User
 
             string[] instructions = new string[]
             {
-                "Enter ID: ",
-                "Enter Password: ",
-                "Confirm Password: ",
-                "Enter Name: ",
-                "Enter Age: ",
-                "Enter Phone Number: ",
-                "Enter User Address: "
+                "ID ( 8~15글자 영어, 숫자포함 ): ",
+                "패스워드 ( 8~15글자 영어, 숫자포함 ): ",
+                "패스워드 확인: ",
+                "이름 ( 영어, 한글 1개 이상 ): ",
+                "나이 ( 1-200사이의 자연수 ): ",
+                "전화번호 ( 01x-xxxx-xxxx ): ",
+                "주소 ( XX도 XX시 ): "
             };
 
             for (int i = 0; i < instructions.Length; ++i)
             {
+                if (inputs[i].ResultCode == ResultCode.SUCCESS)
+                {
+                    ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
+                        AlignType.LEFT, ConsoleColor.Green);
+                }
+                
                 ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, instructions[i],
                     AlignType.LEFT);
                 ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf + i, warnings[i],

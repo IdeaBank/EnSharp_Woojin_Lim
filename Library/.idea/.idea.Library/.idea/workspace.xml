@@ -8,33 +8,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ece7c6d7-4e1c-4130-8e41-56d39f371a2b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Library/Controller/BookSearcher.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Controller/LibraryStart.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Controller/User/Login.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Controller/User/LoginOrRegister.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Controller/User/Menu.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/Controller/User/Register.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/View/Admin/MenuView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/View/SearchResultView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/View/User/LoginOrRegisterView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/View/User/MenuView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/View/UserOrAdminView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Library/View/UserSelectionView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3차_도서관/src/Library/Library/View/UserView/UserMenuView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../3차_도서관/src/Library/Library/View/UserView/UserMenuView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Library/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Library/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Constant/SqlQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/SqlQuery.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Controller/Admin/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Controller/Admin/Login.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Controller/Admin/Menu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Controller/Admin/Menu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Library.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Library.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Constant/ResultCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/ResultCode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Controller/User/Register.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Controller/User/Register.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Utility/ConsoleWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/ConsoleWriter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Utility/DatabaseConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/DatabaseConnection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Utility/MenuSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/MenuSelector.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/View/Admin/MenuView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/View/Admin/MenuView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/View/User/LoginOrRegisterView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/View/User/LoginOrRegisterView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/bin/Debug/Library.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Library/bin/Debug/Library.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/bin/Debug/Library.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Library/bin/Debug/Library.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.pdb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1683186958306</updated>
       <workItem from="1683186959331" duration="296000" />
-      <workItem from="1683187264944" duration="32524000" />
+      <workItem from="1683187264944" duration="40170000" />
     </task>
     <servers />
   </component>
@@ -125,6 +111,45 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Library/Utility/UserInputManager.cs</url>
+          <line>333</line>
+          <properties documentPath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" initialLine="310" containingFunctionPresentation="Method 'GetUserInformationInput'">
+            <startOffsets>
+              <option value="11855" />
+            </startOffsets>
+            <endOffsets>
+              <option value="11875" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs</url>
+          <line>32</line>
+          <properties documentPath="$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs" initialLine="32" containingFunctionPresentation="Method 'UserExists'">
+            <startOffsets>
+              <option value="639" />
+            </startOffsets>
+            <endOffsets>
+              <option value="714" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs</url>
+          <line>36</line>
+          <properties documentPath="$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs" initialLine="36" containingFunctionPresentation="Method 'UserExists'">
+            <startOffsets>
+              <option value="852" />
+            </startOffsets>
+            <endOffsets>
+              <option value="935" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
