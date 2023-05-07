@@ -96,9 +96,9 @@ namespace Library.Controller.User
                         return true;
                     }
                     break;
-                
+
                 case Constant.Menu.Selection.REQUEST_BOOK:
-                    RequestBook();
+                    SearchRequestBook();
                     break;
             }
 
@@ -333,7 +333,7 @@ namespace Library.Controller.User
             return ResultCode.NO;
         }
 
-        private void RequestBook()
+        private void SearchRequestBook()
         {
             bool isSearchInputValid = false;
             bool isInputValid = true;
@@ -345,12 +345,12 @@ namespace Library.Controller.User
             {
                 inputs.Add(new UserInput(ResultCode.NO, ""));
             }
-            
-            // 아이디와 비번 둘 중 하나라도 일치하지 않으면 반복
+
+
             while (!isSearchInputValid)
             {
                 isInputValid = true;
-                // 로그인 창 출력
+
                 View.User.MenuView.getInstance.PrintRequestBook(searchHint[0], searchHint[1], inputs);
 
                 for (int i = 0; i < Constant.Input.Count.REQUEST_BOOK; ++i)
@@ -359,11 +359,12 @@ namespace Library.Controller.User
                     {
                         continue;
                     }
-                    
+
                     ResultCode inputResult = UserInputManager.getInstance.GetRequestBookInput(inputs, i);
-                    
+
                     if (inputResult == ResultCode.ESC_PRESSED)
-                    {;
+                    {
+                        ;
                         return;
                     }
 
@@ -390,15 +391,57 @@ namespace Library.Controller.User
                 }
             }
 
-            Console.Clear();
-            
-            JObject responseJSON = RestfulApiConnector.getInstance.GetResponseAsJObject(
-                string.Format(Constant.ApiUrl.NAVER_API_ADDRESS, inputs[1].Input), inputs[0].Input, "X-Naver-Client-Id",
-                Constant.ApiUrl.NAVER_API_ID, "X-Naver-Client-Secret", Constant.ApiUrl.NAVER_API_PASSWORD);
-            
-            Console.WriteLine(responseJSON);
+            RequestBook(inputs[1].Input, inputs[0].Input);
+        }
 
-            Console.ReadKey();
+        public void RequestBook(string bookName, string bookCount)
+        {
+            JObject responseJSON = RestfulApiConnector.getInstance.GetResponseAsJObject(
+                string.Format(Constant.ApiUrl.NAVER_API_ADDRESS, bookCount), bookName, "X-Naver-Client-Id",
+                Constant.ApiUrl.NAVER_API_ID, "X-Naver-Client-Secret", Constant.ApiUrl.NAVER_API_PASSWORD);
+
+            List<RequestedBookDTO> searchedBookList = new List<RequestedBookDTO>();
+
+            foreach (JObject bookInfo in responseJSON["items"])
+            {
+                searchedBookList.Add(new RequestedBookDTO(bookInfo["isbn"].ToString(), 
+                    bookInfo["title"].ToString(), bookInfo["author"].ToString(), bookInfo["publisher"].ToString(), 
+                    (int)bookInfo["discount"], bookInfo["pubdate"].ToString(), bookInfo["description"].ToString()));
+            }
+
+            View.User.MenuView.getInstance.PrintSearchBookFromNaver(searchedBookList, bookName, bookCount);
+
+            UserInput input = new UserInput(ResultCode.NO, "");
+
+            ResultCode inputResult = UserInputManager.getInstance.GetRequestBookIsbn(input);
+
+            if(inputResult == ResultCode.ESC_PRESSED)
+            {
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine(new string('=', 25) + "등록 결과" + new string('=', 25));
+            Console.WriteLine();
+
+            foreach(RequestedBookDTO searchedBook in searchedBookList)
+            {
+                if(searchedBook.Isbn.Contains(input.Input))
+                {
+                    switch(BookDAO.getInstance.TryRequestBook(searchedBook))
+                    {
+                        case ResultCode.ALREADY_IN_DATABASE:
+                            ConsoleWriter.getInstance.PrintWarning(input.Input + "가 ISBN인 책이 이미 도서관에 있습니다!");
+                            break;
+                        case ResultCode.ALREADY_REQUESTED:
+                            ConsoleWriter.getInstance.PrintWarning(input.Input + "가 ISBN인 책이 이미 신청되어 있습니다!");
+                            break;
+                        case ResultCode.SUCCESS:
+                            Console.WriteLine(input.Input + "가 ISBN인 책을 성공적으로 등록하였습니다!");
+                            break;
+                    }
+                }
+            }
         }
     }
 }

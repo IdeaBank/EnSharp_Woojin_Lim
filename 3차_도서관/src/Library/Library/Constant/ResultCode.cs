@@ -8,6 +8,8 @@ namespace Library.Constant
         NO_BOOK,
         BOOK_NOT_ENOUGH,
         ALREADY_BORROWED,
+        ALREADY_REQUESTED,
+        ALREADY_IN_DATABASE,
 
         NO_USER,
         USER_ID_EXISTS,

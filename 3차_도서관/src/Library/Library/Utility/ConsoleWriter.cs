@@ -66,6 +66,13 @@ namespace Library.Utility
             Console.SetCursorPosition(currentX, currentY);
         }
 
+        public void PrintWarning(string warning)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(warning);
+            Console.ResetColor();
+        }
+
         public void DrawContour(int contourWidth, int contourHeight)
         {
             int windowWidthHalf = Console.WindowWidth / 2;

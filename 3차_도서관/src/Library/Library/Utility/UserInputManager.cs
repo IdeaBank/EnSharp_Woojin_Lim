@@ -572,6 +572,14 @@ namespace Library.Utility
             return inputs[inputIndex].ResultCode;
         }
 
+        public ResultCode GetRequestBookIsbn(UserInput input)
+        {
+            input = ReadInputFromUser(Console.CursorLeft, Console.CursorTop, Constant.Input.Max.BOOK_ISBN,
+                Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, input.Input);
+
+            return input.ResultCode;
+        }
+
         public void ReadUntilEsc()
         {
             bool isEscPressed = false;

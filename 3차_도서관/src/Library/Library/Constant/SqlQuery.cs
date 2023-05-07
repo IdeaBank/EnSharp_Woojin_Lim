@@ -7,6 +7,7 @@ namespace Library.Constant
         public const string SELECT_USER_WITH_ID = "SELECT * FROM user WHERE id = @id";
         public const string SELECT_ALL_BOOK = "SELECT * FROM book";
         public const string SELECT_ALL_USER = "SELECT * FROM user";
+        public const string SELECT_ALL_REQUESTED_BOOK = "SELECT * FROM requested_book";
         public const string SELECT_ADMINISTRATOR_WITH_ID = "SELECT * FROM administrator WHERE ID = @id";
 
         public const string SELECT_BOOK_WITH_SEARCH_STRING =
@@ -34,6 +35,9 @@ namespace Library.Constant
 
         public const string INSERT_RETURNED_BOOK =
             "INSERT INTO returned_book(user_id, book_id, borrowed_date, returned_date) VALUES(@user_id, @book_id, @borrowed_date, @returned_date)";
+
+        public const string INSERT_REQUESTED_BOOK =
+            "INSERT INTO requested_book(isbn, name, author, price, publisher, published_date, description) VALUES(@isbn, @name, @author, @price, @publisher, @published_date, @description)";
 
         public const string DECREASE_BOOK_COUNT = "UPDATE book SET quantity = quantity - 1 WHERE id = @id";
         public const string INCREASE_BOOK_COUNT = "UPDATE book SET quantity = quantity + 1 WHERE id = @id";

@@ -5,6 +5,8 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Net;
+using System.Security.Policy;
 
 namespace Library.Model.DAO
 {
@@ -99,6 +101,20 @@ namespace Library.Model.DAO
 
             return book;
         }
+        private RequestedBookDTO DataRowToRequestedBookDTO(DataRow row)
+        {
+            RequestedBookDTO book = new RequestedBookDTO();
+
+            book.Isbn = row["isbn"].ToString();
+            book.Name = row["name"].ToString();
+            book.Author = row["author"].ToString();
+            book.Publisher = row["publisher"].ToString();
+            book.Price = int.Parse(row["price"].ToString());
+            book.PublishedDate = row["published_date"].ToString();
+            book.Description = row["description"].ToString();
+
+            return book;
+        }
 
         public List<BookDTO> GetAllBooks()
         {
@@ -112,6 +128,25 @@ namespace Library.Model.DAO
             foreach (DataRow row in dataSet.Tables["book"].Rows)
             {
                 BookDTO book = DataRowToBookDTO(row);
+
+                books.Add(book);
+            }
+
+            return books;
+        }
+
+        public List<RequestedBookDTO> GetAllRequestedBooks()
+        {
+            List<RequestedBookDTO> books = new List<RequestedBookDTO>();
+
+            MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = SqlQuery.SELECT_ALL_REQUESTED_BOOK;
+
+            DataSet dataSet = DatabaseConnection.getInstance.ExecuteSelection(command, "requested_book");
+
+            foreach (DataRow row in dataSet.Tables["requested_book"].Rows)
+            {
+                RequestedBookDTO book = DataRowToRequestedBookDTO(row);
 
                 books.Add(book);
             }
@@ -383,6 +418,43 @@ namespace Library.Model.DAO
             command.CommandText = Constant.SqlQuery.DELETE_BOOK;
 
             command.Parameters.AddWithValue("@id", bookId);
+
+            DatabaseConnection.getInstance.ExecuteCommand(command);
+
+            return ResultCode.SUCCESS;
+        }
+
+        public ResultCode TryRequestBook(RequestedBookDTO requestingBook)
+        {
+            List<BookDTO> books = GetAllBooks();
+            List<RequestedBookDTO> requestedBooks = GetAllRequestedBooks();
+
+            foreach(RequestedBookDTO requestedBook in requestedBooks)
+            {
+                if(requestedBook.Isbn == requestingBook.Isbn)
+                {
+                    return ResultCode.ALREADY_REQUESTED;
+                }
+            }
+
+            foreach(BookDTO book in books)
+            {
+                if(book.Isbn == requestingBook.Isbn)
+                {
+                    return ResultCode.ALREADY_IN_DATABASE;
+                }
+            }
+
+            MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = Constant.SqlQuery.INSERT_REQUESTED_BOOK;
+
+            command.Parameters.AddWithValue("@isbn", requestingBook.Isbn);
+            command.Parameters.AddWithValue("@name", requestingBook.Name);
+            command.Parameters.AddWithValue("@author", requestingBook.Author);
+            command.Parameters.AddWithValue("@price", requestingBook.Price);
+            command.Parameters.AddWithValue("@publisher", requestingBook.Publisher);
+            command.Parameters.AddWithValue("@published_date", requestingBook.PublishedDate);
+            command.Parameters.AddWithValue("@description", requestingBook.Description);
 
             DatabaseConnection.getInstance.ExecuteCommand(command);
 
