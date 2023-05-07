@@ -27,6 +27,7 @@ namespace Library.Model.DTO
             this.name = name;
             this.author = author;
             this.publisher = publisher;
+            this.price = price;
             this.publishedDate = DateTime.ParseExact(publishedDate, "yyyymmdd", null).ToString("yyyy-mm-dd");
             this.description = description;
         }

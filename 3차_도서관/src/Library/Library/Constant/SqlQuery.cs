@@ -7,6 +7,7 @@ namespace Library.Constant
         public const string SELECT_USER_WITH_ID = "SELECT * FROM user WHERE id = @id";
         public const string SELECT_ALL_BOOK = "SELECT * FROM book";
         public const string SELECT_ALL_USER = "SELECT * FROM user";
+        public const string SELECT_ALL_LOG = "SELECT * FROM log_data";
         public const string SELECT_ALL_REQUESTED_BOOK = "SELECT * FROM requested_book";
         public const string SELECT_ADMINISTRATOR_WITH_ID = "SELECT * FROM administrator WHERE ID = @id";
 
@@ -39,6 +40,9 @@ namespace Library.Constant
         public const string INSERT_REQUESTED_BOOK =
             "INSERT INTO requested_book(isbn, name, author, price, publisher, published_date, description) VALUES(@isbn, @name, @author, @price, @publisher, @published_date, @description)";
 
+        public const string INSERT_LOG =
+            "INSERT INTO log_data(log_time, user_name, log_contents, log_action) VALUES(@log_time, @user_name, @log_contents, @log_action)";
+        
         public const string DECREASE_BOOK_COUNT = "UPDATE book SET quantity = quantity - 1 WHERE id = @id";
         public const string INCREASE_BOOK_COUNT = "UPDATE book SET quantity = quantity + 1 WHERE id = @id";
 
@@ -51,5 +55,8 @@ namespace Library.Constant
         public const string DELETE_BORROWED_BOOK = "DELETE FROM borrowed_book WHERE book_id = @book_id";
         public const string DELETE_BOOK = "DELETE FROM book WHERE id = @id";
         public const string DELETE_USER = "DELETE FROM user WHERE id = @id";
+        public const string DELETE_REQUESTED_BOOK = "DELETE FROM requested_book WHERE isbn = @isbn";
+        public const string DELETE_LOG = "DELETE FROM log_data WHERE log_id = @log_id";
+        public const string DELETE_ALL_LOG = "DELETE FROM log_data WHERE 1=1";
     }
 }

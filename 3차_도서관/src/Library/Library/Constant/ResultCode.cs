@@ -27,6 +27,7 @@ namespace Library.Constant
         DO_NOT_MATCH_PASSWORD,
 
         YES,
-        NO
+        NO,
+        NO_LOG
     }
 }

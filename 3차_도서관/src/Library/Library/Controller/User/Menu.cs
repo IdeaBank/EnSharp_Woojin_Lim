@@ -134,16 +134,19 @@ namespace Library.Controller.User
                 if (borrowBookResult == ResultCode.SUCCESS)
                 {
                     View.User.MenuView.getInstance.PrintBorrowOrReturnBookResult("책을 성공적으로 빌렸습니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "책 대출"));
                 }
 
                 else if (borrowBookResult == ResultCode.BOOK_NOT_ENOUGH)
                 {
                     View.User.MenuView.getInstance.PrintBorrowOrReturnBookResult("책이 부족합니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "책이 부족함", "책 대출 시도"));
                 }
 
                 else
                 {
                     View.User.MenuView.getInstance.PrintBorrowOrReturnBookResult("책이 존재하지 않습니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "책이 존재하지 않음", "책 대출 시도"));
                 }
 
                 // 일시 정지
@@ -159,6 +162,8 @@ namespace Library.Controller.User
             View.SearchResultView.getInstance.PrintBorrowedBooks(currentUserId,
                 BookDAO.getInstance.GetBorrowedBooks(currentUserId));
 
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "빌린 도서 조회"));
+            
             Console.ReadKey(true);
         }
 
@@ -191,11 +196,13 @@ namespace Library.Controller.User
                 if (returnBookResult == ResultCode.SUCCESS)
                 {
                     View.User.MenuView.getInstance.PrintBorrowOrReturnBookResult("책을 성공적으로 반납했습니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "책 반납"));
                 }
 
                 else
                 {
                     View.User.MenuView.getInstance.PrintBorrowOrReturnBookResult("책이 존재하지 않습니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "책이 존재하지 않음", "책 반납 시도"));
                 }
 
                 // 일시 정지
@@ -211,6 +218,8 @@ namespace Library.Controller.User
             View.SearchResultView.getInstance.PrintReturnedBooks(currentUserId,
                 BookDAO.getInstance.GetReturnedBooks(currentUserId));
 
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "반납 도서 조회"));
+            
             Console.ReadKey(true);
         }
 
@@ -303,13 +312,14 @@ namespace Library.Controller.User
             // 등록을 시도
             UserDAO.getInstance.EditUser(user);
 
-            View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("EDIT SUCCESS!");
+            View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("성공적으로 수정했습니다!");
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "유저 정보 수정"));
             Console.ReadKey(true);
         }
 
         private ResultCode Withdraw()
         {
-            UserSelectionView.getInstance.PrintYesOrNO("Are you sure to exit?");
+            UserSelectionView.getInstance.PrintYesOrNO("정말 탈퇴하겠습니까?");
 
             // 회원탈퇴 여부를 물어보고 Y키가 입력되었으면
             if (UserInputManager.getInstance.InputYesOrNo() == ResultCode.YES)
@@ -318,13 +328,15 @@ namespace Library.Controller.User
                 if (UserDAO.getInstance.DeleteUser(currentUserId) == ResultCode.SUCCESS)
                 {
                     // 결과 출력 후 결과 반환
-                    UserSelectionView.getInstance.PrintYesOrNO("Withdraw success!");
+                    UserSelectionView.getInstance.PrintYesOrNO("성공적으로 탈퇴했습니다!");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "회원 탈퇴"));
                     Console.ReadKey();
                     return ResultCode.SUCCESS;
                 }
 
                 // 탈퇴하지 못했다면 책을 반납하라고 출력 후 결과 반환
-                UserSelectionView.getInstance.PrintYesOrNO("You must return all books!");
+                UserSelectionView.getInstance.PrintYesOrNO("책을 모두 반납해야합니다!");
+                LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "책을 반납해야 함", "회원 탈퇴 시도"));
                 Console.ReadKey();
                 return ResultCode.MUST_RETURN_BOOK;
             }
@@ -391,7 +403,9 @@ namespace Library.Controller.User
                 }
             }
 
-            RequestBook(inputs[1].Input, inputs[0].Input);
+            RequestBook(inputs[0].Input, inputs[1].Input);
+
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), currentUserId, "성공", "NAVER API 책 신청"));
         }
 
         public void RequestBook(string bookName, string bookCount)
@@ -411,11 +425,9 @@ namespace Library.Controller.User
 
             View.User.MenuView.getInstance.PrintSearchBookFromNaver(searchedBookList, bookName, bookCount);
 
-            UserInput input = new UserInput(ResultCode.NO, "");
+            UserInput input = UserInputManager.getInstance.GetRequestBookIsbn();
 
-            ResultCode inputResult = UserInputManager.getInstance.GetRequestBookIsbn(input);
-
-            if(inputResult == ResultCode.ESC_PRESSED)
+            if(input.ResultCode == ResultCode.ESC_PRESSED)
             {
                 return;
             }
@@ -431,17 +443,19 @@ namespace Library.Controller.User
                     switch(BookDAO.getInstance.TryRequestBook(searchedBook))
                     {
                         case ResultCode.ALREADY_IN_DATABASE:
-                            ConsoleWriter.getInstance.PrintWarning(input.Input + "가 ISBN인 책이 이미 도서관에 있습니다!");
+                            ConsoleWriter.getInstance.PrintWarning(searchedBook.Isbn + "가 ISBN인 책이 이미 도서관에 있습니다!");
                             break;
                         case ResultCode.ALREADY_REQUESTED:
-                            ConsoleWriter.getInstance.PrintWarning(input.Input + "가 ISBN인 책이 이미 신청되어 있습니다!");
+                            ConsoleWriter.getInstance.PrintWarning(searchedBook.Isbn + "가 ISBN인 책이 이미 신청되어 있습니다!");
                             break;
                         case ResultCode.SUCCESS:
-                            Console.WriteLine(input.Input + "가 ISBN인 책을 성공적으로 등록하였습니다!");
+                            Console.WriteLine(searchedBook.Isbn + "가 ISBN인 책을 성공적으로 등록하였습니다!");
                             break;
                     }
                 }
             }
+
+            Console.ReadKey(true);
         }
     }
 }

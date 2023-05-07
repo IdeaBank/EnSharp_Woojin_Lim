@@ -4,6 +4,7 @@ using Library.Model.DAO;
 using Library.Utility;
 using System;
 using System.Collections.Generic;
+using Library.Model.DTO;
 
 namespace Library.Controller.Admin
 {
@@ -53,16 +54,19 @@ namespace Library.Controller.Admin
                     // 로그인이 성공했으면 isLoggedIn에 true를 저장
                     case ResultCode.SUCCESS:
                         isLoggedIn[0] = isLoggedIn[1] = true;
+                        LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "성공", "로그인"));
                         break;
 
                     // 로그인에 실패했고, 결과가 NO_ID면 ID가 없다고 표시
                     case ResultCode.NO_ID:
                         loginHint[0] = "No ID";
+                        LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "아이디 틀림", "로그인 시도"));
                         break;
 
                     // 로그인에 실패했고, 결과가 WRONG_PASSWORD면 비밀번호가 틀렸다고 표시
                     case ResultCode.WRONG_PASSWORD:
                         loginHint[1] = "Wrong Password";
+                        LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "비밀번호 틀림", "로그인 시도"));
                         break;
                 }
 

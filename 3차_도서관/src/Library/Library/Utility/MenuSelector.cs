@@ -56,6 +56,9 @@ namespace Library.Utility
                 case Constant.Menu.Type.ADMIN:
                     View.Admin.MenuView.getInstance.PrintAdminMenu(currentSelectionIndex);
                     break;
+                case Constant.Menu.Type.LOG:
+                    View.Admin.LogView.getInstance.PrintLogMenu(currentSelectionIndex);
+                    break;
             }
         }
 

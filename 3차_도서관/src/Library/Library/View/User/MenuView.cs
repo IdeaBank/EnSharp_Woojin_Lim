@@ -129,33 +129,13 @@ namespace Library.View.User
 
             foreach(RequestedBookDTO book in searchedBooks)
             {
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "ISBN: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.Isbn);
-                Console.WriteLine();
-
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "제목: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.Name);
-                Console.WriteLine();
-
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "작가: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.Author);
-                Console.WriteLine();
-
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "가격: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.Price.ToString());
-                Console.WriteLine();
-
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "출판사: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.Publisher);
-                Console.WriteLine();
-
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "출판 날짜: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.PublishedDate);
-                Console.WriteLine();
-
-                ConsoleWriter.getInstance.WriteOnPositionWithAlign(10, Console.CursorTop, "설명: ", AlignType.LEFT);
-                ConsoleWriter.getInstance.WriteOnPosition(10, Console.CursorTop, book.Description);
-                Console.WriteLine();
+                Console.WriteLine("ISBN: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("ISBN: ", 10)) + book.Isbn);
+                Console.WriteLine("제목: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("제목: ", 10)) + book.Name);
+                Console.WriteLine("작가: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("작가: ", 10)) + book.Author);
+                Console.WriteLine("가격: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("가격: ", 10)) + book.Price);
+                Console.WriteLine("출판사: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("출판사: ", 10)) + book.Publisher);
+                Console.WriteLine("출판 날짜: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("출판 날짜: ", 10)) + book.PublishedDate);
+                Console.WriteLine("설명: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("설명: ", 10)) + book.Description);
                 Console.WriteLine();
             }
 

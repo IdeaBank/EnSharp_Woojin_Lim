@@ -3,6 +3,7 @@ using Library.Model;
 using Library.Utility;
 using System;
 using System.Collections.Generic;
+using Library.Model.DTO;
 
 namespace Library.View.Admin
 {
@@ -48,7 +49,7 @@ namespace Library.View.Admin
 
         public void PrintAdminMenu(int currentSelectionIndex)
         {
-            string[] loginOrRegister = new[] { "도서 찾기", "도서 추가", "도서 삭제", "도서 수정", "회원 관리", "대여 상황" };
+            string[] loginOrRegister = new[] { "도서 찾기", "도서 추가", "도서 삭제", "도서 수정", "회원 관리", "대여 상황", "요청 도서", "로그 관리" };
             int consoleWindowWidthHalf = Console.WindowWidth / 2;
             int consoleWindowHeightHalf = Console.WindowHeight / 2;
 
@@ -107,7 +108,7 @@ namespace Library.View.Admin
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book to remove: ", AlignType.LEFT);
+            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "삭제할 책 ID: ", AlignType.LEFT);
         }
 
         public void PrintEditBook()
@@ -118,7 +119,7 @@ namespace Library.View.Admin
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of book to edit: ", AlignType.LEFT);
+            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "수정할 책 ID: ", AlignType.LEFT);
         }
 
         public void PrintDeleteResult(string str)
@@ -130,6 +131,36 @@ namespace Library.View.Admin
             int windowHeightHalf = Console.WindowHeight / 2;
 
             ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, str, AlignType.CENTER);
+        }
+
+        public void PrintRequestedBooks(List<RequestedBookDTO> requestedBooks)
+        {
+            Console.Clear();
+            
+            Console.Clear();
+
+            Console.WriteLine(new string('=', 20) + "신청 목록" + new string('=', 20));
+            Console.WriteLine();
+
+            if(requestedBooks.Count == 0)
+            {
+                Console.SetCursorPosition(0, 3);
+                ConsoleWriter.getInstance.PrintWarning("신청된 책 결과가 존재하지 않습니다!");
+            }
+
+            foreach(RequestedBookDTO book in requestedBooks)
+            {
+                Console.WriteLine("ISBN: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("ISBN: ", 10)) + book.Isbn);
+                Console.WriteLine("제목: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("제목: ", 10)) + book.Name);
+                Console.WriteLine("작가: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("작가: ", 10)) + book.Author);
+                Console.WriteLine("가격: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("가격: ", 10)) + book.Price);
+                Console.WriteLine("출판사: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("출판사: ", 10)) + book.Publisher);
+                Console.WriteLine("출판 날짜: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("출판 날짜: ", 10)) + book.PublishedDate);
+                Console.WriteLine("설명: ".PadLeft(ConsoleWriter.getInstance.GetPadCount("설명: ", 10)) + book.Description);
+                Console.WriteLine();
+            }
+
+            Console.Write("추가할 책의 ISBN을 입력하세요: ");
         }
     }
 }

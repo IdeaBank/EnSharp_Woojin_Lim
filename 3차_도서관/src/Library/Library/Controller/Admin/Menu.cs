@@ -11,10 +11,12 @@ namespace Library.Controller.Admin
     public class Menu
     {
         private int currentSelectionIndex;
+        private LogController logController;
 
         public Menu()
         {
             this.currentSelectionIndex = 0;
+            this.logController = new LogController();
         }
 
         public void SelectAdminMenu()
@@ -87,6 +89,15 @@ namespace Library.Controller.Admin
                 case Constant.Menu.Selection.VIEW_BORROWED_BOOKS:
                     ViewBorrowedBooks();
                     break;
+                
+                case Constant.Menu.Selection.ADD_FROM_REQUESTED_BOOK:
+                    AddRequestedBook();
+                    break;
+                
+                case Constant.Menu.Selection.CONTROL_LOG:
+                    logController.SelectLogMenu();
+                    break;
+                    
             }
         }
 
@@ -115,6 +126,7 @@ namespace Library.Controller.Admin
 
             // 결과를 출력하고 유지시키기 위해 키를 입력 받음
             View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK ADDED!");
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "성공", "책 추가"));
             Console.ReadKey(true);
         }
 
@@ -145,6 +157,7 @@ namespace Library.Controller.Admin
                 if (!BookDAO.getInstance.BookExists(int.Parse(bookIdInputResult.Input)))
                 {
                     View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK DOES NOT EXIST!");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "책이 존재하지 않음", "책 수정"));
                     Console.ReadKey(true);
                     return;
                 }
@@ -189,6 +202,7 @@ namespace Library.Controller.Admin
 
                 // 결과를 출력하고 유지시키기 위해 키를 입력 받음
                 View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK EDITED!");
+                LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "성공", "책 수정"));
                 Console.ReadKey(true);
             }
         }
@@ -278,11 +292,13 @@ namespace Library.Controller.Admin
                 if (BookDAO.getInstance.RemoveBook(int.Parse(bookIdInputResult.Input)) == ResultCode.SUCCESS)
                 {
                     View.Admin.MenuView.getInstance.PrintDeleteResult("책을 성공적으로 제거했습니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "성공", "책 제거"));
                 }
 
                 else
                 {
                     View.Admin.MenuView.getInstance.PrintDeleteResult("책이 존재하지 않습니다.");
+                    LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "책이 존재하지 않음", "책 제거"));
                 }
 
                 // 일시 정지
@@ -310,7 +326,7 @@ namespace Library.Controller.Admin
                 return;
             }
 
-            View.UserSelectionView.getInstance.PrintYesOrNO("Are you sure to delete user " + userIdInputResult.Input + "?");
+            View.UserSelectionView.getInstance.PrintYesOrNO("유저 : " + userIdInputResult.Input + "를 삭제하시겠습니까?");
 
             // 회원 삭제 여부를 물어보고 Y키가 입력되었으면
             if (UserInputManager.getInstance.InputYesOrNo() == ResultCode.YES)
@@ -326,13 +342,16 @@ namespace Library.Controller.Admin
                         // 성공했으면 결과 출력
                         case ResultCode.SUCCESS:
                             View.Admin.MenuView.getInstance.PrintDeleteResult("사용자를 성공적으로 제거했습니다.");
+                            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "성공, " + userIdInputResult.Input, "유저 제거"));
                             break;
                         // 실패했으면 그 이유를 출력
                         case ResultCode.MUST_RETURN_BOOK:
                             View.Admin.MenuView.getInstance.PrintDeleteResult("책을 모두 반납해야 합니다!");
+                            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "책을 반납해야 함", "유저 제거"));
                             break;
                         default:
                             View.Admin.MenuView.getInstance.PrintDeleteResult("사용자가 존재하지 않습니다.");
+                            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "사용자가 존재하지 않음", "유저 제거"));
                             break;
                     }
 
@@ -356,6 +375,8 @@ namespace Library.Controller.Admin
                     BookDAO.getInstance.GetBorrowedBooks(user.Id);
                 View.SearchResultView.getInstance.PrintBorrowedBooks(user.Id, bookData);
             }
+            
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "성공", "빌린 책 조회"));
 
             Console.ReadKey();
         }
@@ -392,6 +413,40 @@ namespace Library.Controller.Admin
             Console.ReadKey(true);
 
             return ResultCode.SUCCESS;
+        }
+
+        private void AddRequestedBook()
+        {
+            List<RequestedBookDTO> requestedBooks = BookDAO.getInstance.GetAllRequestedBooks();
+            
+            View.Admin.MenuView.getInstance.PrintRequestedBooks(requestedBooks);
+            
+            UserInput input = UserInputManager.getInstance.GetRequestBookIsbn();
+
+            if(input.ResultCode == ResultCode.ESC_PRESSED)
+            {
+                return;
+            }
+            
+            Console.Clear();
+            Console.WriteLine(new string('=', 25) + "등록 결과" + new string('=', 25));
+            Console.WriteLine();
+
+            foreach(RequestedBookDTO requestedBook in requestedBooks)
+            {
+                if(requestedBook.Isbn.Contains(input.Input))
+                {
+                    switch(BookDAO.getInstance.TryAddRequestedBook(requestedBook))
+                    {
+                        case ResultCode.SUCCESS:
+                            Console.WriteLine(requestedBook.Isbn + "가 ISBN인 책을 성공적으로 등록하였습니다!");
+                            break;
+                    }
+                }
+            }
+
+            LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "책 등록", "NAVER 책 등록"));
+            Console.ReadKey(true);
         }
     }
 }

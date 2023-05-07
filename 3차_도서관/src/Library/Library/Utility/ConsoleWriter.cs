@@ -1,5 +1,6 @@
 using Library.Constant;
 using System;
+using System.Text;
 
 namespace Library.Utility
 {
@@ -35,6 +36,12 @@ namespace Library.Utility
             WriteOnPosition(cursorX, cursorY + 6, " (_\")(\"_)\\_)-' '-(_/(__) (__) (__)  (__)(__)  (__)(__)  (__)\\_) (__) ");
         }
 
+        public int GetPadCount(string str, int count)
+        {
+            int byteCount = Encoding.Default.GetByteCount(str);
+            return count - (byteCount - count);
+        }
+        
         public void WriteOnPosition(int cursorX, int cursorY, string str)
         {
             Console.SetCursorPosition(cursorX, cursorY);

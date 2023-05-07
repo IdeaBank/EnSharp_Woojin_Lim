@@ -460,5 +460,49 @@ namespace Library.Model.DAO
 
             return ResultCode.SUCCESS;
         }
+        
+        public ResultCode TryAddRequestedBook(RequestedBookDTO requestedBook)
+        {
+            List<BookDTO> books = GetAllBooks();
+            MySqlCommand command;
+            
+            foreach(BookDTO book in books)
+            {
+                if(book.Isbn == requestedBook.Isbn)
+                {
+                    command = DatabaseConnection.getInstance.Conn.CreateCommand();
+                    command.CommandText = SqlQuery.INCREASE_BOOK_COUNT;
+
+                    command.Parameters.AddWithValue("@id", book.Id);
+
+                    DatabaseConnection.getInstance.ExecuteCommand(command);
+                }
+            }
+
+            command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = Constant.SqlQuery.INSERT_BOOK;
+
+            command.Parameters.AddWithValue("@name", requestedBook.Name);
+            command.Parameters.AddWithValue("@author", requestedBook.Author);
+            command.Parameters.AddWithValue("@publisher", requestedBook.Publisher);
+            command.Parameters.AddWithValue("@quantity", 1);
+            command.Parameters.AddWithValue("@price", requestedBook.Price);
+            command.Parameters.AddWithValue("@published_date", requestedBook.PublishedDate);
+            command.Parameters.AddWithValue("@isbn", requestedBook.Isbn);
+            command.Parameters.AddWithValue("@description", requestedBook.Description);
+
+            DatabaseConnection.getInstance.ExecuteCommand(command);
+            
+            command = DatabaseConnection.getInstance.Conn.CreateCommand();
+            command.CommandText = Constant.SqlQuery.DELETE_REQUESTED_BOOK;
+
+            command.Parameters.AddWithValue("@isbn", requestedBook.Isbn);
+
+            DatabaseConnection.getInstance.ExecuteCommand(command);
+
+
+
+            return ResultCode.SUCCESS;
+        }
     }
 }

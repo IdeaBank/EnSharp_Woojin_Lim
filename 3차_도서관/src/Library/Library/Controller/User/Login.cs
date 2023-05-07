@@ -4,6 +4,7 @@ using Library.Model.DAO;
 using Library.Utility;
 using System;
 using System.Collections.Generic;
+using Library.Model.DTO;
 
 namespace Library.Controller.User
 {
@@ -46,14 +47,17 @@ namespace Library.Controller.User
                 {
                     case ResultCode.SUCCESS:
                         isLoggedIn[0] = isLoggedIn[1] = true;
+                        LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "성공", "로그인"));
                         break;
 
                     case ResultCode.NO_ID:
                         loginHint[0] = "No ID";
+                        LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "아이디 틀림", "로그인 시도"));
                         break;
 
                     case ResultCode.WRONG_PASSWORD:
                         loginHint[1] = "Wrong password";
+                        LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "비밀번호 틀림", "로그인 시도"));
                         break;
                 }
 

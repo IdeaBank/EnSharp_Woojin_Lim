@@ -32,8 +32,6 @@ namespace Library.Utility
             
             string encodedQuery = System.Web.HttpUtility.UrlEncode(query);
             url = url + encodedQuery;
-
-            Console.WriteLine(url);
             
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(url);
 

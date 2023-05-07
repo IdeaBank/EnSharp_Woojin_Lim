@@ -105,6 +105,7 @@ namespace Library.Controller.User
             if (registerResult == ResultCode.USER_ID_EXISTS)
             {
                 View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("SAME ID EXISTS!", ConsoleColor.Red);
+                LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "아이디 중복", "회원가입 시도"));
                 Console.ReadKey(true);
             }
 
@@ -112,6 +113,7 @@ namespace Library.Controller.User
             else
             {
                 View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("REGISTER SUCCESS!");
+                LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), inputs[0].Input, "성공", "회원가입"));
                 Console.ReadKey(true);
             }
         }

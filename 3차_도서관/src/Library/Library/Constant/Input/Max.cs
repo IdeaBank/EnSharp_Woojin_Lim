@@ -15,5 +15,7 @@ namespace Library.Constant.Input
         public const int BOOK_PUBLISHED_DATE = 10;
         public const int BOOK_ISBN = 13;
         public const int BOOK_DESCRIPTION = 30;
+
+        public const int LOG_ID = 4;
     }
 }

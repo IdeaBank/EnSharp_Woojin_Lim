@@ -572,12 +572,20 @@ namespace Library.Utility
             return inputs[inputIndex].ResultCode;
         }
 
-        public ResultCode GetRequestBookIsbn(UserInput input)
+        public UserInput GetRequestBookIsbn()
         {
-            input = ReadInputFromUser(Console.CursorLeft, Console.CursorTop, Constant.Input.Max.BOOK_ISBN,
-                Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, input.Input);
+            UserInput input = ReadInputFromUser(Console.CursorLeft, Console.CursorTop, Constant.Input.Max.BOOK_ISBN,
+                Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, "");
 
-            return input.ResultCode;
+            return input;
+        }
+        
+        public UserInput GetRemoveLogWithId()
+        {
+            UserInput input = ReadInputFromUser(Console.CursorLeft, Console.CursorTop, Constant.Input.Max.LOG_ID,
+                Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, "");
+
+            return input;
         }
 
         public void ReadUntilEsc()

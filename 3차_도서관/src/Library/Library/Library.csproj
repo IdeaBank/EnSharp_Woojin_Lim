@@ -98,6 +98,7 @@
     <Compile Include="Constant\RegularExpression.cs" />
     <Compile Include="Constant\ResultCode.cs" />
     <Compile Include="Constant\SqlQuery.cs" />
+    <Compile Include="Controller\Admin\LogController.cs" />
     <Compile Include="Controller\Admin\Login.cs" />
     <Compile Include="Controller\Admin\Menu.cs" />
     <Compile Include="Controller\BookSearcher.cs" />
@@ -107,9 +108,12 @@
     <Compile Include="Controller\User\Menu.cs" />
     <Compile Include="Controller\User\Register.cs" />
     <Compile Include="Model\DAO\BookDAO.cs" />
+    <Compile Include="Model\DAO\LogDAO.cs" />
     <Compile Include="Model\DAO\UserDAO.cs" />
     <Compile Include="Model\DTO\BookDTO.cs" />
     <Compile Include="Model\DTO\BorrowedBookDTO.cs" />
+    <Compile Include="Model\DTO\LogDTO.cs" />
+    <Compile Include="Model\DTO\RequestedBookDTO.cs" />
     <Compile Include="Model\DTO\UserDTO.cs" />
     <Compile Include="Model\ReturnedValue.cs" />
     <Compile Include="Model\UserInput.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="Utility\MenuSelector.cs" />
     <Compile Include="Utility\RestfulApiConnector.cs" />
     <Compile Include="Utility\UserInputManager.cs" />
+    <Compile Include="View\Admin\LogView.cs" />
     <Compile Include="View\Admin\MenuView.cs" />
     <Compile Include="View\SearchResultView.cs" />
     <Compile Include="View\UserOrAdminView.cs" />

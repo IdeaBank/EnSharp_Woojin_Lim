@@ -14,6 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2c721a40379a97481c2379c45bd9c1e141a28ff50bbc37c55edd7f8c1eac270/TermInfoDriver.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2d69376d29998e7896cb7398f3851e8d3efff1433f3a85b35273e5cbd1dd/exceptionservicescommon.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/aaa64d58d5fbae6d745281a0a6fad2591252fb69c8bb8c9f93d5e963ecee5b1/DataSet.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -78,6 +79,8 @@
       <workItem from="1683375511756" duration="530000" />
       <workItem from="1683378721168" duration="2903000" />
       <workItem from="1683434394150" duration="5157000" />
+      <workItem from="1683446037634" duration="117000" />
+      <workItem from="1683446207717" duration="9933000" />
     </task>
     <servers />
   </component>
@@ -93,7 +96,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs</url>
-          <line>207</line>
+          <line>242</line>
           <properties documentPath="$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs" initialLine="207" containingFunctionPresentation="Method 'SearchBook'">
             <startOffsets>
               <option value="7565" />
@@ -103,19 +106,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Library/Utility/UserInputManager.cs</url>
-          <line>320</line>
-          <properties documentPath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" initialLine="310" containingFunctionPresentation="Method 'GetUserInformationInput'">
-            <startOffsets>
-              <option value="11384" />
-            </startOffsets>
-            <endOffsets>
-              <option value="11404" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs</url>
