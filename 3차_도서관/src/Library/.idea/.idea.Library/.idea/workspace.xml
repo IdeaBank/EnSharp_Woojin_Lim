@@ -7,21 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ece7c6d7-4e1c-4130-8e41-56d39f371a2b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Library/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Library/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Constant/ResultCode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Constant/ResultCode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Controller/User/Register.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Controller/User/Register.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Utility/ConsoleWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/ConsoleWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Utility/DatabaseConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/DatabaseConnection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/View/Admin/MenuView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/View/Admin/MenuView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/View/User/LoginOrRegisterView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Library/View/User/LoginOrRegisterView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/bin/Debug/Library.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Library/bin/Debug/Library.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/bin/Debug/Library.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Library/bin/Debug/Library.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/obj/Debug/Library.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Library/obj/Debug/Library.pdb" afterDir="false" />
-    </list>
+    <list default="true" id="ece7c6d7-4e1c-4130-8e41-56d39f371a2b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,25 +23,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/Users/woojin/Library/Application Support/JetBrains/Rider2023.1/resharper-host/DecompilerCache",
-      "/Users/woojin/Library/Application Support/JetBrains/Rider2023.1/resharper-host/SourcesCache",
-      "/Users/woojin/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/Users/woojin/Library/Application Support/JetBrains/Rider2023.1/resharper-host/DecompilerCache&quot;,
+      &quot;/Users/woojin/Library/Application Support/JetBrains/Rider2023.1/resharper-host/SourcesCache&quot;,
+      &quot;/Users/woojin/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Library" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -86,6 +72,12 @@
       <updated>1683186958306</updated>
       <workItem from="1683186959331" duration="296000" />
       <workItem from="1683187264944" duration="40170000" />
+      <workItem from="1683350122412" duration="717000" />
+      <workItem from="1683361623154" duration="1507000" />
+      <workItem from="1683371429423" duration="780000" />
+      <workItem from="1683375511756" duration="530000" />
+      <workItem from="1683378721168" duration="2903000" />
+      <workItem from="1683434394150" duration="5157000" />
     </task>
     <servers />
   </component>
@@ -114,13 +106,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Library/Utility/UserInputManager.cs</url>
-          <line>333</line>
+          <line>320</line>
           <properties documentPath="$PROJECT_DIR$/Library/Utility/UserInputManager.cs" initialLine="310" containingFunctionPresentation="Method 'GetUserInformationInput'">
             <startOffsets>
-              <option value="11855" />
+              <option value="11384" />
             </startOffsets>
             <endOffsets>
-              <option value="11875" />
+              <option value="11404" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="6" />

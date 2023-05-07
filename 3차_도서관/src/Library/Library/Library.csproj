@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constant\AlignType.cs" />
+    <Compile Include="Constant\ApiUrl.cs" />
     <Compile Include="Constant\Input\Count.cs" />
     <Compile Include="Constant\Input\Instruction.cs" />
     <Compile Include="Constant\Input\Parameter.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Utility\ConsoleWriter.cs" />
     <Compile Include="Utility\DatabaseConnection.cs" />
     <Compile Include="Utility\MenuSelector.cs" />
+    <Compile Include="Utility\RestfulApiConnector.cs" />
     <Compile Include="Utility\UserInputManager.cs" />
     <Compile Include="View\Admin\MenuView.cs" />
     <Compile Include="View\SearchResultView.cs" />

@@ -19,5 +19,7 @@ namespace Library.Constant.Menu
         public const int CHECK_RETURNED_BOOK = 4;
         public const int EDIT_USER_INFORMATION = 5;
         public const int WITHDRAW = 6;
+        public const int REQUEST_BOOK = 7;
+        
     }
 }

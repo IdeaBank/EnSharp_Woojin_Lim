@@ -7,5 +7,6 @@
         public const int ADD_MEMBER = 7;
         public const int SEARCH_MEMBER = 3;
         public const int SEARCH_BOOK = 3;
+        public const int REQUEST_BOOK = 2;
     }
 }

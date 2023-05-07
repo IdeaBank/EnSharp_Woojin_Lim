@@ -15,9 +15,6 @@ namespace Library.Controller.User
 
         public void TryLogin()
         {
-            int windowWidthHalf = Console.WindowWidth / 2;
-            int windowHeightHalf = Console.WindowHeight / 2;
-
             // id, password의 일치 여부를 저장하는 변수 
             bool[] isLoggedIn = new bool[2] { false, false };
             // 로그인 결과의 힌트를 보여주기 위한 변수 (ex. ID가 틀렸습니다. Password가 틀렸습니다)

@@ -125,25 +125,12 @@ namespace Library.Utility
 
         private bool IsAddressValid(string address)
         {
-            string encoded = System.Web.HttpUtility.UrlEncode(address);
-            var url = "https://dapi.kakao.com/v2/local/search/address.json?analyze_type=exact&query=" + encoded;
+            JObject jObject = RestfulApiConnector.getInstance.GetResponseAsJObject(Constant.ApiUrl.KAKAO_API_ADDRESS,
+                address, "Authorization", "KakaoAK 0064631b5828a014e919d63af22f8c49");
 
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-
-            httpRequest.Headers["Authorization"] = "KakaoAK 0064631b5828a014e919d63af22f8c49";
-
-
-            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            if (jObject["meta"]["total_count"].ToString() == "0")
             {
-                var result = streamReader.ReadToEnd();
-
-                JObject jObject = JObject.Parse(result);
-
-                if (jObject["meta"]["total_count"].ToString() == "0")
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
@@ -542,6 +529,44 @@ namespace Library.Utility
                         Constant.Input.Max.USER_ID_PASSWORD, Constant.Input.Parameter.IS_PASSWORD,
                         Constant.Input.Parameter.CANNOT_ENTER_KOREAN, "");
                     break;
+            }
+
+            return inputs[inputIndex].ResultCode;
+        }
+        
+        public ResultCode GetRequestBookInput(List<UserInput> inputs, int inputIndex)
+        {
+            int windowWidthHalf = Console.WindowWidth / 2;
+            int windowHeightHalf = Console.WindowHeight / 2;
+
+            switch (inputIndex)
+            {
+                case Constant.Input.Type.REQUEST_BOOK_NAME:
+                    inputs[inputIndex] = ReadInputFromUser(windowWidthHalf, windowHeightHalf,
+                        Constant.Input.Max.BOOK_NAME_AUTHOR_PUBLISHER, Constant.Input.Parameter.IS_NOT_PASSWORD,
+                        Constant.Input.Parameter.CAN_ENTER_KOREAN, "");
+                    break;
+                case Constant.Input.Type.REQUEST_BOOK_COUNT:
+                    inputs[inputIndex] = ReadInputFromUser(windowWidthHalf, windowHeightHalf + 1,
+                        Constant.Input.Max.BOOK_QUANTITY, Constant.Input.Parameter.IS_NOT_PASSWORD,
+                        Constant.Input.Parameter.CANNOT_ENTER_KOREAN, "");
+                    break;
+            }
+
+            if (inputIndex == Constant.Input.Type.REQUEST_BOOK_NAME)
+            {
+                if (MatchesRegex(Constant.RegularExpression.BOOK_NAME, inputs[inputIndex].Input) == ResultCode.DO_NOT_MATCH_REGEX)
+                {
+                    inputs[inputIndex].ResultCode = ResultCode.DO_NOT_MATCH_REGEX;
+                }
+            }
+            
+            else if (inputIndex == Constant.Input.Type.REQUEST_BOOK_COUNT)
+            {
+                if (MatchesRegex(Constant.RegularExpression.BOOK_REQUEST_COUNT, inputs[inputIndex].Input) == ResultCode.DO_NOT_MATCH_REGEX)
+                {
+                    inputs[inputIndex].ResultCode = ResultCode.DO_NOT_MATCH_REGEX;
+                }
             }
 
             return inputs[inputIndex].ResultCode;

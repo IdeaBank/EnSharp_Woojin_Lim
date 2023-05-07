@@ -6,6 +6,8 @@ using Library.Utility;
 using Library.View;
 using System;
 using System.Collections.Generic;
+using MySqlX.XDevAPI.Common;
+using Newtonsoft.Json.Linq;
 
 namespace Library.Controller.User
 {
@@ -90,7 +92,13 @@ namespace Library.Controller.User
 
                 case Constant.Menu.Selection.WITHDRAW:
                     if (Withdraw() == ResultCode.SUCCESS)
+                    {
                         return true;
+                    }
+                    break;
+                
+                case Constant.Menu.Selection.REQUEST_BOOK:
+                    RequestBook();
                     break;
             }
 
@@ -323,6 +331,74 @@ namespace Library.Controller.User
 
             // 탈퇴하지 못했다면 결과 반환
             return ResultCode.NO;
+        }
+
+        private void RequestBook()
+        {
+            bool isSearchInputValid = false;
+            bool isInputValid = true;
+            string[] searchHint = new string[2] { "", "" };
+
+            List<UserInput> inputs = new List<UserInput>();
+
+            for (int i = 0; i < Constant.Input.Count.REQUEST_BOOK; ++i)
+            {
+                inputs.Add(new UserInput(ResultCode.NO, ""));
+            }
+            
+            // 아이디와 비번 둘 중 하나라도 일치하지 않으면 반복
+            while (!isSearchInputValid)
+            {
+                isInputValid = true;
+                // 로그인 창 출력
+                View.User.MenuView.getInstance.PrintRequestBook(searchHint[0], searchHint[1], inputs);
+
+                for (int i = 0; i < Constant.Input.Count.REQUEST_BOOK; ++i)
+                {
+                    if (inputs[i].ResultCode == ResultCode.SUCCESS)
+                    {
+                        continue;
+                    }
+                    
+                    ResultCode inputResult = UserInputManager.getInstance.GetRequestBookInput(inputs, i);
+                    
+                    if (inputResult == ResultCode.ESC_PRESSED)
+                    {;
+                        return;
+                    }
+
+                    if (inputResult == ResultCode.DO_NOT_MATCH_REGEX)
+                    {
+                        isInputValid = false;
+                        searchHint[i] = Constant.Input.Instruction.USER_REQUEST_BOOK_INSTRUCTION[i];
+                        break;
+                    }
+                }
+
+                if (isInputValid)
+                {
+                    isSearchInputValid = true;
+                }
+
+                else
+                {
+                    View.User.MenuView.getInstance.PrintRequestBook(searchHint[0], searchHint[1], inputs);
+                    Console.CursorVisible = false;
+                    Console.ReadKey(true);
+                    Console.CursorVisible = true;
+                    searchHint[0] = searchHint[1] = "";
+                }
+            }
+
+            Console.Clear();
+            
+            JObject responseJSON = RestfulApiConnector.getInstance.GetResponseAsJObject(
+                string.Format(Constant.ApiUrl.NAVER_API_ADDRESS, inputs[1].Input), inputs[0].Input, "X-Naver-Client-Id",
+                Constant.ApiUrl.NAVER_API_ID, "X-Naver-Client-Secret", Constant.ApiUrl.NAVER_API_PASSWORD);
+            
+            Console.WriteLine(responseJSON);
+
+            Console.ReadKey();
         }
     }
 }

@@ -19,5 +19,6 @@ namespace Library.Constant
         public const string BOOK_PUBLISHED_DATE = @"(19|20)[0-9]{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
         public const string BOOK_ISBN = @"[0-9]{13}$";
         public const string BOOK_DESCRIPTION = @"[0-9a-zA-Zㄱ-힇\b]+";
+        public const string BOOK_REQUEST_COUNT = @"^1[0-9]{2}$|^[1-9]{1}[0-9]{1}$|^[1-9]{1}$";
     }
 }

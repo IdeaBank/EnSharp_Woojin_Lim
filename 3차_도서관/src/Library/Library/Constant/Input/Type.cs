@@ -29,5 +29,8 @@
 
         public const int LOGIN_USER_ID = 0;
         public const int LOGIN_USER_PASSWORD = 1;
+
+        public const int REQUEST_BOOK_NAME = 0;
+        public const int REQUEST_BOOK_COUNT = 1;
     }
 }
