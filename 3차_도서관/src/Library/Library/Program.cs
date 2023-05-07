@@ -9,6 +9,11 @@ namespace Library
     {
         public static void Main(string[] args)
         {
+            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) =>
+            {
+                e.Cancel = true;
+            };
+            
             LibraryStart libraryStart = new LibraryStart();
             libraryStart.StartLibrary();
         }

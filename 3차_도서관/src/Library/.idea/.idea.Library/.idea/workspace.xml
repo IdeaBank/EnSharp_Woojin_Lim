@@ -81,6 +81,8 @@
       <workItem from="1683434394150" duration="5157000" />
       <workItem from="1683446037634" duration="117000" />
       <workItem from="1683446207717" duration="9933000" />
+      <workItem from="1683461552761" duration="278000" />
+      <workItem from="1683461956337" duration="2558000" />
     </task>
     <servers />
   </component>
@@ -94,19 +96,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs</url>
-          <line>242</line>
-          <properties documentPath="$PROJECT_DIR$/Library/Model/DAO/BookDAO.cs" initialLine="207" containingFunctionPresentation="Method 'SearchBook'">
-            <startOffsets>
-              <option value="7565" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7617" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Library/Model/DAO/UserDAO.cs</url>
           <line>32</line>

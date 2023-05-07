@@ -32,7 +32,7 @@ namespace Library.Constant
             "INSERT INTO user(id, password, name, birth_year, phone_number, address) VALUES(@id, @password, @name, @birth_year, @phone_number, @address)";
 
         public const string INSERT_BORROWED_BOOK =
-            "INSERT INTO borrowed_Book(user_id, book_id, borrowed_date) VALUES(@user_id, @book_id, @borrowed_date)";
+            "INSERT INTO borrowed_Book(user_id, book_id, borrowed_date, returned_date) VALUES(@user_id, @book_id, @borrowed_date, @returned_date)";
 
         public const string INSERT_RETURNED_BOOK =
             "INSERT INTO returned_book(user_id, book_id, borrowed_date, returned_date) VALUES(@user_id, @book_id, @borrowed_date, @returned_date)";

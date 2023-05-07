@@ -137,8 +137,6 @@ namespace Library.View.Admin
         {
             Console.Clear();
             
-            Console.Clear();
-
             Console.WriteLine(new string('=', 20) + "신청 목록" + new string('=', 20));
             Console.WriteLine();
 

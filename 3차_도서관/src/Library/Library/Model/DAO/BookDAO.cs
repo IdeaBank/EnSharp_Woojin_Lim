@@ -227,7 +227,7 @@ namespace Library.Model.DAO
                 DataRow bookRow = bookDataSet.Tables["book"].Rows[0];
 
                 BorrowedBookDTO borrowedBook = new BorrowedBookDTO(int.Parse(row["book_id"].ToString()), userId, bookRow["name"].ToString(), bookRow["author"].ToString(), bookRow["publisher"].ToString(),
-                    row["borrowed_date"].ToString(), "");
+                    row["borrowed_date"].ToString(), row["returned_date"].ToString());
 
                 borrowedBooks.Add(borrowedBook);
             }
@@ -347,6 +347,7 @@ namespace Library.Model.DAO
             command.Parameters.AddWithValue("@user_id", userId);
             command.Parameters.AddWithValue("@book_id", bookId);
             command.Parameters.AddWithValue("@borrowed_date", DateTime.Now.ToString());
+            command.Parameters.AddWithValue("@returned_date", DateTime.Now.AddDays(7).ToString());
 
             DatabaseConnection.getInstance.ExecuteCommand(command);
 

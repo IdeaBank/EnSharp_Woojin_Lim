@@ -3,6 +3,7 @@ using Library.Model.DTO;
 using Library.Utility;
 using System;
 using System.Collections.Generic;
+using Library.Model.DAO;
 
 namespace Library.View
 {
@@ -50,6 +51,21 @@ namespace Library.View
             Console.WriteLine("주소: ");
         }
 
+        public string GetBookNameWithId(int bookId)
+        {
+            List<BookDTO> books = BookDAO.getInstance.GetAllBooks();
+
+            foreach (BookDTO book in books)
+            {
+                if (book.Id == bookId)
+                {
+                    return book.Name;
+                }
+            }
+
+            return "<존재하지 않는 책>";
+        }
+
         public void ViewSearchBookResult(List<BookDTO> books)
         {
             Console.WriteLine(new string('=', 15) + "RESULT" + new string('=', 15));
@@ -76,7 +92,7 @@ namespace Library.View
                 Console.WriteLine(book.Publisher);
 
                 Console.Write("책 수량: ".PadLeft(15, ' '));
-                Console.WriteLine(book.Price);
+                Console.WriteLine(book.Quantity);
 
                 Console.Write("설명: ".PadLeft(15, ' '));
                 Console.WriteLine(book.Description);
@@ -108,7 +124,6 @@ namespace Library.View
                 Console.Write("나이: ".PadLeft(15, ' '));
                 Console.WriteLine(DateTime.Now.Year - int.Parse(user.BirthYear.ToString()) + 1);
 
-
                 Console.Write("주소: ".PadLeft(15, ' '));
                 Console.WriteLine(user.Address);
                 Console.WriteLine();
@@ -119,24 +134,27 @@ namespace Library.View
 
         public void PrintBorrowedBooks(string userName, List<BorrowedBookDTO> books)
         {
-            Console.WriteLine(new string('=', 15) + userName + new string('=', 15));
+            Console.WriteLine(new string('=', 15) + userName + new string('=', 14));
 
             foreach (BorrowedBookDTO book in books)
             {
-                Console.Write("Book ID: ".PadLeft(15, ' '));
+                Console.Write("책 ID: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BookId);
 
-                Console.Write("Book Name: ".PadLeft(15, ' '));
+                Console.Write("책 이름: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BookName);
 
-                Console.Write("Book Author: ".PadLeft(15, ' '));
+                Console.Write("책 작가: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BookAuthor);
 
-                Console.Write("Book Publisher: ".PadLeft(15, ' '));
+                Console.Write("책 출판사: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BookPublisher);
 
-                Console.Write("Borrowed date: ".PadLeft(15, ' '));
+                Console.Write("빌린 날짜: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BorrowedDate);
+                
+                Console.Write("반납 날짜: ".PadLeft(15, ' '));
+                Console.WriteLine(book.ReturnedDate);
             }
 
             Console.WriteLine(new string('=', 36));
@@ -149,13 +167,16 @@ namespace Library.View
 
             foreach (BorrowedBookDTO book in books)
             {
-                Console.Write("ID: ".PadLeft(15, ' '));
+                Console.Write("책 ID: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BookId);
 
-                Console.Write("Borrowed date: ".PadLeft(15, ' '));
+                Console.Write("책 이름: ".PadLeft(15, ' '));
+                Console.WriteLine(GetBookNameWithId(book.BookId));
+                
+                Console.Write("빌린 날짜: ".PadLeft(15, ' '));
                 Console.WriteLine(book.BorrowedDate);
 
-                Console.Write("Returned date: ".PadLeft(15, ' '));
+                Console.Write("반납한 날짜: ".PadLeft(15, ' '));
                 Console.WriteLine(book.ReturnedDate);
             }
 
@@ -171,7 +192,7 @@ namespace Library.View
             int windowWidthHalf = Console.WindowWidth / 2;
             int windowHeightHalf = Console.WindowHeight / 2;
 
-            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "ID of user to remove: ", AlignType.LEFT);
+            ConsoleWriter.getInstance.WriteOnPositionWithAlign(windowWidthHalf, windowHeightHalf, "삭제할 유저 아이디: ", AlignType.LEFT);
         }
     }
 }
