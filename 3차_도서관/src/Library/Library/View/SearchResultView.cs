@@ -13,6 +13,7 @@ namespace Library.View
 
         private SearchResultView()
         {
+            
 
         }
 
