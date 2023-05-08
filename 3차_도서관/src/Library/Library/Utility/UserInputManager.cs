@@ -574,7 +574,7 @@ namespace Library.Utility
 
         public UserInput GetRequestBookIsbn()
         {
-            UserInput input = ReadInputFromUser(Console.CursorLeft, Console.CursorTop, Constant.Input.Max.BOOK_ISBN,
+            UserInput input = ReadInputFromUser(40, Console.CursorTop, Constant.Input.Max.BOOK_ISBN,
                 Constant.Input.Parameter.IS_NOT_PASSWORD, Constant.Input.Parameter.CANNOT_ENTER_KOREAN, "");
 
             return input;
