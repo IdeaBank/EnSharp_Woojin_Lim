@@ -32,12 +32,12 @@ public class ImageInformationDAO {
         ArrayList<String> strings = StringToWordList(this.restfulApiConnector.RetrieveRandomWords());
 
 
-        //ArrayList<ImageInformationDTO> test = JsonToImageInformationDto(this.restfulApiConnector.RetrieveStringFromServerUsingGet( );
+        ArrayList<ImageInformationDTO> test = JsonToImageInformationDtoList(this.restfulApiConnector.RetrieveStringFromKakao("apple"));
 
-        //for(ImageInformationDTO temp:test)
-        //{
-        //    System.out.println(temp.GetThumbnailUrl());
-        //}
+        for(ImageInformationDTO temp:test)
+        {
+            System.out.println(temp.GetThumbnailUrl());
+        }
     }
 
     public ArrayList<ImageInformationDTO> JsonToImageInformationDtoList(String jsonString)

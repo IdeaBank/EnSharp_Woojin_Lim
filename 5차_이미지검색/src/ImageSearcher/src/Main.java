@@ -11,6 +11,12 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             new ImageSearcher();
             new ImageSearcher();
+
+            JFrame frame = new JFrame("App");
+            frame.setContentPane(new ImageSearcherView().MyJPanel);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
 
         ImageInformationDAO.GetInstance().Test();

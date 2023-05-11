@@ -2,7 +2,6 @@
   <library name="json-20230227">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/library/json-20230227.jar!/" />
-      <root url="jar://$PROJECT_DIR$/library/commons-codec-1.15.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
