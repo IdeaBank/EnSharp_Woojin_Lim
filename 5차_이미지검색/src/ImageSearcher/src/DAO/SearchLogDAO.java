@@ -1,9 +1,12 @@
 package DAO;
 
+import DTO.SearchLogDTO;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class SearchLogDAO {
     private static SearchLogDAO _instance;
@@ -33,9 +36,11 @@ public class SearchLogDAO {
         return _instance;
     }
 
-    public void GetAllLog()
+    public ArrayList<SearchLogDTO> GetAllLog()
     {
-        String sql = "select * from search_log";
+        ArrayList<SearchLogDTO> result = new ArrayList<SearchLogDTO>();
+
+        String sql = "select * from search_log order by search_time";
 
         Statement stmt = null;
 
@@ -43,14 +48,16 @@ public class SearchLogDAO {
             stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
-            if(rs.next() == false)
+            while(rs.next() != false)
             {
-                System.out.println("NUL");
+                result.add(new SearchLogDTO(rs.getInt("log_id"), rs.getString("search_query"), rs.getTime("search_time")));
             }
 
         }catch(Exception e) {
            System.out.println(e.toString());
         }
+
+        return result;
     }
 
     public boolean LogExists(String query)
@@ -106,6 +113,19 @@ public class SearchLogDAO {
             pstmt.close();
         }catch(Exception e)
         {
+            System.out.println(e.toString());
+        }
+    }
+
+    public void ResetLog()
+    {
+        String sql = "delete from search_log";
+        Statement stmp;
+
+        try{
+            stmp = conn.prepareStatement(sql);
+            stmp.executeUpdate(sql);
+        }catch(Exception e) {
             System.out.println(e.toString());
         }
     }

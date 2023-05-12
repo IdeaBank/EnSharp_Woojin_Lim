@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/library/json-20230227.jar!/" />
       <root url="jar://$PROJECT_DIR$/library/mysql-connector-j-8.0.32.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library/mybatis-3.5.13.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

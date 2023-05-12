@@ -17,8 +17,6 @@ public class Main {
             }
         });
 
-        System.out.println(SearchLogDAO.GetInstance().LogExists("TEST"));
-
-        //System.out.println(new Timestamp(System.currentTimeMillis()).getTime());
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
     }
 }

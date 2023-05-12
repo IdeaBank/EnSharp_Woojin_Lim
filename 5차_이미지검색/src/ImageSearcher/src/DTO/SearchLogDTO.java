@@ -1,13 +1,14 @@
 package DTO;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class SearchLogDTO {
     private int logId;
     private String searchQuery;
-    private Date searchDate;
+    private Time searchDate;
 
-    public SearchLogDTO(int logId, String searchQuery, Date searchDate)
+    public SearchLogDTO(int logId, String searchQuery, Time searchDate)
     {
         this.logId = logId;
         this.searchQuery = searchQuery;
@@ -34,12 +35,12 @@ public class SearchLogDTO {
         this.searchQuery = searchQuery;
     }
 
-    public Date GetSearchDate()
+    public Time GetSearchDate()
     {
         return this.searchDate;
     }
 
-    public void SetSearchDate(Date searchDate)
+    public void SetSearchDate(Time searchDate)
     {
         this.searchDate = searchDate;
     }

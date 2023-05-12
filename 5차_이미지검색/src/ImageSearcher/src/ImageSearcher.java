@@ -40,8 +40,7 @@ public class ImageSearcher extends Frame {
     private ArrayList<ImageInformationDTO> imageInformationDTOList;
     private DefaultListModel logList;
 
-    public ImageSearcher() throws Exception
-    {
+    public ImageSearcher() throws Exception {
         frame = new JFrame();
         currentMode = DisplayMode.SEARCH_MAIN;
 
@@ -72,11 +71,10 @@ public class ImageSearcher extends Frame {
         AddListenerToElements(cl);
     }
 
-    private void InitializeFrame()
-    {
+    private void InitializeFrame() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = (int)screenSize.getWidth();
-        int height = (int)screenSize.getHeight();
+        int width = (int) screenSize.getWidth();
+        int height = (int) screenSize.getHeight();
 
         String currentWorkingDirectory = Paths.get("").toAbsolutePath().toString();
         String iconImagePath = currentWorkingDirectory + "/resource/icon.jpg";
@@ -86,13 +84,12 @@ public class ImageSearcher extends Frame {
 
         frame.setIconImage(updatedImage);
         frame.setTitle("Search Image");
-        frame.setSize((int)(width * 0.75), (int)(height * 0.75));
+        frame.setSize((int) (width * 0.75), (int) (height * 0.75));
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void InitializeFirstCard()
-    {
+    private void InitializeFirstCard() {
         searchPanel = new JPanel();
         searchField = new JTextField(20);
         searchButton = new JButton("Q");
@@ -103,8 +100,7 @@ public class ImageSearcher extends Frame {
         searchPanel.add(historyButton);
     }
 
-    public void InitializeSecondCard()
-    {
+    public void InitializeSecondCard() {
         historyPanel = new JPanel(new BorderLayout());
         previousButton = new JButton("뒤로 가기");
         resetHistoryButton = new JButton("기록 삭제");
@@ -114,20 +110,19 @@ public class ImageSearcher extends Frame {
 
         logList = new DefaultListModel();
 
-        logList.add(0,"TEST0");
-        logList.add(1,"TEST1");
-        logList.add(2,"TEST2");
-        logList.add(3,"TEST3");
-        logList.add(4,"TEST4");
+        logList.add(0, "TEST0");
+        logList.add(1, "TEST1");
+        logList.add(2, "TEST2");
+        logList.add(3, "TEST3");
+        logList.add(4, "TEST4");
 
         historyList = new JList(logList);
 
         historyPanel.add(new JScrollPane(historyList), BorderLayout.CENTER);
     }
 
-    public void InitializeThirdCard()
-    {
-        String []optionsToChoose = {"10", "20", "30"};
+    public void InitializeThirdCard() {
+        String[] optionsToChoose = {"10", "20", "30"};
         resultPanelCover = new JPanel(new BorderLayout());
         JPanel searchPanel = new JPanel(new FlowLayout());
 
@@ -147,8 +142,7 @@ public class ImageSearcher extends Frame {
         resultPanelCover.add(resultPanel, BorderLayout.CENTER);
     }
 
-    public void AddListenerToElements(CardLayout cl) throws Exception
-    {
+    public void AddListenerToElements(CardLayout cl) throws Exception {
         searchButton.addActionListener(e -> {
             String searchQuery = searchField.getText();
 
@@ -162,6 +156,7 @@ public class ImageSearcher extends Frame {
         historyButton.addActionListener(e -> {
             cl.next(cards);
             currentMode = DisplayMode.DISPLAY_HISTORY;
+            DisplayAllLogs();
         });
 
         previousButton.addActionListener(e -> {
@@ -179,11 +174,12 @@ public class ImageSearcher extends Frame {
         });
 
         gotoFirstButton.addActionListener(actionEvent -> {
-            if(currentMode == DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN) {
+            if (currentMode == DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN) {
                 cl.first(cards);
                 currentMode = DisplayMode.SEARCH_MAIN;
             } else {
                 cl.previous(cards);
+                DisplayAllLogs();
                 currentMode = DisplayMode.DISPLAY_HISTORY;
             }
         });
@@ -198,10 +194,19 @@ public class ImageSearcher extends Frame {
             }
         });
 
+        resetHistoryButton.addActionListener(actionEvent -> {
+            try {
+                SearchLogDAO.GetInstance().ResetLog();
+                DisplayAllLogs();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         searchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
                         String searchQuery = searchField.getText();
                         SearchAndDisplayResult(cl, searchField, DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN, searchQuery, selectImageCounts.getSelectedItem().toString());
@@ -222,6 +227,7 @@ public class ImageSearcher extends Frame {
                     searchField.setForeground(Color.BLACK);
                 }
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 if (searchField.getText().isEmpty()) {
@@ -234,7 +240,7 @@ public class ImageSearcher extends Frame {
         searchFieldInResult.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
                         String searchQuery = searchFieldInResult.getText();
                         SearchAndDisplayResult(cl, searchFieldInResult, currentMode, searchQuery, selectImageCounts.getSelectedItem().toString());
@@ -257,6 +263,7 @@ public class ImageSearcher extends Frame {
                     searchFieldInResult.setForeground(Color.BLACK);
                 }
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 if (searchFieldInResult.getText().isEmpty()) {
@@ -286,16 +293,11 @@ public class ImageSearcher extends Frame {
         historyList.addMouseListener(mouseListener);
     }
 
-    public void SearchAndDisplayResult(CardLayout cl, JTextField currentTextField, DisplayMode displayMode, String query, String countString) throws Exception
-    {
-        if(currentTextField.getForeground() == Color.gray || query == "")
-        {
+    public void SearchAndDisplayResult(CardLayout cl, JTextField currentTextField, DisplayMode displayMode, String query, String countString) throws Exception {
+        if (currentTextField.getForeground() == Color.gray || query == "") {
             JOptionPane.showMessageDialog(frame, "문자열이 비어있습니다!");
             return;
-        }
-
-        else if(Pattern.compile("[\'\"!@#$%&*()_+=|<>?{}\\[\\]~-]").matcher(query).find())
-        {
+        } else if (Pattern.compile("[\'\"!@#$%&*()_+=|<>?{}\\[\\]~-]").matcher(query).find()) {
             JOptionPane.showMessageDialog(frame, "특수문자가 들어가있습니다!");
             return;
         }
@@ -316,13 +318,11 @@ public class ImageSearcher extends Frame {
         DisplayImagesWithCount(count);
     }
 
-    public void DisplayImagesWithCount(int count)
-    {
+    public void DisplayImagesWithCount(int count) {
         resultPanelCover.remove(resultPanel);
         resultPanel = new JPanel(new GridLayout(count / 5, 5));
 
-        for(int i = 0; i < count; ++i)
-        {
+        for (int i = 0; i < count; ++i) {
             Image img;
             try {
                 img = new ImageIcon(new URL(imageInformationDTOList.get(i).GetThumbnailUrl())).getImage();
@@ -336,28 +336,28 @@ public class ImageSearcher extends Frame {
 
             final int currentIndex = i;
 
-            tempLabel.addMouseListener(new MouseAdapter()
-            {
-                public void mouseClicked(MouseEvent e)
-                {
-                    JFrame imageView = new JFrame();
-                    Image image;
+            tempLabel.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        JFrame imageView = new JFrame();
+                        Image image;
 
-                    try {
-                        image = new ImageIcon(new URL(imageInformationDTOList.get(currentIndex).GetImageUrl())).getImage();
-                    } catch (MalformedURLException err) {
-                        throw new RuntimeException(err);
+                        try {
+                            image = new ImageIcon(new URL(imageInformationDTOList.get(currentIndex).GetImageUrl())).getImage();
+                        } catch (MalformedURLException err) {
+                            throw new RuntimeException(err);
+                        }
+                        ImageIcon imageIcon = new ImageIcon(image);
+
+                        JLabel imageLabel = new JLabel();
+                        imageLabel.setIcon(imageIcon);
+
+                        imageView.add(imageLabel);
+
+                        imageView.pack();
+                        imageView.setVisible(true);
+                        imageView.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                     }
-                    ImageIcon imageIcon = new ImageIcon(image);
-
-                    JLabel imageLabel = new JLabel();
-                    imageLabel.setIcon(imageIcon);
-
-                    imageView.add(imageLabel);
-
-                    imageView.pack();
-                    imageView.setVisible(true);
-                    imageView.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 }
             });
 
@@ -367,10 +367,13 @@ public class ImageSearcher extends Frame {
         resultPanelCover.add(resultPanel, BorderLayout.CENTER);
     }
 
-    public void DisplayAllLogs()
-    {
+    public void DisplayAllLogs() {
         logList.clear();
 
-        //ArrayList<SearchLogDTO> searchLogList =
+        ArrayList<SearchLogDTO> searchLogList = SearchLogDAO.GetInstance().GetAllLog();
+
+        for (SearchLogDTO searchLog : searchLogList) {
+            logList.add(0, searchLog.GetSearchQuery());
+        }
     }
 }
