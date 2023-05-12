@@ -1,4 +1,5 @@
 import DAO.ImageInformationDAO;
+import DAO.SearchLogDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,8 @@ public class Main {
                 throw new RuntimeException(e);
             }
         });
+
+        System.out.println(SearchLogDAO.GetInstance().LogExists("TEST"));
 
         //System.out.println(new Timestamp(System.currentTimeMillis()).getTime());
     }

@@ -1,5 +1,7 @@
 import DAO.ImageInformationDAO;
+import DAO.SearchLogDAO;
 import DTO.ImageInformationDTO;
+import DTO.SearchLogDTO;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class ImageSearcher extends Frame {
     private JFrame frame;
@@ -28,11 +31,14 @@ public class ImageSearcher extends Frame {
     private JButton searchButton;
     private JButton historyButton;
     private JButton previousButton;
+    private JList historyList;
+    private JButton resetHistoryButton;
     private JTextField searchFieldInResult;
     private JButton searchButtonInResult;
     private JButton gotoFirstButton;
     private JComboBox<String> selectImageCounts;
     private ArrayList<ImageInformationDTO> imageInformationDTOList;
+    private DefaultListModel logList;
 
     public ImageSearcher() throws Exception
     {
@@ -99,11 +105,24 @@ public class ImageSearcher extends Frame {
 
     public void InitializeSecondCard()
     {
-        historyPanel = new JPanel();
+        historyPanel = new JPanel(new BorderLayout());
         previousButton = new JButton("뒤로 가기");
-        TitledBorder border2 = new TitledBorder(new LineBorder(Color.black),"View history", TitledBorder.CENTER,TitledBorder.BELOW_TOP);
-        historyPanel.setBorder(border2);
-        historyPanel.add(previousButton);
+        resetHistoryButton = new JButton("기록 삭제");
+
+        historyPanel.add(previousButton, BorderLayout.NORTH);
+        historyPanel.add(resetHistoryButton, BorderLayout.SOUTH);
+
+        logList = new DefaultListModel();
+
+        logList.add(0,"TEST0");
+        logList.add(1,"TEST1");
+        logList.add(2,"TEST2");
+        logList.add(3,"TEST3");
+        logList.add(4,"TEST4");
+
+        historyList = new JList(logList);
+
+        historyPanel.add(new JScrollPane(historyList), BorderLayout.CENTER);
     }
 
     public void InitializeThirdCard()
@@ -134,13 +153,10 @@ public class ImageSearcher extends Frame {
             String searchQuery = searchField.getText();
 
             try {
-                DisplaySearchResult(searchQuery, "10");
+                SearchAndDisplayResult(cl, searchField, DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN, searchQuery, "10");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-
-            cl.last(cards);
-            currentMode = DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN;
         });
 
         historyButton.addActionListener(e -> {
@@ -156,11 +172,10 @@ public class ImageSearcher extends Frame {
         searchButtonInResult.addActionListener(e -> {
             String searchQuery = searchFieldInResult.getText();
             try {
-                DisplaySearchResult(searchQuery, selectImageCounts.getSelectedItem().toString());
+                SearchAndDisplayResult(cl, searchFieldInResult, currentMode, searchQuery, selectImageCounts.getSelectedItem().toString());
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-            cl.last(cards);
         });
 
         gotoFirstButton.addActionListener(actionEvent -> {
@@ -175,12 +190,12 @@ public class ImageSearcher extends Frame {
 
         selectImageCounts.addActionListener(actionEvent -> {
             try {
-                DisplaySearchResult(searchField.getText(), selectImageCounts.getSelectedItem().toString());
+                cl.last(cards);
+                String searchQuery = selectImageCounts.getSelectedItem().toString();
+                DisplayImagesWithCount(Integer.parseInt(searchQuery));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
-            cl.last(cards);
         });
 
         searchField.addKeyListener(new KeyAdapter() {
@@ -188,14 +203,11 @@ public class ImageSearcher extends Frame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     try {
-                        DisplaySearchResult(searchField.getText(), "10");
+                        String searchQuery = searchField.getText();
+                        SearchAndDisplayResult(cl, searchField, DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN, searchQuery, selectImageCounts.getSelectedItem().toString());
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    searchField.setText("");
-
-                    currentMode = DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN;
-                    cl.last(cards);
                 }
             }
         });
@@ -224,11 +236,11 @@ public class ImageSearcher extends Frame {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     try {
-                        DisplaySearchResult(searchFieldInResult.getText(), selectImageCounts.getSelectedItem().toString());
+                        String searchQuery = searchFieldInResult.getText();
+                        SearchAndDisplayResult(cl, searchFieldInResult, currentMode, searchQuery, selectImageCounts.getSelectedItem().toString());
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                    searchFieldInResult.setText("");
 
                     cl.last(cards);
                 }
@@ -253,6 +265,47 @@ public class ImageSearcher extends Frame {
                 }
             }
         });
+
+        MouseListener mouseListener = new MouseAdapter() {
+            public void mouseClicked(MouseEvent mouseEvent) {
+                JList theList = (JList) mouseEvent.getSource();
+                if (mouseEvent.getClickCount() == 2) {
+                    int index = theList.locationToIndex(mouseEvent.getPoint());
+                    if (index >= 0) {
+                        Object o = theList.getModel().getElementAt(index);
+                        try {
+                            SearchAndDisplayResult(cl, new JTextField(), DisplayMode.DISPLAY_SEARCH_RESULT_FROM_HISTORY, o.toString(), "10");
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        };
+
+        historyList.addMouseListener(mouseListener);
+    }
+
+    public void SearchAndDisplayResult(CardLayout cl, JTextField currentTextField, DisplayMode displayMode, String query, String countString) throws Exception
+    {
+        if(currentTextField.getForeground() == Color.gray || query == "")
+        {
+            JOptionPane.showMessageDialog(frame, "문자열이 비어있습니다!");
+            return;
+        }
+
+        else if(Pattern.compile("[\'\"!@#$%&*()_+=|<>?{}\\[\\]~-]").matcher(query).find())
+        {
+            JOptionPane.showMessageDialog(frame, "특수문자가 들어가있습니다!");
+            return;
+        }
+
+        DisplaySearchResult(query, countString);
+
+        SearchLogDAO.GetInstance().InsertLog(query);
+
+        currentMode = displayMode;
+        cl.last(cards);
     }
 
     public void DisplaySearchResult(String query, String countString) throws Exception {
@@ -283,17 +336,17 @@ public class ImageSearcher extends Frame {
 
             final int currentIndex = i;
 
-            tempLabel.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent mouseEvent) {
+            tempLabel.addMouseListener(new MouseAdapter()
+            {
+                public void mouseClicked(MouseEvent e)
+                {
                     JFrame imageView = new JFrame();
-
                     Image image;
 
                     try {
                         image = new ImageIcon(new URL(imageInformationDTOList.get(currentIndex).GetImageUrl())).getImage();
-                    } catch (MalformedURLException e) {
-                        throw new RuntimeException(e);
+                    } catch (MalformedURLException err) {
+                        throw new RuntimeException(err);
                     }
                     ImageIcon imageIcon = new ImageIcon(image);
 
@@ -306,31 +359,18 @@ public class ImageSearcher extends Frame {
                     imageView.setVisible(true);
                     imageView.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 }
-
-                @Override
-                public void mousePressed(MouseEvent mouseEvent) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent mouseEvent) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent mouseEvent) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent mouseEvent) {
-
-                }
             });
 
             resultPanel.add(tempLabel);
         }
 
         resultPanelCover.add(resultPanel, BorderLayout.CENTER);
+    }
+
+    public void DisplayAllLogs()
+    {
+        logList.clear();
+
+        //ArrayList<SearchLogDTO> searchLogList =
     }
 }
