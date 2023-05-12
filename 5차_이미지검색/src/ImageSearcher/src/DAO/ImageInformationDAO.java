@@ -26,13 +26,9 @@ public class ImageInformationDAO {
         return _instance;
     }
 
-    public void Test() throws Exception
+    public void SearchImageWithQuery(String query) throws Exception
     {
-
-        ArrayList<String> strings = StringToWordList(this.restfulApiConnector.RetrieveRandomWords());
-
-
-        ArrayList<ImageInformationDTO> test = JsonToImageInformationDtoList(this.restfulApiConnector.RetrieveStringFromKakao("apple"));
+        ArrayList<ImageInformationDTO> test = JsonToImageInformationDtoList(this.restfulApiConnector.RetrieveStringFromKakao(query));
 
         for(ImageInformationDTO temp:test)
         {
