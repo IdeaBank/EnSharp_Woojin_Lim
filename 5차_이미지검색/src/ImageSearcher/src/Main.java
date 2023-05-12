@@ -9,7 +9,11 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) throws Exception {
         SwingUtilities.invokeLater(() -> {
-            new ImageSearcher();
+            try {
+                new ImageSearcher();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
 
         //System.out.println(new Timestamp(System.currentTimeMillis()).getTime());

@@ -1,12 +1,19 @@
+import DAO.ImageInformationDAO;
+import DTO.ImageInformationDTO;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class ImageSearcher extends Frame {
     private JFrame frame;
@@ -15,6 +22,7 @@ public class ImageSearcher extends Frame {
     private JPanel searchPanel;
     private JPanel historyPanel;
     private JPanel resultPanel;
+    private JPanel resultPanelCover;
 
     private JTextField searchField;
     private JButton searchButton;
@@ -24,8 +32,9 @@ public class ImageSearcher extends Frame {
     private JButton searchButtonInResult;
     private JButton gotoFirstButton;
     private JComboBox<String> selectImageCounts;
+    private ArrayList<ImageInformationDTO> imageInformationDTOList;
 
-    public ImageSearcher()
+    public ImageSearcher() throws Exception
     {
         frame = new JFrame();
         currentMode = DisplayMode.SEARCH_MAIN;
@@ -42,7 +51,7 @@ public class ImageSearcher extends Frame {
         // CardLayout에 패널들 추가
         cards.add(searchPanel, "Panel1");
         cards.add(historyPanel, "Panel2");
-        cards.add(resultPanel, "Panel3");
+        cards.add(resultPanelCover, "Panel3");
 
         // 전체에 추가
         add(cards);
@@ -100,23 +109,36 @@ public class ImageSearcher extends Frame {
     public void InitializeThirdCard()
     {
         String []optionsToChoose = {"10", "20", "30"};
-        resultPanel = new JPanel();
+        resultPanelCover = new JPanel(new BorderLayout());
+        JPanel searchPanel = new JPanel(new FlowLayout());
+
+        resultPanel = new JPanel(new GridLayout());
         searchFieldInResult = new JTextField(20);
-        resultPanel.add(searchFieldInResult);
         searchButtonInResult = new JButton("Q");
         selectImageCounts = new JComboBox<>(optionsToChoose);
         gotoFirstButton = new JButton("뒤로 가기");
-        TitledBorder border3 = new TitledBorder(new LineBorder(Color.black),"검색 결과", TitledBorder.CENTER,TitledBorder.BELOW_TOP);
-        resultPanel.setBorder(border3);
-        resultPanel.add(searchButtonInResult);
-        resultPanel.add(selectImageCounts);
-        resultPanel.add(gotoFirstButton);
+        resultPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+        searchPanel.add(searchFieldInResult);
+        searchPanel.add(searchButtonInResult);
+        searchPanel.add(selectImageCounts);
+        searchPanel.add(gotoFirstButton);
+
+        resultPanelCover.add(searchPanel, BorderLayout.NORTH);
+        resultPanelCover.add(resultPanel, BorderLayout.CENTER);
     }
 
-    public void AddListenerToElements(CardLayout cl)
+    public void AddListenerToElements(CardLayout cl) throws Exception
     {
         searchButton.addActionListener(e -> {
             String searchQuery = searchField.getText();
+
+            try {
+                DisplaySearchResult(searchQuery, "10");
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
             cl.last(cards);
             currentMode = DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN;
         });
@@ -127,8 +149,18 @@ public class ImageSearcher extends Frame {
         });
 
         previousButton.addActionListener(e -> {
-            cl.previous(cards);
-            currentMode = DisplayMode.DISPLAY_SEARCH_RESULT_FROM_HISTORY;
+            cl.first(cards);
+            currentMode = DisplayMode.SEARCH_MAIN;
+        });
+
+        searchButtonInResult.addActionListener(e -> {
+            String searchQuery = searchFieldInResult.getText();
+            try {
+                DisplaySearchResult(searchQuery, selectImageCounts.getSelectedItem().toString());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            cl.last(cards);
         });
 
         gotoFirstButton.addActionListener(actionEvent -> {
@@ -142,25 +174,28 @@ public class ImageSearcher extends Frame {
         });
 
         selectImageCounts.addActionListener(actionEvent -> {
-            switch(selectImageCounts.getSelectedItem().toString())
-            {
-                case "10":
-                    System.out.println(10);
-                    break;
-                case "20":
-                    System.out.println(20);
-                    break;
-                default:
-                    System.out.println(30);
+            try {
+                DisplaySearchResult(searchField.getText(), selectImageCounts.getSelectedItem().toString());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
+
+            cl.last(cards);
         });
 
         searchField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    DisplaySearchResult(searchField.getText());
+                    try {
+                        DisplaySearchResult(searchField.getText(), "10");
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                     searchField.setText("");
+
+                    currentMode = DisplayMode.DISPLAY_SEARCH_RESULT_FROM_MAIN;
+                    cl.last(cards);
                 }
             }
         });
@@ -188,8 +223,14 @@ public class ImageSearcher extends Frame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    DisplaySearchResult(searchFieldInResult.getText());
+                    try {
+                        DisplaySearchResult(searchFieldInResult.getText(), selectImageCounts.getSelectedItem().toString());
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                     searchFieldInResult.setText("");
+
+                    cl.last(cards);
                 }
             }
         });
@@ -214,13 +255,82 @@ public class ImageSearcher extends Frame {
         });
     }
 
-    public void DisplaySearchResult(String query)
-    {
+    public void DisplaySearchResult(String query, String countString) throws Exception {
+        int count = Integer.parseInt(countString);
 
+        imageInformationDTOList = ImageInformationDAO.GetInstance().SearchImageWithQuery(query);
+
+        DisplayImagesWithCount(count);
     }
 
     public void DisplayImagesWithCount(int count)
     {
+        resultPanelCover.remove(resultPanel);
+        resultPanel = new JPanel(new GridLayout(count / 5, 5));
 
+        for(int i = 0; i < count; ++i)
+        {
+            Image img;
+            try {
+                img = new ImageIcon(new URL(imageInformationDTOList.get(i).GetThumbnailUrl())).getImage();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+            ImageIcon imageIcon = new ImageIcon(img);
+
+            JLabel tempLabel = new JLabel();
+            tempLabel.setIcon(imageIcon);
+
+            final int currentIndex = i;
+
+            tempLabel.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent mouseEvent) {
+                    JFrame imageView = new JFrame();
+
+                    Image image;
+
+                    try {
+                        image = new ImageIcon(new URL(imageInformationDTOList.get(currentIndex).GetImageUrl())).getImage();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ImageIcon imageIcon = new ImageIcon(image);
+
+                    JLabel imageLabel = new JLabel();
+                    imageLabel.setIcon(imageIcon);
+
+                    imageView.add(imageLabel);
+
+                    imageView.pack();
+                    imageView.setVisible(true);
+                    imageView.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent mouseEvent) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent mouseEvent) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent mouseEvent) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent mouseEvent) {
+
+                }
+            });
+
+            resultPanel.add(tempLabel);
+        }
+
+        resultPanelCover.add(resultPanel, BorderLayout.CENTER);
     }
 }

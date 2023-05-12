@@ -26,14 +26,11 @@ public class ImageInformationDAO {
         return _instance;
     }
 
-    public void SearchImageWithQuery(String query) throws Exception
+    public ArrayList<ImageInformationDTO> SearchImageWithQuery(String query) throws Exception
     {
-        ArrayList<ImageInformationDTO> test = JsonToImageInformationDtoList(this.restfulApiConnector.RetrieveStringFromKakao(query));
+        ArrayList<ImageInformationDTO> result = JsonToImageInformationDtoList(this.restfulApiConnector.RetrieveStringFromKakao(query));
 
-        for(ImageInformationDTO temp:test)
-        {
-            System.out.println(temp.GetThumbnailUrl());
-        }
+        return result;
     }
 
     public ArrayList<ImageInformationDTO> JsonToImageInformationDtoList(String jsonString)
