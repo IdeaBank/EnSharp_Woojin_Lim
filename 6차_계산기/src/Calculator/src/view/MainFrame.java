@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    private CalculatorForm calculatorForm;
+    private final CalculatorForm calculatorForm;
 
     public MainFrame()
     {

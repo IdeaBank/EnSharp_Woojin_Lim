@@ -59,13 +59,11 @@ public class CalculatorForm extends JFrame {
     private ArrayList<JRoundButton> numberButtons;
     private ArrayList<JRoundButton> operatorButtons;
 
-    public JPanel getMainPanel()
-    {
+    public JPanel getMainPanel() {
         return this.mainPanel;
     }
 
-    public void createUIComponents()
-    {
+    public void createUIComponents() {
         numberButtons = new ArrayList<>();
         operatorButtons = new ArrayList<>();
 
@@ -151,14 +149,12 @@ public class CalculatorForm extends JFrame {
         operatorButtons.add(dotButton);
         operatorButtons.add(equalsButton);
 
-        for(JRoundButton button: numberButtons)
-        {
+        for (JRoundButton button : numberButtons) {
             button.setColor(Color.WHITE);
             button.setFont(new Font("Arial", Font.PLAIN, 20));
         }
 
-        for(JRoundButton button: operatorButtons)
-        {
+        for (JRoundButton button : operatorButtons) {
             button.setFont(new Font("Arial", Font.PLAIN, 20));
         }
 
