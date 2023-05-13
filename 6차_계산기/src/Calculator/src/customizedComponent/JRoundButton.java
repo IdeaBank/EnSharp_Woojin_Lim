@@ -97,6 +97,8 @@ public class JRoundButton extends JButton {
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.setColor(getBackground());
         setBorderPainted(false);
+        setFocusPainted(false);
+        setFocusable(false);
         setVerticalAlignment(JButton.CENTER);
         graphics2D.fillRoundRect(3, 3, getWidth() - 6, getHeight() - 6, radius, radius);
         super.paintComponent(graphics);

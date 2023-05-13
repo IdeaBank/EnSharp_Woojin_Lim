@@ -1,13 +1,13 @@
+import controller.CalculatorStart;
 import view.CalculatorForm;
+import view.MainFrame;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Calculator");
-        frame.setContentPane(new CalculatorForm().getMainPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    public static void main(String[] args){
+        CalculatorStart calculatorStart = new CalculatorStart();
+        calculatorStart.start();
     }
 }

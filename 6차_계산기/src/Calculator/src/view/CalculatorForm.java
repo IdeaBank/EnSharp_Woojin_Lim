@@ -32,10 +32,8 @@ public class CalculatorForm extends JFrame {
     private JPanel equalsButtonPanel;
     private JLabel historyButton;
     private JPanel historyButtonPanel;
-    private JPanel historyStringPanel;
-    private JLabel historyString;
-    private JPanel inputStringPanel;
-    private JLabel inputString;
+    private JPanel historyPanePanel;
+    private JPanel inputPanePanel;
     private JRoundButton ceButton;
     private JRoundButton cButton;
     private JRoundButton deleteButton;
@@ -56,6 +54,8 @@ public class CalculatorForm extends JFrame {
     private JRoundButton zeroButton;
     private JRoundButton dotButton;
     private JRoundButton equalsButton;
+    private JTextPane historyPane;
+    private JTextPane inputPane;
     private ArrayList<JRoundButton> numberButtons;
     private ArrayList<JRoundButton> operatorButtons;
 
@@ -69,27 +69,65 @@ public class CalculatorForm extends JFrame {
         numberButtons = new ArrayList<>();
         operatorButtons = new ArrayList<>();
 
-
         ceButton = new JRoundButton();
+        ceButton.setText("CE");
+
         cButton = new JRoundButton();
+        cButton.setText("C");
+
         deleteButton = new JRoundButton();
+        deleteButton.setText("DEL");
+
         divideButton = new JRoundButton();
+        divideButton.setText("÷");
+
         sevenButton = new JRoundButton();
+        sevenButton.setText("7");
+
         eightButton = new JRoundButton();
+        eightButton.setText("8");
+
         nineButton = new JRoundButton();
+        nineButton.setText("9");
+
         multiplyButton = new JRoundButton();
+        multiplyButton.setText("X");
+
         fourButton = new JRoundButton();
+        fourButton.setText("4");
+
         fiveButton = new JRoundButton();
+        fiveButton.setText("5");
+
         sixButton = new JRoundButton();
+        sixButton.setText("6");
+
         minusButton = new JRoundButton();
+        minusButton.setText("-");
+
         oneButton = new JRoundButton();
+        oneButton.setText("1");
+
         twoButton = new JRoundButton();
+        twoButton.setText("2");
+
         threeButton = new JRoundButton();
+        threeButton.setText("3");
+
         plusButton = new JRoundButton();
+        plusButton.setText("+");
+
         plusOrMinusButton = new JRoundButton();
+        plusOrMinusButton.setText("+/-");
+
         zeroButton = new JRoundButton();
+        zeroButton.setText("0");
+
         dotButton = new JRoundButton();
+        dotButton.setText(".");
+
         equalsButton = new JRoundButton();
+        equalsButton.setText("=");
 
         numberButtons.add(zeroButton);
         numberButtons.add(oneButton);
@@ -116,6 +154,17 @@ public class CalculatorForm extends JFrame {
         for(JRoundButton button: numberButtons)
         {
             button.setColor(Color.WHITE);
+            button.setFont(new Font("Arial", Font.PLAIN, 20));
         }
+
+        for(JRoundButton button: operatorButtons)
+        {
+            button.setFont(new Font("Arial", Font.PLAIN, 20));
+        }
+
+        equalsButton.setForeground(Color.WHITE);
+        equalsButton.setColor(new Color(31, 31, 150));
+        equalsButton.setColorOver(new Color(31, 31, 136));
+        equalsButton.setColorClick(new Color(31, 31, 120));
     }
 }

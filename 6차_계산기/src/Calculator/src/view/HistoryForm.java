@@ -2,6 +2,6 @@ package view;
 
 import javax.swing.*;
 
-public class historyForm {
+public class HistoryForm {
     private JPanel historyPanel;
 }
