@@ -8,10 +8,14 @@ namespace Library.Controller.User
     public class LoginOrRegister
     {
         private int currentSelectionIndex;
+        private Login userLogin;
+        private Register userRegister;
 
         public LoginOrRegister()
         {
             this.currentSelectionIndex = 0;
+            this.userLogin = new Login();
+            this.userRegister = new Register();
         }
 
         public void SelectLoginOrRegister()
@@ -49,11 +53,9 @@ namespace Library.Controller.User
             switch (this.currentSelectionIndex)
             {
                 case 0:
-                    Login userLogin = new Login();
                     userLogin.TryLogin();
                     break;
                 case 1:
-                    Register userRegister = new Register();
                     userRegister.TryRegister();
                     break;
             }

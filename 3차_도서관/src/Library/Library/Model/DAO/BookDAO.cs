@@ -31,7 +31,7 @@ namespace Library.Model.DAO
             }
         }
 
-        public bool BookExists(int bookId)
+        public bool IsBookExists(int bookId)
         {
             MySqlCommand command = DatabaseConnection.getInstance.Conn.CreateCommand();
             command.CommandText = SqlQuery.SELECT_BOOK_WITH_ID;
@@ -49,7 +49,7 @@ namespace Library.Model.DAO
 
         public bool IsBookAvailable(int bookId)
         {
-            if (!BookExists(bookId))
+            if (!IsBookExists(bookId))
             {
                 return false;
             }
@@ -319,7 +319,7 @@ namespace Library.Model.DAO
 
         public ResultCode BorrowBook(string userId, int bookId)
         {
-            if (!BookExists(bookId))
+            if (!IsBookExists(bookId))
             {
                 return ResultCode.NO_BOOK;
             }
@@ -358,7 +358,7 @@ namespace Library.Model.DAO
         {
             BorrowedBookDTO borrowedBookInfo = GetBorrowedBookInfo(userId, bookId);
 
-            if (!BookExists(bookId) || borrowedBookInfo == null)
+            if (!IsBookExists(bookId) || borrowedBookInfo == null)
             {
                 return ResultCode.NO_BOOK;
             }

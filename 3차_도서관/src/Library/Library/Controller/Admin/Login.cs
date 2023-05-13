@@ -10,8 +10,11 @@ namespace Library.Controller.Admin
 {
     public class Login
     {
+        private Menu adminMenu;
+
         public Login()
         {
+            adminMenu = new Menu();
         }
 
         public void TryLogin()
@@ -82,7 +85,6 @@ namespace Library.Controller.Admin
             }
 
             // 로그인에 성공했다면 관리자 메뉴 표시 및 다음 메뉴 입력 받기
-            Menu adminMenu = new Menu();
             adminMenu.SelectAdminMenu();
         }
     }

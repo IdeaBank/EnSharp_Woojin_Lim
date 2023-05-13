@@ -137,6 +137,13 @@ namespace Library.View
         {
             Console.WriteLine(new string('=', 15) + userName + new string('=', 14));
 
+            if (books.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("빌린 책이 없습니다!");
+                Console.ResetColor();
+            }
+
             foreach (BorrowedBookDTO book in books)
             {
                 Console.Write("책 ID: ".PadLeft(15, ' '));
@@ -165,6 +172,13 @@ namespace Library.View
         public void PrintReturnedBooks(string userName, List<BorrowedBookDTO> books)
         {
             Console.WriteLine(new string('=', 15) + userName + new string('=', 15));
+
+            if (books.Count == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("반납한 책이 없습니다!");
+                Console.ResetColor();
+            }
 
             foreach (BorrowedBookDTO book in books)
             {

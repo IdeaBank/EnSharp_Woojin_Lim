@@ -154,7 +154,7 @@ namespace Library.Controller.Admin
             if (UserInputManager.getInstance.IsNumber(bookIdInputResult.Input))
             {
                 // 책이 존재하지 않으면 경고창을 띄워줌
-                if (!BookDAO.getInstance.BookExists(int.Parse(bookIdInputResult.Input)))
+                if (!BookDAO.getInstance.IsBookExists(int.Parse(bookIdInputResult.Input)))
                 {
                     View.User.LoginOrRegisterView.getInstance.PrintRegisterResult("BOOK DOES NOT EXIST!");
                     LogDAO.getInstance.InsertLog(new LogDTO(0, DateTime.Now.ToString(), "ADMIN", "책이 존재하지 않음", "책 수정"));

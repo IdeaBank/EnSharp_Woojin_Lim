@@ -125,12 +125,33 @@ namespace Library.Utility
 
         private bool IsAddressValid(string address)
         {
+<<<<<<< Updated upstream
             JObject jObject = RestfulApiConnector.getInstance.GetResponseAsJObject(Constant.ApiUrl.KAKAO_API_ADDRESS,
                 address, "Authorization", "KakaoAK 0064631b5828a014e919d63af22f8c49");
 
             if (jObject["meta"]["total_count"].ToString() == "0")
             {
                 return false;
+=======
+            string encoded = System.Web.HttpUtility.UrlEncode(address);
+            string url = "https://dapi.kakao.com/v2/local/search/address.json?analyze_type=exact&query=" + encoded;
+
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(url);
+
+            httpRequest.Headers["Authorization"] = "KakaoAK 0064631b5828a014e919d63af22f8c49";
+
+            HttpWebResponse httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                string result = streamReader.ReadToEnd();
+
+                JObject jObject = JObject.Parse(result);
+
+                if (jObject["meta"]["total_count"].ToString() == "0")
+                {
+                    return false;
+                }
+>>>>>>> Stashed changes
             }
 
             return true;
