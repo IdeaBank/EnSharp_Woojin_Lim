@@ -1,5 +1,6 @@
 import controller.CalculatorStart;
 import view.CalculatorForm;
+import view.HistoryForm;
 import view.MainFrame;
 
 import javax.swing.*;

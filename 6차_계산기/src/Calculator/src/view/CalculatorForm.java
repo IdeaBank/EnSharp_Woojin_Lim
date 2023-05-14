@@ -7,6 +7,210 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CalculatorForm extends JFrame {
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+    public JPanel getInputAndResultPanel() {
+        return inputAndResultPanel;
+    }
+
+    public JPanel getButtonsPanel() {
+        return buttonsPanel;
+    }
+
+    public JPanel getCeButtonPanel() {
+        return ceButtonPanel;
+    }
+
+    public JPanel getcButtonPanel() {
+        return cButtonPanel;
+    }
+
+    public JPanel getDeleteButtonPanel() {
+        return deleteButtonPanel;
+    }
+
+    public JPanel getDivideButtonPanel() {
+        return divideButtonPanel;
+    }
+
+    public JPanel getSevenButtonPanel() {
+        return sevenButtonPanel;
+    }
+
+    public JPanel getEightButtonPanel() {
+        return eightButtonPanel;
+    }
+
+    public JPanel getNineButtonPanel() {
+        return nineButtonPanel;
+    }
+
+    public JPanel getMultiplyButtonPanel() {
+        return multiplyButtonPanel;
+    }
+
+    public JPanel getFourButtonPanel() {
+        return fourButtonPanel;
+    }
+
+    public JPanel getFiveButtonPanel() {
+        return fiveButtonPanel;
+    }
+
+    public JPanel getSixButtonPanel() {
+        return sixButtonPanel;
+    }
+
+    public JPanel getMinusButtonPanel() {
+        return minusButtonPanel;
+    }
+
+    public JPanel getOneButtonPanel() {
+        return oneButtonPanel;
+    }
+
+    public JPanel getTwoButtonPanel() {
+        return twoButtonPanel;
+    }
+
+    public JPanel getThreeButtonPanel() {
+        return threeButtonPanel;
+    }
+
+    public JPanel getPlusButtonPanel() {
+        return plusButtonPanel;
+    }
+
+    public JPanel getPlusOrMinusButtonPanel() {
+        return plusOrMinusButtonPanel;
+    }
+
+    public JPanel getZeroButtonPanel() {
+        return zeroButtonPanel;
+    }
+
+    public JPanel getDotButtonPanel() {
+        return dotButtonPanel;
+    }
+
+    public JPanel getEqualsButtonPanel() {
+        return equalsButtonPanel;
+    }
+
+    public JLabel getHistoryButton() {
+        return historyButton;
+    }
+
+    public JPanel getHistoryButtonPanel() {
+        return historyButtonPanel;
+    }
+
+    public JPanel getHistoryPanePanel() {
+        return historyPanePanel;
+    }
+
+    public JPanel getInputPanePanel() {
+        return inputPanePanel;
+    }
+
+    public JRoundButton getCeButton() {
+        return ceButton;
+    }
+
+    public JRoundButton getcButton() {
+        return cButton;
+    }
+
+    public JRoundButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public JRoundButton getDivideButton() {
+        return divideButton;
+    }
+
+    public JRoundButton getSevenButton() {
+        return sevenButton;
+    }
+
+    public JRoundButton getEightButton() {
+        return eightButton;
+    }
+
+    public JRoundButton getNineButton() {
+        return nineButton;
+    }
+
+    public JRoundButton getMultiplyButton() {
+        return multiplyButton;
+    }
+
+    public JRoundButton getFourButton() {
+        return fourButton;
+    }
+
+    public JRoundButton getFiveButton() {
+        return fiveButton;
+    }
+
+    public JRoundButton getSixButton() {
+        return sixButton;
+    }
+
+    public JRoundButton getMinusButton() {
+        return minusButton;
+    }
+
+    public JRoundButton getOneButton() {
+        return oneButton;
+    }
+
+    public JRoundButton getTwoButton() {
+        return twoButton;
+    }
+
+    public JRoundButton getThreeButton() {
+        return threeButton;
+    }
+
+    public JRoundButton getPlusButton() {
+        return plusButton;
+    }
+
+    public JRoundButton getPlusOrMinusButton() {
+        return plusOrMinusButton;
+    }
+
+    public JRoundButton getZeroButton() {
+        return zeroButton;
+    }
+
+    public JRoundButton getDotButton() {
+        return dotButton;
+    }
+
+    public JRoundButton getEqualsButton() {
+        return equalsButton;
+    }
+
+    public JTextPane getHistoryPane() {
+        return historyPane;
+    }
+
+    public JTextPane getInputPane() {
+        return inputPane;
+    }
+
+    public ArrayList<JRoundButton> getNumberButtons() {
+        return numberButtons;
+    }
+
+    public ArrayList<JRoundButton> getOperatorButtons() {
+        return operatorButtons;
+    }
+
     private JPanel mainPanel;
     private JPanel inputAndResultPanel;
     private JPanel buttonsPanel;
@@ -59,9 +263,6 @@ public class CalculatorForm extends JFrame {
     private ArrayList<JRoundButton> numberButtons;
     private ArrayList<JRoundButton> operatorButtons;
 
-    public JPanel getMainPanel() {
-        return this.mainPanel;
-    }
 
     public void createUIComponents() {
         numberButtons = new ArrayList<>();

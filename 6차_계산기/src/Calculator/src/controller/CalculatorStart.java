@@ -77,7 +77,7 @@ public class CalculatorStart {
 
     private void appendNumber(char ch)
     {
-        System.out.println(ch);
+        System.out.println(ch); 
     }
 
     private void appendOperator(char ch)
