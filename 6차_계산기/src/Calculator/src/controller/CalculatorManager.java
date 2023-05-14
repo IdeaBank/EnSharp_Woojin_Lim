@@ -1,9 +1,16 @@
 package controller;
 
+import constant.CalculatorState;
 import constant.CalculatorSymbols;
 import model.CalculatorHistory;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class CalculatorManager {
@@ -12,9 +19,12 @@ public class CalculatorManager {
     private JTextPane historyPane;
     private JTextPane inputPane;
     private JPanel glassPane;
+    private CalculatorState calculatorState;
+    private BigDecimal currentInput;
 
     public CalculatorManager() {
         this.calculatorHistories = new ArrayList<>();
+        this.calculatorState = CalculatorState.START;
     }
 
     public void setHistoryList(JList historyList) {
@@ -99,15 +109,36 @@ public class CalculatorManager {
 
     public void clearEntry() {
         inputPane.setText("0");
+        currentInput = new BigDecimal(0);
     }
 
     public void clear() {
         historyPane.setText("");
         inputPane.setText("0");
+        currentInput = new BigDecimal(0);
     }
 
     public void deleteEntry() {
-        System.out.println("DEL");
+        if(!inputPane.getText().equals("0") && inputPane.getText().length() > 1)
+        {
+            String tempInput = currentInput.toString();
+
+            if(tempInput.charAt(tempInput.length() - 2) == '.')
+            {
+                tempInput = tempInput.substring(0, tempInput.length() - 1);
+            } else {
+                tempInput = tempInput.substring(0, tempInput.length());
+            }
+
+            currentInput = new BigDecimal(tempInput);
+        }
+
+        else if(inputPane.getText().length() == 1)
+        {
+            currentInput = new BigDecimal(0);
+        }
+
+        inputPane.setText(getFormattedNumber(currentInput));
     }
 
     public void divide() {
@@ -127,7 +158,9 @@ public class CalculatorManager {
     }
 
     public void negate() {
-        System.out.println("+/-");
+        currentInput = currentInput.negate();
+
+        inputPane.setText(getFormattedNumber(currentInput));
     }
 
     public void appendZero() {
@@ -135,14 +168,68 @@ public class CalculatorManager {
     }
 
     public void appendNumber(char ch) {
-        System.out.println(ch);
+        if(calculatorState == CalculatorState.START || calculatorState == CalculatorState.NUMBER_KEY_PRESSED)
+        {
+            if(inputPane.getText().equals("0")) {
+                currentInput = new BigDecimal(ch);
+                inputPane.setText(getFormattedNumber(currentInput));
+            }
+
+            else {
+                if((inputPane.getText().length() < 16 && inputPane.getText().contains("."))
+                        || (inputPane.getText().length() < 15 && !inputPane.getText().contains(".")))
+                {
+                    currentInput = new BigDecimal(currentInput.toString() + ch);
+                    inputPane.setText(getFormattedNumber(currentInput));
+                }
+            }
+        }
+
+        else if(calculatorState == CalculatorState.ENTER_KEY_PRESSED)
+        {
+            historyPane.setText("");
+            currentInput = new BigDecimal(ch);
+
+            inputPane.setText(getFormattedNumber(currentInput));
+        }
+
+        calculatorState = CalculatorState.NUMBER_KEY_PRESSED;
     }
 
     public void appendDot() {
-        System.out.println(isGlassPaneVisible());
+        if(!inputPane.getText().contains("."))
+        {
+            inputPane.setText(inputPane.getText() + ".");
+        }
     }
 
     public void calculate() {
-        System.out.println("=");
+        if(calculatorState == CalculatorState.NUMBER_KEY_PRESSED)
+        {
+            historyPane.setText(inputPane.getText() + " =");
+        }
+
+        calculatorState = CalculatorState.ENTER_KEY_PRESSED;
+    }
+
+    private String getFormattedNumber(BigDecimal bigDecimal)
+    {
+        if(isInteger(bigDecimal))
+        {
+            return bigDecimal.toString();
+        }
+
+        NumberFormat formatter = new DecimalFormat("0.0E0");
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        formatter.setMinimumFractionDigits((bigDecimal.scale() > 16) ? bigDecimal.precision() : bigDecimal.scale());
+        return formatter.format(bigDecimal);
+    }
+
+    private boolean isInteger(BigDecimal input) {
+        return input.stripTrailingZeros().scale() <= 0;
+    }
+
+    private boolean isDecimalOverLimit(BigDecimal input) {
+        return input.stripTrailingZeros().scale() > 16;
     }
 }

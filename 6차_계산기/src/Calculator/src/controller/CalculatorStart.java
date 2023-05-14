@@ -1,6 +1,5 @@
 package controller;
 
-import constant.CalculatorState;
 import constant.CalculatorSymbols;
 import customizedComponent.JRoundButton;
 import view.MainFrame;
@@ -16,11 +15,9 @@ import java.awt.event.MouseEvent;
 public class CalculatorStart {
     private MainFrame mainFrame;
     private CalculatorManager calculatorManager;
-    private CalculatorState calculatorState;
 
     public CalculatorStart() {
         this.calculatorManager = new CalculatorManager();
-        this.calculatorState = CalculatorState.START;
     }
 
     public void start() {
