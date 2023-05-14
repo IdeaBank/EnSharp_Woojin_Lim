@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,7 +13,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame()
     {
-        calculatorForm = new CalculatorForm();
+        this.calculatorForm = new CalculatorForm();
         calculatorForm.setFocusable(false);
         setContentPane(calculatorForm.getMainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,7 +21,7 @@ public class MainFrame extends JFrame {
         setVisible(true);
 
         JPanel glassPane = (JPanel)getGlassPane();
-        historyForm = new HistoryForm();
+        this.historyForm = new HistoryForm();
 
         glassPane.setLayout(new GridLayout(2, 1));
         JPanel transparentPanel = new JPanel();
@@ -30,27 +32,33 @@ public class MainFrame extends JFrame {
 
         transparentPanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 glassPane.setVisible(false);
             }
         });
 
         calculatorForm.getHistoryButton().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 glassPane.setVisible(true);
+            }
+        });
+
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                glassPane.setVisible(false);
             }
         });
     }
 
     public CalculatorForm getCalculatorForm()
     {
-        return this.calculatorForm;
+        return calculatorForm;
     }
 
     public HistoryForm getHistoryForm()
     {
-        return this.historyForm;
+        return historyForm;
     }
 
     public void showHistoryPane()
@@ -61,15 +69,5 @@ public class MainFrame extends JFrame {
     public void removeHistoryPane()
     {
         getGlassPane().setVisible(false);
-    }
-
-    public boolean isHistoryPaneOpened()
-    {
-        if(getGlassPane().isVisible())
-        {
-            return true;
-        }
-
-        return false;
     }
 }

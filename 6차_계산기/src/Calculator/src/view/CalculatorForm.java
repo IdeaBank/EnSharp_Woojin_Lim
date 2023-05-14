@@ -266,67 +266,67 @@ public class CalculatorForm extends JFrame {
 
 
     public void createUIComponents() {
-        numberButtons = new ArrayList<>();
-        operatorButtons = new ArrayList<>();
+        this.numberButtons = new ArrayList<>();
+        this.operatorButtons = new ArrayList<>();
 
-        ceButton = new JRoundButton();
+        this.ceButton = new JRoundButton();
         ceButton.setText("CE");
 
-        cButton = new JRoundButton();
+        this.cButton = new JRoundButton();
         cButton.setText("C");
 
-        deleteButton = new JRoundButton();
+        this.deleteButton = new JRoundButton();
         deleteButton.setText("DEL");
 
-        divideButton = new JRoundButton();
+        this.divideButton = new JRoundButton();
         divideButton.setText("÷");
 
-        sevenButton = new JRoundButton();
+        this.sevenButton = new JRoundButton();
         sevenButton.setText("7");
 
-        eightButton = new JRoundButton();
+        this.eightButton = new JRoundButton();
         eightButton.setText("8");
 
-        nineButton = new JRoundButton();
+        this.nineButton = new JRoundButton();
         nineButton.setText("9");
 
-        multiplyButton = new JRoundButton();
+        this.multiplyButton = new JRoundButton();
         multiplyButton.setText("X");
 
-        fourButton = new JRoundButton();
+        this.fourButton = new JRoundButton();
         fourButton.setText("4");
 
-        fiveButton = new JRoundButton();
+        this.fiveButton = new JRoundButton();
         fiveButton.setText("5");
 
-        sixButton = new JRoundButton();
+        this.sixButton = new JRoundButton();
         sixButton.setText("6");
 
-        minusButton = new JRoundButton();
+        this.minusButton = new JRoundButton();
         minusButton.setText("-");
 
-        oneButton = new JRoundButton();
+        this.oneButton = new JRoundButton();
         oneButton.setText("1");
 
-        twoButton = new JRoundButton();
+        this.twoButton = new JRoundButton();
         twoButton.setText("2");
 
-        threeButton = new JRoundButton();
+        this.threeButton = new JRoundButton();
         threeButton.setText("3");
 
-        plusButton = new JRoundButton();
+        this.plusButton = new JRoundButton();
         plusButton.setText("+");
 
-        plusOrMinusButton = new JRoundButton();
+        this.plusOrMinusButton = new JRoundButton();
         plusOrMinusButton.setText("+/-");
 
-        zeroButton = new JRoundButton();
+        this.zeroButton = new JRoundButton();
         zeroButton.setText("0");
 
-        dotButton = new JRoundButton();
+        this.dotButton = new JRoundButton();
         dotButton.setText(".");
 
-        equalsButton = new JRoundButton();
+        this.equalsButton = new JRoundButton();
         equalsButton.setText("=");
 
         numberButtons.add(zeroButton);

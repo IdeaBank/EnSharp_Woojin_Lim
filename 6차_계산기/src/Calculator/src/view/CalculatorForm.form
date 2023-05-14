@@ -70,7 +70,7 @@
                   <editable value="false"/>
                   <focusable value="false"/>
                   <font size="24"/>
-                  <text value="test"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>
@@ -99,7 +99,7 @@
                   <focusTraversalPolicyProvider value="false"/>
                   <focusable value="true"/>
                   <font name="Malgun Gothic" size="36"/>
-                  <text value="test2"/>
+                  <text value="0"/>
                 </properties>
               </component>
             </children>

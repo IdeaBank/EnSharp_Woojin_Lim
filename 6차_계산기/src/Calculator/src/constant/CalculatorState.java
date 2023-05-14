@@ -1,6 +1,7 @@
 package constant;
 
 public enum CalculatorState {
+    START,
     NUMBER_PRESSED,
     OPERATOR_PRESSED,
     ENTER_PRESSED,

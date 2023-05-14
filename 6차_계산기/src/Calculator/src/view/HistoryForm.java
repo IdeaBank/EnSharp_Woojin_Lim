@@ -16,12 +16,12 @@ public class HistoryForm {
 
     public JPanel getHistoryPanel()
     {
-        return this.historyPanel;
+        return historyPanel;
     }
 
     public JList getHistoryList()
     {
-        return this.historyList;
+        return historyList;
     }
 
     public void createUIComponents() {
