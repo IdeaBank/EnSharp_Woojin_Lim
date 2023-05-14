@@ -19,6 +19,11 @@ public class HistoryForm {
         return this.historyPanel;
     }
 
+    public JList getHistoryList()
+    {
+        return this.historyList;
+    }
+
     public void createUIComponents() {
         
     }

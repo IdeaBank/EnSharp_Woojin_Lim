@@ -66,9 +66,10 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <dragEnabled value="true"/>
+                  <dragEnabled value="false"/>
                   <editable value="false"/>
-                  <focusable value="true"/>
+                  <focusable value="false"/>
+                  <font size="24"/>
                   <text value="test"/>
                 </properties>
               </component>
@@ -96,7 +97,8 @@
                   <editable value="false"/>
                   <focusCycleRoot value="true"/>
                   <focusTraversalPolicyProvider value="false"/>
-                  <focusable value="false"/>
+                  <focusable value="true"/>
+                  <font name="Malgun Gothic" size="36"/>
                   <text value="test2"/>
                 </properties>
               </component>

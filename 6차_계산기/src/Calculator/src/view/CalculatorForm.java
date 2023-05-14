@@ -3,6 +3,7 @@ package view;
 import customizedComponent.JRoundButton;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.util.ArrayList;
 

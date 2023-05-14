@@ -1,19 +1,43 @@
 package controller;
 
+import constant.CalculatorSymbols;
+import customizedComponent.JRoundButton;
 import view.MainFrame;
 
+import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CalculatorStart {
     MainFrame mainFrame;
+    CalculatorManager calculatorManager;
 
     public CalculatorStart() {
-
+        calculatorManager = new CalculatorManager();
     }
 
     public void start() {
         mainFrame = new MainFrame();
+        JTextPane historyPane = mainFrame.getCalculatorForm().getHistoryPane();
+        JTextPane inputPane = mainFrame.getCalculatorForm().getInputPane();
+
+        calculatorManager.setHistoryList(mainFrame.getHistoryForm().getHistoryList());
+        calculatorManager.setHistoryPane(historyPane);
+        calculatorManager.setInputPane(inputPane);
+
+        SimpleAttributeSet attribs = new SimpleAttributeSet();
+        StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_RIGHT);
+        StyleConstants.setFontFamily(attribs, "Malgun Gothic");
+        StyleConstants.setFontSize(attribs, 24);
+        historyPane.setParagraphAttributes(attribs, true);
+
+
+        StyleConstants.setFontSize(attribs, 36);
+        inputPane.setParagraphAttributes(attribs, true);
 
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -26,13 +50,33 @@ public class CalculatorStart {
                 return false;
             }
         });
+
+        for(JRoundButton button : mainFrame.getCalculatorForm().getNumberButtons())
+        {
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    handleButtonPressed(button.getText());
+                }
+            });
+        }
+
+        for(JRoundButton button : mainFrame.getCalculatorForm().getOperatorButtons())
+        {
+            button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                handleButtonPressed(button.getText());
+            }
+        });
+        }
     }
 
     private void handleKeyRelease(KeyEvent e) {
         switch(e.getKeyChar())
         {
             case '0':
-                appendZero();
+                calculatorManager.appendZero();
                 break;
             case '1':
             case '2':
@@ -43,19 +87,25 @@ public class CalculatorStart {
             case '7':
             case '8':
             case '9':
-                appendNumber(e.getKeyChar());
+                calculatorManager.appendNumber(e.getKeyChar());
                 break;
             case '+':
+                calculatorManager.add();
+                break;
             case '-':
+                calculatorManager.subtract();
+                break;
             case '*':
+                calculatorManager.multiply();
+                break;
             case '/':
-                appendOperator(e.getKeyChar());
+                calculatorManager.divide();
                 break;
             case '=':
-                calculate();
+                calculatorManager.calculate();
                 break;
             case '.':
-                appendDot();
+                calculatorManager.appendDot();
                 break;
         }
 
@@ -68,30 +118,63 @@ public class CalculatorStart {
         {
             System.out.println("CE");
         }
+
+        else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+        {
+            System.out.println("DEL");
+        }
     }
 
-    private void appendZero()
+    private void handleButtonPressed(String text)
     {
-        appendNumber('0');
-    }
+        switch(text)
+        {
+            case CalculatorSymbols.CE:
+                calculatorManager.clearEntry();
+                break;
+            case CalculatorSymbols.C:
+                calculatorManager.clear();
+                break;
+            case CalculatorSymbols.DEL:
+                calculatorManager.deleteEntry();
+                break;
+            case CalculatorSymbols.DIVIDE:
+                calculatorManager.divide();
+                break;
+            case CalculatorSymbols.MULTIPLY:
+                calculatorManager.multiply();
+                break;
+            case CalculatorSymbols.SUBTRACT:
+                calculatorManager.subtract();
+                break;
+            case CalculatorSymbols.ADD:
+                calculatorManager.add();
+                break;
+            case CalculatorSymbols.EQUALS:
+                calculatorManager.calculate();
+                break;
+            case CalculatorSymbols.PLUS_OR_MINUS:
+                calculatorManager.negate();
+                break;
 
-    private void appendNumber(char ch)
-    {
-        System.out.println(ch); 
-    }
+            case CalculatorSymbols.DOT:
+                calculatorManager.appendDot();
+                break;
 
-    private void appendOperator(char ch)
-    {
-        System.out.println(ch);
-    }
-
-    private void appendDot()
-    {
-        System.out.println(".");
-    }
-
-    private void calculate()
-    {
-        System.out.println("=");
+            case CalculatorSymbols.ONE:
+            case CalculatorSymbols.TWO:
+            case CalculatorSymbols.THREE:
+            case CalculatorSymbols.FOUR:
+            case CalculatorSymbols.FIVE:
+            case CalculatorSymbols.SIX:
+            case CalculatorSymbols.SEVEN:
+            case CalculatorSymbols.EIGHT:
+            case CalculatorSymbols.NINE:
+                calculatorManager.appendNumber(text.charAt(0));
+                break;
+            case CalculatorSymbols.ZERO:
+                calculatorManager.appendZero();
+                break;
+        }
     }
 }

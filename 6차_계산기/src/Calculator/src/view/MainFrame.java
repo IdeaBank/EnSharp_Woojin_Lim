@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
         transparentPanel.setBackground(new Color(0, 0, 0, 178));
         glassPane.add(transparentPanel);
         glassPane.add(historyForm.getHistoryPanel());
-        glassPane.setVisible(true);
+        glassPane.setVisible(false);
 
         transparentPanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -46,6 +46,11 @@ public class MainFrame extends JFrame {
     public CalculatorForm getCalculatorForm()
     {
         return this.calculatorForm;
+    }
+
+    public HistoryForm getHistoryForm()
+    {
+        return this.historyForm;
     }
 
     public void showHistoryPane()
