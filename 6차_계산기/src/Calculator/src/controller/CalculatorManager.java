@@ -51,7 +51,6 @@ public class CalculatorManager {
     }
 
     public void handleButtonPressed(String text) {
-        System.out.print(text);
         switch (text) {
             case CalculatorSymbols.CE:
                 clearEntry();
@@ -323,6 +322,8 @@ public class CalculatorManager {
                         divide();
                         break;
                 }
+
+                historyPane.setText(historyPane.getText().substring(0, historyPane.getText().length() - 1) + " =");
             }
         }
 
