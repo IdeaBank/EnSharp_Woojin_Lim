@@ -86,6 +86,7 @@ public class CalculatorManager {
             case CalculatorSymbols.EQUALS:
                 calculate();
                 break;
+
             case CalculatorSymbols.PLUS_OR_MINUS:
                 negate();
                 break;
@@ -160,10 +161,11 @@ public class CalculatorManager {
                 }
             }
 
-            operatorChar = '/';
-
-            historyPane.setText(pastInput.toString() + " " + operatorChar);
         }
+
+        operatorChar = '/';
+
+        historyPane.setText(pastInput.toString() + " " + operatorChar);
 
         displayCurrentInput();
         calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
@@ -181,10 +183,11 @@ public class CalculatorManager {
                 inputPane.setText(pastInput.toString());
             }
 
-            operatorChar = '*';
-
-            historyPane.setText(pastInput.toString() + " " + operatorChar);
         }
+
+        operatorChar = '*';
+
+        historyPane.setText(pastInput.toString() + " " + operatorChar);
 
         displayCurrentInput();
         calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
@@ -201,10 +204,11 @@ public class CalculatorManager {
                 inputPane.setText(pastInput.toString());
             }
 
-            operatorChar = '-';
-
-            historyPane.setText(pastInput.toString() + " " + operatorChar);
         }
+
+        operatorChar = '-';
+
+        historyPane.setText(pastInput.toString() + " " + operatorChar);
 
         displayCurrentInput();
         calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
@@ -220,11 +224,11 @@ public class CalculatorManager {
                 pastInput = pastInput.add(currentInput);
                 inputPane.setText(pastInput.toString());
             }
-
-            operatorChar = '+';
-
-            historyPane.setText(pastInput.toString() + " " + operatorChar);
         }
+
+        operatorChar = '+';
+
+        historyPane.setText(pastInput.toString() + " " + operatorChar);
 
         displayCurrentInput();
         calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
@@ -237,6 +241,7 @@ public class CalculatorManager {
             inputPane.setText("-" + inputPane.getText());
         }
 
+        currentInput = new BigDecimal(inputPane.getText());
         displayCurrentInput();
     }
 
@@ -294,7 +299,31 @@ public class CalculatorManager {
 
     public void calculate() {
         if (calculatorState == CalculatorState.NUMBER_KEY_PRESSED) {
-            historyPane.setText(inputPane.getText() + " =");
+            if(operatorChar == '\0')
+            {
+                operatorChar = '=';
+                historyPane.setText(inputPane.getText() + " " + operatorChar);
+                inputPane.setText("0");
+            }
+
+            else
+            {
+                switch(operatorChar)
+                {
+                    case '+':
+                        add();
+                        break;
+                    case '-':
+                        subtract();
+                        break;
+                    case '*':
+                        multiply();
+                        break;
+                    case '/':
+                        divide();
+                        break;
+                }
+            }
         }
 
         calculatorState = CalculatorState.ENTER_KEY_PRESSED;
