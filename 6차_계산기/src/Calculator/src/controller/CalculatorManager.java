@@ -5,16 +5,14 @@ import constant.CalculatorSymbols;
 import model.CalculatorHistory;
 
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class CalculatorManager {
-    private ArrayList<CalculatorHistory> calculatorHistories;
+    private final ArrayList<CalculatorHistory> calculatorHistories;
     private JList historyList;
     private JTextPane historyPane;
     private JTextPane inputPane;
@@ -25,6 +23,7 @@ public class CalculatorManager {
     public CalculatorManager() {
         this.calculatorHistories = new ArrayList<>();
         this.calculatorState = CalculatorState.START;
+        this.currentInput = new BigDecimal(0);
     }
 
     public void setHistoryList(JList historyList) {
@@ -39,46 +38,44 @@ public class CalculatorManager {
         this.inputPane = inputPane;
     }
 
-    public void setGlassPanel(JPanel glassPane)
-    {
+    public void setGlassPanel(JPanel glassPane) {
         this.glassPane = glassPane;
     }
 
-    public boolean isGlassPaneVisible()
-    {
-        if(glassPane.isVisible())
-        {
-            return true;
-        }
-
-        return false;
+    public boolean isGlassPaneVisible() {
+        return glassPane.isVisible();
     }
 
-    public void handleButtonPressed(String text)
-    {
-        switch(text)
-        {
+    public void handleButtonPressed(String text) {
+        switch (text) {
             case CalculatorSymbols.CE:
                 clearEntry();
                 break;
+
             case CalculatorSymbols.C:
                 clear();
                 break;
+
             case CalculatorSymbols.DEL:
                 deleteEntry();
                 break;
+
             case CalculatorSymbols.DIVIDE:
                 divide();
                 break;
+
             case CalculatorSymbols.MULTIPLY:
                 multiply();
                 break;
+
             case CalculatorSymbols.SUBTRACT:
                 subtract();
                 break;
+
             case CalculatorSymbols.ADD:
                 add();
                 break;
+
             case CalculatorSymbols.EQUALS:
                 calculate();
                 break;
@@ -113,32 +110,25 @@ public class CalculatorManager {
     }
 
     public void clear() {
-        historyPane.setText("");
-        inputPane.setText("0");
-        currentInput = new BigDecimal(0);
+        resetHistory();
+        clearEntry();
     }
 
     public void deleteEntry() {
-        if(!inputPane.getText().equals("0") && inputPane.getText().length() > 1)
+        String inputString = inputPane.getText();
+
+        if(inputString.length() == 1)
         {
-            String tempInput = currentInput.toString();
-
-            if(tempInput.charAt(tempInput.length() - 2) == '.')
-            {
-                tempInput = tempInput.substring(0, tempInput.length() - 1);
-            } else {
-                tempInput = tempInput.substring(0, tempInput.length());
-            }
-
-            currentInput = new BigDecimal(tempInput);
+            inputString = "0";
         }
 
-        else if(inputPane.getText().length() == 1)
-        {
-            currentInput = new BigDecimal(0);
+        else {
+            inputString = inputString.substring(0, inputString.length() - 1);
         }
 
-        inputPane.setText(getFormattedNumber(currentInput));
+        currentInput = new BigDecimal(String.join("", inputString.split(",")));
+        inputPane.setText(String.join("", inputString.split(",")));
+        displayCurrentInput();
     }
 
     public void divide() {
@@ -158,9 +148,15 @@ public class CalculatorManager {
     }
 
     public void negate() {
-        currentInput = currentInput.negate();
+        if(inputPane.getText().startsWith("-")) {
+            inputPane.setText(inputPane.getText().substring(1));
+        }
 
-        inputPane.setText(getFormattedNumber(currentInput));
+        else {
+            inputPane.setText("-" + inputPane.getText());
+        }
+
+        displayCurrentInput();
     }
 
     public void appendZero() {
@@ -168,61 +164,63 @@ public class CalculatorManager {
     }
 
     public void appendNumber(char ch) {
-        if(calculatorState == CalculatorState.START || calculatorState == CalculatorState.NUMBER_KEY_PRESSED)
-        {
-            if(inputPane.getText().equals("0")) {
-                currentInput = new BigDecimal(ch);
-                inputPane.setText(getFormattedNumber(currentInput));
+        if (calculatorState == CalculatorState.START || calculatorState == CalculatorState.NUMBER_KEY_PRESSED) {
+            String tempString = String.join("", inputPane.getText().split(","));
+            tempString = String.join("", tempString.split("[.]"));
+
+            if(tempString.length() > 15)
+            {
+                return;
             }
 
-            else {
-                if((inputPane.getText().length() < 16 && inputPane.getText().contains("."))
-                        || (inputPane.getText().length() < 15 && !inputPane.getText().contains(".")))
-                {
-                    currentInput = new BigDecimal(currentInput.toString() + ch);
-                    inputPane.setText(getFormattedNumber(currentInput));
-                }
+            if(inputPane.getText().equals("0"))
+            {
+                inputPane.setText(String.valueOf(ch));
             }
+
+            else if(inputPane.getText().equals("-0"))
+            {
+                inputPane.setText("-" + ch);
+            }
+
+            else{
+                inputPane.setText(inputPane.getText() + ch);
+            }
+
+        } else if (calculatorState == CalculatorState.ENTER_KEY_PRESSED) {
+            resetHistory();
+            currentInput = new BigDecimal(String.valueOf(ch));
         }
 
-        else if(calculatorState == CalculatorState.ENTER_KEY_PRESSED)
-        {
-            historyPane.setText("");
-            currentInput = new BigDecimal(ch);
-
-            inputPane.setText(getFormattedNumber(currentInput));
-        }
-
+        currentInput = new BigDecimal(String.join("",inputPane.getText().split(",")));
         calculatorState = CalculatorState.NUMBER_KEY_PRESSED;
+        displayCurrentInput();
     }
 
     public void appendDot() {
-        if(!inputPane.getText().contains("."))
-        {
+        if (!inputPane.getText().contains(".")) {
             inputPane.setText(inputPane.getText() + ".");
         }
     }
 
     public void calculate() {
-        if(calculatorState == CalculatorState.NUMBER_KEY_PRESSED)
-        {
+        if (calculatorState == CalculatorState.NUMBER_KEY_PRESSED) {
             historyPane.setText(inputPane.getText() + " =");
         }
 
         calculatorState = CalculatorState.ENTER_KEY_PRESSED;
     }
 
-    private String getFormattedNumber(BigDecimal bigDecimal)
-    {
-        if(isInteger(bigDecimal))
-        {
-            return bigDecimal.toString();
-        }
-
+    private String getFormattedNumber(BigDecimal bigDecimal) {
         NumberFormat formatter = new DecimalFormat("0.0E0");
         formatter.setRoundingMode(RoundingMode.HALF_UP);
-        formatter.setMinimumFractionDigits((bigDecimal.scale() > 16) ? bigDecimal.precision() : bigDecimal.scale());
+        formatter.setMinimumFractionDigits((bigDecimal.scale() > 0) ? bigDecimal.precision() : bigDecimal.scale());
         return formatter.format(bigDecimal);
+    }
+
+    private void resetHistory()
+    {
+        historyPane.setText("");
     }
 
     private boolean isInteger(BigDecimal input) {
@@ -231,5 +229,45 @@ public class CalculatorManager {
 
     private boolean isDecimalOverLimit(BigDecimal input) {
         return input.stripTrailingZeros().scale() > 16;
+    }
+
+    private void displayCurrentInput()
+    {
+        String inputString = String.join("", inputPane.getText().split(","));
+        boolean isEndWithDot = inputString.endsWith(".");
+        String []str = inputString.split("[.]");
+        String temp_result = "";
+        String reverse_result = "";
+        char []charList = str[0].toCharArray();
+        int count = 0;
+
+        for(int i = str[0].length() - 1; i >= 0; --i)
+        {
+            if(count % 3 == 0 && count != 0)
+            {
+                temp_result += ',';
+            }
+            temp_result += str[0].toCharArray()[i];
+            count += 1;
+        }
+
+        for(int i = temp_result.length() - 1; i >= 0; --i)
+        {
+            reverse_result += temp_result.toCharArray()[i];
+        }
+
+        str[0] = reverse_result;
+
+        if(str[0].startsWith("-,"))
+        {
+            str[0] = "-" + str[0].substring(2);
+        }
+
+        inputPane.setText(String.join(".", str));
+
+        if(isEndWithDot)
+        {
+            inputPane.setText(inputPane.getText() + ".");
+        }
     }
 }
