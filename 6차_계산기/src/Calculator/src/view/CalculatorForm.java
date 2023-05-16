@@ -1,9 +1,9 @@
 package view;
 
+import constant.CalculatorSymbols;
 import customizedComponent.JRoundButton;
 
 import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -12,188 +12,9 @@ public class CalculatorForm extends JFrame {
     public JPanel getMainPanel() {
         return mainPanel;
     }
-    public JPanel getInputAndResultPanel() {
-        return inputAndResultPanel;
-    }
-
-    public JPanel getButtonsPanel() {
-        return buttonsPanel;
-    }
-
-    public JPanel getCeButtonPanel() {
-        return ceButtonPanel;
-    }
-
-    public JPanel getcButtonPanel() {
-        return cButtonPanel;
-    }
-
-    public JPanel getDeleteButtonPanel() {
-        return deleteButtonPanel;
-    }
-
-    public JPanel getDivideButtonPanel() {
-        return divideButtonPanel;
-    }
-
-    public JPanel getSevenButtonPanel() {
-        return sevenButtonPanel;
-    }
-
-    public JPanel getEightButtonPanel() {
-        return eightButtonPanel;
-    }
-
-    public JPanel getNineButtonPanel() {
-        return nineButtonPanel;
-    }
-
-    public JPanel getMultiplyButtonPanel() {
-        return multiplyButtonPanel;
-    }
-
-    public JPanel getFourButtonPanel() {
-        return fourButtonPanel;
-    }
-
-    public JPanel getFiveButtonPanel() {
-        return fiveButtonPanel;
-    }
-
-    public JPanel getSixButtonPanel() {
-        return sixButtonPanel;
-    }
-
-    public JPanel getMinusButtonPanel() {
-        return minusButtonPanel;
-    }
-
-    public JPanel getOneButtonPanel() {
-        return oneButtonPanel;
-    }
-
-    public JPanel getTwoButtonPanel() {
-        return twoButtonPanel;
-    }
-
-    public JPanel getThreeButtonPanel() {
-        return threeButtonPanel;
-    }
-
-    public JPanel getPlusButtonPanel() {
-        return plusButtonPanel;
-    }
-
-    public JPanel getPlusOrMinusButtonPanel() {
-        return plusOrMinusButtonPanel;
-    }
-
-    public JPanel getZeroButtonPanel() {
-        return zeroButtonPanel;
-    }
-
-    public JPanel getDotButtonPanel() {
-        return dotButtonPanel;
-    }
-
-    public JPanel getEqualsButtonPanel() {
-        return equalsButtonPanel;
-    }
 
     public JLabel getHistoryButton() {
         return historyButton;
-    }
-
-    public JPanel getHistoryButtonPanel() {
-        return historyButtonPanel;
-    }
-
-    public JPanel getHistoryPanePanel() {
-        return historyPanePanel;
-    }
-
-    public JPanel getInputPanePanel() {
-        return inputPanePanel;
-    }
-
-    public JRoundButton getCeButton() {
-        return ceButton;
-    }
-
-    public JRoundButton getcButton() {
-        return cButton;
-    }
-
-    public JRoundButton getDeleteButton() {
-        return deleteButton;
-    }
-
-    public JRoundButton getDivideButton() {
-        return divideButton;
-    }
-
-    public JRoundButton getSevenButton() {
-        return sevenButton;
-    }
-
-    public JRoundButton getEightButton() {
-        return eightButton;
-    }
-
-    public JRoundButton getNineButton() {
-        return nineButton;
-    }
-
-    public JRoundButton getMultiplyButton() {
-        return multiplyButton;
-    }
-
-    public JRoundButton getFourButton() {
-        return fourButton;
-    }
-
-    public JRoundButton getFiveButton() {
-        return fiveButton;
-    }
-
-    public JRoundButton getSixButton() {
-        return sixButton;
-    }
-
-    public JRoundButton getMinusButton() {
-        return minusButton;
-    }
-
-    public JRoundButton getOneButton() {
-        return oneButton;
-    }
-
-    public JRoundButton getTwoButton() {
-        return twoButton;
-    }
-
-    public JRoundButton getThreeButton() {
-        return threeButton;
-    }
-
-    public JRoundButton getPlusButton() {
-        return plusButton;
-    }
-
-    public JRoundButton getPlusOrMinusButton() {
-        return plusOrMinusButton;
-    }
-
-    public JRoundButton getZeroButton() {
-        return zeroButton;
-    }
-
-    public JRoundButton getDotButton() {
-        return dotButton;
-    }
-
-    public JRoundButton getEqualsButton() {
-        return equalsButton;
     }
 
     public JTextPane getHistoryPane() {
@@ -215,17 +36,6 @@ public class CalculatorForm extends JFrame {
     private JPanel mainPanel;
     private JPanel inputAndResultPanel;
     private JPanel buttonsPanel;
-    private JPanel ceButtonPanel;
-    private JPanel cButtonPanel;
-    private JPanel deleteButtonPanel;
-    private JPanel divideButtonPanel;
-    private JPanel sevenButtonPanel;
-    private JPanel eightButtonPanel;
-    private JPanel nineButtonPanel;
-    private JPanel multiplyButtonPanel;
-    private JPanel fourButtonPanel;
-    private JPanel fiveButtonPanel;
-    private JPanel sixButtonPanel;
     private JPanel minusButtonPanel;
     private JPanel oneButtonPanel;
     private JPanel twoButtonPanel;
@@ -239,6 +49,18 @@ public class CalculatorForm extends JFrame {
     private JPanel historyButtonPanel;
     private JPanel historyPanePanel;
     private JPanel inputPanePanel;
+    private JPanel ceButtonPanel;
+    private JPanel cButtonPanel;
+    private JPanel deleteButtonPanel;
+    private JPanel divideButtonPanel;
+    private JPanel sevenButtonPanel;
+    private JPanel eightButtonPanel;
+    private JPanel nineButtonPanel;
+    private JPanel multiplyButtonPanel;
+    private JPanel fourButtonPanel;
+    private JPanel fiveButtonPanel;
+    private JPanel sixButtonPanel;
+
     private JRoundButton ceButton;
     private JRoundButton cButton;
     private JRoundButton deleteButton;
@@ -270,64 +92,64 @@ public class CalculatorForm extends JFrame {
         this.operatorButtons = new ArrayList<>();
 
         this.ceButton = new JRoundButton();
-        ceButton.setText("CE");
+        ceButton.setText(CalculatorSymbols.CE);
 
         this.cButton = new JRoundButton();
-        cButton.setText("C");
+        cButton.setText(CalculatorSymbols.C);
 
         this.deleteButton = new JRoundButton();
-        deleteButton.setText("DEL");
+        deleteButton.setText(CalculatorSymbols.DEL);
 
         this.divideButton = new JRoundButton();
-        divideButton.setText("÷");
+        divideButton.setText(CalculatorSymbols.DIVIDE_SYMBOL);
 
         this.sevenButton = new JRoundButton();
-        sevenButton.setText("7");
+        sevenButton.setText(CalculatorSymbols.SEVEN);
 
         this.eightButton = new JRoundButton();
-        eightButton.setText("8");
+        eightButton.setText(CalculatorSymbols.EIGHT);
 
         this.nineButton = new JRoundButton();
-        nineButton.setText("9");
+        nineButton.setText(CalculatorSymbols.NINE);
 
         this.multiplyButton = new JRoundButton();
-        multiplyButton.setText("X");
+        multiplyButton.setText(CalculatorSymbols.MULTIPLY_SYMBOL);
 
         this.fourButton = new JRoundButton();
-        fourButton.setText("4");
+        fourButton.setText(CalculatorSymbols.FOUR);
 
         this.fiveButton = new JRoundButton();
-        fiveButton.setText("5");
+        fiveButton.setText(CalculatorSymbols.FIVE);
 
         this.sixButton = new JRoundButton();
-        sixButton.setText("6");
+        sixButton.setText(CalculatorSymbols.SIX);
 
         this.minusButton = new JRoundButton();
-        minusButton.setText("-");
+        minusButton.setText(CalculatorSymbols.SUBTRACT);
 
         this.oneButton = new JRoundButton();
-        oneButton.setText("1");
+        oneButton.setText(CalculatorSymbols.ONE);
 
         this.twoButton = new JRoundButton();
-        twoButton.setText("2");
+        twoButton.setText(CalculatorSymbols.TWO);
 
         this.threeButton = new JRoundButton();
-        threeButton.setText("3");
+        threeButton.setText(CalculatorSymbols.THREE);
 
         this.plusButton = new JRoundButton();
-        plusButton.setText("+");
+        plusButton.setText(CalculatorSymbols.ADD);
 
         this.plusOrMinusButton = new JRoundButton();
-        plusOrMinusButton.setText("+/-");
+        plusOrMinusButton.setText(CalculatorSymbols.NEGATE);
 
         this.zeroButton = new JRoundButton();
-        zeroButton.setText("0");
+        zeroButton.setText(CalculatorSymbols.ZERO);
 
         this.dotButton = new JRoundButton();
-        dotButton.setText(".");
+        dotButton.setText(CalculatorSymbols.DOT);
 
         this.equalsButton = new JRoundButton();
-        equalsButton.setText("=");
+        equalsButton.setText(CalculatorSymbols.EQUALS);
 
         numberButtons.add(zeroButton);
         numberButtons.add(oneButton);

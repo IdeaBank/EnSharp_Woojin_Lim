@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
         calculatorForm.setFocusable(false);
         setContentPane(calculatorForm.getMainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(600, 700));
+        setMinimumSize(new Dimension(420, 560));
         setVisible(true);
 
         JPanel glassPane = (JPanel)getGlassPane();
