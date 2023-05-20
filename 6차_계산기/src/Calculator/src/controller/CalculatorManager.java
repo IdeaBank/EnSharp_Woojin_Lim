@@ -93,7 +93,7 @@ public class CalculatorManager {
 
             case CalculatorSymbols.EQUALS:
                 calculate();
-                if (calculatorState != CalculatorState.ERROR)
+                if (calculatorState != CalculatorState.ERROR && calculatorState != CalculatorState.START)
                     calculatorState = CalculatorState.ENTER_KEY_PRESSED;
                 break;
 
@@ -182,7 +182,9 @@ public class CalculatorManager {
                 if (secondOperand == null) {
                     secondOperand = getInputDecimal();
                 }
-
+            }
+            if(secondOperand != null)
+            {
                 switch (this.operatorChar) {
                     case CalculatorSymbols.ADD_CHAR:
                         firstOperand = firstOperand.add(secondOperand);
@@ -203,31 +205,80 @@ public class CalculatorManager {
                     return;
                 }
 
-                inputPane.setText(firstOperand.toPlainString());
-                historyPane.setText(firstOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " " + operatorChar);
+                if(calculatorState != CalculatorState.START) {
 
-                calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
-                displayCurrentInput();
-                this.operatorChar = operatorChar;
+                    inputPane.setText(firstOperand.toPlainString());
+                    historyPane.setText(firstOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " " + operatorChar);
+
+                    calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
+                    displayCurrentInput();
+                    this.operatorChar = operatorChar;
+                }
                 return;
             }
         } else if (calculatorState == CalculatorState.ENTER_KEY_PRESSED) {
+                if(firstOperand == null) {
+                    firstOperand = getInputDecimal();
+                    inputPane.setText(firstOperand.toPlainString());
 
-                firstOperand = getInputDecimal();
-                this.operatorChar = operatorChar;
+                    this.operatorChar = operatorChar;
 
-                inputPane.setText(firstOperand.toPlainString());
+                    historyPane.setText(firstOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " " + operatorChar);
+                }
 
-                historyPane.setText(firstOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " " + operatorChar);
+                else{
+                    switch (this.operatorChar) {
+                        case CalculatorSymbols.ADD_CHAR:
+                            firstOperand = firstOperand.add(secondOperand);
+                            break;
+                        case CalculatorSymbols.SUBTRACT_CHAR:
+                            firstOperand = firstOperand.subtract(secondOperand);
+                            break;
+                        case CalculatorSymbols.MULTIPLY_CHAR:
+                            firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
+                            break;
+                        case CalculatorSymbols.DIVIDE_CHAR:
+                            divide();
+                            break;
+                    }
 
+                    inputPane.setText(firstOperand.stripTrailingZeros().toString());
+                }
         } else if (calculatorState == CalculatorState.OPERATION_KEY_PRESSED) {
             this.operatorChar = operatorChar;
             historyPane.setText(firstOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " " + operatorChar);
-            secondOperand = null;
+
+            if(secondOperand != null)
+            {
+                String temp = firstOperand.stripTrailingZeros().toPlainString();
+
+                switch (this.operatorChar) {
+                    case CalculatorSymbols.ADD_CHAR:
+                        firstOperand = firstOperand.add(secondOperand);
+                        break;
+                    case CalculatorSymbols.SUBTRACT_CHAR:
+                        firstOperand = firstOperand.subtract(secondOperand);
+                        firstOperand = firstOperand.subtract(secondOperand);
+                        break;
+                    case CalculatorSymbols.MULTIPLY_CHAR:
+                        firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
+                        break;
+                    case CalculatorSymbols.DIVIDE_CHAR:
+                        divide();
+                        break;
+                }
+
+                historyPane.setText(temp + " " + this.operatorChar + " " + secondOperand + " =");
+                inputPane.setText(firstOperand.stripTrailingZeros().toPlainString());
+            }
+
         }
 
         this.operatorChar = operatorChar;
-        calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
+
+        if(calculatorState != CalculatorState.START) {
+            calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
+        }
     }
 
     public void negate() {
@@ -252,6 +303,7 @@ public class CalculatorManager {
             inputPane.setText(String.valueOf(inputNumber));
         } else if (calculatorState == CalculatorState.ENTER_KEY_PRESSED) {
             inputPane.setText(String.valueOf(inputNumber));
+            firstOperand = null;
 
             if (operatorChar != '\0') {
                 historyPane.setText("");
@@ -296,17 +348,28 @@ public class CalculatorManager {
                 historyPane.setText(inputPane.getText() + " =");
                 calculatorState = CalculatorState.ENTER_KEY_PRESSED;
             } else {
-                String temp = firstOperand.setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
-                secondOperand = getInputDecimal();
+                String temp;
+
+                if(firstOperand != null) {
+                    temp = firstOperand.setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
+                    secondOperand = getInputDecimal();
+
+                }
+
+                else{
+                    temp = getInputDecimal().stripTrailingZeros().toPlainString();
+                }
+
                 getCalculation(operatorChar);
+
                 if (calculatorState != CalculatorState.ERROR) {
                     historyPane.setText(temp + " " + this.operatorChar + " " + secondOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " =");
                 }
+
             }
 
         } else if (calculatorState == CalculatorState.ENTER_KEY_PRESSED) {
             String temp = getInputDecimal().toPlainString();
-
 
             if (calculatorState != CalculatorState.ERROR && operatorChar == '\0')
                 historyPane.setText(historyPane.getText().substring(0, historyPane.getText().length() - 2) + " =");
@@ -319,6 +382,13 @@ public class CalculatorManager {
             }
 
             firstOperand = null;
+        }
+
+        else if(calculatorState == CalculatorState.OPERATION_KEY_PRESSED)
+        {
+            secondOperand = getInputDecimal();
+            getCalculation(this.operatorChar);
+
         }
 
         if (calculatorState != CalculatorState.ERROR) {
