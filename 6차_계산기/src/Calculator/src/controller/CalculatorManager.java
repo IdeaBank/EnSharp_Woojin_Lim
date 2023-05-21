@@ -347,7 +347,7 @@ public class CalculatorManager {
             }
 
             else {
-                inputPane.setText(getDecimalWithFormat(new BigDecimal(stringWithoutComma + inputNumber), true));
+                inputPane.setText(getInputDecimal(new BigDecimal(stringWithoutComma + inputNumber)));
             }
         }
 
@@ -372,7 +372,8 @@ public class CalculatorManager {
                 String input = inputPane.getText();
                 input = String.join("", input.split(","));
 
-                historyPane.setText(getDecimalWithFormat(new BigDecimal(input), false) + " =");
+                firstOperand = getInputDecimal();
+                historyPane.setText(getDecimalWithFormat(firstOperand, false) + " =");
                 calculatorState = CalculatorState.ENTER_KEY_PRESSED;
             }
 
@@ -380,7 +381,7 @@ public class CalculatorManager {
                 String temp;
 
                 if(firstOperand != null) {
-                    temp = firstOperand.setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
+                    temp = getDecimalWithFormat(firstOperand, true);
                     secondOperand = getInputDecimal();
 
                 }
@@ -460,10 +461,6 @@ public class CalculatorManager {
             inputPane.setText(getDecimalWithFormat(firstOperand, true));
         }
 
-        if (calculatorState != CalculatorState.ERROR) {
-            inputPane.setText(getDecimalWithFormat(getInputDecimal(), true));
-        }
-
         calculatorState = CalculatorState.ENTER_KEY_PRESSED;
     }
 
@@ -479,7 +476,7 @@ public class CalculatorManager {
         return input.stripTrailingZeros().scale() > 16;
     }
 
-    private String getDecimalWithFormat(BigDecimal targetDecimal, boolean formatDecimal) {
+        private String getDecimalWithFormat(BigDecimal targetDecimal, boolean formatDecimal) {
         if(targetDecimal.compareTo(new BigDecimal("0")) == 0)
         {
             return targetDecimal.toPlainString();
@@ -515,7 +512,6 @@ public class CalculatorManager {
                     return tempResult.toString() + "e-" + count;
                 }
             }
-
         }
 
         else if(targetDecimal.compareTo(new BigDecimal("9999999999999999")) == 1)
@@ -549,9 +545,9 @@ public class CalculatorManager {
 
             if(result.contains(".") && !result.endsWith("."))
             {
-                if(result.length() > 17)
+                if(result.length() > 18)
                 {
-                    result.substring(0, 17);
+                    result = result.substring(0, 18);
                 }
             }
 
@@ -566,13 +562,26 @@ public class CalculatorManager {
             {
                 if(tempResult.toString().length() > 16)
                 {
-                    return tempResult.setScale(16, RoundingMode.HALF_UP).toString();
+                    return tempResult.setScale(tempResult.scale() - 1, RoundingMode.HALF_UP).toString();
                 }
 
                 return tempResult.toString();
             }
 
-            if(result.contains(".")) {
+
+            if(tempResult.toPlainString().contains(".")) {
+
+                int scale = tempResult.scale();
+                tempResult = tempResult.setScale(scale - 1, RoundingMode.HALF_UP);
+                tempResult = tempResult.stripTrailingZeros();
+
+                if(!tempResult.stripTrailingZeros().toPlainString().contains("."))
+                {
+                    formatter = new DecimalFormat("#,##0");
+
+                    return formatter.format(tempResult.stripTrailingZeros());
+                }
+
                 formatter = new DecimalFormat("#,##0." + "0".repeat(tempResult.scale()));
             }
 
@@ -580,10 +589,43 @@ public class CalculatorManager {
                 formatter = new DecimalFormat("#,##0");
             }
 
-            tempResult = tempResult.setScale(16, RoundingMode.HALF_UP);
-
             return formatter.format(tempResult);
         }
+    }
+
+    public String getInputDecimal(BigDecimal targetDecimal)
+    {
+        if(targetDecimal.compareTo(new BigDecimal("0")) == 0)
+        {
+            return targetDecimal.toPlainString();
+        }
+
+        String result = targetDecimal.stripTrailingZeros().toPlainString();
+
+        if(result.contains(".") && !result.endsWith("."))
+        {
+            if(result.length() > 17)
+            {
+                result.substring(0, 17);
+            }
+        }
+
+        else if(result.length() > 16) {
+            result = result.substring(0, 16);
+        }
+
+        DecimalFormat formatter;
+        BigDecimal tempResult = new BigDecimal(result).stripTrailingZeros();
+
+        if(result.contains(".")) {
+            formatter = new DecimalFormat("#,##0." + "0".repeat(tempResult.scale()));
+        }
+
+        else {
+            formatter = new DecimalFormat("#,##0");
+        }
+
+        return formatter.format(tempResult);
     }
 
     public BigDecimal getInputDecimal() {
