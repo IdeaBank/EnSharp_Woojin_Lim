@@ -169,7 +169,19 @@ public class CalculatorManager {
                 inputString = inputString.substring(0, inputString.length() - 1);
             }
 
-            inputPane.setText(getDecimalWithFormat(new BigDecimal(inputString), true));
+            if(new BigDecimal(inputString).compareTo(new BigDecimal("0")) != 0) {
+                inputPane.setText(getDecimalWithFormat(new BigDecimal(inputString), true));
+            }
+
+            else{
+                if(inputString.endsWith("."))
+                {
+                    inputPane.setText(inputString.substring(0, inputString.length() - 1));
+                }
+                else {
+                inputPane.setText(inputString);
+                }
+            }
 
             if(isEndWithDot)
             {
@@ -189,10 +201,44 @@ public class CalculatorManager {
             }
 
             calculatorState = CalculatorState.ERROR;
+            return;
         }
 
         else {
             firstOperand = firstOperand.divide(secondOperand, 20000, RoundingMode.HALF_UP);
+        }
+
+        if(firstOperand.abs().compareTo(new BigDecimal("1e+10000")) == 1)
+        {
+            historyPane.setText("");
+            inputPane.setText("오버플로");
+            calculatorState = CalculatorState.ERROR;
+        }
+
+        else if(firstOperand.abs().compareTo(new BigDecimal("1e-10000")) == -1 && firstOperand.abs().compareTo(new BigDecimal("0")) == 1)
+        {
+            historyPane.setText("");
+            inputPane.setText("오버플로");
+            calculatorState = CalculatorState.ERROR;
+        }
+    }
+
+    public void multiply()
+    {
+        firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
+
+        if(firstOperand.abs().compareTo(new BigDecimal("1e+10000")) == 1)
+        {
+            historyPane.setText("");
+            inputPane.setText("오버플로");
+            calculatorState = CalculatorState.ERROR;
+        }
+
+        else if(firstOperand.abs().compareTo(new BigDecimal("1e-10000")) == -1 && firstOperand.abs().compareTo(new BigDecimal("0")) == 1)
+        {
+            historyPane.setText("");
+            inputPane.setText("오버플로");
+            calculatorState = CalculatorState.ERROR;
         }
     }
 
@@ -217,7 +263,7 @@ public class CalculatorManager {
                             firstOperand = firstOperand.subtract(secondOperand);
                             break;
                         case CalculatorSymbols.MULTIPLY_CHAR:
-                            firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
+                            multiply();
                             break;
                         case CalculatorSymbols.DIVIDE_CHAR:
                             divide();
@@ -393,7 +439,7 @@ public class CalculatorManager {
                 getCalculation(operatorChar);
 
                 if (calculatorState != CalculatorState.ERROR) {
-                    historyPane.setText(temp + " " + this.operatorChar + " " + secondOperand.stripTrailingZeros().setScale(16, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString() + " =");
+                    historyPane.setText(temp + " " + this.operatorChar + " " + getDecimalWithFormat(secondOperand, true) + " =");
                 }
             }
         }
@@ -414,7 +460,7 @@ public class CalculatorManager {
                         firstOperand = firstOperand.subtract(secondOperand);
                         break;
                     case CalculatorSymbols.MULTIPLY_CHAR:
-                        firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
+                        multiply();
                         break;
                     case CalculatorSymbols.DIVIDE_CHAR:
                         divide();
@@ -426,7 +472,7 @@ public class CalculatorManager {
                     return;
                 }
 
-                historyPane.setText(temp + " " + this.operatorChar + " " + secondOperand + " =");
+                historyPane.setText(temp + " " + this.operatorChar + " " + getDecimalWithFormat(secondOperand, true) + " =");
                 inputPane.setText(getDecimalWithFormat(firstOperand, true));
 
             }
@@ -434,22 +480,22 @@ public class CalculatorManager {
 
         else if(calculatorState == CalculatorState.OPERATION_KEY_PRESSED)
         {
-            secondOperand = getInputDecimal();
+            secondOperand = new BigDecimal(firstOperand.toPlainString());
             String temp = getDecimalWithFormat(firstOperand, false);
 
             switch (this.operatorChar) {
-            case CalculatorSymbols.ADD_CHAR:
-                firstOperand = firstOperand.add(secondOperand);
-                break;
-            case CalculatorSymbols.SUBTRACT_CHAR:
-                firstOperand = firstOperand.subtract(secondOperand);
-                break;
-            case CalculatorSymbols.MULTIPLY_CHAR:
-                firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
-                break;
-            case CalculatorSymbols.DIVIDE_CHAR:
-                divide();
-                break;
+                case CalculatorSymbols.ADD_CHAR:
+                    firstOperand = firstOperand.add(secondOperand);
+                    break;
+                case CalculatorSymbols.SUBTRACT_CHAR:
+                    firstOperand = firstOperand.subtract(secondOperand);
+                    break;
+                case CalculatorSymbols.MULTIPLY_CHAR:
+                    multiply();
+                    break;
+                case CalculatorSymbols.DIVIDE_CHAR:
+                    divide();
+                    break;
             }
 
             if(calculatorState == CalculatorState.ERROR)
@@ -457,7 +503,7 @@ public class CalculatorManager {
                 return;
             }
 
-            historyPane.setText(temp + " " + this.operatorChar + " " + secondOperand + " =");
+            historyPane.setText(temp + " " + this.operatorChar + " " + temp + " =");
             inputPane.setText(getDecimalWithFormat(firstOperand, true));
         }
 
@@ -476,15 +522,15 @@ public class CalculatorManager {
         return input.stripTrailingZeros().scale() > 16;
     }
 
-        private String getDecimalWithFormat(BigDecimal targetDecimal, boolean formatDecimal) {
+    private String getDecimalWithFormat(BigDecimal targetDecimal, boolean formatDecimal) {
         if(targetDecimal.compareTo(new BigDecimal("0")) == 0)
         {
-            return targetDecimal.toPlainString();
+            return targetDecimal.stripTrailingZeros().toPlainString();
         }
 
-        if(targetDecimal.compareTo(new BigDecimal("0.001")) == -1)
+        if(targetDecimal.compareTo(new BigDecimal("0.001")) == -1 && targetDecimal.compareTo(new BigDecimal("0")) == 1)
         {
-            BigDecimal tempResult = new BigDecimal(targetDecimal.toString());
+            BigDecimal tempResult = new BigDecimal(targetDecimal.toPlainString());
             int count = 0;
 
             while(tempResult.compareTo(new BigDecimal("1")) == -1)
@@ -493,23 +539,60 @@ public class CalculatorManager {
                 count += 1;
             }
 
-            if(tempResult.toString().substring(0, 16).contains(".")) {
-                if(tempResult.toString().length() > 16) {
-                    return tempResult.toString().substring(0, 16) + "e-" + count;
+            if(tempResult.toPlainString().length() > 16) {
+                if (tempResult.toPlainString().substring(0, 16).contains(".")) {
+                    if (tempResult.toString().length() > 16) {
+                        return tempResult.stripTrailingZeros().toPlainString().substring(0, 16) + "e-" + count;
+                    }
+
+                    else {
+                        return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
+                    }
                 }
 
                 else {
-                    return tempResult.toString() + "e-" + count;
+                    if (tempResult.toString().length() > 15) {
+                        return tempResult.stripTrailingZeros().toPlainString().substring(0, 15) + "e-" + count;
+                    }
+
+                    else {
+                        return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
+                    }
+                }
+            }
+
+            return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
+        }
+
+        else if(targetDecimal.compareTo(new BigDecimal("-0.001")) == 1 && targetDecimal.compareTo(new BigDecimal("0")) == -1)
+        {
+            BigDecimal tempResult = new BigDecimal(targetDecimal.toString());
+            tempResult = tempResult.stripTrailingZeros();
+            int count = 0;
+
+            while(tempResult.compareTo(new BigDecimal("-1")) == 1)
+            {
+                tempResult = tempResult.multiply(new BigDecimal("10"));
+                count += 1;
+            }
+
+            if(tempResult.toPlainString().length() > 17) {
+                if (tempResult.toPlainString().substring(0, 17).contains(".")) {
+                    return tempResult.stripTrailingZeros().toPlainString().substring(0, 17) + "e-" + count;
+                }
+
+                else {
+                    return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
                 }
             }
 
             else {
-                if(tempResult.toString().length() > 15) {
-                    return tempResult.toString().substring(0, 15) + "e-" + count;
+                if(tempResult.toPlainString().length() > 16) {
+                    return tempResult.stripTrailingZeros().toPlainString().substring(0, 16) + "e-" + count;
                 }
 
                 else {
-                    return tempResult.toString() + "e-" + count;
+                    return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
                 }
             }
         }
@@ -531,11 +614,11 @@ public class CalculatorManager {
             }
 
             if(tempResult.toString().length() > 17) {
-                return tempResult.toPlainString().substring(0, 16) + "e+" + count;
+                return tempResult.stripTrailingZeros().toPlainString().substring(0, 16) + "e+" + count;
             }
 
             else {
-                return tempResult.toPlainString() + "e+" + count;
+                return tempResult.stripTrailingZeros().toPlainString() + "e+" + count;
             }
         }
 
@@ -562,12 +645,13 @@ public class CalculatorManager {
             {
                 if(tempResult.toString().length() > 16)
                 {
-                    return tempResult.setScale(tempResult.scale() - 1, RoundingMode.HALF_UP).toString();
+                    return tempResult.setScale(tempResult.scale() - 1, RoundingMode.HALF_UP).stripTrailingZeros().toString();
                 }
 
-                return tempResult.toString();
+                return tempResult.stripTrailingZeros().toString();
             }
 
+            tempResult = tempResult.setScale(16, RoundingMode.HALF_UP);
 
             if(tempResult.toPlainString().contains(".")) {
 
@@ -589,7 +673,7 @@ public class CalculatorManager {
                 formatter = new DecimalFormat("#,##0");
             }
 
-            return formatter.format(tempResult);
+            return formatter.format(tempResult.stripTrailingZeros());
         }
     }
 
