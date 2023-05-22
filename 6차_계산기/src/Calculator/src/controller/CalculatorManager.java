@@ -541,8 +541,8 @@ public class CalculatorManager {
 
             if(tempResult.toPlainString().length() > 16) {
                 if (tempResult.toPlainString().substring(0, 16).contains(".")) {
-                    if (tempResult.toString().length() > 16) {
-                        return tempResult.stripTrailingZeros().toPlainString().substring(0, 16) + "e-" + count;
+                    if (tempResult.toPlainString().length() > 16) {
+                        return tempResult.toPlainString().substring(0, 16) + "e-" + count;
                     }
 
                     else {
@@ -551,8 +551,8 @@ public class CalculatorManager {
                 }
 
                 else {
-                    if (tempResult.toString().length() > 15) {
-                        return tempResult.stripTrailingZeros().toPlainString().substring(0, 15) + "e-" + count;
+                    if (tempResult.toPlainString().length() > 15) {
+                        return tempResult.toPlainString().substring(0, 15) + "e-" + count;
                     }
 
                     else {
@@ -576,7 +576,7 @@ public class CalculatorManager {
                 count += 1;
             }
 
-            if(tempResult.toPlainString().length() > 17) {
+            if(tempResult.toPlainString().length() > 18) {
                 if (tempResult.toPlainString().substring(0, 17).contains(".")) {
                     return tempResult.stripTrailingZeros().toPlainString().substring(0, 17) + "e-" + count;
                 }
@@ -613,8 +613,8 @@ public class CalculatorManager {
                 count -= 1;
             }
 
-            if(tempResult.toString().length() > 17) {
-                return tempResult.stripTrailingZeros().toPlainString().substring(0, 16) + "e+" + count;
+            if(tempResult.toPlainString().length() > 17) {
+                return tempResult.toPlainString().substring(0, 16) + "e+" + count;
             }
 
             else {
@@ -643,12 +643,12 @@ public class CalculatorManager {
 
             if(!formatDecimal)
             {
-                if(tempResult.toString().length() > 16)
+                if(tempResult.toPlainString().length() > 16)
                 {
-                    return tempResult.setScale(tempResult.scale() - 1, RoundingMode.HALF_UP).stripTrailingZeros().toString();
+                    return tempResult.setScale(tempResult.scale() - 1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
                 }
 
-                return tempResult.stripTrailingZeros().toString();
+                return tempResult.stripTrailingZeros().toPlainString();
             }
 
             tempResult = tempResult.setScale(16, RoundingMode.HALF_UP);
