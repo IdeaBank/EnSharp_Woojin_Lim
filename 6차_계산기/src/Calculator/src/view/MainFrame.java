@@ -1,11 +1,10 @@
 package view;
 
+import actions.MainFrameActions;
+import controller.CalculatorManager;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
     private final CalculatorForm calculatorForm;
@@ -14,6 +13,7 @@ public class MainFrame extends JFrame {
     public MainFrame()
     {
         this.calculatorForm = new CalculatorForm();
+
         calculatorForm.setFocusable(false);
         setContentPane(calculatorForm.getMainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,25 +30,9 @@ public class MainFrame extends JFrame {
         glassPane.add(historyForm.getHistoryPanel());
         glassPane.setVisible(false);
 
-        transparentPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                glassPane.setVisible(false);
-            }
-        });
-
-        calculatorForm.getHistoryButton().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                glassPane.setVisible(true);
-            }
-        });
-
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent componentEvent) {
-                glassPane.setVisible(false);
-            }
-        });
+        MainFrameActions.getInstance().addTransparentPanelAction(transparentPanel, glassPane);
+        MainFrameActions.getInstance().addHistoryButtonAction(getCalculatorForm().getHistoryButton(), glassPane);
+        MainFrameActions.getInstance().addMainFrameAction(this, glassPane);
     }
 
     public CalculatorForm getCalculatorForm()

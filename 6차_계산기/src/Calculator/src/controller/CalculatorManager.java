@@ -300,7 +300,7 @@ public class CalculatorManager {
                         firstOperand = firstOperand.subtract(secondOperand);
                         break;
                     case CalculatorSymbols.MULTIPLY_CHAR:
-                        firstOperand = firstOperand.multiply(secondOperand, MathContext.UNLIMITED);
+                        multiply();
                         break;
                     case CalculatorSymbols.DIVIDE_CHAR:
                         divide();
@@ -566,7 +566,7 @@ public class CalculatorManager {
 
         else if(targetDecimal.compareTo(new BigDecimal("-0.001")) == 1 && targetDecimal.compareTo(new BigDecimal("0")) == -1)
         {
-            BigDecimal tempResult = new BigDecimal(targetDecimal.toString());
+            BigDecimal tempResult = new BigDecimal(targetDecimal.toPlainString());
             tempResult = tempResult.stripTrailingZeros();
             int count = 0;
 
