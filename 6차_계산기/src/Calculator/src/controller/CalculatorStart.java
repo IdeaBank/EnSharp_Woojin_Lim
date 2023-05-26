@@ -37,7 +37,7 @@ public class CalculatorStart {
         StyleConstants.setForeground(attributeSet, Color.gray);
         historyPane.setParagraphAttributes(attributeSet, true);
 
-        StyleConstants.setFontSize(attributeSet, 48);
+        StyleConstants.setFontSize(attributeSet, 56);
         StyleConstants.setForeground(attributeSet, Color.black);
         inputPane.setParagraphAttributes(attributeSet, true);
 

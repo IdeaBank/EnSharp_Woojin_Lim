@@ -2,8 +2,11 @@ package view;
 
 import actions.MainFrameActions;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class MainFrame extends JFrame {
     private final CalculatorForm calculatorForm;
@@ -12,6 +15,19 @@ public class MainFrame extends JFrame {
     public MainFrame()
     {
         this.calculatorForm = new CalculatorForm();
+
+        BufferedImage historyIcon = null;
+        try{
+            historyIcon = ImageIO.read(new File("image/history_icon.png"));
+        } catch(Exception e) {
+            System.out.println(e.toString());
+        }
+
+        Image dimg = historyIcon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+
+        ImageIcon imageIcon = new ImageIcon(dimg);
+
+        calculatorForm.getHistoryButton().setIcon(imageIcon);
 
         calculatorForm.setFocusable(false);
         setContentPane(calculatorForm.getMainPanel());

@@ -11,7 +11,8 @@ public class HistoryForm {
 
     public HistoryForm()
     {
-
+        historyScrollPane = new JScrollPane();
+        historyList = new JList();
     }
 
     public JPanel getHistoryPanel()
