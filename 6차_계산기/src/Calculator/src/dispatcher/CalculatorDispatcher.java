@@ -787,6 +787,8 @@ public class CalculatorDispatcher {
     }
 
     public void updateHistoryPane(String text) {
+        text = text.replace(CalculatorSymbols.DIVIDE, CalculatorSymbols.DIVIDE_SYMBOL);
+        text = text.replace(CalculatorSymbols.MULTIPLY, CalculatorSymbols.MULTIPLY_SYMBOL);
         historyPane.setText(text);
     }
 
