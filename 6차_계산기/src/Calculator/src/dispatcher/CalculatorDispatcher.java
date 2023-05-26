@@ -2,6 +2,7 @@ package dispatcher;
 
 import constant.CalculatorState;
 import constant.CalculatorSymbols;
+import customizedComponent.JRoundButton;
 import reducer.CustomListRenderer;
 import store.DataStore;
 import store.HistoryStore;
@@ -27,14 +28,20 @@ public class CalculatorDispatcher {
     private JTextPane inputPane;
     private JPanel glassPane;
     private CalculatorState calculatorState;
-    private DataStore calculationData;
+    private final DataStore calculationData;
     private DefaultListModel<CalculationLog> logList;
+    private ArrayList<JRoundButton> operatorButtons;
 
     public CalculatorDispatcher() {
         this.calculatorHistories = new ArrayList<>();
         this.calculatorState = CalculatorState.START;
         this.calculationData = new DataStore();
         logList = new DefaultListModel<>();
+    }
+
+    public void setOperatorButtons(ArrayList<JRoundButton> operatorButtons)
+    {
+        this.operatorButtons = operatorButtons;
     }
 
     private static String format(BigDecimal x) {
@@ -138,6 +145,13 @@ public class CalculatorDispatcher {
         updateInputPane("0");
     }
 
+    private void disableOperatorButtons()
+    {
+        for(JRoundButton buttons: operatorButtons)
+        {
+            buttons.setEnabled(false);
+        }
+    }
     public void clear() {
         resetHistory();
         clearEntry();
@@ -145,6 +159,11 @@ public class CalculatorDispatcher {
         calculationData.setSecondOperand(null);
         calculationData.setOperatorChar('\0');
         calculatorState = CalculatorState.START;
+
+        for(JRoundButton buttons: operatorButtons)
+        {
+            buttons.setEnabled(true);
+        }
     }
 
     public void deleteEntry() {
@@ -185,10 +204,13 @@ public class CalculatorDispatcher {
             updateHistoryPane("");
             updateInputPane("오버플로");
             calculatorState = CalculatorState.ERROR;
+            disableOperatorButtons();
+
         } else if (calculationData.getFirstOperand().abs().compareTo(new BigDecimal("1e-10000")) < 0 && calculationData.getFirstOperand().abs().compareTo(new BigDecimal("0")) > 0) {
             updateHistoryPane("");
             updateInputPane("오버플로");
             calculatorState = CalculatorState.ERROR;
+            disableOperatorButtons();
         }
     }
 
@@ -203,6 +225,8 @@ public class CalculatorDispatcher {
             }
 
             calculatorState = CalculatorState.ERROR;
+            disableOperatorButtons();
+
             return;
         } else {
             calculationData.setFirstOperand(calculationData.getFirstOperand().divide(calculationData.getSecondOperand(), 20000, RoundingMode.HALF_UP));
@@ -312,6 +336,11 @@ public class CalculatorDispatcher {
     }
 
     public void negate() {
+        if(calculatorState == CalculatorState.ERROR)
+        {
+            return;
+        }
+
         if (inputPane.getText().equals("0")) {
             return;
         }
@@ -339,6 +368,8 @@ public class CalculatorDispatcher {
         } else if (calculatorState == CalculatorState.ERROR) {
             clear();
             updateInputPane(String.valueOf(inputNumber));
+            calculatorState = CalculatorState.NUMBER_KEY_PRESSED;
+            return;
         } else {
             String stringWithoutComma = String.join("", inputPane.getText().split(","));
             String stringWithoutDot = String.join("", stringWithoutComma.split("[.]"));
@@ -370,6 +401,10 @@ public class CalculatorDispatcher {
     }
 
     public void calculate() {
+
+        if(calculatorState == CalculatorState.ERROR){
+            return;
+        }
         if (calculatorState == CalculatorState.NUMBER_KEY_PRESSED) {
             if (calculationData.getOperatorChar() == '\0') {
 
@@ -392,12 +427,17 @@ public class CalculatorDispatcher {
                 if (calculatorState != CalculatorState.ERROR) {
                     updateHistoryPane(temp + " " + calculationData.getOperatorChar() + " " + calculationData.getSecondOperand().toPlainString() + " =");
                     updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
+                    return;
                 }
+
+
+                return;
             }
         } else if (calculatorState == CalculatorState.ENTER_KEY_PRESSED) {
 
-            if (calculationData.getOperatorChar() == '\0')
+            if (calculationData.getOperatorChar() == '\0') {
                 updateHistoryPane(historyPane.getText().substring(0, historyPane.getText().length() - 2) + " =");
+            }
 
             else {
                 BigDecimal inputDecimal = getInputDecimal();
@@ -411,7 +451,6 @@ public class CalculatorDispatcher {
 
                 updateHistoryPane(temp + " " + calculationData.getOperatorChar() + " " + calculationData.getSecondOperand().toPlainString() + " =");
                 updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
-
             }
         } else if (calculatorState == CalculatorState.OPERATION_KEY_PRESSED) {
             calculationData.setSecondOperand(new BigDecimal(calculationData.getFirstOperand().toPlainString()));
@@ -765,7 +804,7 @@ public class CalculatorDispatcher {
         while(textWidth > inputPaneSize.getWidth() && textHeight > inputPaneSize.getHeight())
         {
             fontSize -= 1;
-            font = new Font(font.getName(), Font.PLAIN, fontSize);
+            font = new Font("Malgun Gothic", Font.PLAIN, fontSize);
             textWidth = (int)(font.getStringBounds(inputPane.getText(), renderContext).getWidth());
             textHeight = (int)(font.getStringBounds(inputPane.getText(), renderContext).getHeight());
         }
@@ -773,12 +812,12 @@ public class CalculatorDispatcher {
         while(textWidth < inputPaneSize.getWidth() && textHeight < inputPaneSize.getHeight() && fontSize < 56)
         {
             fontSize += 1;
-            font = new Font(font.getName(), Font.PLAIN, fontSize);
+            font = new Font("Malgun Gothic", Font.PLAIN, fontSize);
             textWidth = (int)(font.getStringBounds(inputPane.getText(), renderContext).getWidth());
             textHeight = (int)(font.getStringBounds(inputPane.getText(), renderContext).getHeight());
         }
 
-        fontSize -= 2;
+        fontSize -= 6;
 
         SimpleAttributeSet attributeSet = new SimpleAttributeSet();
         StyleConstants.setAlignment(attributeSet, StyleConstants.ALIGN_RIGHT);

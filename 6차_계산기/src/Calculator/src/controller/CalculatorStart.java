@@ -29,11 +29,12 @@ public class CalculatorStart {
         calculatorDispatcher.setHistoryPane(historyPane);
         calculatorDispatcher.setInputPane(inputPane);
         calculatorDispatcher.setGlassPanel(glassPane);
+        calculatorDispatcher.setOperatorButtons(mainFrame.getCalculatorForm().getOperatorButtons());
 
         SimpleAttributeSet attributeSet = new SimpleAttributeSet();
         StyleConstants.setAlignment(attributeSet, StyleConstants.ALIGN_RIGHT);
         StyleConstants.setFontFamily(attributeSet, "Malgun Gothic");
-        StyleConstants.setFontSize(attributeSet, 24);
+        StyleConstants.setFontSize(attributeSet, 12);
         StyleConstants.setForeground(attributeSet, Color.gray);
         historyPane.setParagraphAttributes(attributeSet, true);
 
