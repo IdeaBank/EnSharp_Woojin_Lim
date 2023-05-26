@@ -1,7 +1,6 @@
 package view;
 
 import actions.MainFrameActions;
-import controller.CalculatorManager;
 
 import javax.swing.*;
 import java.awt.*;

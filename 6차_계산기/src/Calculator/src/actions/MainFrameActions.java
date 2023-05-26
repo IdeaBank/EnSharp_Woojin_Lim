@@ -1,20 +1,17 @@
 package actions;
 
-import com.sun.tools.javac.Main;
 import constant.CalculatorSymbols;
-import controller.CalculatorManager;
+import dispatcher.CalculatorDispatcher;
 import customizedComponent.JRoundButton;
-import view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainFrameActions {
     private static MainFrameActions _instance;
-    private CalculatorManager calculatorManager;
+    private CalculatorDispatcher calculatorDispatcher;
 
     public static MainFrameActions getInstance()
     {
@@ -30,8 +27,8 @@ public class MainFrameActions {
     {
     }
 
-    public void setCalculatorManager(CalculatorManager calculatorManager) {
-        this.calculatorManager = calculatorManager;
+    public void setCalculatorManager(CalculatorDispatcher calculatorDispatcher) {
+        this.calculatorDispatcher = calculatorDispatcher;
     }
 
     public void addTransparentPanelAction(JPanel transparentPanel, JPanel glassPane)
@@ -69,7 +66,7 @@ public class MainFrameActions {
         manager.addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
-                if (e.getID() == KeyEvent.KEY_RELEASED) {
+                if (e.getID() == KeyEvent.KEY_PRESSED) {
                     handleKeyPress(e);
                 }
 
@@ -97,23 +94,23 @@ public class MainFrameActions {
             case '/':
             case '=':
             case '.':
-                calculatorManager.handleButtonPressed(String.valueOf(e.getKeyChar()));
+                calculatorDispatcher.handleButtonPressed(String.valueOf(e.getKeyChar()));
                 break;
         }
 
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
         {
-            calculatorManager.handleButtonPressed(CalculatorSymbols.C);
+            calculatorDispatcher.handleButtonPressed(CalculatorSymbols.C);
         }
 
         else if(e.getKeyCode() == KeyEvent.VK_DELETE)
         {
-            calculatorManager.handleButtonPressed(CalculatorSymbols.CE);
+            calculatorDispatcher.handleButtonPressed(CalculatorSymbols.CE);
         }
 
         else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
         {
-            calculatorManager.handleButtonPressed(CalculatorSymbols.DEL);
+            calculatorDispatcher.handleButtonPressed(CalculatorSymbols.DEL);
         }
     }
 
@@ -124,7 +121,7 @@ public class MainFrameActions {
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    calculatorManager.handleButtonPressed(button.getText());
+                    calculatorDispatcher.handleButtonPressed(button.getText());
                 }
             });
         }
@@ -134,7 +131,7 @@ public class MainFrameActions {
             button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    calculatorManager.handleButtonPressed(button.getText());
+                    calculatorDispatcher.handleButtonPressed(button.getText());
                 }
             });
         }
