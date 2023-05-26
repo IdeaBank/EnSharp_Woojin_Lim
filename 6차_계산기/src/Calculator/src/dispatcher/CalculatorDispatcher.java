@@ -232,7 +232,8 @@ public class CalculatorDispatcher {
             if (calculationData.getFirstOperand() == null) {
                 calculationData.setFirstOperand(getInputDecimal());
 
-                updateHistoryPane(inputPane.getText() + " " + operatorChar);
+                BigDecimal historyDecimal = getInputDecimal();
+                updateHistoryPane(getFormattedHistoryDecimal(historyDecimal) + " " + operatorChar);
 
                 if (calculationData.getSecondOperand() != null) {
                     doCalculationWithOperator();
@@ -242,7 +243,9 @@ public class CalculatorDispatcher {
                     }
 
                     updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
-                    updateHistoryPane(inputPane.getText() + " " + operatorChar);
+
+                    BigDecimal calculatedDecimal = getInputDecimal();
+                    updateHistoryPane(getFormattedHistoryDecimal(calculatedDecimal) + " " + operatorChar);
                 }
 
                 calculationData.setOperatorChar(operatorChar);
@@ -264,7 +267,9 @@ public class CalculatorDispatcher {
                 }
 
                 updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
-                updateHistoryPane(inputPane.getText() + " " + operatorChar);
+
+                BigDecimal calculatedDecimal = getInputDecimal();
+                updateHistoryPane(getFormattedHistoryDecimal(calculatedDecimal) + " " + operatorChar);
 
                 calculatorState = CalculatorState.OPERATION_KEY_PRESSED;
 
@@ -278,11 +283,12 @@ public class CalculatorDispatcher {
 
             calculationData.setOperatorChar(operatorChar);
 
-            updateHistoryPane(inputPane.getText() + " " + operatorChar);
+            BigDecimal calculatedDecimal = getInputDecimal();
+            updateHistoryPane(getFormattedHistoryDecimal(calculatedDecimal) + " " + operatorChar);
 
         } else if (calculatorState == CalculatorState.OPERATION_KEY_PRESSED) {
             calculationData.setOperatorChar(operatorChar);
-            updateHistoryPane(getDecimalWithFormat(calculationData.getFirstOperand(), false) + " " + operatorChar);
+            updateHistoryPane(getFormattedHistoryDecimal(calculationData.getFirstOperand()) + " " + operatorChar);
 
             updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
         }
@@ -355,17 +361,15 @@ public class CalculatorDispatcher {
     public void calculate() {
         if (calculatorState == CalculatorState.NUMBER_KEY_PRESSED) {
             if (calculationData.getOperatorChar() == '\0') {
-                String input = inputPane.getText();
-                input = String.join("", input.split(","));
 
                 calculationData.setFirstOperand(getInputDecimal());
-                updateHistoryPane(getDecimalWithFormat(calculationData.getFirstOperand(), false) + " =");
+                updateHistoryPane(getFormattedHistoryDecimal(calculationData.getFirstOperand()) + " =");
                 calculatorState = CalculatorState.ENTER_KEY_PRESSED;
             } else {
                 String temp;
 
                 if (calculationData.getFirstOperand() != null) {
-                    temp = getDecimalWithFormat(calculationData.getFirstOperand(), true);
+                    temp = getFormattedHistoryDecimal(calculationData.getFirstOperand());
                     calculationData.setSecondOperand(getInputDecimal());
 
                 } else {
@@ -385,7 +389,8 @@ public class CalculatorDispatcher {
                 updateHistoryPane(historyPane.getText().substring(0, historyPane.getText().length() - 2) + " =");
 
             else {
-                String temp = inputPane.getText();
+                BigDecimal inputDecimal = getInputDecimal();
+                String temp = getFormattedHistoryDecimal(inputDecimal);
 
                 doCalculationWithOperator();
 
@@ -399,7 +404,7 @@ public class CalculatorDispatcher {
             }
         } else if (calculatorState == CalculatorState.OPERATION_KEY_PRESSED) {
             calculationData.setSecondOperand(new BigDecimal(calculationData.getFirstOperand().toPlainString()));
-            String temp = getDecimalWithFormat(calculationData.getFirstOperand(), false);
+            String temp = getFormattedHistoryDecimal(calculationData.getFirstOperand());
 
             doCalculationWithOperator();
 
@@ -419,8 +424,10 @@ public class CalculatorDispatcher {
     }
 
     private String getDecimalWithFormat(BigDecimal targetDecimal, boolean formatDecimal) {
+        targetDecimal = targetDecimal.stripTrailingZeros();
+
         if (targetDecimal.compareTo(new BigDecimal("0")) == 0) {
-            return targetDecimal.stripTrailingZeros().toPlainString();
+            return targetDecimal.toPlainString();
         }
 
         if (targetDecimal.compareTo(new BigDecimal("0.001")) < 0 && targetDecimal.compareTo(new BigDecimal("0")) > 0) {
@@ -440,10 +447,11 @@ public class CalculatorDispatcher {
                 return tempResult.toPlainString().substring(0, 15) + "e-" + count;
             }
 
-            return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
-        } else if (targetDecimal.compareTo(new BigDecimal("-0.001")) > 0 && targetDecimal.compareTo(new BigDecimal("0")) < 0) {
+            return tempResult.toPlainString() + "e-" + count;
+        }
+
+        else if (targetDecimal.compareTo(new BigDecimal("-0.001")) > 0 && targetDecimal.compareTo(new BigDecimal("0")) < 0) {
             BigDecimal tempResult = new BigDecimal(targetDecimal.toPlainString());
-            tempResult = tempResult.stripTrailingZeros();
             int count = 0;
 
             while (tempResult.compareTo(new BigDecimal("-1")) > 0) {
@@ -453,15 +461,15 @@ public class CalculatorDispatcher {
 
             if (tempResult.toPlainString().length() > 18) {
                 if (tempResult.toPlainString().substring(0, 17).contains(".")) {
-                    return tempResult.stripTrailingZeros().toPlainString().substring(0, 17) + "e-" + count;
+                    return tempResult.toPlainString().substring(0, 17) + "e-" + count;
                 } else {
                     return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
                 }
             } else {
                 if (tempResult.toPlainString().length() > 16) {
-                    return tempResult.stripTrailingZeros().toPlainString().substring(0, 16) + "e-" + count;
+                    return tempResult.toPlainString().substring(0, 16) + "e-" + count;
                 } else {
-                    return tempResult.stripTrailingZeros().toPlainString() + "e-" + count;
+                    return tempResult.toPlainString() + "e-" + count;
                 }
             }
         } else if (targetDecimal.compareTo(new BigDecimal("9999999999999999")) > 0) {
@@ -481,10 +489,10 @@ public class CalculatorDispatcher {
             if (tempResult.toPlainString().length() > 17) {
                 return tempResult.toPlainString().substring(0, 16) + "e+" + count;
             } else {
-                return tempResult.stripTrailingZeros().toPlainString() + "e+" + count;
+                return tempResult.toPlainString() + "e+" + count;
             }
         } else {
-            String result = targetDecimal.stripTrailingZeros().toPlainString();
+            String result = targetDecimal.toPlainString();
 
             if (result.contains(".") && !result.endsWith(".")) {
                 if (result.length() > 18) {
@@ -502,7 +510,7 @@ public class CalculatorDispatcher {
                     return tempResult.setScale(tempResult.scale() - 1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
                 }
 
-                return tempResult.stripTrailingZeros().toPlainString();
+                return tempResult.toPlainString();
             }
 
             tempResult = tempResult.setScale(16, RoundingMode.HALF_UP);
@@ -524,7 +532,7 @@ public class CalculatorDispatcher {
                 formatter = new DecimalFormat("#,##0");
             }
 
-            return formatter.format(tempResult.stripTrailingZeros());
+            return formatter.format(tempResult);
         }
     }
 
@@ -553,6 +561,110 @@ public class CalculatorDispatcher {
         }
 
         return formatter.format(tempResult);
+    }
+
+    private String getFormattedHistoryDecimal(BigDecimal targetDecimal)
+    {
+        String decimalToString = targetDecimal.stripTrailingZeros().toPlainString();
+
+        if (targetDecimal.compareTo(new BigDecimal("0.001")) < 0 && targetDecimal.compareTo(new BigDecimal("0")) > 0) {
+            BigDecimal tempResult = new BigDecimal(targetDecimal.toPlainString());
+            int count = 0;
+
+            while (tempResult.compareTo(new BigDecimal("1")) < 0) {
+                tempResult = tempResult.multiply(new BigDecimal("10"));
+                count += 1;
+            }
+
+            String tempString = tempResult.stripTrailingZeros().toPlainString();
+
+                if (tempString.startsWith("-0.")) {
+                    if (tempString.length() > 19) {
+                        return tempString.substring(0, 19) + "e-" + count;
+                    }
+                }
+
+                else {
+                    if (tempString.length() > 18) {
+                        return tempString.substring(0, 18) + "e-" + count;
+                    }
+                }
+
+                return tempString + "e-" + count;
+        }
+
+        else if (targetDecimal.compareTo(new BigDecimal("-0.001")) > 0 && targetDecimal.compareTo(new BigDecimal("0")) < 0) {
+            BigDecimal tempResult = new BigDecimal(targetDecimal.toPlainString());
+            tempResult = tempResult.stripTrailingZeros();
+            int count = 0;
+
+            while (tempResult.compareTo(new BigDecimal("-1")) > 0) {
+                tempResult = tempResult.multiply(new BigDecimal("10"));
+                count += 1;
+            }
+
+            String tempString = tempResult.stripTrailingZeros().toPlainString();
+
+            if (tempString.startsWith("0.")) {
+                if (tempString.length() > 18) {
+                    return tempString.substring(0, 18) + "e-" + count;
+                }
+            }
+
+            else {
+                if (tempString.length() > 17) {
+                    return tempString.substring(0, 17) + "e-" + count;
+                }
+            }
+
+            return tempString + "e-" + count;
+        }
+
+        else if(targetDecimal.compareTo(new BigDecimal("9999999999999999")) > 0) {
+            BigDecimal tempResult = new BigDecimal(targetDecimal.toString());
+
+            int count = 0;
+
+            while (tempResult.compareTo(new BigDecimal("10")) > 0) {
+                tempResult = tempResult.divide(new BigDecimal("10"), 100, RoundingMode.HALF_UP);
+                count += 1;
+            }
+
+            if (tempResult.compareTo(new BigDecimal("1")) > 0) {
+                tempResult = tempResult.multiply(new BigDecimal("10"), MathContext.UNLIMITED);
+                count -= 1;
+            }
+
+            if (tempResult.toPlainString().length() > 17) {
+                return tempResult.toPlainString().substring(0, 16) + "e+" + count;
+            }
+
+            return tempResult.stripTrailingZeros().toPlainString() + "e+" + count;
+        }
+
+        if(decimalToString.startsWith("-")) {
+            if(decimalToString.startsWith("-0.") && decimalToString.length() > 19) {
+                return decimalToString.substring(0, 19);
+            }
+
+            if(decimalToString.length() > 18) {
+                return decimalToString.substring(0, 18);
+            }
+
+            return decimalToString;
+        }
+
+        else {
+            if(decimalToString.startsWith("0.") && decimalToString.length() > 18) {
+                return decimalToString.substring(0, 18);
+            }
+
+            if(decimalToString.length() > 17) {
+                return decimalToString.substring(0, 17);
+            }
+
+            return decimalToString;
+        }
     }
 
     public BigDecimal getInputDecimal() {
