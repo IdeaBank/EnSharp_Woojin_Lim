@@ -1,17 +1,24 @@
 package actions;
 
+import com.sun.tools.javac.Main;
 import constant.CalculatorSymbols;
 import dispatcher.CalculatorDispatcher;
 import customizedComponent.JRoundButton;
+import view.HistoryForm;
+import view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class MainFrameActions {
     private static MainFrameActions _instance;
     private CalculatorDispatcher calculatorDispatcher;
+    private JPanel mainWithHistoryPanel;
+    private JPanel mainPanel;
+    private JList historyList;
 
     public static MainFrameActions getInstance()
     {
@@ -29,6 +36,11 @@ public class MainFrameActions {
 
     public void setCalculatorManager(CalculatorDispatcher calculatorDispatcher) {
         this.calculatorDispatcher = calculatorDispatcher;
+    }
+
+    public void setHistoryList(JList historyList)
+    {
+        this.historyList = historyList;
     }
 
     public void addTransparentPanelAction(JPanel transparentPanel, JPanel glassPane)
@@ -135,5 +147,67 @@ public class MainFrameActions {
                 }
             });
         }
+    }
+
+    public void addResizeAction(JFrame frame, HistoryForm historyForm){
+        frame.addComponentListener(new ComponentAdapter()
+        {
+            public void componentResized(ComponentEvent evt) {
+                if(frame.getWidth() > 800 && mainWithHistoryPanel == null)
+                {
+
+                    mainPanel = ((MainFrame)frame).getMainPanel();
+                    mainWithHistoryPanel = new JPanel(new GridLayout(0, 2));
+                    mainWithHistoryPanel.add(mainPanel);
+                    mainWithHistoryPanel.add(historyForm.getHistoryPanel());
+
+                    frame.remove(mainPanel);
+                    frame.setContentPane(mainWithHistoryPanel);
+                    ((MainFrame) frame).getCalculatorForm().getHistoryButton().setVisible(false);
+                }
+
+                else if(frame.getWidth() <= 800)
+                {
+                    if(mainWithHistoryPanel != null)
+                    {
+                        frame.remove(mainWithHistoryPanel);
+                        mainWithHistoryPanel = null;
+                        frame.setContentPane(mainPanel);
+                        ((MainFrame) frame).getCalculatorForm().getHistoryButton().setVisible(true);
+                    }
+                }
+            }
+        });
+    }
+
+    public void addListListener(JList historyList) {
+        historyList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                JList theList = (JList) mouseEvent.getSource();
+
+                int index = theList.locationToIndex(mouseEvent.getPoint());
+                if (index >= 0) {
+                    Object o = theList.getModel().getElementAt(index);
+                    String[] totalString = o.toString().split("=");
+                    String historyString = totalString[0] + "=";
+                    String operandString = totalString[1];
+
+                    calculatorDispatcher.getCalculationData().setFirstOperand(new BigDecimal(operandString.trim()));
+                    calculatorDispatcher.updateHistoryPane(historyString);
+                    calculatorDispatcher.updateInputPane(calculatorDispatcher.getInputDecimal(calculatorDispatcher.getCalculationData().getFirstOperand()));
+                }
+            }
+        });
+    }
+
+    public void addHistoryClearLabelListener(JLabel jLabel)
+    {
+        jLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                calculatorDispatcher.resetLog();
+            }
+        });
     }
 }

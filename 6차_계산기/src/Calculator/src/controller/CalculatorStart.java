@@ -25,7 +25,6 @@ public class CalculatorStart {
         JTextPane inputPane = mainFrame.getCalculatorForm().getInputPane();
         JPanel glassPane = (JPanel)mainFrame.getGlassPane();
 
-        calculatorDispatcher.setHistoryList(mainFrame.getHistoryForm().getHistoryList());
         calculatorDispatcher.setHistoryPane(historyPane);
         calculatorDispatcher.setInputPane(inputPane);
         calculatorDispatcher.setGlassPanel(glassPane);
@@ -43,9 +42,12 @@ public class CalculatorStart {
         inputPane.setParagraphAttributes(attributeSet, true);
 
         MainFrameActions.getInstance().setCalculatorManager(calculatorDispatcher);
+        MainFrameActions.getInstance().addListListener(mainFrame.getHistoryForm().getHistoryList());
 
         MainFrameActions.getInstance().addKeyboardInputAction();
         MainFrameActions.getInstance().addButtonAction(mainFrame.getCalculatorForm().getNumberButtons(), mainFrame.getCalculatorForm().getOperatorButtons());
+
+        calculatorDispatcher.setLogList(mainFrame.getHistoryForm().getLogList());
     }
 
 

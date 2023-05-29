@@ -11,6 +11,7 @@ import view.CalculationLog;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -29,14 +30,17 @@ public class CalculatorDispatcher {
     private JPanel glassPane;
     private CalculatorState calculatorState;
     private final DataStore calculationData;
-    private DefaultListModel<CalculationLog> logList;
+    private DefaultListModel logList;
     private ArrayList<JRoundButton> operatorButtons;
 
     public CalculatorDispatcher() {
         this.calculatorHistories = new ArrayList<>();
         this.calculatorState = CalculatorState.START;
         this.calculationData = new DataStore();
-        logList = new DefaultListModel<>();
+    }
+
+    public DataStore getCalculationData() {
+        return calculationData;
     }
 
     public void setOperatorButtons(ArrayList<JRoundButton> operatorButtons)
@@ -51,9 +55,8 @@ public class CalculatorDispatcher {
         return formatter.format(x);
     }
 
-    public void setHistoryList(JList historyList) {
-        this.historyList = historyList;
-        this.historyList.setCellRenderer(new CustomListRenderer());
+    public void setLogList(DefaultListModel logList) {
+        this.logList = logList;
     }
 
     public void setHistoryPane(JTextPane historyPane) {
@@ -140,6 +143,11 @@ public class CalculatorDispatcher {
             calculationData.setSecondOperand(null);
             calculationData.setOperatorChar('\0');
             calculatorState = CalculatorState.START;
+        }
+
+        else if(calculatorState == CalculatorState.ENTER_KEY_PRESSED)
+        {
+            updateHistoryPane("");
         }
 
         updateInputPane("0");
@@ -245,7 +253,6 @@ public class CalculatorDispatcher {
     {
         switch (calculationData.getOperatorChar()) {
             case CalculatorSymbols.ADD_CHAR:
-                addHistory(new DataStore());
                 calculationData.setFirstOperand(calculationData.getFirstOperand().add(calculationData.getSecondOperand()));
                 break;
             case CalculatorSymbols.SUBTRACT_CHAR:
@@ -326,6 +333,8 @@ public class CalculatorDispatcher {
             updateHistoryPane(getFormattedHistoryDecimal(calculationData.getFirstOperand()) + " " + operatorChar);
 
             updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
+
+            addHistory(calculationData);
         }
 
         calculationData.setOperatorChar(operatorChar);
@@ -410,6 +419,9 @@ public class CalculatorDispatcher {
 
                 calculationData.setFirstOperand(getInputDecimal());
                 updateHistoryPane(getFormattedHistoryDecimal(calculationData.getFirstOperand()) + " =");
+                updateInputPane(getFormattedHistoryDecimal(calculationData.getFirstOperand()));
+                addHistory(calculationData);
+
                 calculatorState = CalculatorState.ENTER_KEY_PRESSED;
             } else {
                 String temp;
@@ -427,6 +439,7 @@ public class CalculatorDispatcher {
                 if (calculatorState != CalculatorState.ERROR) {
                     updateHistoryPane(temp + " " + calculationData.getOperatorChar() + " " + calculationData.getSecondOperand().toPlainString() + " =");
                     updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
+                    addHistory(calculationData);
                     return;
                 }
 
@@ -451,6 +464,7 @@ public class CalculatorDispatcher {
 
                 updateHistoryPane(temp + " " + calculationData.getOperatorChar() + " " + calculationData.getSecondOperand().toPlainString() + " =");
                 updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
+                addHistory(calculationData);
             }
         } else if (calculatorState == CalculatorState.OPERATION_KEY_PRESSED) {
             calculationData.setSecondOperand(new BigDecimal(calculationData.getFirstOperand().toPlainString()));
@@ -464,6 +478,7 @@ public class CalculatorDispatcher {
 
             updateHistoryPane(temp + " " + calculationData.getOperatorChar() + " " + temp + " =");
             updateInputPane(getDecimalWithFormat(calculationData.getFirstOperand(), true));
+            addHistory(calculationData);
         }
 
         calculatorState = CalculatorState.ENTER_KEY_PRESSED;
@@ -531,7 +546,7 @@ public class CalculatorDispatcher {
                 count += 1;
             }
 
-            if (tempResult.compareTo(new BigDecimal("1")) > 0) {
+            if (tempResult.compareTo(new BigDecimal("1")) < 0) {
                 tempResult = tempResult.multiply(new BigDecimal("10"), MathContext.UNLIMITED);
                 count -= 1;
             }
@@ -550,7 +565,7 @@ public class CalculatorDispatcher {
                 count += 1;
             }
 
-            if (tempResult.compareTo(new BigDecimal("-1")) < 0) {
+            if (tempResult.compareTo(new BigDecimal("-1")) > 0) {
                 tempResult = tempResult.multiply(new BigDecimal("10"), MathContext.UNLIMITED);
                 count -= 1;
             }
@@ -647,7 +662,14 @@ public class CalculatorDispatcher {
 
         inputStringList[0] = formatter.format(integer);
 
-        return String.join("", inputStringList);
+        if(inputStringList.length == 2)
+        {
+            return inputStringList[0] + "." + inputStringList[1];
+        }
+
+        else {
+            return inputStringList[0];
+        }
     }
 
     private String getFormattedHistoryDecimal(BigDecimal targetDecimal)
@@ -790,6 +812,7 @@ public class CalculatorDispatcher {
         text = text.replace(CalculatorSymbols.DIVIDE, CalculatorSymbols.DIVIDE_SYMBOL);
         text = text.replace(CalculatorSymbols.MULTIPLY, CalculatorSymbols.MULTIPLY_SYMBOL);
         historyPane.setText(text);
+        calculationData.setLastHistory(historyPane.getText());
     }
 
     public void updateInputFontSize(){
@@ -831,9 +854,14 @@ public class CalculatorDispatcher {
     }
 
     public void addHistory(DataStore calculationData) {
-        CalculationLog log = new CalculationLog();
+        if(logList.size() > 150) {
+            logList.remove(150);
+        }
 
-        this.historyList.setOpaque(true);
-        this.historyList.setVisible(true);
+        logList.add(0, calculationData.getLastHistory() + " " + calculationData.getFirstOperand());
+    }
+
+    public void resetLog() {
+        logList.clear();
     }
 }

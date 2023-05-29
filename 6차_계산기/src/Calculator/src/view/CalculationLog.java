@@ -6,8 +6,6 @@ public class CalculationLog  extends JPanel {
 
     private JTextField historyText;
     private JTextField resultText;
-    private JButton button1;
-
     public JTextField getHistoryText() {
         return historyText;
     }

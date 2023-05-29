@@ -59,8 +59,10 @@ public class JRoundButton extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
-                setBackground(colorOver);
-                mouseOver = true;
+                if(isEnabled() == true) {
+                    setBackground(colorOver);
+                    mouseOver = true;
+                }
             }
 
             @Override

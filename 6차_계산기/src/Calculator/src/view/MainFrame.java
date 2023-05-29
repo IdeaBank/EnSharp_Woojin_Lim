@@ -11,10 +11,13 @@ import java.io.File;
 public class MainFrame extends JFrame {
     private final CalculatorForm calculatorForm;
     private final HistoryForm historyForm;
+    private JPanel mainPanel;
 
     public MainFrame()
     {
         this.calculatorForm = new CalculatorForm();
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(0, 1));
 
         BufferedImage historyIcon = null;
         try{
@@ -30,7 +33,8 @@ public class MainFrame extends JFrame {
         calculatorForm.getHistoryButton().setIcon(imageIcon);
 
         calculatorForm.setFocusable(false);
-        setContentPane(calculatorForm.getMainPanel());
+        mainPanel.add(calculatorForm.getMainPanel());
+        setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(420, 560));
         setVisible(true);
@@ -48,6 +52,8 @@ public class MainFrame extends JFrame {
         MainFrameActions.getInstance().addTransparentPanelAction(transparentPanel, glassPane);
         MainFrameActions.getInstance().addHistoryButtonAction(getCalculatorForm().getHistoryButton(), glassPane);
         MainFrameActions.getInstance().addMainFrameAction(this, glassPane);
+        MainFrameActions.getInstance().addResizeAction(this, historyForm);
+        MainFrameActions.getInstance().addHistoryClearLabelListener(historyForm.getHistoryClearLabel());
     }
 
     public CalculatorForm getCalculatorForm()
@@ -60,13 +66,8 @@ public class MainFrame extends JFrame {
         return historyForm;
     }
 
-    public void showHistoryPane()
+    public JPanel getMainPanel()
     {
-        getGlassPane().setVisible(true);
-    }
-
-    public void removeHistoryPane()
-    {
-        getGlassPane().setVisible(false);
+        return this.mainPanel;
     }
 }
