@@ -1,5 +1,6 @@
 package store;
 
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 
 public class DataStore {
@@ -55,5 +56,16 @@ public class DataStore {
 
     public String getLastHistory(){
         return lastHistory;
+    }
+
+    public DataStore copy() {
+        DataStore copiedDataStore = new DataStore();
+        copiedDataStore.firstOperand = this.firstOperand;
+        copiedDataStore.secondOperand = this.secondOperand;
+        copiedDataStore.operatorChar = this.operatorChar;
+        copiedDataStore.isSingleOperand = this.isSingleOperand;
+        copiedDataStore.lastHistory = this.lastHistory;
+
+        return copiedDataStore;
     }
 }

@@ -1,15 +1,18 @@
 package actions;
 
 import com.sun.tools.javac.Main;
+import constant.CalculatorState;
 import constant.CalculatorSymbols;
 import dispatcher.CalculatorDispatcher;
 import customizedComponent.JRoundButton;
+import store.DataStore;
 import view.HistoryForm;
 import view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -188,14 +191,17 @@ public class MainFrameActions {
 
                 int index = theList.locationToIndex(mouseEvent.getPoint());
                 if (index >= 0) {
-                    Object o = theList.getModel().getElementAt(index);
-                    String[] totalString = o.toString().split("=");
-                    String historyString = totalString[0] + "=";
-                    String operandString = totalString[1];
+                    ArrayList<DataStore> logDataList = calculatorDispatcher.getLogDataList();
+                    DataStore data = logDataList.get(index);
 
-                    calculatorDispatcher.getCalculationData().setFirstOperand(new BigDecimal(operandString.trim()));
-                    calculatorDispatcher.updateHistoryPane(historyString);
-                    calculatorDispatcher.updateInputPane(calculatorDispatcher.getInputDecimal(calculatorDispatcher.getCalculationData().getFirstOperand()));
+                    calculatorDispatcher.getCalculationData().setFirstOperand(data.getFirstOperand());
+                    calculatorDispatcher.getCalculationData().setOperatorChar(data.getOperatorChar());
+                    calculatorDispatcher.getCalculationData().setSecondOperand(data.getSecondOperand());
+
+                    calculatorDispatcher.updateHistoryPane(data.getLastHistory());
+                    calculatorDispatcher.updateInputPane(calculatorDispatcher.getInputDecimal(data.getFirstOperand()));
+
+                    calculatorDispatcher.setCalculatorState(CalculatorState.ENTER_KEY_PRESSED);
                 }
             }
         });

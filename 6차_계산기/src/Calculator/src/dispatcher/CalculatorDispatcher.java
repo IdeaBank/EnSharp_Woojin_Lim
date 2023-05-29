@@ -15,6 +15,7 @@ import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -32,15 +33,25 @@ public class CalculatorDispatcher {
     private final DataStore calculationData;
     private DefaultListModel logList;
     private ArrayList<JRoundButton> operatorButtons;
+    private ArrayList<DataStore> logDataList;
 
     public CalculatorDispatcher() {
         this.calculatorHistories = new ArrayList<>();
         this.calculatorState = CalculatorState.START;
         this.calculationData = new DataStore();
+        this.logDataList = new ArrayList<>();
     }
 
     public DataStore getCalculationData() {
         return calculationData;
+    }
+    public ArrayList<DataStore> getLogDataList(){
+        return logDataList;
+    }
+
+    public void setCalculatorState(CalculatorState calculatorState)
+    {
+        this.calculatorState = calculatorState;
     }
 
     public void setOperatorButtons(ArrayList<JRoundButton> operatorButtons)
@@ -856,12 +867,15 @@ public class CalculatorDispatcher {
     public void addHistory(DataStore calculationData) {
         if(logList.size() > 150) {
             logList.remove(150);
+            logDataList.remove(150);
         }
 
         logList.add(0, calculationData.getLastHistory() + " " + calculationData.getFirstOperand());
+        logDataList.add(0, calculationData.copy());
     }
 
     public void resetLog() {
         logList.clear();
+        logDataList.clear();
     }
 }
