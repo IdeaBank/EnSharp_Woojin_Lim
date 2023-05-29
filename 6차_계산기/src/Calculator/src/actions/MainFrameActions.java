@@ -176,6 +176,7 @@ public class MainFrameActions {
                         frame.remove(mainWithHistoryPanel);
                         mainWithHistoryPanel = null;
                         frame.setContentPane(mainPanel);
+                        ((JPanel)frame.getGlassPane()).add(historyForm.getHistoryPanel());
                         ((MainFrame) frame).getCalculatorForm().getHistoryButton().setVisible(true);
                     }
                 }
