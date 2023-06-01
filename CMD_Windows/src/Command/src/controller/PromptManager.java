@@ -13,14 +13,18 @@ import java.util.Scanner;
 
 public class PromptManager {
     private final PromptData promptData;
+    private boolean continueInput;
 
     public PromptManager() {
         this.promptData = new PromptData();
+        this.continueInput = true;
     }
 
     public PromptManager(String path) {
         this.promptData = new PromptData();
         promptData.setCurrentAbsolutePath(path);
+
+        this.continueInput = true;
     }
 
     public void startPrompt() {
@@ -31,7 +35,7 @@ public class PromptManager {
         }
 
         PromptView.getInstance().printPromptInfo(System.getProperty("os.name"), windowsVersion);
-        while(true) {
+        while(this.continueInput) {
             System.out.print("\n" + promptData.getCurrentAbsolutePath() + ">");
             getCommandInput();
         }
@@ -58,6 +62,25 @@ public class PromptManager {
         else if(command.startsWith("help")) {
             CommandContainer.getInstance().getHelp().executeCommand(promptData, command);
         }
+
+        else if(command.equals("exit") || command.startsWith("exit/") ||
+                command.startsWith("exit\\") || command.startsWith("exit.") ||
+                command.startsWith("exit ")) {
+            this.continueInput = false;
+        }
+
+        else if(command.equals("cmd") || command.startsWith("cmd/") ||
+                command.startsWith("cmd\\") || command.startsWith("cmd.") ||
+                command.startsWith("cmd ")) {
+
+            startNewPrompt();
+        }
+
+        else {
+            command = command.split(" ")[0];
+
+            PromptView.getInstance().printError("'" + command + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+        }
     }
 
     private void saveHistory(String command) {
@@ -68,7 +91,7 @@ public class PromptManager {
 
     }
 
-    private void startNewPrompt(String command) {
+    private void startNewPrompt() {
         PromptManager newPromptManager = new PromptManager();
         newPromptManager.startPrompt();
     }
