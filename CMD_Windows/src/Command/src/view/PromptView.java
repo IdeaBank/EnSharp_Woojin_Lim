@@ -1,6 +1,5 @@
 package view;
 
-import model.PromptData;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
@@ -22,23 +21,35 @@ public class PromptView {
 
     }
 
-    public void printPromptInfo(String os) {
-        System.out.println(FileSystemView.getFileSystemView().getSystemDisplayName(new File("C:/Users")));
+    public void printPromptInfo(String os, String buildVersion) {
+        if(os.startsWith("Windows")) {
+            System.out.println(buildVersion);
+            System.out.println("(c) Microsoft Corporation. All rights reserved.");
+        }
+
+        else {
+            System.out.println("MAC OS");
+            System.out.println("Apple Inc.");
+        }
     }
 
     public void printWorkingDirectory(String workingDirectoryPath) {
         System.out.println(workingDirectoryPath);
     }
 
-    public void printItemInfo(String os, File[] files) {
+    public void printItemInfo(String driveInfo, File[] files) {
+        System.out.println(driveInfo);
+
+        for(File file: files) {
+            System.out.println(file.getName());
+        }
+    }
+
+    public void clearPrompt() {
 
     }
 
-    public void clearPrompt(String os) {
-
-    }
-
-    public void printHelp(String os) {
+    public void printHelp() {
 
     }
 

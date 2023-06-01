@@ -16,5 +16,7 @@ public class Main {
     public static void main(String[] args) {
         PromptManager promptManager = new PromptManager();
         promptManager.startPrompt();
+
+        //System.out.println(System.getProperty("os.version"));
     }
 }

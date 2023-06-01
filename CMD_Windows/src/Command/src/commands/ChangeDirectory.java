@@ -1,6 +1,7 @@
 package commands;
 
 import commandInterface.CommandInterface;
+import constant.CommandResultType;
 import model.PromptData;
 import util.ItemVerifier;
 import view.PromptView;
@@ -13,32 +14,42 @@ import java.util.ArrayList;
 public class ChangeDirectory implements CommandInterface {
     @Override
     public void executeCommand(PromptData promptData, String command) {
-        if (!isCommandValid(command) && !isExceptionalCommandValid(command)) {
-            PromptView.getInstance().printError("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.");
-            return;
+        CommandResultType commandResult = isCommandValid(command);
+        if (commandResult == CommandResultType.SUCCESS || isExceptionalCommandValid(command)) {
+            String[] commandToken = getCommandToken(command);
+
+            switch (commandToken.length) {
+                case 1:
+                    changeDirectoryWithOneParameter(promptData, commandToken[0]);
+                    break;
+                case 2:
+                    changeDirectory(promptData, commandToken[1]);
+                    break;
+            }
         }
 
-        String[] commandToken = getCommandToken(command);
+        else if(commandResult == CommandResultType.COMMAND_NOT_VALID) {
+            PromptView.getInstance().printError("지정된 경로를 찾을 수 없습니다.");
+        }
 
-        switch (commandToken.length) {
-            case 1:
-                changeDirectoryWithOneParameter(promptData, commandToken[0]);
-                break;
-            case 2:
-                changeDirectory(promptData, commandToken[1]);
-                break;
+        else {
+            PromptView.getInstance().printError("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.");
         }
     }
 
     @Override
-    public boolean isCommandValid(String command) {
+    public CommandResultType isCommandValid(String command) {
         String[] commandToken = getCommandToken(command);
 
         if(commandToken[0].length() != 2 && commandToken[0].length() != 3) {
-            return false;
+            return CommandResultType.COMMAND_NOT_EXIST;
         }
 
-        return commandToken.length == 1 || commandToken.length == 2;
+        if(commandToken.length == 1 || commandToken.length == 2) {
+            return CommandResultType.SUCCESS;
+        }
+
+        return CommandResultType.COMMAND_NOT_VALID;
     }
 
     @Override
@@ -59,7 +70,7 @@ public class ChangeDirectory implements CommandInterface {
         return command.startsWith("cd.") || command.equals("cd\\") || command.equals("cd/");
     }
 
-    public void changeDirectoryWithOneParameter(PromptData promptData, String path) {
+    private void changeDirectoryWithOneParameter(PromptData promptData, String path) {
         if(path.equals("cd")) {
             PromptView.getInstance().printWorkingDirectory(promptData.getCurrentAbsolutePath());
         }
@@ -68,7 +79,7 @@ public class ChangeDirectory implements CommandInterface {
             changeDirectory(promptData, path.substring(2));
         }
 
-        else if(path.equals("cd\\") || path.equals("/")) {
+        else if(path.equals("cd\\") || path.equals("cd/")) {
             Path currentPath = new File(promptData.getCurrentAbsolutePath()).toPath().getRoot().toAbsolutePath();
             changeDirectory(promptData, currentPath.toString());
         }
@@ -77,10 +88,11 @@ public class ChangeDirectory implements CommandInterface {
             PromptView.getInstance().printError("'" + path.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.");
         }
     }
-    public void changeDirectory(PromptData promptData, String path) {
+    private void changeDirectory(PromptData promptData, String path) {
         File targetFolder = new File(path);
 
         if(path.equals("*") || path.equals("?")) {
+            return;
         }
 
         else if(path.equals("\\") || path.equals("/")) {
