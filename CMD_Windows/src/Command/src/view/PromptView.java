@@ -92,7 +92,9 @@ public class PromptView {
     }
 
     public void clearPrompt() {
-
+        for(int i = 0; i < 50; ++i) {
+            System.out.println();
+        }
     }
 
     public void printHelp() {

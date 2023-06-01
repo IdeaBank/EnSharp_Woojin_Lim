@@ -6,10 +6,14 @@ public class CommandContainer {
     private static CommandContainer _instance;
     private ChangeDirectory changeDirectory;
     private ViewDirectory viewDirectory;
+    private ClearConsole clearConsole;
+    private Help help;
 
     private CommandContainer() {
         this.changeDirectory = new ChangeDirectory();
         this.viewDirectory = new ViewDirectory();
+        this.clearConsole = new ClearConsole();
+        this.help = new Help();
     }
 
     public static CommandContainer getInstance() {
@@ -26,5 +30,13 @@ public class CommandContainer {
 
     public ViewDirectory getViewDirectory() {
         return viewDirectory;
+    }
+
+    public ClearConsole getClearConsole() {
+        return clearConsole;
+    }
+
+    public Help getHelp() {
+        return help;
     }
 }

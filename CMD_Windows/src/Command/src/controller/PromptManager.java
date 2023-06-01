@@ -50,30 +50,14 @@ public class PromptManager {
         else if(command.startsWith("dir")) {
             CommandContainer.getInstance().getViewDirectory().executeCommand(promptData, command);
         }
-    }
 
-    private void changeDirectory(String command) {
+        else if(command.startsWith("cls")) {
+            CommandContainer.getInstance().getClearConsole().executeCommand(promptData, command);
+        }
 
-    }
-
-    private void showDirectoryInfo(String command) {
-
-    }
-
-    private void clearPrompt() {
-        PromptView.getInstance().clearPrompt();
-    }
-
-    private void executeHelp() {
-        PromptView.getInstance().printHelp();
-    }
-
-    private void copyFile() {
-
-    }
-
-    private void moveFile() {
-
+        else if(command.startsWith("help")) {
+            CommandContainer.getInstance().getHelp().executeCommand(promptData, command);
+        }
     }
 
     private void saveHistory(String command) {
