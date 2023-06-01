@@ -6,7 +6,9 @@ import view.PromptView;
 import java.io.BufferedReader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class PromptManager {
@@ -88,33 +90,21 @@ public class PromptManager {
     }
 
     public static String getCommandExecuteResult(String command) {
+        String str;
+
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder().command("cmd", "/c", command);
+            Process process = new ProcessBuilder("cmd", "/c", command).start();
+            BufferedReader stdOut = new BufferedReader(new InputStreamReader(process.getInputStream(), "euc-kr"));
+            StringBuilder result = new StringBuilder();
 
-            processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT);
-            processBuilder.redirectOutput(ProcessBuilder.Redirect.PIPE);
-            processBuilder.redirectError(ProcessBuilder.Redirect.PIPE);
-
-            Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            StringBuilder output = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
+            while((str = stdOut.readLine()) != null) {
+                result.append(str);
             }
 
-            int exitCode = process.waitFor();
+            return result.toString();
+        }
 
-            if (exitCode == 0) {
-                return output.toString();
-            }
-
-            else {
-                System.err.println(exitCode);
-            }
-        } catch (IOException | InterruptedException e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
 

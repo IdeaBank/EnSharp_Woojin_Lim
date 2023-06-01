@@ -9,11 +9,12 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class Main {
-    private Main() { }
 
     public static void main(String[] args) {
+        System.setProperty("file.encoding","UTF-8");
         PromptManager promptManager = new PromptManager();
         promptManager.startPrompt();
 
