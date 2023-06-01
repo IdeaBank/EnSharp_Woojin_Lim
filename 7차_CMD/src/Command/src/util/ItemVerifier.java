@@ -17,7 +17,7 @@ public class ItemVerifier {
         return _instance;
     }
 
-    public ItemVerifier() {
+    private ItemVerifier() {
 
     }
 
@@ -47,7 +47,13 @@ public class ItemVerifier {
 
         for(String str: splitPath) {
             if(str.equals("..")) {
-                stringStack.pop();
+                if(splitPath.length != 2 && splitPath.length != 3) {
+                    stringStack.pop();
+                }
+            }
+
+            else if(str.equals(".")) {
+                continue;
             }
 
             else {
@@ -69,6 +75,10 @@ public class ItemVerifier {
             result.add(reverseStack.pop());
         }
 
-        return String.join("/", result.toArray(new String[0]));
+        if(result.size() != 0) {
+            return String.join("/", result.toArray(new String[0]));
+        }
+
+        return "/";
     }
 }

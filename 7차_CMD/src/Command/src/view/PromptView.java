@@ -1,21 +1,36 @@
 package view;
 
+import model.PromptData;
+
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 
 public class PromptView {
-    public PromptView() {
+
+    // Singleton 사용
+    private static PromptView _instance;
+
+    public static PromptView getInstance() {
+        if(_instance == null) {
+            _instance = new PromptView();
+        }
+
+        return _instance;
+    }
+
+    private PromptView() {
 
     }
 
-    public void printPromptInfo() {
-
+    public void printPromptInfo(String os) {
+        System.out.println(FileSystemView.getFileSystemView().getSystemDisplayName(new File("C:/Users")));
     }
 
-    public void printWorkingDirectory() {
-
+    public void printWorkingDirectory(String workingDirectoryPath) {
+        System.out.println(workingDirectoryPath + "\n");
     }
 
-    public void printItemInfo(File[] files) {
+    public void printItemInfo(String os, File[] files) {
 
     }
 
