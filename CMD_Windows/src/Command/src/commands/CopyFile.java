@@ -143,7 +143,7 @@ public class CopyFile implements CommandInterface {
                     OverwriteType overwriteType = askOverwrite(destinationPath);
 
                     if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                        Files.copy(destination.toPath(), resultFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(resultFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                         copiedFiles += 1;
                     }
 
@@ -209,9 +209,9 @@ public class CopyFile implements CommandInterface {
                         }
                     }
                 }
-
-                PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
             }
+
+            PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
         }
 
         else if(sourceType == ItemType.IS_FILE) {
