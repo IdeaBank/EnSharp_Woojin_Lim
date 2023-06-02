@@ -118,6 +118,15 @@ public class CopyFile implements CommandInterface {
         int copiedFiles = 0;
         boolean keepReplacing = false;
 
+        if(source.equals(destination)) {
+            File[] sourceFiles = getAllFilesInDirectory(source.getPath());
+
+            PromptView.getInstance().printMessage(sourceFiles[0].getPath());
+            PromptView.getInstance().printMessage("같은 파일로 복사할 수 없습니다.");
+            PromptView.getInstance().printMessage("        0개 파일이 복사되었습니다.");
+            return;
+        }
+
         if(sourceType == ItemType.IS_DIRECTORY) {
             File[] sourceFiles = getAllFilesInDirectory(source.getPath());
 
