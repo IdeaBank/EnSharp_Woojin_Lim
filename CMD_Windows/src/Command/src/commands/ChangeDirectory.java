@@ -8,7 +8,6 @@ import view.PromptView;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ChangeDirectory implements CommandInterface {
@@ -29,11 +28,11 @@ public class ChangeDirectory implements CommandInterface {
         }
 
         else if(commandResult == CommandResultType.COMMAND_NOT_VALID) {
-            PromptView.getInstance().printError("지정된 경로를 찾을 수 없습니다.");
+            PromptView.getInstance().printMessage("지정된 경로를 찾을 수 없습니다.");
         }
 
         else {
-            PromptView.getInstance().printError("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.");
+            PromptView.getInstance().printMessage("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.");
         }
     }
 
@@ -85,7 +84,7 @@ public class ChangeDirectory implements CommandInterface {
         }
 
         else {
-            PromptView.getInstance().printError("'" + path.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+            PromptView.getInstance().printMessage("'" + path.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
         }
     }
     private void changeDirectory(PromptData promptData, String path) {
@@ -108,12 +107,12 @@ public class ChangeDirectory implements CommandInterface {
                 }
 
                 else {
-                    PromptView.getInstance().printError("디렉토리 이름이 올바르지 않습니다.");
+                    PromptView.getInstance().printMessage("디렉토리 이름이 올바르지 않습니다.");
                 }
             }
 
             else {
-                PromptView.getInstance().printError("지정된 경로를 찾을 수 없습니다.");
+                PromptView.getInstance().printMessage("지정된 경로를 찾을 수 없습니다.");
             }
         }
 
@@ -134,12 +133,12 @@ public class ChangeDirectory implements CommandInterface {
                 }
 
                 else {
-                    PromptView.getInstance().printError("디렉토리 이름이 올바르지 않습니다.");
+                    PromptView.getInstance().printMessage("디렉토리 이름이 올바르지 않습니다.");
                 }
             }
 
             else {
-                PromptView.getInstance().printError("지정된 경로를 찾을 수 없습니다.");
+                PromptView.getInstance().printMessage("지정된 경로를 찾을 수 없습니다.");
             }
         }
     }

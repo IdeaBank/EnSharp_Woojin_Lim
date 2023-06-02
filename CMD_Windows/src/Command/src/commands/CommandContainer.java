@@ -7,6 +7,7 @@ public class CommandContainer {
     private ChangeDirectory changeDirectory;
     private ViewDirectory viewDirectory;
     private ClearConsole clearConsole;
+    private CopyFile copyFile;
     private Help help;
 
     private CommandContainer() {
@@ -14,6 +15,7 @@ public class CommandContainer {
         this.viewDirectory = new ViewDirectory();
         this.clearConsole = new ClearConsole();
         this.help = new Help();
+        this.copyFile = new CopyFile();
     }
 
     public static CommandContainer getInstance() {
@@ -34,6 +36,9 @@ public class CommandContainer {
 
     public ClearConsole getClearConsole() {
         return clearConsole;
+    }
+    public CopyFile getCopyFile() {
+        return copyFile;
     }
 
     public Help getHelp() {

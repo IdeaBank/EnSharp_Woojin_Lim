@@ -6,9 +6,7 @@ import view.PromptView;
 import java.io.BufferedReader;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class PromptManager {
@@ -76,10 +74,14 @@ public class PromptManager {
             startNewPrompt();
         }
 
+        else if(command.startsWith("copy")) {
+            CommandContainer.getInstance().getCopyFile().executeCommand(promptData, command);
+        }
+
         else {
             command = command.split(" ")[0];
 
-            PromptView.getInstance().printError("'" + command + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+            PromptView.getInstance().printMessage("'" + command + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
         }
     }
 

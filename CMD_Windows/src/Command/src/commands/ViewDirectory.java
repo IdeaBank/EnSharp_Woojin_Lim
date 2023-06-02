@@ -13,7 +13,6 @@ import java.nio.file.FileStore;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ViewDirectory implements CommandInterface {
     @Override
@@ -23,7 +22,7 @@ public class ViewDirectory implements CommandInterface {
         }
 
         else {
-            PromptView.getInstance().printError("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+            PromptView.getInstance().printMessage("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
         }
     }
 

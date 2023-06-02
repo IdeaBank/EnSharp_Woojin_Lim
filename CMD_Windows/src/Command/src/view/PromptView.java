@@ -2,7 +2,6 @@ package view;
 
 
 import java.io.File;
-import java.nio.file.FileStore;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -206,7 +205,11 @@ public class PromptView {
 
     }
 
-    public void printError(String str) {
+    public void printMessage(String str) {
         System.out.println(str);
+    }
+
+    public void printMessageWithNoNewline(String str) {
+        System.out.print(str);
     }
 }

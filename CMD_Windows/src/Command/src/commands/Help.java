@@ -15,7 +15,7 @@ public class Help implements CommandInterface {
         }
 
         else {
-            PromptView.getInstance().printError("'" + commandToken[0] +"'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+            PromptView.getInstance().printMessage("'" + commandToken[0] +"'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
         }
     }
 
