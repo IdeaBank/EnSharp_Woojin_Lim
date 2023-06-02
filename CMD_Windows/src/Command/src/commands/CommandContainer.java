@@ -8,14 +8,16 @@ public class CommandContainer {
     private ViewDirectory viewDirectory;
     private ClearConsole clearConsole;
     private CopyFile copyFile;
+    private MoveFile moveFile;
     private Help help;
 
     private CommandContainer() {
         this.changeDirectory = new ChangeDirectory();
         this.viewDirectory = new ViewDirectory();
         this.clearConsole = new ClearConsole();
-        this.help = new Help();
         this.copyFile = new CopyFile();
+        this.moveFile = new MoveFile();
+        this.help = new Help();
     }
 
     public static CommandContainer getInstance() {
@@ -39,6 +41,10 @@ public class CommandContainer {
     }
     public CopyFile getCopyFile() {
         return copyFile;
+    }
+
+    public MoveFile getMoveFile() {
+        return moveFile;
     }
 
     public Help getHelp() {

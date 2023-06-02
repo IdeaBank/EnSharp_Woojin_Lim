@@ -78,6 +78,10 @@ public class PromptManager {
             CommandContainer.getInstance().getCopyFile().executeCommand(promptData, command);
         }
 
+        else if(command.startsWith("move")) {
+            CommandContainer.getInstance().getMoveFile().executeCommand(promptData, command);
+        }
+
         else {
             command = command.split(" ")[0];
 

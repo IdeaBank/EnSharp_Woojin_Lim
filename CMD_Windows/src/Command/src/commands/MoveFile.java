@@ -60,7 +60,7 @@ public class MoveFile implements CommandInterface {
         }
 
         else if(commandResult == CommandResultType.COMMAND_NOT_VALID) {
-            PromptView.getInstance().printMessage("명령 구문이 올바르지 않습니다.");
+                PromptView.getInstance().printMessage("명령 구문이 올바르지 않습니다.");
         }
 
         else {
@@ -73,7 +73,7 @@ public class MoveFile implements CommandInterface {
         String[] commandToken = getCommandToken(command);
 
         if(commandToken[0].equals("move")) {
-            if(commandToken.length > 3) {
+            if(commandToken.length == 1 || commandToken.length > 3) {
                 return CommandResultType.COMMAND_NOT_VALID;
             }
 
@@ -115,102 +115,35 @@ public class MoveFile implements CommandInterface {
     public void moveFile(String sourcePath, String destinationPath, File source, File destination) {
         ItemType sourceType = ItemVerifier.getInstance().getItemState(source.getPath());
         ItemType destinationType = ItemVerifier.getInstance().getItemState(destination.getPath());
-        int copiedFiles = 0;
         boolean keepReplacing = false;
 
         if(sourceType == ItemType.IS_DIRECTORY) {
-            File[] sourceFiles = getAllFilesInDirectory(source.getPath());
-
             if(destinationType == ItemType.IS_FILE) {
-                StringBuilder result = new StringBuilder();
-
                 try {
-                    for (File file : sourceFiles) {
-                        BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
-                        String line;
-
-                        while((line = reader.readLine()) != null) {
-                            result.append(line + "\n");
-                        }
-                    }
-
-                    File resultFile = new File(destination.getPath() + ".temp");
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile.getPath()));
-
-                    writer.write(result.toString());
-                    writer.close();
-
-                    OverwriteType overwriteType = askOverwrite(destinationPath);
-
-                    if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                        Files.move(destination.toPath(), resultFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        copiedFiles += 1;
-                    }
-
-                    resultFile.delete();
+                    Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 }
-                catch (IOException e) {
+                catch(IOException e) {
                     e.printStackTrace();
                 }
             }
 
             else if(destinationType == ItemType.IS_DIRECTORY) {
-                for(File file: sourceFiles) {
+                File destinationFolder = new File(destination.getPath(), source.getName());
 
-                    File destinationFile = new File(destination.getPath(), file.getName());
-                    PromptView.getInstance().printMessage(file.getPath());
+                if(destinationFolder.exists()) {
+                    askOverwrite(destinationFolder.getPath());
+                    PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
 
-                    if(destinationFile.exists()) {
-                        if(destinationFile.isFile()) {
-                            if(!keepReplacing) {
-                                OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
-
-                                try {
-                                    if (overwriteType == OverwriteType.YES) {
-                                        Files.move(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                        copiedFiles += 1;
-                                    }
-
-                                    else if (overwriteType == OverwriteType.ALL) {
-                                        Files.move(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                        copiedFiles += 1;
-                                        keepReplacing = true;
-                                    }
-                                }
-                                catch(IOException e){
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            else {
-                                try {
-                                    Files.move(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                    copiedFiles += 1;
-                                }
-                                catch(IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        else if(destinationFile.isDirectory()) {
-                            PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
-                        }
-                    }
-
-                    else {
-                        try {
-                            Files.move(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            copiedFiles += 1;
-                            PromptView.getInstance().printMessage(destinationFile.getPath());
-                        }
-                        catch(IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    return;
                 }
 
-                PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
+                try {
+                    Files.move(source.toPath(), destinationFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    PromptView.getInstance().printMessage("        1개의 디렉터리를 이동했습니다.");
+                }
+                catch(IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -222,7 +155,6 @@ public class MoveFile implements CommandInterface {
                 if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
                     try {
                         Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        copiedFiles += 1;
                         PromptView.getInstance().printMessage(destination.getPath());
                     }
                     catch(IOException e) {
@@ -240,7 +172,6 @@ public class MoveFile implements CommandInterface {
                     if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
                         try {
                             Files.move(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            copiedFiles += 1;
                             PromptView.getInstance().printMessage(destination.getPath());
                         }
                         catch(IOException e) {
@@ -250,13 +181,15 @@ public class MoveFile implements CommandInterface {
                 }
 
                 else if(destinationFile.isDirectory()) {
+                    askOverwrite(destinationFile.getPath());
                     PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
+
+                    return;
                 }
 
                 else {
                     try {
                         Files.move(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        copiedFiles += 1;
                         PromptView.getInstance().printMessage(destination.getPath());
                     }
                     catch(IOException e) {
@@ -268,7 +201,6 @@ public class MoveFile implements CommandInterface {
             else {
                 try {
                     Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    copiedFiles += 1;
                     PromptView.getInstance().printMessage(destination.getPath());
                 }
                 catch(IOException e) {
@@ -276,7 +208,7 @@ public class MoveFile implements CommandInterface {
                 }
             }
 
-            PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
+            PromptView.getInstance().printMessage("        1개 파일이 복사되었습니다.");
         }
 
         else {

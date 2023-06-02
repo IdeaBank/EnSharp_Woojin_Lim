@@ -60,7 +60,13 @@ public class CopyFile implements CommandInterface {
         }
 
         else if(commandResult == CommandResultType.COMMAND_NOT_VALID) {
-            PromptView.getInstance().printMessage("명령 구문이 올바르지 않습니다.");
+            if (commandToken.length == 1) {
+                PromptView.getInstance().printMessage("지정된 파일을 찾을 수 없습니다.");
+            }
+
+            else {
+                PromptView.getInstance().printMessage("명령 구문이 올바르지 않습니다.");
+            }
         }
 
         else {
@@ -73,7 +79,7 @@ public class CopyFile implements CommandInterface {
         String[] commandToken = getCommandToken(command);
 
         if(commandToken[0].equals("copy")) {
-            if(commandToken.length > 3) {
+            if(commandToken.length == 1 || commandToken.length > 3) {
                 return CommandResultType.COMMAND_NOT_VALID;
             }
 
