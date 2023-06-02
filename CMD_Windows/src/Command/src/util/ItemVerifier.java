@@ -52,7 +52,7 @@ public class ItemVerifier {
                         stringStack.pop();
                     }
                     else {
-                        return null;
+                        return path.split("\\\\")[0] + "\\";
                     }
                 }
             }
