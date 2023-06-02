@@ -45,41 +45,41 @@ public class PromptManager {
 
         /// TODO: IMPLEMENT IF-ELSE STATEMENT
 
-        if(command.startsWith("cd")) {
-            CommandContainer.getInstance().getChangeDirectory().executeCommand(promptData, command);
+        if(command.toLowerCase().startsWith("cd")) {
+            CommandContainer.getInstance().getChangeDirectory().executeCommand(promptData, "cd" + command.substring(2));
         }
 
-        else if(command.startsWith("dir")) {
-            CommandContainer.getInstance().getViewDirectory().executeCommand(promptData, command);
+        else if(command.toLowerCase().startsWith("dir")) {
+            CommandContainer.getInstance().getViewDirectory().executeCommand(promptData, "dir" + command.substring(3));
         }
 
-        else if(command.startsWith("cls")) {
-            CommandContainer.getInstance().getClearConsole().executeCommand(promptData, command);
+        else if(command.toLowerCase().startsWith("cls")) {
+            CommandContainer.getInstance().getClearConsole().executeCommand(promptData, "cls" + command.substring(3));
         }
 
-        else if(command.startsWith("help")) {
-            CommandContainer.getInstance().getHelp().executeCommand(promptData, command);
+        else if(command.toLowerCase().startsWith("help")) {
+            CommandContainer.getInstance().getHelp().executeCommand(promptData, "help" + command.substring(4));
         }
 
-        else if(command.equals("exit") || command.startsWith("exit/") ||
-                command.startsWith("exit\\") || command.startsWith("exit.") ||
-                command.startsWith("exit ")) {
+        else if(command.equalsIgnoreCase("exit") || command.toLowerCase().startsWith("exit/") ||
+                command.toLowerCase().startsWith("exit\\") || command.toLowerCase().startsWith("exit.") ||
+                command.toLowerCase().startsWith("exit ")) {
             this.continueInput = false;
         }
 
-        else if(command.equals("cmd") || command.startsWith("cmd/") ||
-                command.startsWith("cmd\\") || command.startsWith("cmd.") ||
-                command.startsWith("cmd ")) {
+        else if(command.equalsIgnoreCase("cmd") || command.toLowerCase().startsWith("cmd/") ||
+                command.toLowerCase().startsWith("cmd\\") || command.toLowerCase().startsWith("cmd.") ||
+                command.toLowerCase().startsWith("cmd ")) {
 
             startNewPrompt();
         }
 
-        else if(command.startsWith("copy")) {
-            CommandContainer.getInstance().getCopyFile().executeCommand(promptData, command);
+        else if(command.toLowerCase().startsWith("copy")) {
+            CommandContainer.getInstance().getCopyFile().executeCommand(promptData, "copy" + command.substring(4));
         }
 
-        else if(command.startsWith("move")) {
-            CommandContainer.getInstance().getMoveFile().executeCommand(promptData, command);
+        else if(command.toLowerCase().startsWith("move")) {
+            CommandContainer.getInstance().getMoveFile().executeCommand(promptData, "move" + command.substring(4));
         }
 
         else {

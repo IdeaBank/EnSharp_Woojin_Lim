@@ -70,6 +70,6 @@ public class ItemVerifier {
             return String.join("\\", stringStack.toArray(new String[0]));
         }
 
-        return stringStack.toArray()[0] + "\\";
+        return path.split("\\\\")[0] + "\\";
     }
 }

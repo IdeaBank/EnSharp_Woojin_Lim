@@ -2,6 +2,7 @@ package view;
 
 
 import java.io.File;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -50,7 +51,7 @@ public class PromptView {
         System.out.println(" " + files[files.length - 1].toPath().getParent() + " 디렉터리\n");
 
         for(File file: files) {
-            if(!file.isHidden()) {
+            if(!file.isHidden() && !Files.isSymbolicLink(file.toPath())) {
                 if (file.isFile()) {
                     printItemInfo(file);
                     fileCount += 1;
