@@ -25,16 +25,9 @@ public class PromptView {
 
     }
 
-    public void printPromptInfo(String os, String buildVersion) {
-        if(os.startsWith("Windows")) {
-            System.out.println(buildVersion);
-            System.out.println("(c) Microsoft Corporation. All rights reserved.");
-        }
-
-        else {
-            System.out.println("MAC OS");
-            System.out.println("Apple Inc.");
-        }
+    public void printPromptInfo(String buildVersion) {
+        System.out.println(buildVersion);
+        System.out.println("(c) Microsoft Corporation. All rights reserved.");
     }
 
     public void printWorkingDirectory(String workingDirectoryPath) {
@@ -45,10 +38,16 @@ public class PromptView {
         System.out.println(driveInfo + "\n");
     }
 
-    public void printItemList(long availableSpace, File[] files) {
+    private String getFormattedNumber(long number) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+
+        return formatter.format(number);
+    }
+
+    public void printItemList(long availableSpace, File[] files, String location) {
         int fileCount = 0, directoryCount = 0, totalSize = 0;
 
-        System.out.println(" " + files[files.length - 1].toPath().getParent() + " 디렉터리\n");
+        System.out.println(" " + location + " 디렉터리\n");
 
         for(File file: files) {
             if(!file.isHidden() && !Files.isSymbolicLink(file.toPath())) {
@@ -68,10 +67,8 @@ public class PromptView {
             }
         }
 
-        DecimalFormat formatter = new DecimalFormat("#,###");
-
         System.out.printf("              %d개 파일                 %d 바이트\n", fileCount, totalSize);
-        System.out.printf("              %d개 디렉터리  %s 바이트 남음\n", directoryCount, formatter.format(availableSpace));
+        System.out.printf("              %d개 디렉터리  %s 바이트 남음\n", directoryCount, getFormattedNumber(availableSpace));
     }
 
     private void printItemInfo(File file) {
@@ -82,7 +79,7 @@ public class PromptView {
 
         if(file.isFile()) {
             System.out.print(lastModified);
-            System.out.printf("%14d ", file.length());
+            System.out.printf("%14s ", getFormattedNumber(file.length()));
         }
 
         else if(file.isDirectory()) {
@@ -95,6 +92,18 @@ public class PromptView {
         for(int i = 0; i < 50; ++i) {
             System.out.println();
         }
+    }
+
+    public void printMessage(String str) {
+        System.out.println(str);
+    }
+
+    public void printMessageWithNoNewline(String str) {
+        System.out.print(str);
+    }
+
+    public void printNoCommand(String command) {
+        PromptView.getInstance().printMessage("'" + command + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
     }
 
     public void printHelp() {
@@ -196,21 +205,5 @@ public class PromptView {
                 "WMIC           대화형 명령 셸 내의 WMI 정보를 표시합니다.\n" +
                 "\n" +
                 "도구에 대한 자세한 내용은 온라인 도움말의 명령줄 참조를 참조하십시오.");
-    }
-
-    public void printCopyResult() {
-
-    }
-
-    public void printMoveResult() {
-
-    }
-
-    public void printMessage(String str) {
-        System.out.println(str);
-    }
-
-    public void printMessageWithNoNewline(String str) {
-        System.out.print(str);
     }
 }
