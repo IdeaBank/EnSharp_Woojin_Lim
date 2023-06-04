@@ -47,13 +47,11 @@ public class ItemVerifier {
 
         for(String str: splitPath) {
             if(str.equals("..")) {
-                if(splitPath.length != 2) {
-                    if(stringStack.size() > 0) {
-                        stringStack.pop();
-                    }
-                    else {
-                        return path.split("\\\\")[0] + "\\";
-                    }
+                if (stringStack.size() > 0) {
+                    stringStack.pop();
+                }
+                else {
+                    return path.split("\\\\")[0] + "\\";
                 }
             }
 
@@ -66,7 +64,7 @@ public class ItemVerifier {
             }
         }
 
-        if(stringStack.size() != 1) {
+        if(stringStack.size() > 1) {
             return String.join("\\", stringStack.toArray(new String[0]));
         }
 
