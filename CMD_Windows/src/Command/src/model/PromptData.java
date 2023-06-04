@@ -9,7 +9,7 @@ public class PromptData {
     private ArrayList<String> commandHistoryList;
 
     public PromptData() {
-        Path currentRelativePath = Paths.get("");
+        Path currentRelativePath = Paths.get(System.getProperty("user.home"));
         this.currentAbsolutePath = currentRelativePath.toAbsolutePath().toString();
         this.commandHistoryList = new ArrayList<>();
     }
