@@ -1,15 +1,19 @@
 package controller;
 
+import commandInterface.CommandCommonFunctionContainer;
 import commands.CommandContainer;
+import commands.MoveFile;
+import constant.CommandType;
 import model.PromptData;
 import view.PromptView;
 import java.io.BufferedReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class PromptManager {
+public class PromptManager extends CommandCommonFunctionContainer {
     private final PromptData promptData;
     private boolean continueInput;
 
@@ -28,11 +32,8 @@ public class PromptManager {
     public void startPrompt() {
         String windowsVersion = getCommandExecuteResult("ver");
 
-        if(windowsVersion.startsWith("Windows 10 ")) {
-            windowsVersion.substring(3);
-        }
+        PromptView.getInstance().printPromptInfo(windowsVersion);
 
-        PromptView.getInstance().printPromptInfo(System.getProperty("os.name"), windowsVersion);
         while(this.continueInput) {
             System.out.print("\n" + promptData.getCurrentAbsolutePath() + ">");
             getCommandInput();
@@ -43,58 +44,51 @@ public class PromptManager {
         Scanner scanner = new Scanner(System.in);
         String command = scanner.nextLine();
 
+        command = command.trim();
+
+        String []commands = command.split("&&");
+
         /// TODO: IMPLEMENT IF-ELSE STATEMENT
 
-        if(command.toLowerCase().startsWith("cd")) {
-            CommandContainer.getInstance().getChangeDirectory().executeCommand(promptData, "cd" + command.substring(2));
-        }
+        for(String token: commands) {
+            token = token.trim();
 
-        else if(command.toLowerCase().startsWith("dir")) {
-            CommandContainer.getInstance().getViewDirectory().executeCommand(promptData, "dir" + command.substring(3));
-        }
+            CommandType commandType = getCommand(token);
 
-        else if(command.toLowerCase().startsWith("cls")) {
-            CommandContainer.getInstance().getClearConsole().executeCommand(promptData, "cls" + command.substring(3));
-        }
-
-        else if(command.toLowerCase().startsWith("help")) {
-            CommandContainer.getInstance().getHelp().executeCommand(promptData, "help" + command.substring(4));
-        }
-
-        else if(command.equalsIgnoreCase("exit") || command.toLowerCase().startsWith("exit/") ||
-                command.toLowerCase().startsWith("exit\\") || command.toLowerCase().startsWith("exit.") ||
-                command.toLowerCase().startsWith("exit ")) {
-            this.continueInput = false;
-        }
-
-        else if(command.equalsIgnoreCase("cmd") || command.toLowerCase().startsWith("cmd/") ||
-                command.toLowerCase().startsWith("cmd\\") || command.toLowerCase().startsWith("cmd.") ||
-                command.toLowerCase().startsWith("cmd ")) {
-
-            startNewPrompt();
-        }
-
-        else if(command.toLowerCase().startsWith("copy")) {
-            CommandContainer.getInstance().getCopyFile().executeCommand(promptData, "copy" + command.substring(4));
-        }
-
-        else if(command.toLowerCase().startsWith("move")) {
-            CommandContainer.getInstance().getMoveFile().executeCommand(promptData, "move" + command.substring(4));
-        }
-
-        else {
-            command = command.split(" ")[0];
-
-            PromptView.getInstance().printMessage("'" + command + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+            switch(commandType) {
+                case CD:
+                    CommandContainer.getInstance().getChangeDirectory().executeCommand(promptData, token);
+                    break;
+                case DIR:
+                    CommandContainer.getInstance().getViewDirectory().executeCommand(promptData, token);
+                    break;
+                case CLS:
+                    CommandContainer.getInstance().getClearConsole().executeCommand(promptData, token);
+                    break;
+                case HELP:
+                    CommandContainer.getInstance().getHelp().executeCommand(promptData, token);
+                    break;
+                case EXIT:
+                    this.continueInput = false;
+                    break;
+                case CMD:
+                    startNewPrompt();
+                    break;
+                case COPY:
+                    CommandContainer.getInstance().getCopyFile().executeCommand(promptData, token);
+                    break;
+                case MOVE:
+                    CommandContainer.getInstance().getMoveFile().executeCommand(promptData, token);
+                    break;
+                default:
+                    token = token.split(" ")[0];
+                    PromptView.getInstance().printNoCommand(token);
+            }
         }
     }
 
     private void saveHistory(String command) {
         promptData.appendCommandHistory(command);
-    }
-
-    private void showHistory() {
-
     }
 
     private void startNewPrompt() {
@@ -122,5 +116,35 @@ public class PromptManager {
         }
 
         return null;
+    }
+
+    private CommandType getCommand(String command) {
+        String []availableCommands = { "cd", "dir", "cls", "help", "exit", "cmd", "copy", "move" };
+
+        for(int i = 0; i < availableCommands.length; ++i)
+        {
+            if(command.toLowerCase().startsWith(availableCommands[i])) {
+                switch(i) {
+                    case 0:
+                        return CommandType.CD;
+                    case 1:
+                        return CommandType.DIR;
+                    case 2:
+                        return CommandType.CLS;
+                    case 3:
+                        return CommandType.HELP;
+                    case 4:
+                        return CommandType.EXIT;
+                    case 5:
+                        return CommandType.CMD;
+                    case 6:
+                        return CommandType.COPY;
+                    case 7:
+                        return CommandType.MOVE;
+                }
+            }
+        }
+
+        return CommandType.NONE;
     }
 }
