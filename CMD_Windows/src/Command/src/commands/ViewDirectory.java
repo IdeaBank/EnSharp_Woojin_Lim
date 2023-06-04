@@ -3,6 +3,7 @@ package commands;
 import commandInterface.CommandCommonFunctionContainer;
 import commandInterface.ComplexCommandInterface;
 import constant.CommandResultType;
+import constant.ItemType;
 import controller.PromptManager;
 import model.PromptData;
 import util.ItemVerifier;
@@ -58,11 +59,10 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
 
             // 상대경로로 주어졌으면 절대경로로 바꿔줌
             if(!targetFolder.toPath().isAbsolute()) {
-                targetFolder = new File(promptData.getCurrentAbsolutePath(), path);
-                targetFolder = new File(ItemVerifier.getInstance().getUpperDirectoryPath(targetFolder.getPath()));
+                targetFolder = toAbsoluteFile(promptData, targetFolder);
             }
 
-            File[] files;
+            File[] files = new File[] {};
 
             long availableSpace = 0;
 
@@ -78,83 +78,113 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
                 e.printStackTrace();
             }
 
-            // 경로가 존재하면
-            if(targetFolder.exists()) {
-                // 폴더면
-                if(targetFolder.isDirectory()) {
-                    // 모든 폴더 및 파일 받아와서 나열
-                    files = targetFolder.listFiles();
-                    ArrayList<File> fileArrayList = new ArrayList<>(Arrays.asList(files));
+            ItemType itemType = ItemVerifier.getInstance().getItemState(targetFolder.getPath());
 
-                    // 최상위 폴더가 아니면 .과 ..을 추가
-                    if(targetFolder.toPath().getRoot() != targetFolder.toPath()) {
-                        fileArrayList.add(0, new File(".."));
-                        fileArrayList.add(0, new File("."));
-                    }
+            switch(itemType) {
+                case IS_DIRECTORY:
+                    files = addDirectoryFilesToList(targetFolder);
+                    break;
+                case IS_FILE:
+                    files = new File[] { targetFolder };
+                    break;
+            }
 
-                    files = fileArrayList.toArray(new File[0]);
-                }
+            if(files.length == 0) {
+                files = new File[] { new File(commandToken[0]) };
+            }
 
-                // 파일이면 해당 파일 하나만 출력
-                else {
-                     files = new File[] { targetFolder };
-                }
+            printDriveInfo(files, printedDrive);
 
-                // 현재 경로가 위치해 있는 드라이브의 문자를 얻어옴
-                char driveCharacter = files[files.length - 1].getPath().charAt(0);
-
-                // 드라이브의 정보를 얻어와서 출력
-                if(!printedDrive.contains(String.valueOf(driveCharacter))) {
-                    String driveInfo = PromptManager.getCommandExecuteResult("vol " + driveCharacter + ":");
-
-                    driveInfo = driveInfo.replace(". 볼", ".\n 볼");
-
-                    PromptView.getInstance().printDriveInfo(driveInfo);
-                    printedDrive.add(String.valueOf(driveCharacter));
-                }
+            if(itemType != ItemType.ITEM_DOES_NOT_EXIST) {
 
                 // 파일들 출력
                 PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
+            }
+
+            else if(itemType == ItemType.ITEM_DOES_NOT_EXIST) {
+                PromptView.getInstance().printMessage("파일을 찾을 수 없습니다.");
             }
         }
 
         // dir만 쳤을 경우 현재 경로에 있는 폴더 및 파일들 출력
         if(commandToken.length == 0) {
-            File targetFolder = new File(promptData.getCurrentAbsolutePath());
+            showCurrentDirectoryList(promptData, printedDrive);
+        }
+    }
 
-            File[] files = targetFolder.listFiles();
-            ArrayList<File> fileArrayList = new ArrayList<>(Arrays.asList(files));
+    private void addDotDirectories(ArrayList<File> fileArrayList, File targetFolder) {
+        File oneDot = new File(".");
+        File twoDot = new File("..");
 
-            if(targetFolder.toPath().getRoot() != targetFolder.toPath()) {
-                fileArrayList.add(0, new File(".."));
-                fileArrayList.add(0, new File("."));
-            }
+        long lastModified = targetFolder.lastModified();
 
-            files = fileArrayList.toArray(new File[0]);
+        oneDot.setLastModified(lastModified);
+        twoDot.setLastModified(lastModified);
 
-            long availableSpace = 0;
+        fileArrayList.add(0, oneDot);
+        fileArrayList.add(1, twoDot);
+    }
 
-            try {
-                File file = new File(promptData.getCurrentAbsolutePath().charAt(0) + ":\\");
+    private File[] addDirectoryFilesToList(File targetFolder) {
+        File[] files = targetFolder.listFiles();
+        ArrayList<File> fileArrayList = new ArrayList<>(Arrays.asList(files));
 
-                FileStore store = Files.getFileStore(file.toPath());
+        // 최상위 폴더가 아니면 .과 ..을 추가
+        if(targetFolder.toPath().getRoot() != targetFolder.toPath()) {
+            addDotDirectories(fileArrayList, targetFolder);
+        }
 
-                availableSpace = store.getUsableSpace();
+        return fileArrayList.toArray(new File[0]);
+    }
 
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
+    private void printDriveInfo(File[] files, ArrayList<String> printedDrive) {
+        char driveCharacter = files[files.length - 1].getPath().charAt(0);
 
-            char driveCharacter = files[files.length - 1].getAbsolutePath().charAt(0);
-
+        // 드라이브의 정보를 얻어와서 출력
+        if(!printedDrive.contains(String.valueOf(driveCharacter))) {
             String driveInfo = PromptManager.getCommandExecuteResult("vol " + driveCharacter + ":");
 
             driveInfo = driveInfo.replace(". 볼", ".\n 볼");
 
             PromptView.getInstance().printDriveInfo(driveInfo);
             printedDrive.add(String.valueOf(driveCharacter));
-
-            PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
         }
+    }
+
+    private void showCurrentDirectoryList(PromptData promptData, ArrayList<String> printedDrive) {
+        File targetFolder = new File(promptData.getCurrentAbsolutePath());
+
+        File[] files = targetFolder.listFiles();
+        ArrayList<File> fileArrayList = new ArrayList<>(Arrays.asList(files));
+
+        if(targetFolder.toPath().getRoot() != targetFolder.toPath()) {
+            addDotDirectories(fileArrayList, targetFolder);
+        }
+
+        files = fileArrayList.toArray(new File[0]);
+
+        long availableSpace = 0;
+
+        try {
+            File file = new File(promptData.getCurrentAbsolutePath().charAt(0) + ":\\");
+
+            FileStore store = Files.getFileStore(file.toPath());
+
+            availableSpace = store.getUsableSpace();
+
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        char driveCharacter = files[files.length - 1].getAbsolutePath().charAt(0);
+
+        String driveInfo = PromptManager.getCommandExecuteResult("vol " + driveCharacter + ":");
+
+        driveInfo = driveInfo.replace(". 볼", ".\n 볼");
+
+        PromptView.getInstance().printDriveInfo(driveInfo);
+        printedDrive.add(String.valueOf(driveCharacter));
+
+        PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
     }
 }

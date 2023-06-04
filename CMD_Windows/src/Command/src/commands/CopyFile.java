@@ -1,6 +1,7 @@
 package commands;
 
-import commandInterface.CommandInterface;
+import commandInterface.CommandCommonFunctionContainer;
+import commandInterface.ComplexCommandInterface;
 import constant.CommandResultType;
 import constant.ItemType;
 import constant.OverwriteType;
@@ -14,49 +15,22 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CopyFile implements CommandInterface {
+public class CopyFile extends CommandCommonFunctionContainer implements ComplexCommandInterface {
     @Override
     public void executeCommand(PromptData promptData, String command) {
-        if(command.startsWith("copy.") || command.startsWith("copy\\")) {
-            command = "copy " + command.substring(2);
-        }
-
-        CommandResultType commandResult = isCommandValid(command);
+        command = getNormalCommand(command, "copy");
         String[] commandToken = getCommandToken(command);
+        CommandResultType commandResult = isCommandValid(commandToken);
 
         if(commandResult == CommandResultType.SUCCESS) {
-
-            if(commandToken.length == 2) {
-                File sourceFile = new File(commandToken[1]);
-                File destinationFile = new File(promptData.getCurrentAbsolutePath());
-
-                if(!sourceFile.isAbsolute()) {
-                    File tempFile = new File(promptData.getCurrentAbsolutePath(), commandToken[1]);
-                    String sourcePath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
-                    sourceFile = new File(sourcePath);
-                }
-
-                copyFile(commandToken[1], destinationFile.getPath(), sourceFile, destinationFile);
-            }
+            File sourceFile = new File(commandToken[1]);
+            File destinationFile = new File(promptData.getCurrentAbsolutePath());
 
             if(commandToken.length == 3) {
-                File sourceFile = new File(commandToken[1]);
-                File destinationFile = new File(commandToken[2]);
-
-                if (!sourceFile.isAbsolute()) {
-                    File tempFile = new File(promptData.getCurrentAbsolutePath(), commandToken[1]);
-                    String sourcePath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
-                    sourceFile = new File(sourcePath);
-                }
-
-                if (!destinationFile.isAbsolute()) {
-                    File tempFile = new File(promptData.getCurrentAbsolutePath(), commandToken[2]);
-                    String destinationPath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
-                    destinationFile = new File(destinationPath);
-                }
-
-                copyFile(commandToken[1], commandToken[2], sourceFile, destinationFile);
+                destinationFile = new File(commandToken[2]);
             }
+
+            copyFile(promptData, sourceFile, destinationFile);
         }
 
         else if(commandResult == CommandResultType.COMMAND_NOT_VALID) {
@@ -64,20 +38,18 @@ public class CopyFile implements CommandInterface {
                 PromptView.getInstance().printMessage("지정된 파일을 찾을 수 없습니다.");
             }
 
-            else {
+            else if (commandToken.length > 3) {
                 PromptView.getInstance().printMessage("명령 구문이 올바르지 않습니다.");
             }
         }
 
-        else {
-            PromptView.getInstance().printMessage("'" + commandToken[0] +"'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+        else if(commandResult == CommandResultType.COMMAND_NOT_EXIST) {
+            PromptView.getInstance().printNoCommand(commandToken[0]);
         }
     }
 
     @Override
-    public CommandResultType isCommandValid(String command) {
-        String[] commandToken = getCommandToken(command);
-
+    public CommandResultType isCommandValid(String[] commandToken) {
         if(commandToken[0].equals("copy")) {
             if(commandToken.length == 1 || commandToken.length > 3) {
                 return CommandResultType.COMMAND_NOT_VALID;
@@ -89,25 +61,11 @@ public class CopyFile implements CommandInterface {
         return CommandResultType.COMMAND_NOT_EXIST;
     }
 
-    @Override
-    public String[] getCommandToken(String command) {
-        String[] tempCommandToken = command.split(" ");
-        ArrayList<String> commandTokenList = new ArrayList<>();
-
-        for(String token: tempCommandToken) {
-            if(!token.equals("")) {
-                commandTokenList.add(token);
-            }
-        }
-
-        return commandTokenList.toArray(new String[0]);
-    }
-
     public File[] getAllFilesInDirectory(String path) {
         File targetDirectory = new File(path);
         File[] allFiles = targetDirectory.listFiles();
 
-        ArrayList<File> files =  new ArrayList<>();
+        ArrayList<File> files = new ArrayList<>();
 
         for(File file: allFiles) {
             if(file.isFile()) {
@@ -118,11 +76,18 @@ public class CopyFile implements CommandInterface {
         return files.toArray(new File[0]);
     }
 
-    public void copyFile(String sourcePath, String destinationPath, File source, File destination) {
+    public void copyFile(PromptData promptData, File source, File destination) {
+        if (!source.isAbsolute()) {
+            source = toAbsoluteFile(promptData, source);
+        }
+
+        if (!destination.isAbsolute()) {
+            destination = toAbsoluteFile(promptData, destination);
+        }
+
         ItemType sourceType = ItemVerifier.getInstance().getItemState(source.getPath());
         ItemType destinationType = ItemVerifier.getInstance().getItemState(destination.getPath());
         int copiedFiles = 0;
-        boolean keepReplacing = false;
 
         if(source.equals(destination)) {
             File[] sourceFiles = getAllFilesInDirectory(source.getPath());
@@ -137,102 +102,18 @@ public class CopyFile implements CommandInterface {
             File[] sourceFiles = getAllFilesInDirectory(source.getPath());
 
             if(destinationType == ItemType.IS_FILE) {
-                StringBuilder result = new StringBuilder();
-
-                try {
-                    for (File file : sourceFiles) {
-                        BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
-                        String line;
-
-                        while((line = reader.readLine()) != null) {
-                            result.append(line + "\n");
-                        }
-                    }
-
-                    File resultFile = new File(destination.getPath() + ".temp");
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile.getPath()));
-
-                    writer.write(result.toString());
-                    writer.close();
-
-                    OverwriteType overwriteType = askOverwrite(destinationPath);
-
-                    if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                        Files.copy(resultFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        copiedFiles += 1;
-                    }
-
-                    resultFile.delete();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
+                copyDirectoryToFile(sourceFiles, destination, destination.getPath());
             }
 
             else if(destinationType == ItemType.IS_DIRECTORY) {
-                for(File file: sourceFiles) {
-
-                    File destinationFile = new File(destination.getPath(), file.getName());
-                    PromptView.getInstance().printMessage(file.getPath());
-
-                    if(destinationFile.exists()) {
-                        if(destinationFile.isFile()) {
-                            if(!keepReplacing) {
-                                OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
-
-                                try {
-                                    if (overwriteType == OverwriteType.YES) {
-                                        Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                        copiedFiles += 1;
-                                    }
-
-                                    else if (overwriteType == OverwriteType.ALL) {
-                                        Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                        copiedFiles += 1;
-                                        keepReplacing = true;
-                                    }
-                                }
-                                catch(IOException e){
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            else {
-                                try {
-                                    Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                    copiedFiles += 1;
-                                }
-                                catch(IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        else if(destinationFile.isDirectory()) {
-                            PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
-                        }
-                    }
-
-                    else {
-                        try {
-                            Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            copiedFiles += 1;
-                            PromptView.getInstance().printMessage(destinationFile.getPath());
-                        }
-                        catch(IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+                copyDirectoryToDirectory(sourceFiles, destination);
             }
-
-            PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
         }
 
         else if(sourceType == ItemType.IS_FILE) {
 
             if(destinationType == ItemType.IS_FILE) {
-                OverwriteType overwriteType = askOverwrite(destinationPath);
+                OverwriteType overwriteType = askOverwrite(destination.getPath());
 
                 if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
                     try {
@@ -299,29 +180,130 @@ public class CopyFile implements CommandInterface {
         }
     }
 
+    public boolean isYesNoAll(String answer) {
+       return (!answer.toLowerCase().startsWith("y") &&
+                !answer.toLowerCase().startsWith("n") && !answer.toLowerCase().startsWith("a"));
+    }
+
     public OverwriteType askOverwrite(String path) {
         Scanner scanner = new Scanner(System.in);
         String answer = null;
 
-        while(answer == null || (!answer.equalsIgnoreCase("y") &&
-                !answer.equalsIgnoreCase("n") && !answer.equalsIgnoreCase("a"))) {
+        while(answer == null || isYesNoAll(answer)) {
 
             PromptView.getInstance().printMessageWithNoNewline(path + "을(를) 덮어쓰시겠습니까? (Yes/No/All): ");
             answer = scanner.nextLine();
 
-            if (answer.equalsIgnoreCase("y")) {
+            if (answer.toLowerCase().startsWith("y")) {
                 return OverwriteType.YES;
             }
 
-            else if(answer.equalsIgnoreCase("n")) {
+            else if(answer.toLowerCase().startsWith("n")) {
                 return OverwriteType.NO;
             }
 
-            else if(answer.equalsIgnoreCase("a")) {
+            else if(answer.toLowerCase().startsWith("a")) {
                 return OverwriteType.ALL;
             }
         }
 
         return OverwriteType.NO;
+    }
+
+    private void copyDirectoryToFile(File[] sourceFiles, File destination, String destinationPath) {
+        StringBuilder result = new StringBuilder();
+        int copiedFiles = 0;
+
+        try {
+            for (File file : sourceFiles) {
+                BufferedReader reader = new BufferedReader(new FileReader(file.getPath()));
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line).append("\n");
+                }
+            }
+
+            File resultFile = new File(destination.getPath() + ".temp");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(resultFile.getPath()));
+
+            writer.write(result.toString());
+            writer.close();
+
+            OverwriteType overwriteType = askOverwrite(destinationPath);
+
+            if (overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
+                Files.copy(resultFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                copiedFiles += 1;
+            }
+
+            resultFile.delete();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
+    }
+
+    private void copyDirectoryToDirectory(File[] sourceFiles, File destination) {
+        int copiedFiles = 0;
+        boolean keepReplacing = false;
+
+        for(File file: sourceFiles) {
+            File destinationFile = new File(destination.getPath(), file.getName());
+            PromptView.getInstance().printMessage(file.getPath());
+
+            if(destinationFile.exists()) {
+                if(destinationFile.isFile()) {
+                    if(!keepReplacing) {
+                        OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
+
+                        try {
+                            if (overwriteType == OverwriteType.YES) {
+                                Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                                copiedFiles += 1;
+                            }
+
+                            else if (overwriteType == OverwriteType.ALL) {
+                                Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                                copiedFiles += 1;
+                                keepReplacing = true;
+                            }
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    else {
+                        try {
+                            Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            copiedFiles += 1;
+                        }
+                        catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                else if(destinationFile.isDirectory()) {
+                    PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
+                }
+            }
+
+            else {
+                try {
+                    Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    copiedFiles += 1;
+                    PromptView.getInstance().printMessage(destinationFile.getPath());
+                }
+                catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
     }
 }

@@ -39,6 +39,7 @@ public class CommandContainer {
     public ClearConsole getClearConsole() {
         return clearConsole;
     }
+
     public CopyFile getCopyFile() {
         return copyFile;
     }

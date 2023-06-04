@@ -29,6 +29,7 @@ public class ChangeDirectory extends CommandCommonFunctionContainer implements C
                     break;
                 case 2:
                     // 경로를 바꿔줌
+                    commandToken[1] = removeDots(commandToken[1]);
                     changeDirectory(promptData, commandToken[1]);
                     break;
             }
@@ -40,7 +41,7 @@ public class ChangeDirectory extends CommandCommonFunctionContainer implements C
         }
 
         // cd로 시작하는 이상한 명령어를 쳤으면 오류 문구 출력
-        else {
+        else if(commandResult == CommandResultType.COMMAND_NOT_EXIST) {
             PromptView.getInstance().printNoCommand(commandToken[0]);
         }
     }
@@ -56,6 +57,31 @@ public class ChangeDirectory extends CommandCommonFunctionContainer implements C
         }
 
         return CommandResultType.COMMAND_NOT_VALID;
+    }
+
+
+    private boolean isAllDots(String str) {
+        char []strToCharArray = str.toCharArray();
+
+        for(char ch : strToCharArray) {
+            if(ch != '.') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private String removeDots(String path) {
+        String[] pathToken = path.split("\\\\");
+
+        for(String token: pathToken) {
+            if(isAllDots(token) && token.length() > 2) {
+                token = ".";
+            }
+        }
+
+        return String.join("\\", pathToken);
     }
 
     private void changeDirectoryWithOneParameter(PromptData promptData, String command) {

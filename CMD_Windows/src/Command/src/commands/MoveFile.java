@@ -1,6 +1,7 @@
 package commands;
 
-import commandInterface.CommandInterface;
+import commandInterface.CommandCommonFunctionContainer;
+import commandInterface.ComplexCommandInterface;
 import constant.CommandResultType;
 import constant.ItemType;
 import constant.OverwriteType;
@@ -14,15 +15,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MoveFile implements CommandInterface {
+public class MoveFile extends CommandCommonFunctionContainer implements ComplexCommandInterface {
     @Override
     public void executeCommand(PromptData promptData, String command) {
-        if(command.startsWith("move.") || command.startsWith("move\\")) {
-            command = "move " + command.substring(2);
-        }
+        command = getNormalCommand(command, "move");
 
-        CommandResultType commandResult = isCommandValid(command);
         String[] commandToken = getCommandToken(command);
+        CommandResultType commandResult = isCommandValid(commandToken);
 
         if(commandResult == CommandResultType.SUCCESS) {
 
@@ -63,15 +62,13 @@ public class MoveFile implements CommandInterface {
                 PromptView.getInstance().printMessage("명령 구문이 올바르지 않습니다.");
         }
 
-        else {
-            PromptView.getInstance().printMessage("'" + commandToken[0] +"'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+        else if(commandResult == CommandResultType.COMMAND_NOT_EXIST) {
+            PromptView.getInstance().printNoCommand(commandToken[0]);
         }
     }
 
     @Override
-    public CommandResultType isCommandValid(String command) {
-        String[] commandToken = getCommandToken(command);
-
+    public CommandResultType isCommandValid(String[] commandToken) {
         if(commandToken[0].equals("move")) {
             if(commandToken.length == 1 || commandToken.length > 3) {
                 return CommandResultType.COMMAND_NOT_VALID;
@@ -81,35 +78,6 @@ public class MoveFile implements CommandInterface {
         }
 
         return CommandResultType.COMMAND_NOT_EXIST;
-    }
-
-    @Override
-    public String[] getCommandToken(String command) {
-        String[] tempCommandToken = command.split(" ");
-        ArrayList<String> commandTokenList = new ArrayList<>();
-
-        for(String token: tempCommandToken) {
-            if(!token.equals("")) {
-                commandTokenList.add(token);
-            }
-        }
-
-        return commandTokenList.toArray(new String[0]);
-    }
-
-    public File[] getAllFilesInDirectory(String path) {
-        File targetDirectory = new File(path);
-        File[] allFiles = targetDirectory.listFiles();
-
-        ArrayList<File> files =  new ArrayList<>();
-
-        for(File file: allFiles) {
-            if(file.isFile()) {
-                files.add(file);
-            }
-        }
-
-        return files.toArray(new File[0]);
     }
 
     public void moveFile(String sourcePath, String destinationPath, File source, File destination) {

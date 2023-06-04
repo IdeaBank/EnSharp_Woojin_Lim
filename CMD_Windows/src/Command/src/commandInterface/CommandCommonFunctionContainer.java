@@ -1,5 +1,9 @@
 package commandInterface;
 
+import model.PromptData;
+import util.ItemVerifier;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class CommandCommonFunctionContainer {
@@ -31,8 +35,12 @@ public class CommandCommonFunctionContainer {
             }
         }
 
-
-
         return commandTokenList.toArray(new String[0]);
+    }
+
+    protected File toAbsoluteFile(PromptData promptData, File file) {
+        File tempFile = new File(promptData.getCurrentAbsolutePath(), file.getPath());
+        String sourcePath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
+        return new File(sourcePath);
     }
 }
