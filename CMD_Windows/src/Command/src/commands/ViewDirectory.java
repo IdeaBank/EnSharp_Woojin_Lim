@@ -1,6 +1,7 @@
 package commands;
 
-import commandInterface.CommandInterface;
+import commandInterface.CommandCommonFunctionContainer;
+import commandInterface.ComplexCommandInterface;
 import constant.CommandResultType;
 import controller.PromptManager;
 import model.PromptData;
@@ -14,43 +15,32 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ViewDirectory implements CommandInterface {
+public class ViewDirectory extends CommandCommonFunctionContainer implements ComplexCommandInterface {
     @Override
     public void executeCommand(PromptData promptData, String command) {
+        command = getNormalCommand(command, "dir");
+        String[] commandToken = getCommandToken(command);
+
+        CommandResultType commandResultType = isCommandValid(commandToken);
+
         // 정상적인 명령어이면 경로에 있는 파일들 출력
-        if(isCommandValid(command) == CommandResultType.SUCCESS) {
+        if(commandResultType == CommandResultType.SUCCESS) {
             viewDirectoryFiles(promptData, command);
         }
 
         // 비정상적인 명령어이면 오류 문구 출력
-        else {
-            PromptView.getInstance().printMessage("'" + command.split(" ")[0] + "'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는\n배치 파일이 아닙니다.");
+        else if(commandResultType == CommandResultType.COMMAND_NOT_EXIST) {
+            PromptView.getInstance().printNoCommand(commandToken[0]);
         }
     }
 
     @Override
-    public CommandResultType isCommandValid(String command) {
-        String[] commandToken = getCommandToken(command);
-
-        if(3 <= commandToken[0].length() && commandToken[0].length() <= 5) {
+    public CommandResultType isCommandValid(String[] commandToken) {
+        if(commandToken[0].equalsIgnoreCase("dir")) {
             return CommandResultType.SUCCESS;
         }
 
         return CommandResultType.COMMAND_NOT_EXIST;
-    }
-
-    @Override
-    public String[] getCommandToken(String command) {
-        String[] tempCommandToken = command.split(" ");
-        ArrayList<String> commandTokenList = new ArrayList<>();
-
-        for(String token: tempCommandToken) {
-            if(!token.equals("")) {
-                commandTokenList.add(token);
-            }
-        }
-
-        return commandTokenList.toArray(new String[0]);
     }
 
     private void viewDirectoryFiles(PromptData promptData, String command) {
@@ -124,7 +114,7 @@ public class ViewDirectory implements CommandInterface {
                 }
 
                 // 파일들 출력
-                PromptView.getInstance().printItemList(availableSpace, files);
+                PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
             }
         }
 
@@ -155,7 +145,7 @@ public class ViewDirectory implements CommandInterface {
                 e.printStackTrace();
             }
 
-            char driveCharacter = files[files.length - 1].getPath().charAt(0);
+            char driveCharacter = files[files.length - 1].getAbsolutePath().charAt(0);
 
             String driveInfo = PromptManager.getCommandExecuteResult("vol " + driveCharacter + ":");
 
@@ -164,7 +154,7 @@ public class ViewDirectory implements CommandInterface {
             PromptView.getInstance().printDriveInfo(driveInfo);
             printedDrive.add(String.valueOf(driveCharacter));
 
-            PromptView.getInstance().printItemList(availableSpace, files);
+            PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
         }
     }
 }
