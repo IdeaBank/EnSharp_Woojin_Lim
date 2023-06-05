@@ -55,7 +55,7 @@ public class PromptView {
         System.out.println(" " + location + " 디렉터리\n");
 
         for(File file: files) {
-            if(!file.isHidden() && !Files.isSymbolicLink(file.toPath())) {
+            if(!file.isHidden()) {
                 if (file.isFile()) {
                     printItemInfo(file);
                     fileCount += 1;
@@ -72,7 +72,7 @@ public class PromptView {
             }
         }
 
-        System.out.printf("              %d개 파일                 %d 바이트\n", fileCount, totalSize);
+        System.out.printf("              %d개 파일                 %s 바이트\n", fileCount, getFormattedNumber(totalSize));
         System.out.printf("              %d개 디렉터리  %s 바이트 남음\n", directoryCount, getFormattedNumber(availableSpace));
     }
 
