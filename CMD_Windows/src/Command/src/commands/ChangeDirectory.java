@@ -77,6 +77,10 @@ public class ChangeDirectory extends CommandCommonFunctionContainer implements C
             return path;
         }
 
+        if(path.equals("\\")) {
+            return path;
+        }
+
         String[] pathToken = path.split("\\\\");
 
         for(String token: pathToken) {
@@ -99,6 +103,7 @@ public class ChangeDirectory extends CommandCommonFunctionContainer implements C
             PromptView.getInstance().printNoCommand(command);
         }
     }
+
     private void changeDirectory(PromptData promptData, String path) {
         if(path.startsWith("\\\\")) {
             PromptView.getInstance().printMessage("'" + path + "'");
