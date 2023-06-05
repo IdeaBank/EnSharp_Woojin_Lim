@@ -168,7 +168,7 @@ public class MoveFile extends CommandCommonFunctionContainer implements ComplexC
         return overwriteType;
     }
 
-    private int moveToEmptySpace(File source, File destination, File destintationFile) {
+    private void moveToEmptySpace(File source, File destination, File destintationFile) {
         try {
             Files.move(source.toPath(), destintationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             PromptView.getInstance().printMessage(destination.getPath());
