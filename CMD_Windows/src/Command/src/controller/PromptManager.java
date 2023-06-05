@@ -43,6 +43,7 @@ public class PromptManager extends CommandCommonFunctionContainer {
     private void getCommandInput() {
         Scanner scanner = new Scanner(System.in);
         String command = scanner.nextLine();
+        saveHistory(command);
 
         command = command.trim();
 
@@ -79,6 +80,9 @@ public class PromptManager extends CommandCommonFunctionContainer {
                     break;
                 case MOVE:
                     CommandContainer.getInstance().getMoveFile().executeCommand(promptData, token);
+                    break;
+                case DOSKEY:
+                    CommandContainer.getInstance().getDoskey().executeCommand(promptData, token);
                     break;
                 default:
                     token = token.split(" ")[0];
@@ -119,7 +123,7 @@ public class PromptManager extends CommandCommonFunctionContainer {
     }
 
     private CommandType getCommand(String command) {
-        String []availableCommands = { "cd", "dir", "cls", "help", "exit", "cmd", "copy", "move" };
+        String []availableCommands = { "cd", "dir", "cls", "help", "exit", "cmd", "copy", "move", "doskey" };
 
         for(int i = 0; i < availableCommands.length; ++i)
         {
@@ -141,6 +145,8 @@ public class PromptManager extends CommandCommonFunctionContainer {
                         return CommandType.COPY;
                     case 7:
                         return CommandType.MOVE;
+                    case 8:
+                        return CommandType.DOSKEY;
                 }
             }
         }

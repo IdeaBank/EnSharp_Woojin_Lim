@@ -9,5 +9,6 @@ public enum CommandType {
     HELP,
     CMD,
     EXIT,
+    DOSKEY,
     NONE
 }

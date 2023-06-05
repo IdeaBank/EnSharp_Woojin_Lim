@@ -10,6 +10,7 @@ public class CommandContainer {
     private CopyFile copyFile;
     private MoveFile moveFile;
     private Help help;
+    private Doskey doskey;
 
     private CommandContainer() {
         this.changeDirectory = new ChangeDirectory();
@@ -18,6 +19,7 @@ public class CommandContainer {
         this.copyFile = new CopyFile();
         this.moveFile = new MoveFile();
         this.help = new Help();
+        this.doskey = new Doskey();
     }
 
     public static CommandContainer getInstance() {
@@ -50,5 +52,8 @@ public class CommandContainer {
 
     public Help getHelp() {
         return help;
+    }
+    public Doskey getDoskey() {
+        return doskey;
     }
 }
