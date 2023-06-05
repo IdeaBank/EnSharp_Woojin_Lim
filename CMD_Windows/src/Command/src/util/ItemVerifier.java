@@ -41,6 +41,20 @@ public class ItemVerifier {
         return file.exists();
     }
 
+    public boolean isMultipleDots(String str) {
+        int count = 0;
+        char[] charList = str.toCharArray();
+
+        for(char ch: charList) {
+            if(ch != '.') {
+                return false;
+            }
+            count += 1;
+        }
+
+        return count > 2;
+    }
+
     public String getUpperDirectoryPath(String path) {
         String[] splitPath = path.split("[\\\\]");
         Stack<String> stringStack = new Stack<>();
@@ -55,7 +69,7 @@ public class ItemVerifier {
                 }
             }
 
-            else if(str.equals(".")) {
+            else if(str.equals(".") || isMultipleDots(str)) {
                 continue;
             }
 
