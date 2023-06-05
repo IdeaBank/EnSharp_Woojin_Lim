@@ -7,6 +7,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DirectoryFunctionContainer {
+    public File[] getAllFile(String path) {
+        File targetFolder = new File(path);
+
+        if(targetFolder.isFile()) {
+            return new File[] { targetFolder };
+        }
+
+        else if(targetFolder.isDirectory()) {
+            File[] tempFiles = targetFolder.listFiles(File::isFile);
+
+            return removeJunctionFileFromList(tempFiles);
+        }
+
+        return new File[] { };
+    }
+
     public File[] getAllDirectoryAndFile(String path) {
         File targetFolder = new File(path);
 

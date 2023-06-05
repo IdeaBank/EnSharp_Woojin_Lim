@@ -62,21 +62,6 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
         return CommandResultType.COMMAND_NOT_EXIST;
     }
 
-    public File[] getAllFilesInDirectory(String path) {
-        File targetDirectory = new File(path);
-        File[] allFiles = getAllDirectoryAndFile(targetDirectory.getPath());
-
-        ArrayList<File> files = new ArrayList<>();
-
-        for(File file: allFiles) {
-            if(file.isFile()) {
-                files.add(file);
-            }
-        }
-
-        return files.toArray(new File[0]);
-    }
-
     public void copyFile(PromptData promptData, File source, File destination) {
         if (!source.isAbsolute()) {
             source = toAbsoluteFile(promptData, source);
@@ -88,89 +73,49 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
 
         ItemType sourceType = ItemVerifier.getInstance().getItemState(source.getPath());
         ItemType destinationType = ItemVerifier.getInstance().getItemState(destination.getPath());
+
         int copiedFiles = 0;
 
         if(source.equals(destination)) {
-            File[] sourceFiles = getAllFilesInDirectory(source.getPath());
+            File[] sourceFiles = getAllFile(source.getPath());
 
             PromptView.getInstance().printMessage(sourceFiles[0].getPath());
             PromptView.getInstance().printMessage("같은 파일로 복사할 수 없습니다.");
-            PromptView.getInstance().printMessage("        0개 파일이 복사되었습니다.");
+            PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
             return;
         }
 
         if(sourceType == ItemType.IS_DIRECTORY) {
-            File[] sourceFiles = getAllFilesInDirectory(source.getPath());
+            File[] sourceFiles = getAllFile(source.getPath());
+
+            if(sourceFiles.length == 0) {
+                PromptView.getInstance().printMessage(source.toPath().getFileName() + "\\*");
+                PromptView.getInstance().printMessage("지정된 파일을 찾을 수 없습니다.");
+            }
 
             if(destinationType == ItemType.IS_FILE) {
-                copyDirectoryToFile(sourceFiles, destination, destination.getPath());
+                copiedFiles = copyDirectoryToFile(sourceFiles, destination);
             }
 
             else if(destinationType == ItemType.IS_DIRECTORY) {
-                copyDirectoryToDirectory(sourceFiles, destination);
+                copiedFiles = copyDirectoryToDirectory(sourceFiles, destination);
             }
+
+            PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
         }
 
         else if(sourceType == ItemType.IS_FILE) {
-
             if(destinationType == ItemType.IS_FILE) {
-                OverwriteType overwriteType = askOverwrite(destination.getPath());
-
-                if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                    try {
-                        Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        copiedFiles += 1;
-                        PromptView.getInstance().printMessage(destination.getPath());
-                    }
-                    catch(IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                copyFileToFile(source, destination, OverwriteType.NO);
+                copiedFiles += 1;
             }
 
             else if(destinationType == ItemType.IS_DIRECTORY) {
-                File destinationFile = new File(destination.getPath(), source.getName());
-
-                if(destinationFile.isFile()) {
-                    OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
-
-                    if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                        try {
-                            Files.copy(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            copiedFiles += 1;
-                            PromptView.getInstance().printMessage(destination.getPath());
-                        }
-                        catch(IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                else if(destinationFile.isDirectory()) {
-                    PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
-                }
-
-                else {
-                    try {
-                        Files.copy(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        copiedFiles += 1;
-                        PromptView.getInstance().printMessage(destination.getPath());
-                    }
-                    catch(IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                copiedFiles = copyFileToDirectory(source, destination);
             }
 
             else {
-                try {
-                    Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    copiedFiles += 1;
-                    PromptView.getInstance().printMessage(destination.getPath());
-                }
-                catch(IOException e) {
-                    e.printStackTrace();
-                }
+                copiedFiles = copyFileToEmptySpace(source, destination);
             }
 
             PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
@@ -211,7 +156,7 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
         return OverwriteType.NO;
     }
 
-    private void copyDirectoryToFile(File[] sourceFiles, File destination, String destinationPath) {
+    private int copyDirectoryToFile(File[] sourceFiles, final File destination) {
         StringBuilder result = new StringBuilder();
         int copiedFiles = 0;
 
@@ -231,7 +176,7 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
             writer.write(result.toString());
             writer.close();
 
-            OverwriteType overwriteType = askOverwrite(destinationPath);
+            OverwriteType overwriteType = askOverwrite(destination.getPath());
 
             if (overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
                 Files.copy(resultFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -244,12 +189,12 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
             e.printStackTrace();
         }
 
-        PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
+        return copiedFiles;
     }
 
-    private void copyDirectoryToDirectory(File[] sourceFiles, File destination) {
+    private int copyDirectoryToDirectory(File[] sourceFiles, final File destination) {
         int copiedFiles = 0;
-        boolean keepReplacing = false;
+        OverwriteType overwriteType = OverwriteType.NO;
 
         for(File file: sourceFiles) {
             File destinationFile = new File(destination.getPath(), file.getName());
@@ -257,34 +202,10 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
 
             if(destinationFile.exists()) {
                 if(destinationFile.isFile()) {
-                    if(!keepReplacing) {
-                        OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
+                    overwriteType = copyFileToFile(file, destinationFile, overwriteType);
 
-                        try {
-                            if (overwriteType == OverwriteType.YES) {
-                                Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                copiedFiles += 1;
-                            }
-
-                            else if (overwriteType == OverwriteType.ALL) {
-                                Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                copiedFiles += 1;
-                                keepReplacing = true;
-                            }
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                        }
-                    }
-
-                    else {
-                        try {
-                            Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            copiedFiles += 1;
-                        }
-                        catch(IOException e) {
-                            e.printStackTrace();
-                        }
+                    if (overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
+                        copiedFiles += 1;
                     }
                 }
 
@@ -294,10 +215,43 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
             }
 
             else {
+                copiedFiles += copyFileToEmptySpace(file, destination);
+            }
+        }
+
+        return copiedFiles;
+    }
+
+    private OverwriteType copyFileToFile(File source, File destination, OverwriteType overwriteType) {
+        if(overwriteType == OverwriteType.NO) {
+            overwriteType = askOverwrite(destination.getPath());
+        }
+
+        if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
+            try {
+                Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                PromptView.getInstance().printMessage(destination.getPath());
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return overwriteType;
+    }
+
+    private int copyFileToDirectory(File source, File destination) {
+        int copiedFiles = 0;
+        File destinationFile = new File(destination.getPath(), source.getName());
+
+        if(destinationFile.isFile()) {
+            OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
+
+            if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
                 try {
-                    Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     copiedFiles += 1;
-                    PromptView.getInstance().printMessage(destinationFile.getPath());
+                    PromptView.getInstance().printMessage(destination.getPath());
                 }
                 catch(IOException e) {
                     e.printStackTrace();
@@ -305,6 +259,35 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
             }
         }
 
-        PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
+        else if(destinationFile.isDirectory()) {
+            PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
+        }
+
+        else if(!destinationFile.exists()) {
+            try {
+                Files.copy(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                copiedFiles += 1;
+                PromptView.getInstance().printMessage(destination.getPath());
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return copiedFiles;
+    }
+
+    private int copyFileToEmptySpace(File source, File destination) {
+        int copiedFiles = 0;
+
+        try {
+            Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            copiedFiles += 1;
+            PromptView.getInstance().printMessage(destination.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return copiedFiles;
     }
 }
