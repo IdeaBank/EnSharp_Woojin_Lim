@@ -131,31 +131,6 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
                 !answer.toLowerCase().startsWith("n") && !answer.toLowerCase().startsWith("a"));
     }
 
-    public OverwriteType askOverwrite(String path) {
-        Scanner scanner = new Scanner(System.in);
-        String answer = null;
-
-        while(answer == null || isYesNoAll(answer)) {
-
-            PromptView.getInstance().printMessageWithNoNewline(path + "을(를) 덮어쓰시겠습니까? (Yes/No/All): ");
-            answer = scanner.nextLine();
-
-            if (answer.toLowerCase().startsWith("y")) {
-                return OverwriteType.YES;
-            }
-
-            else if(answer.toLowerCase().startsWith("n")) {
-                return OverwriteType.NO;
-            }
-
-            else if(answer.toLowerCase().startsWith("a")) {
-                return OverwriteType.ALL;
-            }
-        }
-
-        return OverwriteType.NO;
-    }
-
     private int copyDirectoryToFile(File[] sourceFiles, final File destination) {
         StringBuilder result = new StringBuilder();
         int copiedFiles = 0;

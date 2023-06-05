@@ -1,10 +1,13 @@
 package commandInterface;
 
+import constant.OverwriteType;
 import model.PromptData;
 import util.ItemVerifier;
+import view.PromptView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CommandCommonFunctionContainer extends DirectoryFunctionContainer {
     protected String getNormalCommand(String command, String commandString) {
@@ -42,5 +45,31 @@ public class CommandCommonFunctionContainer extends DirectoryFunctionContainer {
         File tempFile = new File(promptData.getCurrentAbsolutePath(), file.getPath());
         String sourcePath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
         return new File(sourcePath);
+    }
+
+    public OverwriteType askOverwrite(String path) {
+        Scanner scanner = new Scanner(System.in);
+        String answer = null;
+
+        while(answer == null || (!answer.equalsIgnoreCase("y") &&
+                !answer.equalsIgnoreCase("n") && !answer.equalsIgnoreCase("a"))) {
+
+            PromptView.getInstance().printMessageWithNoNewline(path + "을(를) 덮어쓰시겠습니까? (Yes/No/All): ");
+            answer = scanner.nextLine();
+
+            if (answer.equalsIgnoreCase("y")) {
+                return OverwriteType.YES;
+            }
+
+            else if(answer.equalsIgnoreCase("n")) {
+                return OverwriteType.NO;
+            }
+
+            else if(answer.equalsIgnoreCase("a")) {
+                return OverwriteType.ALL;
+            }
+        }
+
+        return OverwriteType.NO;
     }
 }

@@ -24,37 +24,23 @@ public class MoveFile extends CommandCommonFunctionContainer implements ComplexC
         CommandResultType commandResult = isCommandValid(commandToken);
 
         if(commandResult == CommandResultType.SUCCESS) {
-
             if(commandToken.length == 2) {
                 File sourceFile = new File(commandToken[1]);
                 File destinationFile = new File(promptData.getCurrentAbsolutePath());
 
-                if(!sourceFile.isAbsolute()) {
-                    File tempFile = new File(promptData.getCurrentAbsolutePath(), commandToken[1]);
-                    String sourcePath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
-                    sourceFile = new File(sourcePath);
-                }
+                sourceFile = toAbsoluteFile(promptData, sourceFile);
 
-                moveFile(commandToken[1], destinationFile.getPath(), sourceFile, destinationFile);
+                moveFile(sourceFile, destinationFile);
             }
 
             if(commandToken.length == 3) {
                 File sourceFile = new File(commandToken[1]);
                 File destinationFile = new File(commandToken[2]);
 
-                if (!sourceFile.isAbsolute()) {
-                    File tempFile = new File(promptData.getCurrentAbsolutePath(), commandToken[1]);
-                    String sourcePath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
-                    sourceFile = new File(sourcePath);
-                }
+                sourceFile = toAbsoluteFile(promptData, sourceFile);
+                destinationFile = toAbsoluteFile(promptData, destinationFile);
 
-                if (!destinationFile.isAbsolute()) {
-                    File tempFile = new File(promptData.getCurrentAbsolutePath(), commandToken[2]);
-                    String destinationPath = ItemVerifier.getInstance().getUpperDirectoryPath(tempFile.getPath());
-                    destinationFile = new File(destinationPath);
-                }
-
-                moveFile(commandToken[1], commandToken[2], sourceFile, destinationFile);
+                moveFile(sourceFile, destinationFile);
             }
         }
 
@@ -80,133 +66,115 @@ public class MoveFile extends CommandCommonFunctionContainer implements ComplexC
         return CommandResultType.COMMAND_NOT_EXIST;
     }
 
-    public void moveFile(String sourcePath, String destinationPath, File source, File destination) {
+    public void moveFile(File source, File destination) {
         ItemType sourceType = ItemVerifier.getInstance().getItemState(source.getPath());
         ItemType destinationType = ItemVerifier.getInstance().getItemState(destination.getPath());
-        boolean keepReplacing = false;
 
         if(sourceType == ItemType.IS_DIRECTORY) {
             if(destinationType == ItemType.IS_FILE) {
-                try {
-                    Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                }
-                catch(IOException e) {
-                    e.printStackTrace();
-                }
+                moveDirectoryToFile(source, destination);
             }
 
             else if(destinationType == ItemType.IS_DIRECTORY) {
-                File destinationFolder = new File(destination.getPath(), source.getName());
-
-                if(destinationFolder.exists()) {
-                    askOverwrite(destinationFolder.getPath());
-                    PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
-
-                    return;
-                }
-
-                try {
-                    Files.move(source.toPath(), destinationFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    PromptView.getInstance().printMessage("        1개의 디렉터리를 이동했습니다.");
-                }
-                catch(IOException e) {
-                    e.printStackTrace();
-                }
+                moveDirectoryToDirectory(source, destination);
             }
         }
 
         else if(sourceType == ItemType.IS_FILE) {
-
             if(destinationType == ItemType.IS_FILE) {
-                OverwriteType overwriteType = askOverwrite(destinationPath);
-
-                if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                    try {
-                        Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        PromptView.getInstance().printMessage(destination.getPath());
-                    }
-                    catch(IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                moveFileToFile(source, destination, OverwriteType.NO);
             }
 
             else if(destinationType == ItemType.IS_DIRECTORY) {
                 File destinationFile = new File(destination.getPath(), source.getName());
+                ItemType destinationFileType = ItemVerifier.getInstance().getItemState(destination.getPath());
 
-                if(destinationFile.isFile()) {
-                    OverwriteType overwriteType = askOverwrite(destinationFile.getPath());
-
-                    if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
-                        try {
-                            Files.move(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            PromptView.getInstance().printMessage(destination.getPath());
-                        }
-                        catch(IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if(destinationFileType == ItemType.IS_FILE) {
+                    moveFileToFile(source, destinationFile, OverwriteType.NO);
                 }
 
-                else if(destinationFile.isDirectory()) {
-                    askOverwrite(destinationFile.getPath());
-                    PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
-
+                else if(destinationFileType == ItemType.IS_DIRECTORY) {
+                    printBadAccess(destinationFile);
                     return;
                 }
 
-                else {
-                    try {
-                        Files.move(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        PromptView.getInstance().printMessage(destination.getPath());
-                    }
-                    catch(IOException e) {
-                        e.printStackTrace();
-                    }
+                else if(destinationFileType == ItemType.ITEM_DOES_NOT_EXIST) {
+                    moveToEmptySpace(source, destination, destinationFile);
                 }
             }
 
-            else {
-                try {
-                    Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    PromptView.getInstance().printMessage(destination.getPath());
-                }
-                catch(IOException e) {
-                    e.printStackTrace();
-                }
+            else if (destinationType == ItemType.ITEM_DOES_NOT_EXIST) {
+                moveToEmptySpace(source, destination, destination);
             }
 
             PromptView.getInstance().printMessage("        1개 파일이 복사되었습니다.");
         }
 
-        else {
+        else if (sourceType == ItemType.ITEM_DOES_NOT_EXIST) {
             PromptView.getInstance().printMessage("지정된 파일을 찾을 수 없습니다.");
         }
     }
 
-    public OverwriteType askOverwrite(String path) {
-        Scanner scanner = new Scanner(System.in);
-        String answer = null;
+    private void moveDirectoryToFile(File source, File destination) {
+        try {
+            OverwriteType overwriteType = askOverwrite(destination.getPath());
 
-        while(answer == null || (!answer.equalsIgnoreCase("y") &&
-                !answer.equalsIgnoreCase("n") && !answer.equalsIgnoreCase("a"))) {
-
-            PromptView.getInstance().printMessageWithNoNewline(path + "을(를) 덮어쓰시겠습니까? (Yes/No/All): ");
-            answer = scanner.nextLine();
-
-            if (answer.equalsIgnoreCase("y")) {
-                return OverwriteType.YES;
+            if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
+                Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            else if(answer.equalsIgnoreCase("n")) {
-                return OverwriteType.NO;
+    private void printBadAccess(File destinationFolder) {
+        askOverwrite(destinationFolder.getPath());
+        PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
+    }
+
+    private void moveDirectoryToDirectory(File source, File destination) {
+        File destinationFolder = new File(destination.getPath(), source.getName());
+
+        if(destinationFolder.exists()) {
+            printBadAccess(destinationFolder);
+            return;
+        }
+
+        try {
+            Files.move(source.toPath(), destinationFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            PromptView.getInstance().printMessage("        1개의 디렉터리를 이동했습니다.");
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private OverwriteType moveFileToFile(File source, File destination, OverwriteType overwriteType) {
+        if(overwriteType == OverwriteType.NO) {
+            overwriteType = askOverwrite(destination.getPath());
+        }
+
+        if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
+            try {
+                Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                PromptView.getInstance().printMessage(destination.getPath());
             }
-
-            else if(answer.equalsIgnoreCase("a")) {
-                return OverwriteType.ALL;
+            catch(IOException e) {
+                e.printStackTrace();
             }
         }
 
-        return OverwriteType.NO;
+        return overwriteType;
+    }
+
+    private int moveToEmptySpace(File source, File destination, File destintationFile) {
+        try {
+            Files.move(source.toPath(), destintationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            PromptView.getInstance().printMessage(destination.getPath());
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }
