@@ -2,6 +2,7 @@ package commands;
 
 import commandInterface.CommandCommonFunctionContainer;
 import commandInterface.ComplexCommandInterface;
+import commandInterface.DirectoryFunctionContainer;
 import constant.CommandResultType;
 import constant.ItemType;
 import constant.OverwriteType;
@@ -63,7 +64,7 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
 
     public File[] getAllFilesInDirectory(String path) {
         File targetDirectory = new File(path);
-        File[] allFiles = targetDirectory.listFiles();
+        File[] allFiles = getAllDirectoryAndFile(targetDirectory.getPath());
 
         ArrayList<File> files = new ArrayList<>();
 

@@ -126,7 +126,7 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
     }
 
     private File[] addDirectoryFilesToList(File targetFolder) {
-        File[] files = targetFolder.listFiles();
+        File[] files = getAllDirectoryAndFile(targetFolder.getPath());
         ArrayList<File> fileArrayList = new ArrayList<>(Arrays.asList(files));
 
         // 최상위 폴더가 아니면 .과 ..을 추가
@@ -154,7 +154,7 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
     private void showCurrentDirectoryList(PromptData promptData, ArrayList<String> printedDrive) {
         File targetFolder = new File(promptData.getCurrentAbsolutePath());
 
-        File[] files = targetFolder.listFiles();
+        File[] files = getAllDirectoryAndFile(targetFolder.getPath());
         ArrayList<File> fileArrayList = new ArrayList<>(Arrays.asList(files));
 
         if(targetFolder.toPath().getRoot() != targetFolder.toPath()) {
