@@ -73,6 +73,10 @@ public class ChangeDirectory extends CommandCommonFunctionContainer implements C
     }
 
     private String removeDots(String path) {
+        if(path.startsWith("\\\\")) {
+            return path;
+        }
+
         String[] pathToken = path.split("\\\\");
 
         for(String token: pathToken) {
