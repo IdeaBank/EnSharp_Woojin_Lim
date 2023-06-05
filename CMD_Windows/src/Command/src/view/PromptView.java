@@ -1,7 +1,10 @@
 package view;
 
 
+import util.ItemVerifier;
+
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -46,6 +49,8 @@ public class PromptView {
 
     public void printItemList(long availableSpace, File[] files, String location) {
         int fileCount = 0, directoryCount = 0, totalSize = 0;
+
+        location = ItemVerifier.getInstance().getActualPath(location);
 
         System.out.println(" " + location + " 디렉터리\n");
 

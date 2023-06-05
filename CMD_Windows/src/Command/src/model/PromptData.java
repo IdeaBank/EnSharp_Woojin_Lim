@@ -1,5 +1,9 @@
 package model;
 
+import util.ItemVerifier;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,7 +19,7 @@ public class PromptData {
     }
 
     public void setCurrentAbsolutePath(String path) {
-        this.currentAbsolutePath = path;
+        this.currentAbsolutePath = ItemVerifier.getInstance().getActualPath(path);
     }
 
     public String getCurrentAbsolutePath() {

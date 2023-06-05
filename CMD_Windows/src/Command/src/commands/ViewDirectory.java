@@ -98,7 +98,8 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
             if(itemType != ItemType.ITEM_DOES_NOT_EXIST) {
 
                 // 파일들 출력
-                PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
+                String actualPath = ItemVerifier.getInstance().getActualPath(targetFolder.getAbsolutePath());
+                PromptView.getInstance().printItemList(availableSpace, files, actualPath);
             }
 
             else if(itemType == ItemType.ITEM_DOES_NOT_EXIST) {
@@ -142,12 +143,12 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
 
         // 드라이브의 정보를 얻어와서 출력
         if(!printedDrive.contains(String.valueOf(driveCharacter))) {
-            String driveInfo = PromptManager.getCommandExecuteResult("vol " + driveCharacter + ":");
+            String driveInfo = PromptManager.getCommandExecuteResult("vol " + String.valueOf(driveCharacter).toUpperCase() + ":");
 
             driveInfo = driveInfo.replace(". 볼", ".\n 볼");
 
             PromptView.getInstance().printDriveInfo(driveInfo);
-            printedDrive.add(String.valueOf(driveCharacter));
+            printedDrive.add(String.valueOf(driveCharacter).toUpperCase());
         }
     }
 
@@ -185,6 +186,7 @@ public class ViewDirectory extends CommandCommonFunctionContainer implements Com
         PromptView.getInstance().printDriveInfo(driveInfo);
         printedDrive.add(String.valueOf(driveCharacter));
 
-        PromptView.getInstance().printItemList(availableSpace, files, targetFolder.getAbsolutePath());
+        String actualPath = ItemVerifier.getInstance().getActualPath(targetFolder.getAbsolutePath());
+        PromptView.getInstance().printItemList(availableSpace, files, actualPath);
     }
 }

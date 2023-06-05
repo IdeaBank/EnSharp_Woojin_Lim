@@ -129,7 +129,9 @@ public class MoveFile extends CommandCommonFunctionContainer implements ComplexC
     }
 
     private void printBadAccess(File destinationFolder) {
-        askOverwrite(destinationFolder.getPath());
+        String actualPath = ItemVerifier.getInstance().getActualPath(destinationFolder.getPath());
+
+        askOverwrite(actualPath);
         PromptView.getInstance().printMessage("액세스가 거부되었습니다.");
     }
 
@@ -158,7 +160,9 @@ public class MoveFile extends CommandCommonFunctionContainer implements ComplexC
         if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
             try {
                 Files.move(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                PromptView.getInstance().printMessage(destination.getPath());
+
+                String actualPath = ItemVerifier.getInstance().getActualPath(destination.getPath());
+                PromptView.getInstance().printMessage(actualPath);
             }
             catch(IOException e) {
                 e.printStackTrace();
@@ -171,7 +175,9 @@ public class MoveFile extends CommandCommonFunctionContainer implements ComplexC
     private void moveToEmptySpace(File source, File destination, File destintationFile) {
         try {
             Files.move(source.toPath(), destintationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            PromptView.getInstance().printMessage(destination.getPath());
+
+            String actualPath = ItemVerifier.getInstance().getActualPath(destination.getPath());
+            PromptView.getInstance().printMessage(actualPath);
         }
         catch(IOException e) {
             e.printStackTrace();

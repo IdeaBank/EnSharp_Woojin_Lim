@@ -3,6 +3,7 @@ package util;
 import constant.ItemType;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -83,5 +84,17 @@ public class ItemVerifier {
         }
 
         return path.split("\\\\")[0] + "\\";
+    }
+
+    public String getActualPath(String path) {
+        try {
+            File actualFile = new File(path);
+            path = actualFile.getCanonicalPath();
+        }
+        catch(IOException e) {
+            // Do nothing
+        }
+
+        return path;
     }
 }

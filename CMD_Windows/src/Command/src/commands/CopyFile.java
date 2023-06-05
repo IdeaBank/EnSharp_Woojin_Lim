@@ -79,7 +79,8 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
         if(source.equals(destination)) {
             File[] sourceFiles = getAllFile(source.getPath());
 
-            PromptView.getInstance().printMessage(sourceFiles[0].getPath());
+            String actualPath = ItemVerifier.getInstance().getActualPath(sourceFiles[0].getPath());
+            PromptView.getInstance().printMessage(actualPath);
             PromptView.getInstance().printMessage("같은 파일로 복사할 수 없습니다.");
             PromptView.getInstance().printMessage("        " + String.valueOf(copiedFiles) + "개 파일이 복사되었습니다.");
             return;
@@ -173,7 +174,8 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
 
         for(File file: sourceFiles) {
             File destinationFile = new File(destination.getPath(), file.getName());
-            PromptView.getInstance().printMessage(file.getPath());
+            String actualPath = ItemVerifier.getInstance().getActualPath(file.getPath());
+            PromptView.getInstance().printMessage(actualPath);
 
             if(destinationFile.exists()) {
                 if(destinationFile.isFile()) {
@@ -205,7 +207,9 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
         if(overwriteType == OverwriteType.YES || overwriteType == OverwriteType.ALL) {
             try {
                 Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                PromptView.getInstance().printMessage(destination.getPath());
+
+                String actualPath = ItemVerifier.getInstance().getActualPath(destination.getPath());
+                PromptView.getInstance().printMessage(actualPath);
             }
             catch(IOException e) {
                 e.printStackTrace();
@@ -226,7 +230,9 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
                 try {
                     Files.copy(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     copiedFiles += 1;
-                    PromptView.getInstance().printMessage(destination.getPath());
+
+                    String actualPath = ItemVerifier.getInstance().getActualPath(destination.getPath());
+                    PromptView.getInstance().printMessage(actualPath);
                 }
                 catch(IOException e) {
                     e.printStackTrace();
@@ -242,7 +248,9 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
             try {
                 Files.copy(source.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 copiedFiles += 1;
-                PromptView.getInstance().printMessage(destination.getPath());
+
+                String actualPath = ItemVerifier.getInstance().getActualPath(destination.getPath());
+                PromptView.getInstance().printMessage(actualPath);
             }
             catch(IOException e) {
                 e.printStackTrace();
@@ -258,7 +266,9 @@ public class CopyFile extends CommandCommonFunctionContainer implements ComplexC
         try {
             Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
             copiedFiles += 1;
-            PromptView.getInstance().printMessage(destination.getPath());
+
+            String actualPath = ItemVerifier.getInstance().getActualPath(destination.getPath());
+            PromptView.getInstance().printMessage(actualPath);
         } catch (IOException e) {
             e.printStackTrace();
         }

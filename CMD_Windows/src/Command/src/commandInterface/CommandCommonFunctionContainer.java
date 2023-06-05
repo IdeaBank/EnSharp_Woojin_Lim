@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class CommandCommonFunctionContainer extends DirectoryFunctionContainer {
     protected String getNormalCommand(String command, String commandString) {
         if(command.toLowerCase().startsWith(commandString + ".") || command.toLowerCase().startsWith(commandString + "/") || command.toLowerCase().startsWith(commandString + "\\")) {
-            return commandString + command.substring(commandString.length());
+            return commandString + " " + command.substring(commandString.length());
         }
 
         return command;
