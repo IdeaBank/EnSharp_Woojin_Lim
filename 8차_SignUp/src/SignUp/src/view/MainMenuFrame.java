@@ -1,13 +1,18 @@
 package view;
 
+import model.UserDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainMenuFrame extends JFrame {
-    public MainMenuFrame() {
+    private String id;
+
+    public MainMenuFrame(String id) {
         createUIComponents();
+        this.id = id;
 
         this.pack();
         this.setVisible(true);
@@ -82,9 +87,14 @@ public class MainMenuFrame extends JFrame {
         mainPanel.add(backgroundPanel);
 
         this.add(mainPanel);
+
+        addClickEvent(editLabel, logoutLabel, withdrawLabel);
+        addClickEvent(marioLabel, luigiLabel, bowserLabel);
     }
 
     private void addClickEvent(JLabel editLabel, JLabel logoutLabel, JLabel withdrawLabel) {
+        JFrame jFrame = this;
+
         editLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -92,10 +102,23 @@ public class MainMenuFrame extends JFrame {
             }
         });
 
+
         logoutLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
+
+                ImageIcon coinImage = new ImageIcon("etc/coin.png");
+                Image tempImage = coinImage.getImage();
+                coinImage = new ImageIcon(tempImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+
+                int result = JOptionPane.showConfirmDialog(jFrame, "로그아웃 하시겠습니까?", "로그아웃 확인", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, coinImage);
+
+                if(result == 0) {
+                    startLoginFrame();
+
+                    jFrame.dispose();
+                }
             }
         });
 
@@ -103,7 +126,29 @@ public class MainMenuFrame extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
+
+                ImageIcon starImage = new ImageIcon("etc/star.png");
+                Image tempImage = starImage.getImage();
+                starImage = new ImageIcon(tempImage.getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+
+                int result = JOptionPane.showConfirmDialog(jFrame, "회원 탈퇴하시겠습니까?", "회원 탈퇴", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, starImage);
+
+                if(result == 0) {
+                    UserDAO.getInstance().withDraw(id);
+                    startLoginFrame();
+
+                    jFrame.setVisible(false);
+
+                    JOptionPane.showMessageDialog(jFrame, "성공적으로 탈퇴하셨습니다!", "회원 탈퇴", JOptionPane.INFORMATION_MESSAGE, starImage);
+
+                    jFrame.dispose();
+                }
             }
         });
+    }
+
+    private void startLoginFrame() {
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.start();
     }
 }

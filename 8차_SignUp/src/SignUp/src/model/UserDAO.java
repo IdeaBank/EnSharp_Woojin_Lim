@@ -1,5 +1,6 @@
 package model;
 
+import constant.LoginResult;
 import controller.DatabaseConnector;
 
 import java.sql.PreparedStatement;
@@ -46,21 +47,42 @@ public class UserDAO {
         return isStringValueInUserExists("phone_number", phoneNumber);
     }
 
-    public String tryLogin(String id, String password) {
+    public LoginResult tryLogin(String id, String password) {
         try {
-            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select name from user where id=? and password=?");
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select name from user where id=?");
             ps.setString(1, id);
-            ps.setString(2, password);
             ResultSet result = ps.executeQuery();
 
-            if(result.next()) {
-                return result.getString("name");
+            if(!result.next()) {
+                return LoginResult.NO_ID;
             }
 
-            return null;
+            ps = DatabaseConnector.getInstance().getConn().prepareStatement("select name from user where id=? and password=?");
+            ps.setString(1, id);
+            ps.setString(2, password);
+            result = ps.executeQuery();
+
+            if(result.next()) {
+                return LoginResult.SUCCESS;
+            }
+
+            return LoginResult.WRONG_PASSWORD;
         }
         catch(SQLException e) {
             return null;
         }
     }
+
+    public void withDraw(String id) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("delete from user where id=?");
+            ps.setString(1, id);
+            ps.execute();
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

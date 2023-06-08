@@ -1,5 +1,6 @@
 package view;
 
+import constant.LoginResult;
 import model.UserDAO;
 
 import javax.swing.*;
@@ -153,13 +154,13 @@ public class LoginFrame extends JFrame implements Runnable{
                 if(marioPanel.getLocation().x > 400) {
                     if(checkLogin()) {
                         this.dispose();
-                        new MainMenuFrame();
+                        new MainMenuFrame(idTextField.getText());
 
                         stop();
                         thread.stop();
                     }
                     else {
-                        currentIndex = 0;
+                        currentIndex = 1;
                     }
                 }
 
@@ -270,6 +271,28 @@ public class LoginFrame extends JFrame implements Runnable{
                 currentIndex = 2;
             }
         });
+
+        idTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    currentIndex = 2;
+                }
+            }
+        });
+
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    currentIndex = 2;
+                }
+            }
+        });
     }
 
     public boolean checkLogin() {
@@ -286,10 +309,17 @@ public class LoginFrame extends JFrame implements Runnable{
             return false;
         }
 
-        String loginResult = UserDAO.getInstance().tryLogin(id, password);
-        if(loginResult != null) {
-            System.out.println(loginResult);
-            return true;
+        LoginResult loginResult = UserDAO.getInstance().tryLogin(id, password);
+
+        switch(loginResult) {
+            case NO_ID:
+                JOptionPane.showMessageDialog(this, "존재하지 않는 아이디입니다!");
+                return false;
+            case WRONG_PASSWORD:
+                JOptionPane.showMessageDialog(this, "비밀번호가 잘못 되었습니다!");
+                return false;
+            case SUCCESS:
+                return true;
         }
 
         return false;
