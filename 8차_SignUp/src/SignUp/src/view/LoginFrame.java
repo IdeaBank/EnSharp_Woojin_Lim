@@ -1,5 +1,7 @@
 package view;
 
+import model.UserDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,6 +16,8 @@ public class LoginFrame extends JFrame implements Runnable{
     private static final int SECOND_X = 200;
     private static final int DOOR_X = 500;
     private int currentIndex;
+    private JTextField idTextField;
+    private JPasswordField passwordField;
 
 
     public LoginFrame() {
@@ -43,14 +47,14 @@ public class LoginFrame extends JFrame implements Runnable{
         idLabel.setBackground(Color.white);
         idLabel.setOpaque(true);
 
-        JTextField idTextField = new JTextField(10);
+        idTextField = new JTextField(10);
 
         JLabel passwordLabel = new JLabel("비밀번호 입력");
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         passwordLabel.setBackground(Color.white);
         passwordLabel.setOpaque(true);
 
-        JPasswordField passwordField = new JPasswordField(10);
+        passwordField = new JPasswordField(10);
 
         JLabel loginButton = new JLabel();
 
@@ -88,7 +92,7 @@ public class LoginFrame extends JFrame implements Runnable{
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        addFocusEvent(idTextField, passwordField, loginButton);
+        addFocusEvent(idTextField, passwordField, loginButton, loginLabel);
     }
 
     public void makeMarioPanel() {
@@ -147,11 +151,16 @@ public class LoginFrame extends JFrame implements Runnable{
                 }
 
                 if(marioPanel.getLocation().x > 400) {
-                    this.dispose();
-                    new MainMenuFrame();
+                    if(checkLogin()) {
+                        this.dispose();
+                        new MainMenuFrame();
 
-                    stop();
-                    thread.stop();
+                        stop();
+                        thread.stop();
+                    }
+                    else {
+                        currentIndex = 0;
+                    }
                 }
 
                 repaint();
@@ -229,7 +238,7 @@ public class LoginFrame extends JFrame implements Runnable{
         }
     }
 
-    private void addFocusEvent(JTextField idTextField, JPasswordField passwordField, JLabel loginButton) {
+    private void addFocusEvent(JTextField idTextField, JPasswordField passwordField, JLabel loginButton, JLabel loginLabel) {
         idTextField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -253,5 +262,36 @@ public class LoginFrame extends JFrame implements Runnable{
                 currentIndex = 2;
             }
         });
+
+        loginLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseClicked(e);
+                currentIndex = 2;
+            }
+        });
+    }
+
+    public boolean checkLogin() {
+        String id = idTextField.getText();
+        String password = passwordField.getText();
+
+        if(id.equals("")) {
+            JOptionPane.showMessageDialog(this, "아이디를 입력해주세요!");
+            return false;
+        }
+
+        if(password.equals("")) {
+            JOptionPane.showMessageDialog(this, "비밀번호를 입력해주세요!");
+            return false;
+        }
+
+        String loginResult = UserDAO.getInstance().tryLogin(id, password);
+        if(loginResult != null) {
+            System.out.println(loginResult);
+            return true;
+        }
+
+        return false;
     }
 }
