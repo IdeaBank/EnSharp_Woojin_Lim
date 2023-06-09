@@ -43,6 +43,27 @@ public class LoginFrame extends JFrame implements Runnable{
 
         mainPanel.setBounds(0, 0, mainPanel.getWidth(), mainPanel.getHeight());
 
+        JLabel registerLabel = new JLabel();
+        ImageIcon registerImage = new ImageIcon("etc/green_mushroom.png");
+        Image tempImage = registerImage.getImage();
+        registerImage = new ImageIcon(tempImage.getScaledInstance(40, 40,  Image.SCALE_SMOOTH));
+        registerLabel.setIcon(registerImage);
+        registerLabel.setBounds(530, 20, 40, 40);
+
+        JLabel findIdLabel = new JLabel();
+        ImageIcon findIdImage = new ImageIcon("etc/brick.png");
+        tempImage = findIdImage.getImage();
+        findIdImage = new ImageIcon(tempImage.getScaledInstance(40, 40,  Image.SCALE_SMOOTH));
+        findIdLabel.setIcon(findIdImage);
+        findIdLabel.setBounds(580, 20, 40, 40);
+
+        JLabel findPasswordLabel = new JLabel();
+        ImageIcon findPasswordImage = new ImageIcon("etc/brick_normal.png");
+        tempImage = findPasswordImage.getImage();
+        findPasswordImage = new ImageIcon(tempImage.getScaledInstance(40, 40,  Image.SCALE_SMOOTH));
+        findPasswordLabel.setIcon(findPasswordImage);
+        findPasswordLabel.setBounds(630, 20, 40, 40);
+
         JLabel idLabel = new JLabel("ID 입력");
         idLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         idLabel.setBackground(new Color(255, 255, 255, 128));
@@ -60,7 +81,7 @@ public class LoginFrame extends JFrame implements Runnable{
         JLabel loginButton = new JLabel();
 
         ImageIcon loginImage = new ImageIcon("etc/JumpingMario.png");
-        Image tempImage = loginImage.getImage();
+        tempImage = loginImage.getImage();
         loginImage = new ImageIcon(tempImage.getScaledInstance(80, 160,  Image.SCALE_SMOOTH));
 
         loginButton.setIcon(loginImage);
@@ -78,6 +99,10 @@ public class LoginFrame extends JFrame implements Runnable{
         loginButton.setBounds(380, 340, 80, 160);
         loginLabel.setBounds(380, 500, 80, 30);
 
+        this.add(registerLabel);
+        this.add(findIdLabel);
+        this.add(findPasswordLabel);
+
         this.add(idLabel);
         this.add(idTextField);
         this.add(passwordLabel);
@@ -94,6 +119,7 @@ public class LoginFrame extends JFrame implements Runnable{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         addFocusEvent(idTextField, passwordField, loginButton, loginLabel);
+        addClickEvent(registerLabel, findIdLabel, findPasswordLabel);
     }
 
     public void makeMarioPanel() {
@@ -291,6 +317,17 @@ public class LoginFrame extends JFrame implements Runnable{
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     currentIndex = 2;
                 }
+            }
+        });
+    }
+
+    private void addClickEvent(JLabel registerLabel, JLabel findIdLabel, JLabel findPasswordLabel) {
+        registerLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+
+                new SignUpFrame();
             }
         });
     }

@@ -1,6 +1,7 @@
 package view;
 
 import model.UserDAO;
+import model.UserDTO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,7 +101,9 @@ public class MainMenuFrame extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                new SignUpFrame();
+
+                UserDTO user = UserDAO.getInstance().getUser(id);
+                new EditFrame(user);
             }
         });
 

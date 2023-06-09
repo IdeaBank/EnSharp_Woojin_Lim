@@ -6,6 +6,7 @@ import controller.DatabaseConnector;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class UserDAO {
     private static UserDAO _instance;
@@ -81,6 +82,72 @@ public class UserDAO {
         }
         catch(SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void register(UserDTO user) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("insert into user values(?, ?, ?, ?, ?, ?, ?, ?);");
+            ps.setString(1, user.getId());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getPassword());
+            ps.setString(4, user.getBirthdate());
+            ps.setString(5, user.getEmail());
+            ps.setString(6, user.getPhoneNumber());
+            ps.setString(7, user.getAddress());
+            ps.setInt(8, user.getAddressNumber());
+
+            ps.execute();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editUser(UserDTO user) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("update user set name=?, password=?, birthdate=?, email=?, phone_number=?, address=?, address_number=? where id=?");
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getBirthdate());
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getPhoneNumber());
+            ps.setString(6, user.getAddress());
+            ps.setInt(7, user.getAddressNumber());
+            ps.setString(8, user.getId());
+
+            ps.execute();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public UserDTO getUser(String id) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select *, FORMAT(VARCHAR(6), birthdate, 'ddMMyy') as formattedDate from user where id=?");
+            ps.setString(1, id);
+            ResultSet result = ps.executeQuery();
+
+            result.next();
+
+            UserDTO user = new UserDTO();
+
+            user.setId(result.getString("id"));
+            user.setName(result.getString("name"));
+            user.setPassword(result.getString("password"));
+            user.setBirthdate(result.getString("formattedDate"));
+            user.setEmail(result.getString("email"));
+            user.setPhoneNumber(result.getString("phone_number"));
+            user.setAddress(result.getString("address"));
+            user.setAddressNumber(result.getInt("address_number"));
+
+            return user;
+        }
+        catch(SQLException e) {
+            return new UserDTO();
         }
     }
 }

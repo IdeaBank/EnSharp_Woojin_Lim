@@ -4,7 +4,6 @@ import constant.RegularExpression;
 import model.UserDAO;
 import model.UserDTO;
 
-import javax.print.URIException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -15,27 +14,31 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
 
-public class SignUpFrame extends JFrame {
-    private JLabel nameLabel, idLabel, passwordLabel, passwordCheckLabel, birthDateLabel, emailLabel, phoneNumberLabel, addressLabel, addressNumberLabel;
-    private JTextField nameField, idField, emailField, birthdateField, phoneNumberMiddleField, phoneNumberLastField, addressField, addressNumberField;
+public class EditFrame extends JFrame {
+    private JLabel nameLabel, passwordLabel, passwordCheckLabel, birthDateLabel, emailLabel, phoneNumberLabel, addressLabel, addressNumberLabel;
+    private JTextField nameField, emailField, birthdateField, phoneNumberMiddleField, phoneNumberLastField, addressField, addressNumberField;
     private JPasswordField passwordField, passwordCheckField;
-    private JButton idCheckButton, findAddressButton, signUpButton;
+    private JButton findAddressButton, editButton;
     private JComboBox<String> emailDropdown, phoneNumberFirstDropdown;
+    private UserDTO user;
 
-    public SignUpFrame() {
+    public EditFrame(UserDTO user) {
         createUIComponents();
 
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        this.user = user;
+        insertData(user);
     }
 
     public void createUIComponents() {
         // 프레임 초기화
-        setTitle("회원가입 폼");
+        setTitle("데이터 수정 폼");
         setSize(500, 300); // 크기를 조정하셔서 원하는 크기로 변경하세요.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -64,28 +67,14 @@ public class SignUpFrame extends JFrame {
         nameField.setOpaque(true);
         nameField.setBorder(null);
 
-        idLabel = new JLabel("아이디:");
-        idLabel.setForeground(Color.white);
-        idLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        idLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        idLabel.setBounds(50, 80, 100, 25);
-
-        idField = new JTextField();
-        idField.setBounds(160, 80, 200, 25);
-        idField.setOpaque(true);
-        idField.setBorder(null);
-
-        idCheckButton = new JButton("아이디 중복 체크");
-        idCheckButton.setBounds(370, 80, 120, 24);
-
         passwordLabel = new JLabel("비밀번호:");
         passwordLabel.setForeground(Color.white);
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 20));
         passwordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        passwordLabel.setBounds(50, 110, 100, 25);
+        passwordLabel.setBounds(50, 80, 100, 25);
 
         passwordField = new JPasswordField();
-        passwordField.setBounds(160, 110, 200, 25);
+        passwordField.setBounds(160, 80, 200, 25);
         passwordField.setOpaque(true);
         passwordField.setBorder(null);
 
@@ -93,10 +82,10 @@ public class SignUpFrame extends JFrame {
         passwordCheckLabel.setForeground(Color.white);
         passwordCheckLabel.setFont(new Font("Arial", Font.BOLD, 16));
         passwordCheckLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        passwordCheckLabel.setBounds(50, 140, 100, 25);
+        passwordCheckLabel.setBounds(50, 110, 100, 25);
 
         passwordCheckField = new JPasswordField();
-        passwordCheckField.setBounds(160, 140, 200, 25);
+        passwordCheckField.setBounds(160, 110, 200, 25);
         passwordCheckField.setOpaque(true);
         passwordCheckField.setBorder(null);
 
@@ -104,10 +93,10 @@ public class SignUpFrame extends JFrame {
         birthDateLabel.setForeground(Color.white);
         birthDateLabel.setFont(new Font("Arial", Font.BOLD, 20));
         birthDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        birthDateLabel.setBounds(50, 170, 100, 25);
+        birthDateLabel.setBounds(50, 140, 100, 25);
 
         birthdateField = new JTextField();
-        birthdateField.setBounds(160, 170,200,25);
+        birthdateField.setBounds(160, 140,200,25);
         birthdateField.setOpaque(true);
         birthdateField.setBorder(null);
 
@@ -115,34 +104,34 @@ public class SignUpFrame extends JFrame {
         emailLabel.setForeground(Color.white);
         emailLabel.setFont(new Font("Arial", Font.BOLD, 20));
         emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        emailLabel.setBounds(50, 200, 100, 25);
+        emailLabel.setBounds(50, 170, 100, 25);
 
         emailField = new JTextField();
-        emailField.setBounds(160, 200, 200, 25);
+        emailField.setBounds(160, 170, 200, 25);
         emailField.setOpaque(true);
         emailField.setBorder(null);
 
         String[] emailList = { "gmail.com", "naver.com", "hanmail.net" };
         emailDropdown = new JComboBox<>(emailList);
-        emailDropdown.setBounds(370, 200, 150, 25);
+        emailDropdown.setBounds(370, 170, 150, 25);
 
         phoneNumberLabel = new JLabel("전화번호:");
         phoneNumberLabel.setForeground(Color.white);
         phoneNumberLabel.setFont(new Font("Arial", Font.BOLD, 20));
         phoneNumberLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        phoneNumberLabel.setBounds(50, 230, 100, 25);
+        phoneNumberLabel.setBounds(50, 200, 100, 25);
 
         String[] phoneNumberList = { "010", "011", "012", "013", "014", "015", "016", "017", "018", "019" };
         phoneNumberFirstDropdown = new JComboBox<>(phoneNumberList);
-        phoneNumberFirstDropdown.setBounds(160, 230, 80, 25);
+        phoneNumberFirstDropdown.setBounds(160, 200, 80, 25);
 
         phoneNumberMiddleField = new JTextField();
-        phoneNumberMiddleField.setBounds(240, 230, 58, 25);
+        phoneNumberMiddleField.setBounds(240, 200, 58, 25);
         phoneNumberMiddleField.setOpaque(true);
         phoneNumberMiddleField.setBorder(null);
 
         phoneNumberLastField = new JTextField();
-        phoneNumberLastField.setBounds(302, 230, 58, 25);
+        phoneNumberLastField.setBounds(302, 200, 58, 25);
         phoneNumberLastField.setOpaque(true);
         phoneNumberLastField.setBorder(null);
 
@@ -150,10 +139,10 @@ public class SignUpFrame extends JFrame {
         addressLabel.setForeground(Color.white);
         addressLabel.setFont(new Font("Arial", Font.BOLD, 20));
         addressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        addressLabel.setBounds(50, 260, 100, 25);
+        addressLabel.setBounds(50, 230, 100, 25);
 
         addressField = new JTextField();
-        addressField.setBounds(160, 260, 200, 25);
+        addressField.setBounds(160, 230, 200, 25);
         addressField.setOpaque(true);
         addressField.setBorder(null);
 
@@ -161,24 +150,23 @@ public class SignUpFrame extends JFrame {
         addressNumberLabel.setForeground(Color.white);
         addressNumberLabel.setFont(new Font("Arial", Font.BOLD, 20));
         addressNumberLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        addressNumberLabel.setBounds(50, 290, 100, 25);
+        addressNumberLabel.setBounds(50, 260, 100, 25);
 
         addressNumberField = new JTextField();
-        addressNumberField.setBounds(160, 290, 100, 25);
+        addressNumberField.setBounds(160, 260, 100, 25);
         addressNumberField.setOpaque(true);
         addressNumberField.setBorder(null);
 
         findAddressButton = new JButton("우편번호 찾기");
-        findAddressButton.setBounds(260, 290, 100, 25);
+        findAddressButton.setBounds(260, 260, 100, 25);
 
-        signUpButton = new JButton("가입하기");
-        signUpButton.setFont(new Font("Arial", Font.PLAIN, 20));
-        signUpButton.setHorizontalTextPosition(SwingConstants.CENTER);
-        signUpButton.setBounds(100, 340, 300, 80);
+        editButton = new JButton("가입하기");
+        editButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        editButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        editButton.setBounds(100, 300, 300, 80);
 
         // 폼 패널에 컴포넌트 추가
         formPanel.add(nameLabel);
-        formPanel.add(idLabel);
         formPanel.add(passwordLabel);
         formPanel.add(passwordCheckLabel);
         formPanel.add(birthDateLabel);
@@ -188,7 +176,6 @@ public class SignUpFrame extends JFrame {
         formPanel.add(addressNumberLabel);
 
         formPanel.add(nameField);
-        formPanel.add(idField);
         formPanel.add(emailField);
         formPanel.add(passwordField);
         formPanel.add(passwordCheckField);
@@ -200,9 +187,8 @@ public class SignUpFrame extends JFrame {
         formPanel.add(addressField);
         formPanel.add(addressNumberField);
 
-        formPanel.add(idCheckButton);
         formPanel.add(findAddressButton);
-        formPanel.add(signUpButton);
+        formPanel.add(editButton);
 
         formPanel.add(emailDropdown);
         formPanel.add(phoneNumberFirstDropdown);
@@ -212,19 +198,8 @@ public class SignUpFrame extends JFrame {
         formPanel.setBounds(80, 30, 530, 600); // 폼 패널의 위치와 크기를 지정
         backgroundLabel.add(formPanel);
 
-        idCheckButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-
-                if(isIdExists()) {
-                    System.out.println("ID EXISTS");
-                }
-            }
-        });
-
         // 가입하기 버튼 클릭 이벤트 처리
-        signUpButton.addActionListener(e -> {
+        editButton.addActionListener(e -> {
             String name = nameField.getText();
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
@@ -233,13 +208,12 @@ public class SignUpFrame extends JFrame {
             // 예를 들면, 서버로 데이터를 전송하거나 데이터베이스에 저장할 수 있습니다.
 
             // 가입 완료 메시지 박스 표시
-            register();
+            edit();
 
             //JOptionPane.showMessageDialog(this, "가입이 완료되었습니다.");
         });
 
         addFocusEvent(nameField, RegularExpression.NAME_EXPRESSION);
-        addFocusEvent(idField, RegularExpression.ID_EXPRESSION);
         addFocusEvent(passwordField, RegularExpression.PASSWORD_EXPRESSION);
         addFocusEvent(birthdateField, RegularExpression.BIRTHDATE_EXPRESSION);
         addFocusEvent(phoneNumberMiddleField, RegularExpression.PHONE_NUMBER_MIDDLE_EXPRESSION);
@@ -257,23 +231,6 @@ public class SignUpFrame extends JFrame {
     }
 
     private void addClickEvent() {
-        JFrame frame = this;
-
-        idCheckButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-
-                if(isIdExists()) {
-                    JOptionPane.showMessageDialog(frame, "존재하는 아이디입니다!");
-                }
-
-                else {
-                    JOptionPane.showMessageDialog(frame, "사용할 수 있는 아이디입니다");
-                }
-            }
-        });
-
         findAddressButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -345,16 +302,11 @@ public class SignUpFrame extends JFrame {
         });
     }
 
-    private boolean isIdExists() {
-        return UserDAO.getInstance().isIdExists(idField.getText());
-    }
-
-    private void register() {
+    private void edit() {
         String email = emailField.getText() + "@" + emailDropdown.getSelectedItem().toString();
         String phoneNumber = phoneNumberFirstDropdown.getSelectedItem().toString() + "-" + phoneNumberMiddleField.getText() + "-" + phoneNumberLastField.getText();
 
         nameField.requestFocus();
-        idField.requestFocus();
         passwordField.requestFocus();
         passwordCheckField.requestFocus();
         birthdateField.requestFocus();
@@ -368,26 +320,17 @@ public class SignUpFrame extends JFrame {
             return;
         }
 
-
-        if(isIdExists()) {
-            System.out.println("ID exists");
-            return;
-        }
-
-        if(UserDAO.getInstance().isEmailExists(email)) {
+        if(!user.getEmail().equals(emailField.getText() + "@" + emailDropdown.getSelectedItem().toString()) && UserDAO.getInstance().isEmailExists(email)) {
             System.out.println("EMAIL exists");
             return;
         }
 
-        if(UserDAO.getInstance().isPhoneNumberExists(phoneNumber)) {
+        if(!user.getPhoneNumber().equals(phoneNumberFirstDropdown.getSelectedItem().toString() + "-" + phoneNumberMiddleField.getText() + "-" + phoneNumberLastField.getText()) && UserDAO.getInstance().isPhoneNumberExists(phoneNumber)) {
             System.out.println("PhoneNumber exists");
             return;
         }
 
-        UserDTO user = new UserDTO();
-
         user.setName(nameField.getText());
-        user.setId(idField.getText());
         user.setPassword(passwordField.getText());
         user.setBirthdate(birthdateField.getText());
         user.setEmail(emailField.getText() + "@" + emailDropdown.getSelectedItem().toString());
@@ -395,16 +338,15 @@ public class SignUpFrame extends JFrame {
         user.setAddress(addressField.getText());
         user.setAddressNumber(Integer.parseInt(addressNumberField.getText()));
 
-        UserDAO.getInstance().register(user);
+        UserDAO.getInstance().editUser(user);
 
-        JOptionPane.showMessageDialog(this, "회원가입 성공!");
+        JOptionPane.showMessageDialog(this, "수정 성공!");
 
         this.dispose();
     }
 
-    public boolean isInputValid() {
+    private boolean isInputValid() {
         return nameField.getText().matches(RegularExpression.NAME_EXPRESSION) &&
-                idField.getText().matches(RegularExpression.ID_EXPRESSION) &&
                 passwordField.getText().matches(RegularExpression.PASSWORD_EXPRESSION) &&
                 birthdateField.getText().matches(RegularExpression.BIRTHDATE_EXPRESSION) &&
                 phoneNumberMiddleField.getText().matches(RegularExpression.PHONE_NUMBER_MIDDLE_EXPRESSION) &&
@@ -413,5 +355,27 @@ public class SignUpFrame extends JFrame {
                 passwordField.getText().equals(passwordCheckField.getText()) &&
                 !emailField.getText().equals("") &&
                 !addressField.getText().equals("");
+    }
+
+    private void insertData(UserDTO user) {
+        nameField.setText(user.getName());
+        passwordField.setText(user.getPassword());
+        passwordCheckField.setText(user.getPassword());
+        birthdateField.setText(user.getBirthdate());
+
+        String[] phoneNumberList = { "010", "011", "012", "013", "014", "015", "016", "017", "018", "019" };
+        String[] userPhoneToken = user.getPhoneNumber().split("-");
+
+        phoneNumberFirstDropdown.setSelectedIndex(Arrays.asList(phoneNumberList).indexOf(userPhoneToken[0]));
+        phoneNumberMiddleField.setText(userPhoneToken[1]);
+        phoneNumberLastField.setText(userPhoneToken[2]);
+
+        String[] emailList = { "gmail.com", "naver.com", "hanmail.net" };
+        String[] emailToken = user.getEmail().split("@");
+
+        addressField.setText(emailToken[0]);
+        emailField.setText(emailToken[0]);
+        emailDropdown.setSelectedIndex(Arrays.asList(emailList).indexOf(emailToken[1]));
+        addressNumberField.setText(String.valueOf(user.getAddressNumber()));
     }
 }
