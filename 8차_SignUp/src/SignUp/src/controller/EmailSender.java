@@ -15,7 +15,6 @@ public class EmailSender {
                 "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
-        props.put("mail.debug", "true");
 
         //get Session
         Session session = Session.getDefaultInstance(props,

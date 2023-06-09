@@ -37,7 +37,7 @@ public class MainMenuFrame extends JFrame {
         editLabel.setBackground(Color.white);
         editLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        ImageIcon marioImage = new ImageIcon("etc/Mario.png");
+        ImageIcon marioImage = new ImageIcon("etc/MarioDefault.png");
         tempImage = marioImage.getImage();
         marioImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
         JLabel marioLabel = new JLabel();
@@ -52,7 +52,7 @@ public class MainMenuFrame extends JFrame {
         logoutLabel.setBackground(Color.white);
         logoutLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        ImageIcon luigiImage = new ImageIcon("etc/Luigi.png");
+        ImageIcon luigiImage = new ImageIcon("etc/LuigiDefault.png");
         tempImage = luigiImage.getImage();
         luigiImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
         JLabel luigiLabel = new JLabel();
@@ -67,7 +67,7 @@ public class MainMenuFrame extends JFrame {
         withdrawLabel.setBackground(Color.white);
         withdrawLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        ImageIcon bowserImage = new ImageIcon("etc/Bowser.png");
+        ImageIcon bowserImage = new ImageIcon("etc/BowserDefault.png");
         tempImage = bowserImage.getImage();
         bowserImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
         JLabel bowserLabel = new JLabel();
@@ -90,6 +90,7 @@ public class MainMenuFrame extends JFrame {
 
         addClickEvent(editLabel, logoutLabel, withdrawLabel);
         addClickEvent(marioLabel, luigiLabel, bowserLabel);
+        addHoverEvent(marioLabel, luigiLabel, bowserLabel);
     }
 
     private void addClickEvent(JLabel editLabel, JLabel logoutLabel, JLabel withdrawLabel) {
@@ -99,6 +100,7 @@ public class MainMenuFrame extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
+                new SignUpFrame();
             }
         });
 
@@ -143,6 +145,80 @@ public class MainMenuFrame extends JFrame {
 
                     jFrame.dispose();
                 }
+            }
+        });
+    }
+
+    private void addHoverEvent(JLabel mario, JLabel luigi, JLabel bowser) {
+        mario.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+
+                ImageIcon marioImage = new ImageIcon("etc/Mario.png");
+                Image tempImage = marioImage.getImage();
+                marioImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
+
+                mario.setIcon(marioImage);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+
+                ImageIcon marioImage = new ImageIcon("etc/MarioDefault.png");
+                Image tempImage = marioImage.getImage();
+                marioImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
+
+                mario.setIcon(marioImage);
+            }
+        });
+
+        luigi.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+
+                ImageIcon luigiImage = new ImageIcon("etc/Luigi.png");
+                Image tempImage = luigiImage.getImage();
+                luigiImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
+
+                luigi.setIcon(luigiImage);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+
+                ImageIcon luigiImage = new ImageIcon("etc/LuigiDefault.png");
+                Image tempImage = luigiImage.getImage();
+                luigiImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
+
+                luigi.setIcon(luigiImage);
+            }
+        });
+
+        bowser.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+
+                ImageIcon bowserImage = new ImageIcon("etc/Bowser.png");
+                Image tempImage = bowserImage.getImage();
+                bowserImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
+
+                bowser.setIcon(bowserImage);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+
+                ImageIcon bowserImage = new ImageIcon("etc/BowserDefault.png");
+                Image tempImage = bowserImage.getImage();
+                bowserImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
+
+                bowser.setIcon(bowserImage);
             }
         });
     }

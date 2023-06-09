@@ -45,14 +45,14 @@ public class LoginFrame extends JFrame implements Runnable{
 
         JLabel idLabel = new JLabel("ID 입력");
         idLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        idLabel.setBackground(Color.white);
+        idLabel.setBackground(new Color(255, 255, 255, 128));
         idLabel.setOpaque(true);
 
         idTextField = new JTextField(10);
 
         JLabel passwordLabel = new JLabel("비밀번호 입력");
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        passwordLabel.setBackground(Color.white);
+        passwordLabel.setBackground(new Color(255, 255, 255, 128));
         passwordLabel.setOpaque(true);
 
         passwordField = new JPasswordField(10);
