@@ -370,17 +370,17 @@ public class SignUpFrame extends JFrame {
 
 
         if(isIdExists()) {
-            System.out.println("ID exists");
+            JOptionPane.showMessageDialog(this, "존재하는 아이디입니다!");
             return;
         }
 
         if(UserDAO.getInstance().isEmailExists(email)) {
-            System.out.println("EMAIL exists");
+            JOptionPane.showMessageDialog(this, "존재하는 이메일입니다!");
             return;
         }
 
         if(UserDAO.getInstance().isPhoneNumberExists(phoneNumber)) {
-            System.out.println("PhoneNumber exists");
+            JOptionPane.showMessageDialog(this, "존재하는 번호입니다!");
             return;
         }
 

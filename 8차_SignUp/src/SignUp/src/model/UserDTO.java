@@ -1,10 +1,16 @@
 package model;
 
+import com.mysql.cj.protocol.a.SqlDateValueEncoder;
+
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class UserDTO {
     private String id;
     private String name;
     private String password;
-    private String birthdate;
+    private Date birthdate;
     private String email;
     private String phoneNumber;
     private String address;
@@ -14,7 +20,7 @@ public class UserDTO {
 
     }
 
-    public UserDTO(String id, String name, String password, String birthdate, String email, String phoneNumber, String address, int addressNumber) {
+    public UserDTO(String id, String name, String password, Date birthdate, String email, String phoneNumber, String address, int addressNumber) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -49,12 +55,22 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
     public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
+        try {
+            this.birthdate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(birthdate);
+        }
+        catch(ParseException e) {
+            try {
+                this.birthdate = new SimpleDateFormat("yyMMdd").parse(birthdate);
+            }
+            catch(ParseException exc) {
+                this.birthdate = new Date();
+            }
+        }
     }
 
     public String getEmail() {

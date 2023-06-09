@@ -92,12 +92,25 @@ public class LoginFrame extends JFrame implements Runnable{
         loginLabel.setOpaque(true);
         loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        JButton test = new JButton("EYE");
+        test.setHorizontalTextPosition(SwingConstants.CENTER);
+
+        test.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+
+                passwordField.setEchoChar((char)0);
+            }
+        });
+
         idLabel.setBounds(50, 350, 70, 30);
         idTextField.setBounds(50, 380, 300, 50);
         passwordLabel.setBounds(50, 430, 120, 30);
         passwordField.setBounds(50, 460, 300, 50);
         loginButton.setBounds(380, 340, 80, 160);
         loginLabel.setBounds(380, 500, 80, 30);
+        test.setBounds(360, 460, 30, 30);
 
         this.add(registerLabel);
         this.add(findIdLabel);
@@ -109,6 +122,7 @@ public class LoginFrame extends JFrame implements Runnable{
         this.add(passwordField);
         this.add(loginButton);
         this.add(loginLabel);
+        this.add(test);
 
         this.add(mainPanel);
 
@@ -328,6 +342,24 @@ public class LoginFrame extends JFrame implements Runnable{
                 super.mouseReleased(e);
 
                 new SignUpFrame();
+            }
+        });
+
+        findIdLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+
+                new FindIdFrame();
+            }
+        });
+
+        findPasswordLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+
+                new FindPasswordFrame();
             }
         });
     }

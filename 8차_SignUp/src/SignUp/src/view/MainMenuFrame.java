@@ -1,5 +1,6 @@
 package view;
 
+import controller.MusicPlayer;
 import model.UserDAO;
 import model.UserDTO;
 
@@ -107,7 +108,6 @@ public class MainMenuFrame extends JFrame {
             }
         });
 
-
         logoutLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -122,6 +122,7 @@ public class MainMenuFrame extends JFrame {
                 if(result == 0) {
                     startLoginFrame();
 
+                    MusicPlayer.getInstance().playBackgroundMusic();
                     jFrame.dispose();
                 }
             }
@@ -163,6 +164,8 @@ public class MainMenuFrame extends JFrame {
                 marioImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
 
                 mario.setIcon(marioImage);
+
+                MusicPlayer.getInstance().playMusic("etc/MarioHooray.wav");
             }
 
             @Override
@@ -174,6 +177,8 @@ public class MainMenuFrame extends JFrame {
                 marioImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
 
                 mario.setIcon(marioImage);
+
+                MusicPlayer.getInstance().playBackgroundMusic();
             }
         });
 
@@ -187,6 +192,8 @@ public class MainMenuFrame extends JFrame {
                 luigiImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
 
                 luigi.setIcon(luigiImage);
+
+                MusicPlayer.getInstance().playMusic("etc/LuigiHooray.wav");
             }
 
             @Override
@@ -198,6 +205,8 @@ public class MainMenuFrame extends JFrame {
                 luigiImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
 
                 luigi.setIcon(luigiImage);
+
+                MusicPlayer.getInstance().playBackgroundMusic();
             }
         });
 
@@ -211,6 +220,8 @@ public class MainMenuFrame extends JFrame {
                 bowserImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
 
                 bowser.setIcon(bowserImage);
+
+                MusicPlayer.getInstance().playMusic("etc/BowserHooray.wav");
             }
 
             @Override
@@ -222,6 +233,8 @@ public class MainMenuFrame extends JFrame {
                 bowserImage = new ImageIcon(tempImage.getScaledInstance(225, 245, Image.SCALE_SMOOTH));
 
                 bowser.setIcon(bowserImage);
+
+                MusicPlayer.getInstance().playBackgroundMusic();
             }
         });
     }

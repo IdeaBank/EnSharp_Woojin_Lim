@@ -6,6 +6,8 @@ import controller.DatabaseConnector;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 public class UserDAO {
@@ -74,6 +76,43 @@ public class UserDAO {
         }
     }
 
+    public String findID(String name, String email) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select id from user where name=? and email=?");
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ResultSet result = ps.executeQuery();
+
+            if(!result.next()) {
+                return null;
+            }
+
+            return result.getString("id");
+        }
+        catch(SQLException e) {
+            return null;
+        }
+    }
+
+    public String findPassword(String name, String id, String email) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select password from user where name=? and id=? and email=?");
+            ps.setString(1, name);
+            ps.setString(2, id);
+            ps.setString(3, email);
+            ResultSet result = ps.executeQuery();
+
+            if(!result.next()) {
+                return null;
+            }
+
+            return result.getString("password");
+        }
+        catch(SQLException e) {
+            return null;
+        }
+    }
+
     public void withDraw(String id) {
         try {
             PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("delete from user where id=?");
@@ -91,7 +130,7 @@ public class UserDAO {
             ps.setString(1, user.getId());
             ps.setString(2, user.getName());
             ps.setString(3, user.getPassword());
-            ps.setString(4, user.getBirthdate());
+            ps.setString(4, new SimpleDateFormat("yyMMdd").format(user.getBirthdate()));
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getPhoneNumber());
             ps.setString(7, user.getAddress());
@@ -110,7 +149,7 @@ public class UserDAO {
             PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("update user set name=?, password=?, birthdate=?, email=?, phone_number=?, address=?, address_number=? where id=?");
             ps.setString(1, user.getName());
             ps.setString(2, user.getPassword());
-            ps.setString(3, user.getBirthdate());
+            ps.setString(3, new SimpleDateFormat("yyMMdd").format(user.getBirthdate()));
             ps.setString(4, user.getEmail());
             ps.setString(5, user.getPhoneNumber());
             ps.setString(6, user.getAddress());
@@ -125,9 +164,23 @@ public class UserDAO {
         }
     }
 
+    public void editPassword(String id, String password) {
+        try {
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("update user set password=? where id=?");
+            ps.setString(1, password);
+            ps.setString(2, id);
+
+            ps.execute();
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public UserDTO getUser(String id) {
         try {
-            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select *, FORMAT(VARCHAR(6), birthdate, 'ddMMyy') as formattedDate from user where id=?");
+            PreparedStatement ps = DatabaseConnector.getInstance().getConn().prepareStatement("select * from user where id=?");
             ps.setString(1, id);
             ResultSet result = ps.executeQuery();
 
@@ -138,7 +191,7 @@ public class UserDAO {
             user.setId(result.getString("id"));
             user.setName(result.getString("name"));
             user.setPassword(result.getString("password"));
-            user.setBirthdate(result.getString("formattedDate"));
+            user.setBirthdate(result.getString("birthdate"));
             user.setEmail(result.getString("email"));
             user.setPhoneNumber(result.getString("phone_number"));
             user.setAddress(result.getString("address"));

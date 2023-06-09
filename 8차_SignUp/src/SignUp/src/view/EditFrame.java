@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 public class EditFrame extends JFrame {
@@ -361,7 +362,7 @@ public class EditFrame extends JFrame {
         nameField.setText(user.getName());
         passwordField.setText(user.getPassword());
         passwordCheckField.setText(user.getPassword());
-        birthdateField.setText(user.getBirthdate());
+        birthdateField.setText(new SimpleDateFormat("yyMMdd").format(user.getBirthdate()));
 
         String[] phoneNumberList = { "010", "011", "012", "013", "014", "015", "016", "017", "018", "019" };
         String[] userPhoneToken = user.getPhoneNumber().split("-");
